@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+<!ENTITY mdash  "&#x2014;" >
+]>
+
+  <chapter id="dnssec-recursive-servers">
+   <title>Recursive Servers: Validation</title>
+    <!-- === Easy Start Guide for Recursive Servers === -->
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch3-recursive-servers_easy-start-guide.xml" />
+
+    <!-- === How to Test Recursive Servers === -->
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch3-recursive-servers_how-to-verify.xml" />
+
+    <!-- === Trust Anchors === -->
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch3-recursive-servers_trust-anchors.xml" />
+   
+    <!-- === Validation Easy Start Explained === -->
+
+    <!-- === Troubleshooting Recursive Servers === -->
+
+    <!-- === Trust Anchor Maintenance and Managed Keys === -->
+
+    <!-- === Why You Can't Validate a Zone for which You're Authoritative === -->
+
+    <!-- === What's EDNS0 all about - and why should I care? ===
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch3-recursive-servers_whats-edns0-all-about.xml" />
+    -->
+    
+
+  </chapter>

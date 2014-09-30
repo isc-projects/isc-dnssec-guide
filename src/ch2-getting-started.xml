@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+<!ENTITY mdash  "&#x2014;" >
+<!ENTITY __VERSION__ "0.9">
+]>
+
+  <chapter id="getting-started">
+    <title>Getting Started</title>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch2-getting-started_software-requirements.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch2-getting-started_hardware-requirements.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch2-getting-started_network-requirements.xml" />
+    <!--
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch2-getting-started_operational-best-practices.xml" />
+    -->
+  </chapter>

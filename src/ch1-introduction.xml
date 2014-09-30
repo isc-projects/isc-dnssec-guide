@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+<!ENTITY mdash  "&#x2014;" >
+]>
+
+  <chapter id="introduction">
+    <title>Introduction</title>
+
+    <para>This guide provides information on how to configure DNSSEC using BIND9. Readers are assumed to have basic knowledge of the Domain Name System (DNS) and related network infrastructure. In-depth knowledge of DNS or DNSSEC. This guide is intended for system administrators, engineers, and consultants who are new to DNSSEC, or those who understand the technology but need configuration and deployment examples.</para>
+
+    <!-- === What is DNSSEC === -->
+    <section id="what-is-dnssec">
+      <title>What is DNSSEC?</title>
+      <para>The Domain Name System (DNS), originally described in RFC1034 and RFC1035, was designed in a day and age when the Internet was a friendly and trusting place. The protocol provides no mechanism to guard against malicious or forged answers. DNS Security Extensions (DNSSEC) (RFC4033, RFC4034 and RFC4035) was proposed to address this need, by adding digital signatures into DNS data, so each DNS response can be verified for authenticity. In the ideal world when DNSSEC is completely rolled out, every single DNS answer can be validated and trusted.</para>
+
+      <para>DNSSEC adds resource records and message header bits which can be used to verify that the requested data matches what the zone administrator put in the zone and has not been altered in transit. DNSSEC does not provide a secure tunnel; it doesn’t encrypt or hide DNS data. It was designed with backwards compatibility in mind. The original standard DNS protocol continues to work the same.</para>
+
+
+      <para>There are two major components to DNSSEC:
+       <itemizedlist>
+        <listitem>
+         <simpara><emphasis>Recursive Server</emphasis>: People use recursive servers to lookup external domain names such www.example.com. Operators of recursive servers need to enable DNSSEC validation. With validation enabled, recursive servers will carry out additional tasks on each DNS response it receives to ensure its authenticity.</simpara>
+        </listitem>
+        <listitem>
+         <simpara>Authoritative Server: People who own domain names and operate their own name servers, need to “sign” DNS zone data on authoritative servers, this entails creating additional resource records, and publish them to parent domains where necessary. With DNSSEC enabled, authoritative servers will respond with additional DNS data, such as digital signatures and keys, in addition to the standard answers.</simpara>
+        </listitem>
+       </itemizedlist>
+      </para>
+
+      <para>In this guide, we will dive into details of how DNSSEC works, how to configure a validating resolver, how to sign DNS zone data, and other operational tasks.</para>
+
+      <para>A discussion of operational practices relating to DNSSEC can be found in RFC4641.</para>
+    </section>
+
+
+    <!-- === What does DNSSEC Add to DNS?=== -->
+    <section id="what-does-dnssec-add-to-dns">
+      <title>What does DNSSEC Add to DNS?</title>
+      <para>DNSSEC introduces six new resource record types:
+       <itemizedlist>
+        <listitem>
+         <simpara>RRSIG (for digital signature)</simpara>
+        </listitem>
+        <listitem>
+         <simpara>DNSKEY (the public key)</simpara>
+        </listitem>
+        <listitem>
+         <simpara>DS (Delegation Signer)</simpara>
+        </listitem>
+        <listitem>
+         <simpara>NSEC (pointer to next secure record, proof of nonexistence)</simpara>
+        </listitem>
+        <listitem>
+         <simpara>NSEC3 (proof of nonexistence, reference RFC5155?)</simpara>
+        </listitem>
+        <listitem>
+         <simpara>NSEC3PARAM</simpara>
+        </listitem>
+       </itemizedlist>
+      </para>
+    </section>
+
+    <!-- === How does DNSSEC Change DNS Lookup? === -->
+    <section id="how-does-dnssec-change-dns-lookup">
+    <title>How Does DNSSEC Change DNS Lookup?</title>
+      <section id="how-does-dnssec-change-dns-lookup-overview">
+      <title>Overview</title>
+      <para>With DNSSEC validation enabled, recursive name servers (validating resolver) will ask for additional resource records in its query, hoping the remote authoritative name servers will respond with DNSSEC-related answers. If DNSSEC responses are received, the validating resolver will perform cryptographic computation and hashing functions to verify that the data received was not altered during transit. It will repeat this process, tracing the keys (DNSKEY) all the way up the DNS delegation chain, to the zone’s parent, and its parent, and its parent, all the way until the validating resolver reaches a key that it trusts. In the ideal, fully deployed world of DNSSEC, all validating resolvers only need to trust one key: the root key (KSK).</para>
+      </section>
+
+      <section id="how-does-dnssec-change-dns-lookup-more">
+      <title>More Details</title>
+      </section>
+
+      <section id="how-does-dnssec-change-dns-lookup-even-more">
+      <title>Even More Details</title>
+      </section>
+    </section>
+
+    <!-- === Why is it Important? === -->
+    <section id="why-is-it-important">
+    <title>Why is it Important? (Why Should I Care?)</title>
+    </section>
+
+    <!-- === How Does DNSSEC Change My Job As An DNS Administrator? === -->
+    <section id="how-does-dnssec-change-my-job-as-an-dns-administrator">
+    <title>How Does DNSSEC Change My Job As An DNS Administrator?</title>
+    </section>
+
+    <!-- === Commonyl Asked Questions === -->
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch1-introduction_commonly-asked-questions.xml" />
+
+  </chapter>

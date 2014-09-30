@@ -1,0 +1,16 @@
+    <!-- === Hardware Requirement === -->
+    <section id="hardware-requirement">
+    <title>Hardware Requirement</title>
+
+     <section id="recursive-server-hardware">
+     <title>Recursive Server Hardware</title>
+     </section>
+
+     <section id="authoritative-server-hardware">
+     <title>Authoritative Server Hardware</title>
+     </section>
+
+     <section id="specialized-hardware">
+     <title>Specialized Hardware</title>
+     </section>
+    </section>

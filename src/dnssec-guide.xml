@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+<!ENTITY mdash  "&#x2014;" >
+
+<!ENTITY __VERSION__ "0.1">
+]>
+
+<!--
+ - Copyright (C) 2010-2014  Internet Systems Consortium, Inc. ("ISC")
+ -
+ - Permission to use, copy, modify, and/or distribute this software for any
+ - purpose with or without fee is hereby granted, provided that the above
+ - copyright notice and this permission notice appear in all copies.
+ -
+ - THE SOFTWARE IS PROVIDED "AS IS" AND ISC DISCLAIMS ALL WARRANTIES WITH
+ - REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+ - AND FITNESS.  IN NO EVENT SHALL ISC BE LIABLE FOR ANY SPECIAL, DIRECT,
+ - INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ - LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
+ - OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ - PERFORMANCE OF THIS SOFTWARE.
+-->
+
+<book>
+  <?xml-stylesheet href="dnssec-guide.css" type="text/css"?>
+
+  <bookinfo>
+    <title>BIND DNSSEC Guide</title>
+
+    <copyright>
+      <year>2010-2014</year><holder>Internet Systems Consortium, Inc.</holder>
+    </copyright>
+
+    <abstract>
+      <para>This is the deployment guide for BIND DNSSEC version &__VERSION__;.
+      The most up-to-date version of this document (in PDF, HTML,
+      and plain text formats), along with other documents for
+      BIND can be found at <ulink url="http://www.isc.org/downloads/bind/"/>.</para>
+
+      <para>BIND is open source software that implements the Domain Name System (DNS)
+      protocols for the Internet. It is a reference implementation of those protocols,
+      but it is also production-grade software, suitable for use in high-volume and
+      high-reliability applications.</para>
+
+      <para>Domain Name System Security Extensions (DNSSEC) extends standard DNS to
+      prove the data is not modified and came from the official source. DNSSEC adds
+      resource records and message header bits which can be used to verify that the
+      requested data matches what the zone administrator put in the zone and has not
+      been altered in transit.</para>
+
+      <para>ISC BIND supports the full DNSSEC standard.</para>
+
+      <para>This guide provides information how to configure DNSSEC using BIND9.</para>
+    </abstract>
+  </bookinfo>
+
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch1-introduction.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch2-getting-started.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch3-recursive-servers.xml" />
+
+<!--
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch4-authoritative-servers.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch5-advanced-discussions.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="dnssec-6-recipes.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="dnssec-appendices.xml" />
+
+
+  <chapter id="acknowledgements">
+    <title>Acknowledgements</title>
+      <para>BIND is primarily designed, developed, and maintained by
+      Internet Systems Consortium, Inc. It is an open source project
+      and contributions are welcomed.</para>
+  </chapter>
+-->
+
+<!-- TODO: Add bibliography section (mostly RFCs, probably) -->
+<!-- TODO: how to help: run unit tests, join lists, review trac tickets -->
+<!-- <index>    <title>Index</title> </index> -->
+</book>

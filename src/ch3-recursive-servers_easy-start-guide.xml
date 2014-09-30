@@ -1,0 +1,16 @@
+    <section id="easy-start-guide-for-recursive-servers">
+     <title>Easy Start Guide for Recursive Servers</title>
+
+     <section id="enable-dnssec-validation">
+      <title>Enable DNSSEC Validation</title>
+      <para>A validating resolver is a DNS recursive name server that performs validation for each remote response received, following the chain of trust to verify the answers it receives are legitimate through the magic of crypto and hashing functions. To enable DNSSEC validation on a BIND 9 recursive name server is easy, you only need these three lines of configuration in your configuration file:
+      <screen>dnssec-enable yes;
+dnssec-validation auto;
+dnssec-lookaside auto;</screen></para>
+      <para>Restart named, and you are good to go.*</para>
+      <para>In fact, you may not even need to reconfigure your name server at all, since recent versions of BIND has been shipped with DNSSEC validation enabled by default. Before making any configuration changes, check whether or not you already have DNSSEC validation by following steps described in âHow to Test Recursive Sever is Validatingâ.</para>
+      <para>[We need to have a discussion of whether or not we want to recommend people to use DLV by default]</para>
+      <para>If you are running older versions of BIND9, specifically, older than 9.4.3-P2, 9.5.1-P2, or 9.6.1, then you should only place in the first two lines, since dnssec-lookaside is not supported in these older versions. (To learn more about dnssec-lookaside, please refer to the section âDNSSEC Look-aside Validationâ in Advanced Discussions).</para>
+      <para>* If this does not work for you, you most likely have some other network-related configurations that need to be adjusted, take a look at the Network Requirement section to make sure your network is ready for DNSSEC.</para>
+     </section>
+    </section>
