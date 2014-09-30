@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # This script is a shortcut to quickly generate a single HTML
 # file from the DocBook XML source in this directory
 xsltproc --novalid --xinclude --nonet \
