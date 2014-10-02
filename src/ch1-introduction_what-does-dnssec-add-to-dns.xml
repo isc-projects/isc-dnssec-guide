@@ -1,0 +1,45 @@
+<section id="what-does-dnssec-add-to-dns">
+ <title>What does DNSSEC Add to DNS?</title>
+
+
+ <!-- TODO: 
+  Before talking about what is added to DNSSEC, do a very fast review of the use of
+  public key cryptography for non-crypto geeks, and the use of digital signatures.
+  Talk a little bit about key pairs, ZSK, and KSK, how keys are generated or obtained,
+  but defer most of this to later sections. Talk at very high level of the "added"
+  task of uploading DS records to parent, since this is a new concept for most zone
+  administrators. -->
+ <para>DNSSEC introduces six new resource record types:
+  <itemizedlist>
+
+   <!-- TODO: Need to briefly talk about public key cryptography in less than 3 sentences -->
+   <listitem>
+    <simpara>RRSIG (for digital signature)</simpara>
+   </listitem>
+
+   <!-- TODO: Need to talk about ZSK and KSK briefly -->
+   <listitem>
+    <simpara>DNSKEY (the public key)</simpara>
+   </listitem>
+
+   <!-- TODO: Need to talk about operational impact such as upload to parent -->
+   <listitem>
+    <simpara>DS (Delegation Signer)</simpara>
+   </listitem>
+
+   <!-- TODO: Talk about "proof of nonexistence" in general in its own section -->
+   <listitem>
+    <simpara>NSEC (pointer to next secure record, proof of nonexistence)</simpara>
+   </listitem>
+
+   <listitem>
+    <simpara>NSEC3 (proof of nonexistence, reference RFC5155?)</simpara>
+   </listitem>
+
+   <listitem>
+    <simpara>NSEC3PARAM</simpara>
+   </listitem>
+  </itemizedlist>
+ </para>
+</section>
+

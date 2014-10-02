@@ -7,7 +7,8 @@
   <chapter id="introduction">
     <title>Introduction</title>
 
-    <para>This guide provides information on how to configure DNSSEC using BIND9. Readers are assumed to have basic knowledge of the Domain Name System (DNS) and related network infrastructure. In-depth knowledge of DNS or DNSSEC. This guide is intended for system administrators, engineers, and consultants who are new to DNSSEC, or those who understand the technology but need configuration and deployment examples.</para>
+    <para>
+    This guide provides information on how to configure DNSSEC using BIND9. Readers are assumed to have basic knowledge of the Domain Name System (DNS) and related network infrastructure. In-depth knowledge of DNS or DNSSEC, and public key cryptography are not required. This guide is intended for system administrators, engineers, and consultants who are new to DNSSEC, or those who understand the technology but need configuration and deployment examples.</para>
 
     <!-- === What is DNSSEC === -->
     <section id="what-is-dnssec">
@@ -15,7 +16,6 @@
       <para>The Domain Name System (DNS), originally described in RFC1034 and RFC1035, was designed in a day and age when the Internet was a friendly and trusting place. The protocol provides no mechanism to guard against malicious or forged answers. DNS Security Extensions (DNSSEC) (RFC4033, RFC4034 and RFC4035) was proposed to address this need, by adding digital signatures into DNS data, so each DNS response can be verified for authenticity. In the ideal world when DNSSEC is completely rolled out, every single DNS answer can be validated and trusted.</para>
 
       <para>DNSSEC adds resource records and message header bits which can be used to verify that the requested data matches what the zone administrator put in the zone and has not been altered in transit. DNSSEC does not provide a secure tunnel; it doesn’t encrypt or hide DNS data. It was designed with backwards compatibility in mind. The original standard DNS protocol continues to work the same.</para>
-
 
       <para>There are two major components to DNSSEC:
        <itemizedlist>
@@ -33,22 +33,35 @@
       <para>A discussion of operational practices relating to DNSSEC can be found in RFC4641.</para>
     </section>
 
-
     <!-- === What does DNSSEC Add to DNS?=== -->
     <section id="what-does-dnssec-add-to-dns">
       <title>What does DNSSEC Add to DNS?</title>
+
+      <!-- When talking about RRSIG make a short blurb about public key cryptography and keep it under 3 sentences if possible.
+
+When talking about DNSKEY talk about ZSK and KSK.
+
+Need to talk a little bit about how these are generated, and whatâs the storage implications a little bit.
+
+Also, a new thing operationally is uploading DS records. -->
+
+
       <para>DNSSEC introduces six new resource record types:
        <itemizedlist>
         <listitem>
+         <!-- TODO: Need to briefly talk about public key cryptography in less than 3 sentences -->
          <simpara>RRSIG (for digital signature)</simpara>
         </listitem>
         <listitem>
+         <!-- TODO: Need to talk about ZSK and KSK briefly -->
          <simpara>DNSKEY (the public key)</simpara>
         </listitem>
         <listitem>
+         <!-- TODO: Need to talk about operational impact such as upload to parent -->
          <simpara>DS (Delegation Signer)</simpara>
         </listitem>
         <listitem>
+         <!-- TODO: Talk about "proof of nonexistence" in general in its own section -->
          <simpara>NSEC (pointer to next secure record, proof of nonexistence)</simpara>
         </listitem>
         <listitem>
