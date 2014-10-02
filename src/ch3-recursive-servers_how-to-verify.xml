@@ -28,11 +28,15 @@
        <title>Using dig to Verify</title>
        <para>If you don’t trust the JavaScript magic that the web-based tools rely on, you can take matters into your own hands and use a command line DNS tool to check your validating resolver yourself.</para>
 
-       <para>While nslookup is popular, partly because it comes pre-installed on most systems, it is not DNSSEC-aware. The Domain Information Groper (dig), on the other hand, fully supports the DNSSEC standard, and comes as a part of BIND. If you do not have dig already installed on your system, install it by downloading it from ISC’s web site. ISC provides pre-compiled Windows versions on its web site. (LINK TO APPENDIX ON HOW TO INSTALL DIG ON WINDOWS).</para>
+       <para>While nslookup is popular, partly because it comes pre-installed on most systems, it is not DNSSEC-aware. The Domain Information Groper (dig), on the other hand, fully supports the DNSSEC standard, and comes as a part of BIND. If you do not have dig already installed on your system, install it by downloading it from ISC’s web site. ISC provides pre-compiled Windows versions on its web site. <!--TODO: (LINK TO APPENDIX ON HOW TO INSTALL DIG ON WINDOWS)-->.</para>
 
        <para>dig is a flexible tool for interrogating DNS name servers. It performs DNS lookups and displays the answers that are returned from the name server(s) that were queried. Most DNS administrators use dig to troubleshoot DNS problems because of its flexibility, ease of use, and clarity of output.</para>
 
-       <para>The example below shows using dig to query the name server 192.168.1.7 for the A record for www.isc.org before DNSSEC validation is enabled. Notice although we specifically used the +dnssec command line option, we do not see the DNSSEC OK (do) bit in the response, nor do we see any DNSSEC resource records.
+
+       <!-- TODO: Should we even mention the DNSSEC OK (do) bit? Is it even relevent at this level? Or should we just
+                  focus on the fact that RRSIG is returned, and the Authenticated Data (ad) bit is present? -->
+
+       <para>The example below shows using dig to query the name server 192.168.1.7 for the A record for www.isc.org before DNSSEC validation is enabled. Notice although we specifically used the <command>+dnssec</command> command line option, we do not see the DNSSEC OK (<command>do</command>) bit in the response, nor do we see any DNSSEC resource records.
        <screen>$ <userinput>dig @192.168.1.7 www.isc.org. A +dnssec</userinput>
 ; &lt;&lt;>> DiG 9.8.3-P1 &lt;&lt;>> @192.168.1.7 www.isc.org. A +dnssec
 ; (1 server found)
@@ -49,14 +53,14 @@
 ;; ANSWER SECTION:
 www.isc.org.		60	IN	A	149.20.64.69</screen></para>
 
-        <para>Below shows what the results look like querying the same server (192.168.1.7) after enabling DNSSEC validation. The exact same command is run, and this time notice three key differences, 1) the presence of the Authenticated Data (ad) flag in the header, 2) the DNSSEC OK (do) flag indicating the recursive server is DNSSEC-aware, and 3) an additional resource record of type RRSIG, with the same name as the A record.
+        <para>Below shows what the results look like querying the same server (192.168.1.7) after enabling DNSSEC validation. The exact same command is run, and this time notice three key differences, 1) the presence of the Authenticated Data (<command>ad</command>) flag in the header, 2) the DNSSEC OK (<command>do</command>) flag indicating the recursive server is DNSSEC-aware, and 3) an additional resource record of type RRSIG, with the same name as the A record.
         <screen>$ <userinput>dig @192.168.1.7 www.isc.org. A +dnssec</userinput>
 
-;  &lt; &lt;>> DiG 9.8.4-rpz2+rl005.12-P1  &lt; &lt;>> @192.168.1.7 www.isc.org. A +dnssec
+;  &lt;&lt;>> DiG 9.8.4-rpz2+rl005.12-P1 &lt;&lt;>> @192.168.1.7 www.isc.org. A +dnssec
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER &lt; &lt;- opcode: QUERY, status: NOERROR, id: 56958
+;; ->>HEADER &lt;&lt;- opcode: QUERY, status: NOERROR, id: 56958
 ;; flags: qr rd ra <userinput>ad</userinput>; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
 
 ;; OPT PSEUDOSECTION:
@@ -78,7 +82,7 @@ www.isc.org.		60	IN	A	149.20.64.69
        <title>Using delv to Verify</title>
        <para>If you have BIND 9.10 or later, you can use Domain Entity Lookup &amp; Validation (delv) to validate your setup. This program functions the same as dig, but is specifically tailored for DNSSEC.</para>
 
-       <para>(LINK TO APPENDIX A ON HOW TO INSTALL DELV ON WINDOWS).</para>
+       <!-- TODO: (LINK TO APPENDIX A ON HOW TO INSTALL DELV ON WINDOWS). -->
 
        <para>Without DNSSEC:
         <screen>$ <userinput>delv @192.168.1.7 www.isc.org. A</userinput>
@@ -86,7 +90,7 @@ www.isc.org.		60	IN	A	149.20.64.69
 ;; no valid DS resolving 'www.isc.org/A/IN': 192.168.1.7#53
 ;; resolution failed: no valid DS</screen></para>
 
-       <para>delv also comes with a handy +rtrace (trace resolver fetches) switch that shows a little more information on what was fetched:
+       <para>delv also comes with a handy <command>+rtrace</command> (trace resolver fetches) switch that shows a little more information on what was fetched:
         <screen>$ <userinput> delv @192.168.1.7 www.isc.org. A +rtrace</userinput>
 ;; fetch: www.isc.org/A
 ;; fetch: org/DS
@@ -122,6 +126,7 @@ www.isc.org.		53	IN	RRSIG	A 5 3 60 20141025210546 20140925210546 4521 isc.org.
       </section>
 
       <!-- ====== BIND DNSSEC Debug Logging ===== -->
+      <!-- TODO: Is this too much at this point of the document? Should we move this to the Troubleshooting section? -->
       <section id="dnssec-debug-logging">
        <title>BIND DNSSEC Debug Logging</title>
       </section>
