@@ -16,10 +16,12 @@
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch3-recursive-servers_trust-anchors.xml" />
    
     <!-- === Validation Easy Start Explained === -->
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch3-recursive-servers_easy-start-explained.xml" />
 
     <!-- === Troubleshooting Recursive Servers === -->
 
     <!-- === Trust Anchor Maintenance and Managed Keys === -->
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch3-recursive-servers_trust-anchors-and-managed-keys.xml" />
 
     <!-- === Why You Can't Validate a Zone for which You're Authoritative === -->
 

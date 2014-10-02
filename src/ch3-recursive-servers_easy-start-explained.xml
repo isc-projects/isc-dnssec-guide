@@ -1,0 +1,21 @@
+<section id="validation-easy-start-explained">
+ <title>Validation Easy Start Explained</title>
+ <para>In <xref linkend="easy-start-guide-for-recursive-servers"/>, we used two lines of configuration to turn on DNSSEC validation. Now we are going to take a closer look at what it actually does, and some other options.</para>
+
+ <!-- dnssec-enable -->
+ <section id="dnssec-enable-explained">
+  <title>dnssec-enable</title>
+  <screen>dnssec-enable yes;</screen>
+  <para>This line enables DNSSEC support in named. Unless set to yes, named behaves as if it does not support DNSSEC. The default is yes.</para>
+ </section>
+
+ <!-- dnssec-validation -->
+ <!-- TODO: Use a list to describe the three possible configurations: no, yes, auto -->
+ <section id="dnssec-validation-explained">
+  <title>dnssec-validation</title>
+  <screen>dnssec-validation yes;</screen>
+  <para>This line enables DNSSEC validation in named. Note <command>dnssec-enable</command> also needs to be set to yes to be effective (which by default it is). If <command>dnssec-validation</command> is set to no, DNSSEC validation is disabled, and recursive server will behave in the “old fashioned” way of performing insecure DNS lookups. If set to auto, DNSSEC validation is enabled, and a default trust anchor for the DNS root zone is used. If set to yes, DNSSEC validation is enabled, but a trust anchor must be manually configured using a trusted-keys or managed-keys statement. The default is yes.</para>
+
+  <para>To learn more about trust anchors, please refer to the sections <xref linkend="trust-anchors"/> and <xref linkend="trust-anchors-and-managed-keys"/>.</para>
+ </section>
+</section>
