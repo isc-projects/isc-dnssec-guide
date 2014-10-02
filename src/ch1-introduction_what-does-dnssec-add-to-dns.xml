@@ -32,8 +32,9 @@
     <simpara>NSEC (pointer to next secure record, proof of nonexistence)</simpara>
    </listitem>
 
+   <!-- RFC5155 -->
    <listitem>
-    <simpara>NSEC3 (proof of nonexistence, reference RFC5155?)</simpara>
+    <simpara>NSEC3 (proof of nonexistence)</simpara>
    </listitem>
 
    <listitem>
