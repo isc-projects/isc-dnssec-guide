@@ -12,9 +12,9 @@
   <!-- === What is DNSSEC === -->
   <section id="what-is-dnssec">
    <title>What is DNSSEC?</title>
-   <para>The Domain Name System (DNS), originally described in RFC1034 and RFC1035, was designed in a day and age when the Internet was a friendly and trusting place. The protocol provides no mechanism to guard against malicious or forged answers. DNS Security Extensions (DNSSEC) (RFC4033, RFC4034 and RFC4035) was proposed to address this need, by adding digital signatures into DNS data, so each DNS response can be verified for authenticity. In the ideal world when DNSSEC is completely rolled out, every single DNS answer can be validated and trusted.</para>
+   <para>The Domain Name System (DNS) was designed in a day and age when the Internet was a friendly and trusting place. The protocol itself provides little protection against malicious or forged answers. DNS Security Extensions (DNSSEC) was proposed to address this need, by adding digital signatures into DNS data, so each DNS response can be verified for integrity and authenticity. In the ideal world when DNSSEC is completely rolled out, every single DNS answer can be validated and trusted.</para>
 
-   <para>DNSSEC adds resource records and message header bits, this additional information ca be used by other DNS reoslvers to verify that the requested data matches what the zone administrator put in the zone, and has not been altered in transit. DNSSEC does not provide a secure tunnel; it doesn’t encrypt or hide DNS data. It was designed with backwards compatibility in mind. The original standard DNS protocol continues to work the same.</para>
+   <para>DNSSEC does not provide a secure tunnel; it does not encrypt or hide DNS data. It operates independent of an existing Public Key Infrastructure (PKI). It does not need SSL certificates. It was designed with backwards compatibility in mind, and can deployed without impacting “old” insecure domain names.</para>
 
    <para>There are two major components to DNSSEC:
     <itemizedlist>
