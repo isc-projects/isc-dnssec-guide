@@ -22,7 +22,7 @@
       <simpara><emphasis>Recursive Server</emphasis>: People use recursive servers to lookup external domain names such www.example.com. Operators of recursive servers need to enable DNSSEC validation. With validation enabled, recursive servers will carry out additional tasks on each DNS response it receives to ensure its authenticity.</simpara>
      </listitem>
      <listitem>
-      <simpara<emphasis>>Authoritative Server</emphasis>: People who own domain names and operate their own name servers, need to “sign” DNS zone data on authoritative servers, this entails creating additional resource records, and publish them to parent domains where necessary. With DNSSEC enabled, authoritative servers will respond with additional DNS data, such as digital signatures and keys, in addition to the standard answers.</simpara>
+      <simpara><emphasis>>Authoritative Server</emphasis>: People who own domain names and operate their own name servers, need to “sign” DNS zone data on authoritative servers, this entails creating additional resource records, and publish them to parent domains where necessary. With DNSSEC enabled, authoritative servers will respond with additional DNS data, such as digital signatures and keys, in addition to the standard answers.</simpara>
      </listitem>
     </itemizedlist>
    </para>
