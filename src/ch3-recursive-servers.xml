@@ -25,9 +25,7 @@
 
     <!-- === Why You Can't Validate a Zone for which You're Authoritative === -->
 
-    <!-- === What's EDNS0 all about - and why should I care? ===
+    <!-- === What's EDNS0 all about - and why should I care? === -->
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch3-recursive-servers_whats-edns0-all-about.xml" />
-    -->
-    
 
   </chapter>

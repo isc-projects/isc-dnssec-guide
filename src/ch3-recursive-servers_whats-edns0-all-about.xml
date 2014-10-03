@@ -1,0 +1,62 @@
+<section id="whats-edns0-all-about">
+ <title>What's EDNS All A bout (And Why Should I Care)?</title>
+
+ <!-- ====== Overview ====== -->
+ <section id="whats-ends0-all-about-overview">
+  <title>Overview</title>
+  <para>DNSSEC responses are much larger than the traditional DNS responses. In order to support the increased size, both the DNS server and the network need to be properly prepared to support the larger packet size. On the DNS servers, Extension Mechanisms for DNS (EDNS, or EDNS(0)) may need to be configured; on the network equipments, configurations or policies need to be updated to ensure large packets are not blocked or dropped.</para>
+
+  <para>If DNS servers and network environment cannot support large UDP packets (larger than 512 bytes), it will cause retransmission over TCP, or the larger UDP responses are discarded. Users will likely experience slow DNS resolution or unable to resolve certain names at all.</para>
+ </section>
+
+ <!-- ====== EDNS on DNS Servers ====== -->
+ <section id="edns-on-dns-servers">
+  <title>EDNS on DNS Servers</title>
+  <para>The good news is, recent versions of BIND9 have been shipped with EDNS enabled by default, and the UDP packet size already set to the maximum 4096 bytes. So as the DNS administrator, there should not be any re-configuration needed. You can use <command>dig</command> to verify that your server supports EDNS and the UDP packet size it is allowing as follows:
+
+<screen>$ <userinput>dig @192.168.1.7 www.isc.org. A +dnssec</userinput>
+
+; &lt;&lt;>> DiG 9.10.0-P2 &lt;&lt;>> @192.168.1.7 www.isc.org. A +dnssec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 23073
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; <userinput>EDNS: version: 0, flags: do; udp: 4096</userinput>
+;; QUESTION SECTION:
+;www.isc.org.			IN	A
+
+;; ANSWER SECTION:
+www.isc.org.		60	IN	A	149.20.64.69
+www.isc.org.		60	IN	RRSIG	A 5 3 60 20141029233238 20140929233238 4521 isc.org.
+                        DX5BaGVd4KzU2AIH911Kar/UmdmkARyPhJVLr0oyPZaq5zoobGqFI4ef
+                        vzL0mcpncuUg3BSU5Q48WdBu92xinMdbE75zl+adgEBOsFgFQR/zqM3m
+                        yt/8SngWm4+TQ3XFh9eNjqExHZZuZ268Ntlxqgf9OmKRRv8X8YigaPSh
+                        uyU=
+
+;; Query time: 1477 msec
+;; SERVER: 192.168.1.7#53(192.168.1.7)
+;; WHEN: Fri Oct 03 09:27:39 CST 2014
+;; MSG SIZE  rcvd: 223</screen></para>
+
+  <para>There is a helpful testing tool available (provided by DNS-OARC) that you can use to verify resolver behavior regarding EDNS support: <ulink url="https://www.dns-oarc.net/oarc/services/replysizetest/" /></para>
+
+  <para>Okay, so you made sure your name servers have ENDS enabled. That should be the end of the story, right? Unfortunately, EDNS is a hop-by-hop extension to DNS. This means the use of EDNS is negotiated between each pair of hosts in a DNS resolution process, which means if one of your upstream name servers (for instance, your ISP’s recursive name server) does not support EDNS, you will still experience packet fragmentation.
+  <!-- TODO: What is the recommended action here? Call ISP to enable EDNS? Route around ISP? Or no recommendation? -->
+  </para>
+ </section>
+
+ <!-- ====== Support for Large Packets on Network Equipments ====== -->
+ <section id="support-for-large-packets-on-network-equipments">
+  <title>Support for Large Packets on Network Equipments</title>
+  <para>Okay, so both your recursive name server and your ISP’s name servers support EDNS, we are all good here, right? Unfortunately, as these large packets have to traverse through the network gears, the network gears must allow them to pass through.</para>
+
+  <para>When data is physically transmitted over a network, it has to be broken down into chunks. The size of the data chunk is known as Maximum Transmission Units (MTU), and it can be different from network to network. IP fragmentation occurs when a large data packet needs to be broken down into smaller chunks so that each chunk is smaller than the MTU, and these smaller chunks nee to be reassembled back into the large data packet. IP fragmentation is not necessarily a bad thing, it most likely occurs on your network today.</para>
+
+  <para>Some network gears, such as firewalls, make assumptions about DNS traffic, that each packet is less than 512 bytes, thus when it sees a large DNS packet (usually a result of DNSSEC), the large packet is either rejected or its fragments dropped. This configuration probably didn’t cause problems in the past since traditional DNS traffic rarely exceeded 512 bytes in size. However, with DNSSEC, these configurations need to be updated, since DNSSEC traffic regularly exceeds 1500 bytes (a common MTU value). If not updated, the result on your validating resolver is, it looks like the queries go un-answered (large packets rejected), or in the case of fragmentation, only a part of the answer made it to the validating resolver, and your validating resolver may need to re-ask the question again and again.</para>
+
+  <para>And while you’re updating your network gear, make sure TCP port 53 is also allowed for DNS traffic.</para>
+ </section>
+</section>
