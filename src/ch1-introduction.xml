@@ -9,26 +9,8 @@
 
   <para>This guide provides information on how to configure DNSSEC using BIND9. Readers are assumed to have basic knowledge of the Domain Name System (DNS) and related network infrastructure. In-depth knowledge of DNS or DNSSEC, and public key cryptography are not required. This guide is intended for system administrators, engineers, and consultants who are new to DNSSEC, or those who understand the technology but need configuration and deployment examples.</para>
 
-  <!-- === What is DNSSEC === -->
-  <section id="what-is-dnssec">
-   <title>What is DNSSEC?</title>
-   <para>The Domain Name System (DNS) was designed in a day and age when the Internet was a friendly and trusting place. The protocol itself provides little protection against malicious or forged answers. DNS Security Extensions (DNSSEC) was proposed to address this need, by adding digital signatures into DNS data, so each DNS response can be verified for integrity and authenticity. In the ideal world when DNSSEC is completely rolled out, every single DNS answer can be validated and trusted.</para>
-
-   <para>DNSSEC does not provide a secure tunnel; it does not encrypt or hide DNS data. It operates independent of an existing Public Key Infrastructure (PKI). It does not need SSL certificates. It was designed with backwards compatibility in mind, and can deployed without impacting “old” insecure domain names.</para>
-
-   <para>There are two major components to DNSSEC:
-    <itemizedlist>
-     <listitem>
-      <simpara><emphasis>Recursive Server</emphasis>: People use recursive servers to lookup external domain names such www.example.com. Operators of recursive servers need to enable DNSSEC validation. With validation enabled, recursive servers will carry out additional tasks on each DNS response it receives to ensure its authenticity.</simpara>
-     </listitem>
-     <listitem>
-      <simpara><emphasis>>Authoritative Server</emphasis>: People who own domain names and operate their own name servers, need to “sign” DNS zone data on authoritative servers, this entails creating additional resource records, and publish them to parent domains where necessary. With DNSSEC enabled, authoritative servers will respond with additional DNS data, such as digital signatures and keys, in addition to the standard answers.</simpara>
-     </listitem>
-    </itemizedlist>
-   </para>
-
-   <para>In this guide, we will dive into details of how DNSSEC works, how to configure a validating resolver, how to sign DNS zone data, and other operational tasks.</para>
-  </section>
+  <!-- === What is DNSSEC?=== -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch1-introduction_what-is-dnssec.xml" />
 
   <!-- === What does DNSSEC Add to DNS?=== -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch1-introduction_what-does-dnssec-add-to-dns.xml" />
