@@ -8,7 +8,7 @@
  <!-- TODO: and does this mean we don't want to recommend readers to set dnssec-validation to 'auto'? -->
  <para>To enable DNSSEC validation on a BIND 9 recursive name server is easy, you only need two lines of configuration in your configuration file:
  <screen>dnssec-enable yes;
-dnssec-validation yes;</screen></para>
+dnssec-validation auto;</screen></para>
 
  <para>Restart named, and your recursive server is now happily validating each DNS response.</para> 
  <para>If this does not work for you, you most likely have some other network-related configurations that need to be adjusted, take a look at <xref linkend="network-requirements"/> to make sure your network is ready for DNSSEC.</para>
