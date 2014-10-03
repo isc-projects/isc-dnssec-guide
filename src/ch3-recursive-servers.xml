@@ -28,4 +28,6 @@
     <!-- === What's EDNS0 all about - and why should I care? === -->
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch3-recursive-servers_whats-edns0-all-about.xml" />
 
+    <!-- === Negative Trust Anchors === -->
+
   </chapter>
