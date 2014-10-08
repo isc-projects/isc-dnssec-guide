@@ -1,0 +1,76 @@
+<section id="validating-resolver-basic-troubleshooting">
+ <title>Validating Resolver Basic Troubleshooting</title>
+ <para>This section provides basic troubleshooting tips for validating resolver.</para>
+
+
+ <!-- ====== BIND DNSSEC Debug Logging ====== -->
+ <!-- TODO: Is this too much information for a basic troubleshooting?
+            Consider removing the debug logging section completely.
+            The idea here is to probide a "reference" for other DNS
+            administrators to see what a normal working validation
+            looks like in syslog, so they can compare to their own
+            syslog debug messages and see what may have gone wrong.
+ -->
+ <section id="bind-dnssec-debug-logging">
+  <title>BIND DNSSEC Debug Logging</title>
+  <para>Sometimes it may be necessary to enable BIND debug logging to see more details of how DNSSEC is validating (or not). DNSSEC-related messages are not recorded in syslog by default, even if query log is enabled, only DNSSEC errors will show up in syslog. Enabling debug logging is not recommended for production servers, as it increases load on the server.</para>
+  <para>The example below shows how to enable debug level 3 (to see full DNSSEC validation messages) in BIND9 and have it sent to syslog:
+<screen>logging {
+   channel dnssec_log {
+        syslog daemon;
+        severity debug 3;
+        print-category yes;
+    };
+    category dnssec { dnssec_log; };
+};</screen></para>
+
+  <para>After restarting BIND, a large number of log messages will appear in syslog. The example below shows the log messages as a result of successfully looking up and validating the domain name www.isc.org.
+<screen>dnssec: validating @0xb8012d88: . NS: starting
+dnssec: validating @0xb8012d88: . NS: attempting positive response validation
+dnssec: validating @0xb805a9b0: . DNSKEY: starting
+dnssec: validating @0xb805a9b0: . DNSKEY: attempting positive response validation
+dnssec: validating @0xb805a9b0: . DNSKEY: verify rdataset (keyid=19036): success
+dnssec: validating @0xb805a9b0: . DNSKEY: signed by trusted key; marking as secure
+dnssec: validator @0xb805a9b0: dns_validator_destroy
+dnssec: validating @0xb8012d88: . NS: in fetch_callback_validator
+dnssec: validating @0xb8012d88: . NS: keyset with trust 8
+dnssec: validating @0xb8012d88: . NS: resuming validate
+dnssec: validating @0xb8012d88: . NS: verify rdataset (keyid=8230): success
+dnssec: validating @0xb8012d88: . NS: marking as secure, noqname proof not needed
+dnssec: validator @0xb8012d88: dns_validator_destroy
+dnssec: validating @0xb8012d88: www.isc.org A: starting
+dnssec: validating @0xb8012d88: www.isc.org A: attempting positive response validation
+dnssec: validating @0xb805a9b0: isc.org DNSKEY: starting
+dnssec: validating @0xb805a9b0: isc.org DNSKEY: attempting positive response validation
+dnssec: validating @0xb827e298: isc.org DS: starting
+dnssec: validating @0xb827e298: isc.org DS: attempting positive response validation 
+dnssec: validating @0xb827fd18: org DNSKEY: starting
+dnssec: validating @0xb827fd18: org DNSKEY: attempting positive response validation 
+dnssec: validating @0xb8281798: . NS: starting
+dnssec: validating @0xb8281798: . NS: attempting positive response validation 
+dnssec: validating @0xb8281798: . NS: keyset with trust 8
+dnssec: validating @0xb8280790: org DS: starting
+dnssec: validating @0xb8280790: org DS: attempting positive response validation 
+dnssec: validating @0xb8280790: org DS: keyset with trust 8
+dnssec: validating @0xb8280790: org DS: verify rdataset (keyid=8230): success
+dnssec: validating @0xb8280790: org DS: marking as secure, noqname proof not needed
+dnssec: validator @0xb8280790: dns_validator_destroy
+dnssec: validating @0xb827fd18: org DNSKEY: in dsfetched
+dnssec: validating @0xb827fd18: org DNSKEY: dsset with trust 8
+dnssec: validating @0xb827fd18: org DNSKEY: verify rdataset (keyid=21366): success
+dnssec: validating @0xb827fd18: org DNSKEY: marking as secure (DS)
+dnssec: validator @0xb827fd18: dns_validator_destroy
+dnssec: validating @0xb827e298: isc.org DS: in fetch_callback_validator
+dnssec: validating @0xb827e298: isc.org DS: keyset with trust 8
+dnssec: validating @0xb827e298: isc.org DS: resuming validate
+dnssec: validating @0xb827e298: isc.org DS: verify rdataset (keyid=33287): success
+dnssec: validating @0xb827e298: isc.org DS: marking as secure, noqname proof not needed
+dnssec: validator @0xb827e298: dns_validator_destroy
+dnssec: validating @0xb805a9b0: isc.org DNSKEY: in dsfetched 
+dnssec: validating @0xb805a9b0: isc.org DNSKEY: dsset with trust 8
+dnssec: validating @0xb805a9b0: isc.org DNSKEY: verify rdataset (keyid=12892): success
+dnssec: validating @0xb805a9b0: isc.org DNSKEY: marking as secure (DS)
+dnssec: validator @0xb805a9b0: dns_validator_destroy
+dnssec: validating @0xb8012d88: www.isc.org A: in fetch_callback_validator</screen></para>
+ </section>
+</section>

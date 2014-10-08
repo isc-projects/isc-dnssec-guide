@@ -18,7 +18,8 @@
     <!-- === Validation Easy Start Explained === -->
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch3-recursive-servers_easy-start-explained.xml" />
 
-    <!-- === Troubleshooting Recursive Servers === -->
+    <!-- === Validating Resolver Basic Troubleshooting === -->
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch3-recursive-servers_troubleshooting.xml" />
 
     <!-- === Trust Anchor Maintenance and Managed Keys === -->
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch3-recursive-servers_trust-anchors-and-managed-keys.xml" />
