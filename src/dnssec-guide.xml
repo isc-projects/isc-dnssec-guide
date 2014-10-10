@@ -33,10 +33,14 @@
     </copyright>
 
     <abstract>
-      <para>This is the deployment guide for BIND DNSSEC version &__VERSION__;.
+      <para>This is version &__VERSION__; of the DNSSEC deployment guide for BIND.
+<!--
+TODO:
       The most up-to-date version of this document (in PDF, HTML,
       and plain text formats), along with other documents for
-      BIND can be found at <ulink url="http://www.isc.org/downloads/bind/"/>.</para>
+      BIND can be found at <ulink url="http://www.isc.org/downloads/bind/"/>.
+-->
+      </para>
 
       <para>BIND is open source software that implements the Domain Name System (DNS)
       protocols for the Internet. It is a reference implementation of those protocols,
@@ -51,7 +55,7 @@
 
       <para>ISC BIND supports the full DNSSEC standard.</para>
 
-      <para>This guide provides information how to configure DNSSEC using BIND9.</para>
+      <para>This guide provides information how to configure, use, and troubleshoot DNSSEC using BIND9.</para>
     </abstract>
   </bookinfo>
 
