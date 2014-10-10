@@ -2,7 +2,7 @@
  <title>What's EDNS All A bout (And Why Should I Care)?</title>
 
  <!-- ====== Overview ====== -->
- <section id="whats-ends0-all-about-overview">
+ <section id="whats-edns0-all-about-overview">
   <title>Overview</title>
   <para>DNSSEC responses are much larger than the traditional DNS responses. In order to support the increased size, both the DNS server and the network need to be properly prepared to support the larger packet size. On the DNS servers, Extension Mechanisms for DNS (EDNS, or EDNS(0)) may need to be configured; on the network equipments, configurations or policies need to be updated to ensure large packets are not blocked or dropped.</para>
 

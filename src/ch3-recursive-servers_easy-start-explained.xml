@@ -17,7 +17,7 @@
   <para>This line enables DNSSEC validation in named. Note <command>dnssec-enable</command> also needs to be set to yes to be effective (which by default it is). There are three possible choices:
    <itemizedlist>
     <listitem>
-     <simpara><emphasis>no</emphasis>: DNSSEC valdiation is disabled, and recursive server will behave in the "old fashioned" way of performing insecure DNS lookups.</simpara>
+     <simpara><emphasis>no</emphasis>: DNSSEC validation is disabled, and recursive server will behave in the "old fashioned" way of performing insecure DNS lookups.</simpara>
     </listitem>
 
     <listitem>

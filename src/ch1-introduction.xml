@@ -28,6 +28,6 @@
    <title>How Does DNSSEC Change My Job As An DNS Administrator?</title>
   </section>
 
-  <!-- === Commonyl Asked Questions === -->
+  <!-- === Commonly Asked Questions === -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch1-introduction_commonly-asked-questions.xml" />
 </chapter>
