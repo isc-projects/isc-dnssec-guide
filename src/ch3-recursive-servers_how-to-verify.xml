@@ -85,7 +85,7 @@ www.isc.org.		4 IN A	149.20.64.69
  <!-- ====== Using delv to Verify ===== -->
  <section id="using-delv-to-verify">
   <title>Using delv to Verify</title>
-  <para>If you have BIND 9.10 or later, you can use Domain Entity Lookup &amp; Validation (delv) to validate your setup. This program functions the same as dig, but is specifically tailored for DNSSEC.</para>
+  <para>If you have BIND 9.10 or later, you can use Domain Entity Lookup &amp; Validation (delv) to validate your setup. This program functions similarly to dig, but is specifically tailored for DNSSEC.</para>
 
   <!-- TODO: (LINK TO APPENDIX A ON HOW TO INSTALL DELV ON WINDOWS). -->
 
