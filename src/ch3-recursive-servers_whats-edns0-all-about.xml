@@ -1,5 +1,5 @@
 <section id="whats-edns0-all-about">
- <title>What's EDNS All A bout (And Why Should I Care)?</title>
+ <title>What's EDNS All About (And Why Should I Care)?</title>
 
  <!-- ====== Overview ====== -->
  <section id="whats-edns0-all-about-overview">
@@ -44,7 +44,7 @@ www.isc.org.		23 IN RRSIG A 5 3 60 (
 
   <para>There is a helpful testing tool available (provided by DNS-OARC) that you can use to verify resolver behavior regarding EDNS support: <ulink url="https://www.dns-oarc.net/oarc/services/replysizetest/" /></para>
 
-  <para>Okay, so you made sure your name servers have ENDS enabled. That should be the end of the story, right? Unfortunately, EDNS is a hop-by-hop extension to DNS. This means the use of EDNS is negotiated between each pair of hosts in a DNS resolution process, which means if one of your upstream name servers (for instance, your ISP’s recursive name server) does not support EDNS, you will still experience packet fragmentation.
+  <para>Okay, so you made sure your name servers have EDNS enabled. That should be the end of the story, right? Unfortunately, EDNS is a hop-by-hop extension to DNS. This means the use of EDNS is negotiated between each pair of hosts in a DNS resolution process, which means if one of your upstream name servers (for instance, your ISP’s recursive name server) does not support EDNS, you will still experience packet fragmentation.
   <!-- TODO: What is the recommended action here? Call ISP to enable EDNS? Route around ISP? Or no recommendation? -->
   </para>
  </section>
@@ -54,9 +54,9 @@ www.isc.org.		23 IN RRSIG A 5 3 60 (
   <title>Support for Large Packets on Network Equipments</title>
   <para>Okay, so both your recursive name server and your ISP’s name servers support EDNS, we are all good here, right? Unfortunately, as these large packets have to traverse through the network gears, the network gears must allow them to pass through.</para>
 
-  <para>When data is physically transmitted over a network, it has to be broken down into chunks. The size of the data chunk is known as Maximum Transmission Units (MTU), and it can be different from network to network. IP fragmentation occurs when a large data packet needs to be broken down into smaller chunks so that each chunk is smaller than the MTU, and these smaller chunks nee to be reassembled back into the large data packet. IP fragmentation is not necessarily a bad thing, it most likely occurs on your network today.</para>
+  <para>When data is physically transmitted over a network, it has to be broken down into chunks. The size of the data chunk is known as Maximum Transmission Units (MTU), and it can be different from network to network. IP fragmentation occurs when a large data packet needs to be broken down into smaller chunks so that each chunk is smaller than the MTU, and these smaller chunks need to be reassembled back into the large data packet. IP fragmentation is not necessarily a bad thing, it most likely occurs on your network today.</para>
 
-  <para>Some network gears, such as firewalls, may make assumptions about DNS traffic One of these assumptions may be how large each DNS packet is, and when the firewall sees a larger DNS packet than it expects, the large packet is either rejected or its fragments dropped because the firewall thinks its an attack. This configuration probably didn’t cause problems in the past since traditional DNS packets are usually pretty small in size. However, with DNSSEC, these configurations need to be updated, since DNSSEC traffic regularly exceeds 1500 bytes (a common MTU value). If not updated, the result on your validating resolver is, it looks like the queries go un-answered (large packets rejected), or in the case of fragmentation, only a part of the answer made it to the validating resolver, and your validating resolver may need to re-ask the question again and again.</para>
+  <para>Some network gears, such as firewalls, may make assumptions about DNS traffic. One of these assumptions may be how large each DNS packet is, and when the firewall sees a larger DNS packet than it expects, the large packet is either rejected or its fragments dropped because the firewall thinks its an attack. This configuration probably didn’t cause problems in the past since traditional DNS packets are usually pretty small in size. However, with DNSSEC, these configurations need to be updated, since DNSSEC traffic regularly exceeds 1500 bytes (a common MTU value). If not updated, the result on your validating resolver is, it looks like the queries go un-answered (large packets rejected), or in the case of fragmentation, only a part of the answer made it to the validating resolver, and your validating resolver may need to re-ask the question again and again.</para>
 
   <para>And while you’re updating your network gear, make sure TCP port 53 is also allowed for DNS traffic.</para>
  </section>
