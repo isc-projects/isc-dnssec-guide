@@ -6,7 +6,7 @@
  <!-- ====== BIND DNSSEC Debug Logging ====== -->
  <!-- TODO: Is this too much information for a basic troubleshooting?
             Consider removing the debug logging section completely.
-            The idea here is to probide a "reference" for other DNS
+            The idea here is to provide a "reference" for other DNS
             administrators to see what a normal working validation
             looks like in syslog, so they can compare to their own
             syslog debug messages and see what may have gone wrong.
