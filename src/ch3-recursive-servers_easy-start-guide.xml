@@ -1,8 +1,12 @@
 <section id="easy-start-guide-for-recursive-servers">
  <title>Easy Start Guide for Recursive Servers</title>
- <para>This section provides the minimum amount of information to setup a working DNSSEC-aware recursive server, also known as a validating resolver. A validating resolver is performs validation for each remote response received, following the chain of trust to verify the answers it receives are legitimate through the use of public key cryptography and hashing functions.</para>
+ <para>This section provides the minimum amount of information to setup a working DNSSEC-aware recursive server, also known as a validating resolver. A validating resolver performs validation for each remote response received, following the chain of trust to verify the answers it receives are legitimate through the use of public key cryptography and hashing functions.</para>
  
- <para>You may not need to reconfigure your name server at all, since recent versions of BIND has been shipped with DNSSEC validation enabled by default. Before making any configuration changes, check whether or not you already have DNSSEC validation by following steps described in <xref linkend="how-to-test-recursive-server"/>.</para>
+<!-- TODO: jreed: enabled by default but not useful by default
+since no trust anchor configured by default;
+maybe this section should explain the auto here before testing  -->
+
+ <para>You may not need to reconfigure your name server at all, since recent versions of BIND have been shipped with DNSSEC validation enabled by default. Before making any configuration changes, check whether or not you already have DNSSEC validation by following steps described in <xref linkend="how-to-test-recursive-server"/>.</para>
 
  <!-- TODO: since both directives are set to 'yes' by default, do we want to advise readers to explicitedly declare yes here? -->
  <!-- TODO: and does this mean we don't want to recommend readers to set dnssec-validation to 'auto'? -->

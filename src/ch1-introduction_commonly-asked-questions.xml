@@ -43,7 +43,7 @@
         </orderedlist>
        </para>
        <para>A validating resolver will still resolve #1 and #2, only #3 and #4 will result in a SERVFAIL.
-You may already be using DNSSEC validation without realizing it, since some ISP’s have begun enabling DNSSEC validation on their recursive ams servers. Google public DNS (8.8.8.8) also has enabled DNSSEC validation.</para>
+You may already be using DNSSEC validation without realizing it, since some ISP’s have begun enabling DNSSEC validation on their recursive name servers. Google public DNS (8.8.8.8) also has enabled DNSSEC validation.</para>
       </section>
 
       <section id="caq-do-i-need-special-client-software">
