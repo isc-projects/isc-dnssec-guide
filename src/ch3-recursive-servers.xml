@@ -12,17 +12,17 @@
     <!-- === How to Test Recursive Servers === -->
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch3-recursive-servers_how-to-verify.xml" />
 
-    <!-- === Trust Anchors === -->
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch3-recursive-servers_trust-anchors.xml" />
-   
     <!-- === Validation Easy Start Explained === -->
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch3-recursive-servers_easy-start-explained.xml" />
 
-    <!-- === Validating Resolver Basic Troubleshooting === -->
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch3-recursive-servers_troubleshooting.xml" />
+    <!-- === Trust Anchors === -->
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch3-recursive-servers_trust-anchors.xml" />
 
     <!-- === Trust Anchor Maintenance and Managed Keys === -->
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch3-recursive-servers_trust-anchors-and-managed-keys.xml" />
+
+    <!-- === Validating Resolver Basic Troubleshooting === -->
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch3-recursive-servers_troubleshooting.xml" />
 
     <!-- === Why You Can't Validate a Zone for which You're Authoritative === -->
 
