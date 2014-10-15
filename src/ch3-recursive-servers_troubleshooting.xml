@@ -14,11 +14,20 @@
   <title>BIND DNSSEC Debug Logging</title>
   <para>Sometimes it may be necessary to enable BIND debug logging to see more details of how DNSSEC is validating (or not). DNSSEC-related messages are not recorded in syslog by default, even if query log is enabled, only DNSSEC errors will show up in syslog. Enabling debug logging is not recommended for production servers, as it increases load on the server.</para>
   <para>The example below shows how to enable debug level 3 (to see full DNSSEC validation messages) in BIND9 and have it sent to syslog:
-<screen>logging {
+   <screen>logging {
    channel dnssec_log {
         syslog daemon;
         severity debug 3;
         print-category yes;
+    };
+    category dnssec { dnssec_log; };
+};</screen></para>
+
+  <para>The example below shows how to log to its own file:
+   <screen>logging {
+   channel dnssec_log {
+        file “/var/log/dnssec.log”;
+        severity debug 3;
     };
     category dnssec { dnssec_log; };
 };</screen></para>
@@ -82,7 +91,7 @@ dnssec: validating @0xb8012d88: www.isc.org A: in fetch_callback_validator</scre
 
 <screen>dnssec: validating @0xb7b839b0: . DNSKEY: starting
 dnssec: validating @0xb7b839b0: . DNSKEY: attempting positive response validation
-dnssec: validating @0xb7b839b0: . DNSKEY: <emphasis>verify failed due to bad signature (keyid=19036): RRSIG has expired</emphasis>
+dnssec: validating @0xb7b839b0: . DNSKEY: <userinput>verify failed due to bad signature (keyid=19036): RRSIG has expired</userinput>
 dnssec: validating @0xb7b839b0: . DNSKEY: unable to find a DNSKEY which verifies the DNSKEY RRset and also matches a trusted key for '.'
 dnssec: validating @0xb7b839b0: . DNSKEY: please check the 'trusted-keys' for '.' in named.conf.
 dnssec: validator @0xb7b839b0: dns_validator_destroy</screen></para>
@@ -92,7 +101,7 @@ dnssec: validator @0xb7b839b0: dns_validator_destroy</screen></para>
 <screen>dnssec: validating @0xb7c1bd88: www.isc.org A: starting
 dnssec: validating @0xb7c1bd88: www.isc.org A: attempting positive response validation
 dnssec: validating @0xb7c1bd88: www.isc.org A: keyset with trust 8
-dnssec: validating @0xb7c1bd88: www.isc.org A: <emphasis>verify failed due to bad signature (keyid=4521): RRSIG validity period has not begun</emphasis>
+dnssec: validating @0xb7c1bd88: www.isc.org A: <userinput>verify failed due to bad signature (keyid=4521): RRSIG validity period has not begun</userinput>
 dnssec: validating @0xb7c1bd88: www.isc.org A: failed to verify rdataset</screen></para>
 
 <!-- TODO: jkuo Wed Oct 15 02:32:10 UTC 2014
