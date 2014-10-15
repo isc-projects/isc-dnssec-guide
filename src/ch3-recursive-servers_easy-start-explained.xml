@@ -32,4 +32,75 @@
 
   <para>To learn more about trust anchors, please refer to the sections <xref linkend="trust-anchors"/> and <xref linkend="trust-anchors-and-managed-keys"/>.</para>
  </section>
+
+ <!-- === How Does DNSSEC Change DNS Lookup (Revisited) === -->
+ <section id="how-does-dnssec-change-dns-lookup-revisited">
+  <title>How Does DNSSEC Change DNS Lookup (Revisited)?</title>
+  <para>So by now you’ve enabled validation on your recursive name server, and verified that it works. What exactly changed? In <xref linkend="how-does-dnssec-change-dns-lookup"/> we looked at the very high level, simplified 12-steps of DNSSEC validation process. Let’s revisit that process now and see what your validating resolver is doing in more details. Again, we are using the example to lookup the A record for the domain name www.isc.org:
+
+  <orderedlist>
+
+   <!-- #1 -->
+   <listitem>
+    <simpara>Validating resolver queries the name server for isc.org for the A record of www.isc.org. This query has the DNSSEC OK (do) bit set to 1, notifying the remote authoritative server that DNSSEC answers are desired.</simpara>
+   </listitem>
+
+   <!-- #2 -->
+   <listitem>
+    <simpara>The zone isc.org is signed, and its name servers are DNSSEC-aware, thus it responds the answer to the A record query plus the RRSIG for the A record.</simpara>
+   </listitem>
+
+   <!-- #3 -->
+   <listitem>
+	<simpara>Validating resolver queries for the DNSKEY for isc.org</simpara>
+   </listitem>
+
+   <!-- #4 -->
+   <listitem>
+    <simpara>isc.org name server responds with the DNSKEY and RRSIG records. The DNSKEY is used to verify the RRSIG received in #2</simpara>
+   </listitem>
+
+   <!-- #5 -->
+   <listitem>
+	<simpara>Validating resolver queries the parent (.org) for the DS record for isc.org.</simpara>
+   </listitem>
+
+   <!-- #6 -->
+   <listitem>
+	<simpara>.org name server responds with the DS and RRSIG records. The DS record is used to verify the DNSKEY and RRSIG received in #4</simpara>
+   </listitem>
+
+   <!-- #7 -->
+   <listitem>
+	<simpara>Validating resolver queries for the DNSKEY for .org</simpara>
+   </listitem>
+
+   <!-- #8 -->
+   <listitem>
+    <simpara>.org name server responds with DNSKEY and RRSIG. The DNSKEY is used to verify the RRSIG received in #6.</simpara>
+   </listitem>
+
+   <!-- #9 -->
+   <listitem>
+    <simpara>Validating resolver queries the parent (root) for the DS record for .org.</simpara>
+   </listitem>
+
+   <!-- #10 -->
+   <listitem>
+    <simpara>Root name server responds with DS and RRSIG records. The DS record is used to verify the DNSKEY and RRSIG received in #8.</simpara>
+   </listitem>
+
+   <!-- #11 -->
+   <listitem>
+    <simpara>Validating resolver queries for the DNSKEY for root.</simpara>
+   </listitem>
+
+   <!-- #12 -->
+   <listitem>
+    <simpara>Root name server responds with DNSKEY and RRSIG. The DNSKEY is used to verify the RRSIG received in #10.</simpara>
+   </listitem>
+  </orderedlist></para>
+
+  <para>Just like in <xref linkend="how-does-dnssec-change-dns-lookup"/>, after step #12, the validating resolver takes the DNSKEY received and compares to the key it has stored on file.  This key-on-file is called a trust anchor, and that is what we will talk about next.</para>
+ </section>
 </section>
