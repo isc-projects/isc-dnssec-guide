@@ -2,7 +2,6 @@
  <title>Validating Resolver Basic Troubleshooting</title>
  <para>This section provides basic troubleshooting tips for validating resolver.</para>
 
-
  <!-- ====== BIND DNSSEC Debug Logging ====== -->
  <!-- TODO: Is this too much information for a basic troubleshooting?
             Consider removing the debug logging section completely.
@@ -73,4 +72,43 @@ dnssec: validating @0xb805a9b0: isc.org DNSKEY: marking as secure (DS)
 dnssec: validator @0xb805a9b0: dns_validator_destroy
 dnssec: validating @0xb8012d88: www.isc.org A: in fetch_callback_validator</screen></para>
  </section>
+
+ <!-- ====== Incorrect Time ====== -->
+ <section id="bind-dnssec-troubleshooting-incorrect-time">
+  <title>Incorrect Time</title>
+  <para>In DNSSEC, every record will come with at least one RRSIG, and RRSIG contains two timestamps indicating when it starts becoming valid, and when it expires. If the validating resolver’s current system time does not fall within the RRSIG two timestamps, the following error messages occur in BIND debug log.</para>
+
+  <para>First, the example below shows the log messages when the RRSIG has expired. This could mean the validating resolver system time is incorrectly set too far in the future, or the zone administrator has not kept up with RRSIG maintenance.
+
+<screen>dnssec: validating @0xb7b839b0: . DNSKEY: starting
+dnssec: validating @0xb7b839b0: . DNSKEY: attempting positive response validation
+dnssec: validating @0xb7b839b0: . DNSKEY: <emphasis>verify failed due to bad signature (keyid=19036): RRSIG has expired</emphasis>
+dnssec: validating @0xb7b839b0: . DNSKEY: unable to find a DNSKEY which verifies the DNSKEY RRset and also matches a trusted key for '.'
+dnssec: validating @0xb7b839b0: . DNSKEY: please check the 'trusted-keys' for '.' in named.conf.
+dnssec: validator @0xb7b839b0: dns_validator_destroy</screen></para>
+
+  <para>The logs below show RRSIG validity period has not begun. This could mean validation resolver system is incorrectly set too far in the past, or the zone administrator has incorrectly generated signatures for this domain name.
+
+<screen>dnssec: validating @0xb7c1bd88: www.isc.org A: starting
+dnssec: validating @0xb7c1bd88: www.isc.org A: attempting positive response validation
+dnssec: validating @0xb7c1bd88: www.isc.org A: keyset with trust 8
+dnssec: validating @0xb7c1bd88: www.isc.org A: <emphasis>verify failed due to bad signature (keyid=4521): RRSIG validity period has not begun</emphasis>
+dnssec: validating @0xb7c1bd88: www.isc.org A: failed to verify rdataset</screen></para>
+
+<!-- TODO: jkuo Wed Oct 15 02:32:10 UTC 2014
+The section "Resource Record Signatures: RRSIG" does not exist yet, 
+it will be in the Authoritative Server: Signing section. -->
+ 
+<para>Please refer to the section “Resource Record Signatures: RRSIG” for more details on how signatures are generated. </para>
+ </section>
+
+
+ <!-- ====== Invalid Trust Anchors ====== -->
+ <section id="bind-dnssec-troubleshooting-invalid-trust-anchors">
+  <title>Invalid Trust Anchors</title>
+ </section>
+
+
+ <!-- ======= include a section here for logs seen when packets go unanaswered? ====== -->
+
 </section>
