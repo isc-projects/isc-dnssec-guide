@@ -1,16 +1,16 @@
 <section id="trust-anchors">
  <title>Trust Anchors</title>
- <para>A trust anchor is a DNSKEY (usually a KSK) that is placed into a validating resolver so that the validator can verify the results for a given request back to a known public key (the trust anchor). A validating resolver must have at least one trust anchor installed in order to perform DNSSEC validation.</para>
+ <para>A trust anchor is a DNSKEY that is placed into a validating resolver so that the validator can verify the results for a given request back to a known public key (the trust anchor). A validating resolver must have at least one trust anchor installed in order to perform DNSSEC validation.</para>
 
  <para>BIND9 includes a copy of the root key, in the file bind.keys. You can download the root key manually from reputable sources such as https://www.iana.org/dnssec/files. The key file must be readable to named.</para>
 
  <section id="how-trust-anchors-are-used">
   <title>How Trust Anchors are Used</title>
-  <para>In the section <xref linkend="how-does-dnssec-change-dns-lookup"/>, we walked through the DNSSEC lookup process (12 steps), and at the end of the 12 steps, a critical comparison happens: the key (usually KSK) received from the remote server, and the key we have on file are compared to see if we trust it. The key we have on file is called a trust anchor, sometimes also known as trust key, trust point, or secure entry point.</para>
+  <para>In the section <xref linkend="how-does-dnssec-change-dns-lookup"/>, we walked through the DNSSEC lookup process (12 steps), and at the end of the 12 steps, a critical comparison happens: the key received from the remote server, and the key we have on file are compared to see if we trust it. The key we have on file is called a trust anchor, sometimes also known as trust key, trust point, or secure entry point.</para>
 
-  <para>The 12-step lookup process describes the DNSSEC lookup in the ideal world where every single domain name is signed and properly delegated, each validating resolver only needs to have one trust anchor, and that is the root's public KSK. But there is no restriction that the validating resolver must only have one trust anchor. In fact, in the early stages of DNSSEC adaptation, it is not unusual for a validating resolver to have more than one trust anchor.</para>
+  <para>The 12-step lookup process describes the DNSSEC lookup in the ideal world where every single domain name is signed and properly delegated, each validating resolver only needs to have one trust anchor, and that is the root’s public key. But there is no restriction that the validating resolver must only have one trust anchor. In fact, in the early stages of DNSSEC adaptation, it is not unusual for a validating resolver to have more than one trust anchor.</para>
 
-  <para>For instance, before the root zone was signed (prior to the year 2010), some validating resolvers that wish to validate domain names in the .gov zone needed to obtain and install the KSK for .gov. A sample lookup process for www.fbi.gov would thus be only 8 steps rather than 12 steps that look like this: 
+  <para>For instance, before the root zone was signed (prior to the year 2010), some validating resolvers that wish to validate domain names in the .gov zone needed to obtain and install the key for .gov. A sample lookup process for www.fbi.gov would thus be only 8 steps rather than 12 steps that look like this:
 
   <!-- TODO: Insert 8-step diagram here -->
   <orderedlist>
@@ -19,7 +19,7 @@
    </listitem>
 
    <listitem>
-    <simpara>FBI's name server responds with A record and RRSIG</simpara>
+    <simpara>FBI's name server responds with answer and RRSIG</simpara>
    </listitem>
 
    <listitem>
@@ -47,8 +47,7 @@
    </listitem>
   </orderedlist></para> 
 
-  <para>This all looks very similar, except it's shorter than the 12-steps that we saw earlier. Once the validating resolver receives the DNSKEY file in #8, it recognizes that this is a trusted key (trust anchor), and never goes to the root name servers to ask for the DS record for .gov, or ask the the root name servers for its DNSKEY.</para>
-
+  <para>This all looks very similar, except it’s shorter than the 12-steps that we saw earlier. Once the validating resolver receives the DNSKEY file in #8, it recognizes that this is a trusted key (trust anchor), and never goes to the root name servers to ask for the DS record for .gov, or ask the the root name servers for its DNSKEY.</para>
  </section>
 </section>
 
