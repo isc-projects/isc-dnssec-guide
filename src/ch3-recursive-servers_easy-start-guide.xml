@@ -6,14 +6,21 @@
 since no trust anchor configured by default;
 maybe this section should explain the auto here before testing  -->
 
- <para>You may not need to reconfigure your name server at all, since recent versions of BIND have been shipped with DNSSEC validation enabled by default. Before making any configuration changes, check whether or not you already have DNSSEC validation by following steps described in <xref linkend="how-to-test-recursive-server"/>.</para>
+<!-- TODO: jkuo Wed Oct 15 01:52:14 UTC 2014
+Added a little clarification, since most people use a pre-packaged
+version of BIND that came with their OS, some packages have
+everything taken care of (trust anchor + configuration). This 
+is just to remind/advise users to check if their name servers
+are already validating, before changing configuration files. -->
 
- <!-- TODO: since both directives are set to 'yes' by default, do we want to advise readers to explicitedly declare yes here? -->
- <!-- TODO: and does this mean we don't want to recommend readers to set dnssec-validation to 'auto'? -->
+ <para>You may not need to reconfigure your name server at all, since recent versions of BIND packages and distributions have been shipped with DNSSEC validation enabled by default. Before making any configuration changes, check whether or not you already have DNSSEC validation by following steps described in <xref linkend="how-to-test-recursive-server"/>.</para>
+
  <para>To enable DNSSEC validation on a BIND 9 recursive name server is easy, you only need two lines of configuration in your configuration file:
  <screen>dnssec-enable yes;
 dnssec-validation auto;</screen></para>
 
- <para>Restart named, and your recursive server is now happily validating each DNS response.</para> 
- <para>If this does not work for you, you most likely have some other network-related configurations that need to be adjusted, take a look at <xref linkend="network-requirements"/> to make sure your network is ready for DNSSEC.</para>
+ <para>Restart named, and your recursive server is now happily validating each DNS response. If this does not work for you, you most likely have some other network-related configurations that need to be adjusted, take a look at <xref linkend="network-requirements"/> to make sure your network is ready for DNSSEC.</para>
+
+ <para>Both lines listed above are actually the default configuration for BIND, it is your choice whether or not to explicitly list them in the configuration. To learn more about those two lines of configuration, please refer to <xref linkend="validation-easy-start-explained"/>.</para>
+
 </section>
