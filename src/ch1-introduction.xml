@@ -27,7 +27,4 @@
   <section id="how-does-dnssec-change-my-job-as-an-dns-administrator">
    <title>How Does DNSSEC Change My Job As An DNS Administrator?</title>
   </section>
-
-  <!-- === Commonly Asked Questions === -->
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch1-introduction_commonly-asked-questions.xml" />
 </chapter>
