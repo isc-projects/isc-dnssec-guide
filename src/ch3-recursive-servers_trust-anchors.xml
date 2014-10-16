@@ -4,6 +4,8 @@
 
  <para>BIND9 includes a copy of the root key, in the file bind.keys. You can download the root key manually from reputable sources such as https://www.iana.org/dnssec/files. The key file must be readable to named.</para>
 
+
+ <!-- ====== HOw Trust Anchors are Used ====== -->
  <section id="how-trust-anchors-are-used">
   <title>How Trust Anchors are Used</title>
   <para>In the section <xref linkend="how-does-dnssec-change-dns-lookup"/>, we walked through the DNSSEC lookup process (12 steps), and at the end of the 12 steps, a critical comparison happens: the key received from the remote server, and the key we have on file are compared to see if we trust it. The key we have on file is called a trust anchor, sometimes also known as trust key, trust point, or secure entry point.</para>
@@ -13,41 +15,60 @@
   <para>For instance, before the root zone was signed (prior to the year 2010), some validating resolvers that wish to validate domain names in the .gov zone needed to obtain and install the key for .gov. A sample lookup process for www.fbi.gov would thus be only 8 steps rather than 12 steps that look like this:
 
   <!-- TODO: Insert 8-step diagram here -->
-  <orderedlist>
-   <listitem>
-    <simpara>Validating resolver queries fbi.gov name server for the A record of www.fbi.gov</simpara>
-   </listitem>
+  
+   <orderedlist>
+    <!-- #1 -->
+    <listitem>
+     <simpara>Validating resolver queries fbi.gov name server for the A record of www.fbi.gov</simpara>
+    </listitem>
 
-   <listitem>
-    <simpara>FBI's name server responds with answer and RRSIG</simpara>
-   </listitem>
+    <!-- #2 -->
+    <listitem>
+     <simpara>FBI's name server responds with answer and RRSIG</simpara>
+    </listitem>
 
-   <listitem>
-    <simpara>Validating resolver queries FBI's name server for DNSKEY</simpara>
-   </listitem>
+    <!-- #3 -->
+    <listitem>
+     <simpara>Validating resolver queries FBI's name server for DNSKEY</simpara>
+    </listitem>
 
-   <listitem>
-    <simpara>FBI's name server responds with DNSKEY and RRSIG</simpara>
-   </listitem>
+    <!-- #4 -->
+    <listitem>
+     <simpara>FBI's name server responds with DNSKEY and RRSIG</simpara>
+    </listitem>
 
-   <listitem>
-    <simpara>Validating resolver queries .gov name server for DS record of fbi.gov</simpara>
-   </listitem>
+    <!-- #5 -->
+    <listitem>
+     <simpara>Validating resolver queries .gov name server for DS record of fbi.gov</simpara>
+    </listitem>
 
-   <listitem>
-    <simpara>.gov name server responds with DS record and RRSIG for fbi.gov</simpara>
-   </listitem>
+    <!-- #6 -->
+    <listitem>
+     <simpara>.gov name server responds with DS record and RRSIG for fbi.gov</simpara>
+    </listitem>
 
-   <listitem>
-    <simpara>Validating resolver queries .gov name server for DNSKEY</simpara>
-   </listitem>
+    <!-- #7 -->
+    <listitem>
+     <simpara>Validating resolver queries .gov name server for DNSKEY</simpara>
+    </listitem>
 
-   <listitem>
-    <simpara>.gov name server responds with DNSKEY and RRSIG</simpara>
-   </listitem>
-  </orderedlist></para> 
+    <!-- #8 -->
+    <listitem>
+     <simpara>.gov name server responds with DNSKEY and RRSIG</simpara>
+    </listitem>
+   </orderedlist>
+  </para> 
 
   <para>This all looks very similar, except it’s shorter than the 12-steps that we saw earlier. Once the validating resolver receives the DNSKEY file in #8, it recognizes that this is a trusted key (trust anchor), and never goes to the root name servers to ask for the DS record for .gov, or ask the the root name servers for its DNSKEY.</para>
+
+  <para>In fact, whenever the validating resolver receives a DNSKEY, it checks to see if this is a trusted key, to decide whether or not it needs to continue chasing down the validation chain.</para>
  </section>
+
+
+
+ <!-- ====== Trust Anchors and Managed Keys ====== -->
+ <section id="trust-anchors-and-managed-keys">
+ <title>Trust Anchors and Managed Keys</title>
+</section>
 </section>
 
