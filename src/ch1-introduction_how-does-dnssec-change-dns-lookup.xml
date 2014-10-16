@@ -9,9 +9,10 @@
   Need to add in a diagram here showing the 12 steps
   -->
 
- <para>The following example shows the DNSSEC validating process of looking up the name www.isc.org at a very high level:
+ <para>The following example shows the DNSSEC validating process of looking up the name www.isc.org at a very high level:</para>
+ <para>
+  <imagedata fileref="image-placeholder.jpg"/>
   <orderedlist>
-
    <!-- #1 -->
    <listitem>
     <simpara>Validating resolver follows standard DNS protocol to track down the name server for isc.org, sends it a DNS query to ask for the A record of www.isc.org. But since this is a DNSSEC-enabled resolver, the outgoing query has a different bit set indicating it wants DNSSEC answers, hoping the name server who receives it speaks DNSSEC and can honor this secure request.</simpara>

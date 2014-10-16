@@ -12,9 +12,11 @@
 
   <para>The 12-step lookup process describes the DNSSEC lookup in the ideal world where every single domain name is signed and properly delegated, each validating resolver only needs to have one trust anchor, and that is the root’s public key. But there is no restriction that the validating resolver must only have one trust anchor. In fact, in the early stages of DNSSEC adaptation, it is not unusual for a validating resolver to have more than one trust anchor.</para>
 
-  <para>For instance, before the root zone was signed (prior to the year 2010), some validating resolvers that wish to validate domain names in the .gov zone needed to obtain and install the key for .gov. A sample lookup process for www.fbi.gov would thus be only 8 steps rather than 12 steps that look like this:
+  <para>For instance, before the root zone was signed (prior to the year 2010), some validating resolvers that wish to validate domain names in the .gov zone needed to obtain and install the key for .gov. A sample lookup process for www.fbi.gov would thus be only 8 steps rather than 12 steps that look like this:</para>
 
+  <para>
   <!-- TODO: Insert 8-step diagram here -->
+  <imagedata fileref="image-placeholder.jpg" align="center"/>
   
    <orderedlist>
     <!-- #1 -->
