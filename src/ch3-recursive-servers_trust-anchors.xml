@@ -68,7 +68,37 @@
 
  <!-- ====== Trust Anchors and Managed Keys ====== -->
  <section id="trusted-keys-and-managed-keys">
- <title>Trusted Keys and Managed Keys</title>
-</section>
-</section>
+  <title>Trusted Keys and Managed Keys</title>
+  <para>So we have at least one DNSKEY on file, and it is known as a trust anchor. How did it get here, and how do we maintain it?</para>
 
+  <para>If you followed the recommendation in <xref linkend="easy-start-guide-for-recursive-servers"/>, by setting <command>dnssec-validation</command> to <command>auto</command>, then there is nothing you need to do. BIND already includes a default key (usually in the file <command>bind.keys</command>), that will automatically update itself. It looks something like this:
+   <screen>managed-keys {
+    . initial-key 257 3 8 "AwEAAagAIKlVZrpC6Ia7gEzahOR+9W29euxhJhVVLOyQbSEW0O8gcCjF
+    FVQUTf6v58fLjwBd0YI0EzrAcQqBGCzh/RStIoO8g0NfnfL2MTJRkxoX
+    bfDaUeVPQuYEhg37NZWAJQ9VnMVDxP/VHL496M/QZxkjf5/Efucp2gaD
+    X6RS6CXpoY68LsvPVjR0ZSwzz1apAzvN9dlzEheX7ICJBBtuA6G3LQpz
+    W5hOA2hzCTMjJPJ8LbqF6dsV6DoBQzgul0sGIcGOYl7OyQdXfZ57relS
+    Qageu+ipAdTTJ25AsRTAoub8ONGcLmqrAmRLKBP1dfwhYB4N7knNnulq
+    QxA+Uk1ihz0=";
+};</screen>
+  </para>
+
+  <para>You could, of course, decide to manage this key on your own by hand. First, you’ll need to make sure that your <command>dnssec-validation</command> is set to <command>yes</command>:
+   <screen>options {
+    dnssec-validation yes;
+};</screen>
+  </para>
+
+  <para>Then make sure that you have the following <command>trust-keys</command> statement configured, after you download the root key manually from a trustworthy source. This installs the root DNSKEY. Whenever the root key changes, this file needs to be updated manually. Failing to do so will break nearly all DNS requests made to this server.
+   <screen>trusted-keys {
+    . 257 3 8 "AwEAAagAIKlVZrpC6Ia7gEzahOR+9W29euxhJhVVLOyQbSEW0O8gcCjF
+    FVQUTf6v58fLjwBd0YI0EzrAcQqBGCzh/RStIoO8g0NfnfL2MTJRkxoX
+    bfDaUeVPQuYEhg37NZWAJQ9VnMVDxP/VHL496M/QZxkjf5/Efucp2gaD
+    X6RS6CXpoY68LsvPVjR0ZSwzz1apAzvN9dlzEheX7ICJBBtuA6G3LQpz
+    W5hOA2hzCTMjJPJ8LbqF6dsV6DoBQzgul0sGIcGOYl7OyQdXfZ57relS
+    Qageu+ipAdTTJ25AsRTAoub8ONGcLmqrAmRLKBP1dfwhYB4N7knNnulq
+    QxA+Uk1ihz0=";
+};</screen>
+  </para>
+ </section>
+</section>
