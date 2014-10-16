@@ -23,7 +23,7 @@
     category dnssec { dnssec_log; };
 };</screen></para>
 
-  <para>The example below shows how to log to its own file:
+  <para>The example below shows how to log DNSSEC messages to its own file:
    <screen>logging {
    channel dnssec_log {
         file “/var/log/dnssec.log”;
