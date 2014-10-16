@@ -80,6 +80,50 @@ www.isc.org.		4 IN A	149.20.64.69
 ;; SERVER: 192.168.1.7#53(192.168.1.7)
 ;; WHEN: Fri Oct 03 16:40:04 CST 2014
 ;; MSG SIZE  rcvd: 223</screen></para>
+
+  <para>It is also important to make sure DNSSEC is protecting you from domain names that you should not trust or resolve. There is a domain name specifically setup for this purpose, <ulink url="http://www.dnssec-failed.org/"/>. Prior to enabling DNSSEC validation, you should have no trouble resolving this name as shown below using <command>dig</command>:
+   <screen>$ <userinput>dig @192.168.1.11 www.dnssec-failed.org. A</userinput>
+
+; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.11 www.dnssec-failed.org. A
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 28878
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;www.dnssec-failed.org.		IN	A
+
+;; ANSWER SECTION:
+www.dnssec-failed.org.	7200	IN	A	68.87.109.242
+www.dnssec-failed.org.	7200	IN	A	69.252.193.191
+
+;; Query time: 955 msec
+;; SERVER: 192.168.1.11#53(192.168.1.11)
+;; WHEN: Fri Oct 17 07:42:50 CST 2014
+;; MSG SIZE  rcvd: 82</screen></para>
+
+  <para>After DNSSEC validation is enabled, looking up this domain name should result in SERVFAIL.
+   <screen>$ <userinput>dig @192.168.1.11 www.dnssec-failed.org. A</userinput>
+
+; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.11 www.dnssec-failed.org. A
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER&lt;&lt;- opcode: QUERY, status: <userinput>SERVFAIL</userinput>, id: 46592
+;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;www.dnssec-failed.org.		IN	A
+
+;; Query time: 2435 msec
+;; SERVER: 192.168.1.11#53(192.168.1.11)
+;; WHEN: Fri Oct 17 07:44:56 CST 2014
+;; MSG SIZE  rcvd: 50</screen></para>
  </section>
       
  <!-- ====== Using delv to Verify ===== -->
