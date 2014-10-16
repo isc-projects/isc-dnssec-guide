@@ -5,33 +5,42 @@
  <!-- dnssec-enable -->
  <section id="dnssec-enable-explained">
   <title>dnssec-enable</title>
-  <screen>dnssec-enable yes;</screen>
-  <para>This line enables DNSSEC support in named. Unless set to yes, named behaves as if it does not support DNSSEC. The default is yes.</para>
+  <screen>options {
+    dnssec-enable yes;
+};</screen>
+  <para>This line enables DNSSEC support in named. Unless set to yes, named behaves as if it does not support DNSSEC. The default is yes. Note that if this is the only thing you enable, the default validation behavior is set to rely on manual keys (which is not included), and no validation will actually take place until you have configured a <command>trusted-key</command>.</para>
  </section>
 
  <!-- dnssec-validation -->
- <!-- TODO: Use a list to describe the three possible configurations: no, yes, auto -->
  <section id="dnssec-validation-explained">
   <title>dnssec-validation</title>
-  <screen>dnssec-validation auto;</screen>
+  <screen>options {
+    dnssec-validation auto;
+};</screen>
   <para>This line enables DNSSEC validation in named. Note <command>dnssec-enable</command> also needs to be set to yes to be effective (which by default it is). There are three possible choices:
    <itemizedlist>
+    <listitem>
+     <simpara><emphasis>yes</emphasis>: DNSSEC validation is enabled, but a trust anchor must be manually configured. This is the default.</simpara>
+    </listitem>
+
     <listitem>
      <simpara><emphasis>no</emphasis>: DNSSEC validation is disabled, and recursive server will behave in the "old fashioned" way of performing insecure DNS lookups.</simpara>
     </listitem>
 
     <listitem>
-     <simpara><emphasis>yes</emphasis>: DNSSEC validation is enabled, but a trust anchor must be manually configured using a trusted-key or managed-key statement. This is the default.</simpara>
-    </listitem>
-
-    <listitem>
-     <simpara><emphasis>auto</emphasis>: DNSSEC validation is enabled, and a default trust anchor for the DNS root zone is used.</simpara>
+     <simpara><emphasis>auto</emphasis>: DNSSEC validation is enabled, and a default trust anchor for the DNS root zone is used. BIND includes a file <command>bind.keys</command> with the preconfigured key.</simpara>
     </listitem>
    </itemizedlist>
   </para>
 
-  <para>To learn more about trust anchors, please refer to the sections <xref linkend="trust-anchors"/> and <xref linkend="trust-anchors-and-managed-keys"/>.</para>
+  <para>The biggest difference here is between <command>yes</command> and <command>auto</command>. If you set it to <command>yes</command>, the trust anchor will need to be manually defined and maintained;</para> 
+
+  
+  <para>The biggest difference here is between <command>yes</command> and <command>auto</command>. If you set it to <command>yes</command>, the trust anchor will need to be manually defined and maintained using the <command>trusted-key</command> statement in the configuration file; if you set it to <command>auto</command>, then you should used the <command>managed-key</command> statement. The difference is managed-keys can be kept up-to-date automatically, without intervention from the DNS administrator.</para>
+
+  <para>To learn more about trust anchors, please refer to <xref linkend="trust-anchors-and-managed-keys"/>.</para>
  </section>
+
 
  <!-- === How Does DNSSEC Change DNS Lookup (Revisited) === -->
  <section id="how-does-dnssec-change-dns-lookup-revisited">
@@ -39,7 +48,6 @@
   <para>So by now you’ve enabled validation on your recursive name server, and verified that it works. What exactly changed? In <xref linkend="how-does-dnssec-change-dns-lookup"/> we looked at the very high level, simplified 12-steps of DNSSEC validation process. Let’s revisit that process now and see what your validating resolver is doing in more details. Again, we are using the example to lookup the A record for the domain name www.isc.org:
 
   <orderedlist>
-
    <!-- #1 -->
    <listitem>
     <simpara>Validating resolver queries the name server for isc.org for the A record of www.isc.org. This query has the DNSSEC OK (do) bit set to 1, notifying the remote authoritative server that DNSSEC answers are desired.</simpara>
