@@ -30,7 +30,7 @@
     </listitem>
 
     <listitem>
-     <simpara><emphasis>auto</emphasis>: DNSSEC validation is enabled, and a default trust anchor for the DNS root zone is used. BIND includes a file <command>bind.keys</command> with the preconfigured key.</simpara>
+     <simpara><emphasis>auto</emphasis>: DNSSEC validation is enabled, and a default trust anchor (included as part of BIND) for the DNS root zone is used.</simpara>
     </listitem>
    </itemizedlist>
   </para>
