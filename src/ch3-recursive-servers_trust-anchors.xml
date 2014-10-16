@@ -2,7 +2,7 @@
  <title>Trust Anchors</title>
  <para>A trust anchor is a DNSKEY that is placed into a validating resolver so that the validator can verify the results for a given request back to a known public key (the trust anchor). A validating resolver must have at least one trust anchor installed in order to perform DNSSEC validation.</para>
 
- <para>BIND9 includes a copy of the root key, in the file <command>bind.keys</command>. You can download the root key manually from reputable sources such as https://www.iana.org/dnssec/files. The key file must be readable to named.</para>
+ <para>BIND9 includes a copy of the root key, in the file <command>bind.keys</command>. You can download the root key manually from reputable sources such as <ulink url="https://www.isc.org/bind-keys"/>. The key file must be readable to named.</para>
 
 
  <!-- ====== HOw Trust Anchors are Used ====== -->
