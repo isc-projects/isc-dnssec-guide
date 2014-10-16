@@ -1,8 +1,6 @@
 <section id="validating-resolver-basic-troubleshooting">
  <title>Validating Resolver Basic Troubleshooting</title>
- <para>This section provides basic troubleshooting tips for validating resolver.</para>
 
- <!-- ====== BIND DNSSEC Debug Logging ====== -->
  <!-- TODO: Is this too much information for a basic troubleshooting?
             Consider removing the debug logging section completely.
             The idea here is to provide a "reference" for other DNS
@@ -10,6 +8,36 @@
             looks like in syslog, so they can compare to their own
             syslog debug messages and see what may have gone wrong.
  -->
+
+ <para>With DNSSEC validation enabled, if a DNS response is not fully validated, it will result in a generic SERVFAIL message, as shown below.
+  <screen>$ <userinput>dig @192.168.1.11 www.isc.org. A</userinput>
+; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.11 www.isc.org. A
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER&lt;&lt;- opcode: QUERY, status: <userinput>SERVFAIL</userinput>, id: 8101
+;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;www.isc.org.			IN	A
+
+;; Query time: 973 msec
+;; SERVER: 192.168.1.11#53(192.168.1.11)
+;; WHEN: Thu Oct 16 20:28:20 CST 2014
+;; MSG SIZE  rcvd: 40</screen>
+ </para>
+
+ <para>With <command>delv</command>, a resolution failed message:
+  <screen>$ <userinput>delv @192.168.1.11 www.isc.org. A +rtrace</userinput>
+;; fetch: www.isc.org/A
+;; <userinput>resolution failed: failure</userinput></screen>
+ </para>
+
+ <para>To gain more detailed information on why it failed, continue on to <xref linkend="bind-dnssec-debug-logging"/> to see how to configure BIND to log DNSSEC messages.</para>
+
+ <!-- ====== BIND DNSSEC Debug Logging ====== -->
  <section id="bind-dnssec-debug-logging">
   <title>BIND DNSSEC Debug Logging</title>
   <para>Sometimes it may be necessary to enable BIND debug logging to see more details of how DNSSEC is validating (or not). DNSSEC-related messages are not recorded in syslog by default, even if query log is enabled, only DNSSEC errors will show up in syslog. Enabling debug logging is not recommended for production servers, as it increases load on the server.</para>
@@ -88,8 +116,7 @@ dnssec: validating @0xb8012d88: www.isc.org A: in fetch_callback_validator</scre
   <para>In DNSSEC, every record will come with at least one RRSIG, and RRSIG contains two timestamps indicating when it starts becoming valid, and when it expires. If the validating resolver’s current system time does not fall within the RRSIG two timestamps, the following error messages occur in BIND debug log.</para>
 
   <para>First, the example below shows the log messages when the RRSIG has expired. This could mean the validating resolver system time is incorrectly set too far in the future, or the zone administrator has not kept up with RRSIG maintenance.
-
-<screen>dnssec: validating @0xb7b839b0: . DNSKEY: starting
+   <screen>dnssec: validating @0xb7b839b0: . DNSKEY: starting
 dnssec: validating @0xb7b839b0: . DNSKEY: attempting positive response validation
 dnssec: validating @0xb7b839b0: . DNSKEY: <userinput>verify failed due to bad signature (keyid=19036): RRSIG has expired</userinput>
 dnssec: validating @0xb7b839b0: . DNSKEY: unable to find a DNSKEY which verifies the DNSKEY RRset and also matches a trusted key for '.'
@@ -97,8 +124,7 @@ dnssec: validating @0xb7b839b0: . DNSKEY: please check the 'trusted-keys' for '.
 dnssec: validator @0xb7b839b0: dns_validator_destroy</screen></para>
 
   <para>The logs below show RRSIG validity period has not begun. This could mean validation resolver system is incorrectly set too far in the past, or the zone administrator has incorrectly generated signatures for this domain name.
-
-<screen>dnssec: validating @0xb7c1bd88: www.isc.org A: starting
+   <screen>dnssec: validating @0xb7c1bd88: www.isc.org A: starting
 dnssec: validating @0xb7c1bd88: www.isc.org A: attempting positive response validation
 dnssec: validating @0xb7c1bd88: www.isc.org A: keyset with trust 8
 dnssec: validating @0xb7c1bd88: www.isc.org A: <userinput>verify failed due to bad signature (keyid=4521): RRSIG validity period has not begun</userinput>
@@ -115,6 +141,47 @@ it will be in the Authoritative Server: Signing section. -->
  <!-- ====== Invalid Trust Anchors ====== -->
  <section id="bind-dnssec-troubleshooting-invalid-trust-anchors">
   <title>Invalid Trust Anchors</title>
+  <para>As w have seen in the section <xref linkend="trust-anchors"/>, whenever a DNSKEY is received by the validating resolver, it is actually compared to the list of keys the resolver has explicitly trust to see if further action is needed. If the two keys match, the validating resolver stops performing further verification and returns the answer(s) as validated.</para>
+
+  <para>But what if the key file on the validating resolver is misconfigured or missing? Below we show some examples of log messages when things are not working properly.</para>
+
+  <para>First of all, if the key you copied is malformed, BIND will not even start up and you will likely find this error message in syslog:
+   <screen>named[18235]: /etc/bind/named.conf.options:29: <userinput>bad base64 encoding</userinput>
+named[18235]: loading configuration: failure</screen></para>
+
+  <!-- TODO: jkuo Thu Oct 16 12:38:36 UTC 2014
+  The section KEY SIGNING does not exist yet, 
+  it will be in the Authoritative Server: Signing section -->
+  <para>If the key is a valid bas64 string, but the algorithm number is incorrect (we discuss algorithm number in later KEY SIGNING section), or if the wrong key is installed, the first thing you will notice is that pretty much all of your DNS lookups result in SERVFAIL, even when you are looking up domain names that do not have not been DNSSEC-enabled.
+   <screen>$ <userinput>dig @192.168.1.11 www.yahoo.com. A</userinput>
+
+; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.11 www.yahoo.com. A
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER&lt;&lt;- opcode: QUERY, status: <userinput>SERVFAIL</userinput>, id: 8093
+;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;www.yahoo.com.			IN	A
+
+;; Query time: 118 msec
+;; SERVER: 192.168.1.11#53(192.168.1.11)
+;; WHEN: Thu Oct 16 20:18:10 CST 2014
+;; MSG SIZE  rcvd: 42</screen></para>
+
+  <para><command>delv</command> shows similar result:
+   <screen>$ delv @192.168.1.11 www.yahoo.com. +rtrace
+;; fetch: www.yahoo.com/A
+;; <userinput>resolution failed: failure</userinput></screen></para>
+
+  <para>The next symptom you will see is in the DNSSEC log messages:
+   <screen>validating @0xb8b18a38: . DNSKEY: starting
+validating @0xb8b18a38: . DNSKEY: attempting positive response validation
+validating @0xb8b18a38: <userinput>. DNSKEY: unable to find a DNSKEY which verifies the DNSKEY RRset and also matches a trusted key for '.'</userinput>
+validating @0xb8b18a38: . DNSKEY: please check the 'trusted-keys' for '.' in named.conf.</screen></para>
  </section>
 
 
