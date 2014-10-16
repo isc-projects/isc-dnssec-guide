@@ -35,7 +35,7 @@
    </itemizedlist>
   </para>
 
-  <para>The biggest difference here is between <command>yes</command> and <command>auto</command>. If you set it to <command>yes</command> (the default), the trust anchor will need to be manually defined and maintained using the <command>trusted-key</command> statement in the configuration file; if you set it to <command>auto</command> (as shown in the example), then the <command>managed-key</command> statement is used, to automatically keep the keys up-to-date without intervention from the DNS administrator.</para>
+  <para>Let's discuss the difference here between <command>yes</command> and <command>auto</command>. If you set it to <command>yes</command> (the default), the trust anchor will need to be manually defined and maintained using the <command>trusted-key</command> statement in the configuration file; if you set it to <command>auto</command> (as shown in the example), then the <command>managed-key</command> statement is used, to automatically keep the keys up-to-date without intervention from the DNS administrator.</para>
   
   <para>To learn more about trust anchors, please refer to <xref linkend="trusted-keys-and-managed-keys"/>.</para>
  </section>
