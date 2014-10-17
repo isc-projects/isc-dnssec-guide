@@ -28,6 +28,9 @@ $ <userinput>make install</userinput></screen></para>
  <!-- ====== System Entropy ====== --> 
  <section id="system-entropy">
   <title>System Entropy</title>
+  <para>If you plan on deploying DNSSEC to your authoritative server, you will need to generate some cryptographic keys. The amount of time it takes to generate the keys depends on the source of randomness, or entropy, on your systems. For most physical machines this is probably not an issue, since most operating systems have a mechanism to gather entropy from hardware components; for virtual machines however, entropy is sparse in comparison, thus generating keys on virtual machines can take much longer, sometimes into the range of several hours.</para>
+
+  <para>There are software packages, such as <command>haveged</command> for Linux, that increase system entropy. Once installed, it will significantly reduce the time needed to generate keys from hours down to seconds.</para>
  </section>
 </section>
 
