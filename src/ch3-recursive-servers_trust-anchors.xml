@@ -67,7 +67,6 @@
  </section>
 
 
-
  <!-- ====== Trust Anchors and Managed Keys ====== -->
  <section id="trusted-keys-and-managed-keys">
   <title>Trusted Keys and Managed Keys</title>
@@ -102,5 +101,17 @@
     QxA+Uk1ihz0=";
 };</screen>
   </para>
+
+  <para>Looking back at the example in <xref linkend="how-trust-anchors-are-used"/>, if you wanted to explicitly trust <command>.gov</command> and only validate domain names under .gov, your <command>trusted-keys</command> statement would look something like this:
+   <screen>trusted-keys {
+    gov. 257 3 8 “AQO8daaz7B+yshOfL60rytKd9aOSujgponEw3fwBMEC3
+    /+e9XzHw2k+VKnbJTZ+QaVtpfUd1q9HKZIv/ck83Gl5T
+    jYKE5jtUZ2kpEDZfVNGv6yx0smtWAXv1nCJS9ohnyOTd
+    397eMojGDHqkEC+uojEScZheEkMxzgCZwDAs+/CSU7mS
+    uHtCRZn19xlZUd5Gv7yDQ3mbOUwuy30oSk0z1Q5UUPpo
+    ihOugIZHFX6Jk7NLiW2wlqfq9qhV4zj7TiBiJY0mCc4z
+    HN8/aq2VKDHp2Na7mWzvKyTy+SYQkBQ/08LbPwj9YMc+
+    uCzKL6sU/ObHv17EFhD8aPDftTHZvV9L+OZr”;
+};</screen></para>
  </section>
 </section>
