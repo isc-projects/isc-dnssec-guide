@@ -12,8 +12,7 @@ BIND 9.8.4-rpz2+rl005.12-P1 built with '--prefix=/usr' '--mandir=/usr/share/man'
 '--enable-shared' '--enable-static' <userinput>'--with-openssl=/usr'</userinput> '--with-gssapi=/usr' '--with-gnu-ld' '--with-geoip=/usr'
 '--enable-ipv6' 'CFLAGS=-fno-strict-aliasing -DDIG_SIGCHASE -O2'
 using OpenSSL version: OpenSSL 1.0.1e 11 Feb 2013
-using libxml2 version: 2.8.0</screen>
-  </para>
+using libxml2 version: 2.8.0</screen></para>
  </section>
 
  <!-- ====== Build BIND to be DNSSEC-capable ====== --> 
@@ -28,9 +27,8 @@ $ <userinput>make install</userinput></screen></para>
  <!-- ====== System Entropy ====== --> 
  <section id="system-entropy">
   <title>System Entropy</title>
-  <para>If you plan on deploying DNSSEC to your authoritative server, you will need to generate some cryptographic keys. The amount of time it takes to generate the keys depends on the source of randomness, or entropy, on your systems. For most physical machines this is probably not an issue, since most operating systems have a mechanism to gather entropy from hardware components; for virtual machines however, entropy is sparse in comparison, thus generating keys on virtual machines can take much longer, sometimes into the range of several hours.</para>
+  <para>If you plan on deploying DNSSEC to your authoritative server, you will need to generate some cryptographic keys. The amount of time it takes to generate the keys depends on the source of randomness, or entropy, on your systems, and on some systems it may take several hours to generate keys.</para>
 
-  <para>There are software packages, such as <command>haveged</command> for Linux, that increase system entropy. Once installed, it will significantly reduce the time needed to generate keys from hours down to seconds.</para>
+  <para>There are software packages, such as <command>haveged</command> for Linux, that provides additional entropy for your system. Once installed, it will significantly reduce the time needed to generate keys from hours down to seconds.</para>
  </section>
 </section>
-
