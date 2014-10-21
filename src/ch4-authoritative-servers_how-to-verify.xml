@@ -1,3 +1,208 @@
 <section id="how-to-test-authoritative-server">
  <title>How To Test Authoritative Server (So You Think You Are Signed)</title>
+ 
+ <!-- === Your Zone File, Before and After DNSSEC === -->
+ <section id="your-zone-file-before-and-after-dnssec">
+  <title>Your Zone File, Before and After DNSSEC</title>
+  <para>In the previous section <xref linkend="easy-start-guide-for-authoritative-servers" />, we provided the minimal amount of information to essentially convert an traditional DNS zone into a DNSSEC-enabled zone. This is what the zone looked like before we started: 
+   <screen>$ <userinput>dig @192.168.1.13 example.com. AXFR +multiline</userinput>
+
+; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.13 example.com. AXFR +multiline
+; (1 server found)
+;; global options: +cmd
+example.com.		300 IN SOA ns1.example.com. dnsadmin.example.com. (
+				2014102100 ; serial
+				10800      ; refresh (3 hours)
+				1080       ; retry (18 minutes)
+				2419200    ; expire (4 weeks)
+				900        ; minimum (15 minutes)
+				)
+example.com.		300	IN	NS	ns1.example.com.
+ftp.example.com.	300	IN	A	1.1.1.2
+ns1.example.com.	300	IN	A	192.168.1.13
+web.example.com.	300	IN	CNAME	www.example.com.
+www.example.com.	300	IN	A	1.1.1.1
+xyz.example.com.	300	IN	A	1.1.1.3
+example.com.		300 IN SOA ns1.example.com. dnsadmin.example.com. (
+				2014102100 ; serial
+				10800      ; refresh (3 hours)
+				1080       ; retry (18 minutes)
+				2419200    ; expire (4 weeks)
+				900        ; minimum (15 minutes)
+				)
+;; Query time: 27 msec
+;; SERVER: 192.168.1.13#53(192.168.1.13)
+;; WHEN: Tue Oct 21 13:04:49 CST 2014
+;; XFR size: 8 records (messages 1, bytes 222)</screen></para>
+
+  <para>And this is what it looks like after we are done. As you can see, the zone file grew in size, and the number of records multiplied:
+   <screen>$ <userinput>dig @192.168.1.13 example.com. +multiline AXFR</userinput>
+
+; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.13 example.com. +multiline AXFR
+; (1 server found)
+;; global options: +cmd
+example.com.		300 IN SOA ns1.example.com. dnsadmin.example.com. (
+				2014102108 ; serial
+				10800      ; refresh (3 hours)
+				1080       ; retry (18 minutes)
+				2419200    ; expire (4 weeks)
+				900        ; minimum (15 minutes)
+				)
+example.com.		0 IN RRSIG NSEC3PARAM 8 2 0 (
+				20141120051308 20141021044721 57009 example.com.
+				Qr6OtIgtAfMg0nWLWJhgaBsrV710tpLJK/6/SO3Xf1tw
+				/XznHIW1Qv9F3vmtNfasTIxkd47BOBMW1Fw0Lt2L/SkO
+				wcp6frzsmCZC5J4ifPrZ1+/SByeoexpTiD5J11fN8InB
+				TfRwXklQawCiAAdn5DsZDgkRRTMsiSuH2Ex6wCQ= )
+example.com.		0 IN NSEC3PARAM	1 0 10 4F518F934EB7C445
+example.com.		300 IN RRSIG NS 8 2 300 (
+				20141120051645 20141021044633 57009 example.com.
+				Fsj3UkoOaHpov7kuifAtZtzzn/VrbruZpnOICuI9o9hC
+				+SHqidRekkk48DDoyjLbPHxJ0Tk9unYlOu1U6Stk0MHl
+				z7MQBRV8UY/bgw0EazS26Mt3ik9pheNnq0a0C39bqgfq
+				aLjBkgu8z7DDfk9ZWxHE0ELw6Hveu6k2nOMbQ8Q= )
+example.com.		300 IN RRSIG SOA 8 2 300 (
+				20141120054721 20141021044721 57009 example.com.
+				oIqbp7R8pNnbGMnWnCk3fU/Dlo1kjEQOnmFiO7Ljq9b8
+				JbJ/ntlI2UDJNtZw0U5RXPyDewoYqR+1NDUAAx+0lFQD
+				E6Giu/ueNCbCTmo9OMOPn5gE+bCiJjOEYEkZsUNqufEp
+				bT8QCUZHnBHQGxhbIAd/IA+UNQeUZ86QQpJ/RKk= )
+example.com.		0 IN RRSIG TYPE65534 8 2 0 (
+				20141120053047 20141021044721 57009 example.com.
+				sV6/LUMqMvAECx5Zk92045yyinSbMyv9yCkZAe2UAYDH
+				lc/VuzUaIV7sLYDlYG01E85eY/alYGANAFagRiUDt1d1
+				syt3CkZVewUo9Gf15rGvzN3GRxVX7jLZClqCnIf60foz
+				x1z7ULt6rI162IpYmNHOICgBS0i56WSBWAGXHeg= )
+example.com.		300 IN RRSIG DNSKEY 8 2 300 (
+				20141120054707 20141021044707 28267 example.com.
+				GWRB9hPzNQSc+nd6dc/9f0sGZsozgwiFQZ/MvDKhN18T
+				ivOioicwzXpf6f5hA0Z0nt2KS2ZcIT6LY480Q4jUYfAS
+				JX/8x1grzbeYWVw64YYmWf9bFGfXHzropAJTKGQm7R39
+				HC5NDKb/hvOHQySBsLwNH3yfkVOJSDulEAZDZGlyWpHI
+				EZOLy/Zx4caB3wCLNfHFDlPyy/MIKhxi9m3gv60tbXU2
+				3F8WVph6BIpnK3X5626koAxlEhDG49ogU7O4EbyvwijH
+				hc1jXE0VcS+kSMGnK6bOKcJl9D0zVDhM3HgHlOlPRYq3
+				aFQ9AhyyWDTld5eyUYXgBaKrULGxKGVZMg== )
+example.com.		300 IN RRSIG DNSKEY 8 2 300 (
+				20141120054707 20141021044707 57009 example.com.
+				E8+TE1eainllJBnJmsw94+Xe5tw9u2Akhv8cLJaG0+aw
+				LleQSbiBfkeHvFSRKt8HY+2Ro0EtX6wTgmT/rK5rtt+p
+				gC7dPsL2Ymv0Yo/RJfHXnkvbuUlu66CBiFr+WXQq8Tmo
+				LRYpJ+1rRko0Sx/5mi3eUHhxp99f0403arsVqiU= )
+example.com.		0 IN TYPE65534 \# 5 ( 08DEB10001 )
+example.com.		300 IN DNSKEY 256 3 8 (
+				AwEAAclob7q+ccvDwaTVuMM2ddGIynWyMwaZlhFrU6cC
+				0qknWoPpkq0gIwTrYf3DJY+eIKPVHxrM+o2AoRIVhubG
+				jfv1bT5wTYrawZstS84ejCQ+ehA+8DxKyeWUEzW0ZMBe
+				OhyeG0cuQVK/p6Z1E096JLu0DjgbabLspequkw4M+HT7
+				) ; ZSK; alg = RSASHA256; key id = 57009
+example.com.		300 IN DNSKEY 257 3 8 (
+				AwEAAdQ2ctHx8VmryndiOgpchXPdj3NwxMeUvAre6uYI
+				5KELlFJUghTHrz+/CzEc8CXG8wwQ4ZvAey0FGV2nJAFC
+				ENMxoRiCz0oSiQQxryNhACd3RnE2/D7G+ShwlOM6w53E
+				wUJ/lsgu5UevSxFC+eA3fKeL3TWR44PH4iJQp9QmfW5v
+				7qG8Sic/HQvBGBdOGfFtHAl0a4jDPBi57imS4YsHcUYD
+				9bsWmhYWSHJKZ66+JnTiMS0nQM69YwBF43QfDKurs5R6
+				qPUDiBlaMCzSxmlaBU6fsI1Mu/yIU8w1ewy26a42rUTU
+				rPBC3Oa/zf9VQ8kpUrMZgJ7LEAA4xmR+qwWDh6U=
+				) ; KSK; alg = RSASHA256; key id = 28267
+example.com.		300 IN NS ns1.example.com.
+ftp.example.com.	300 IN RRSIG A 8 3 300 (
+				20141120051645 20141021044633 57009 example.com.
+				dXXB/11e3Nr7dPIdzJXKmERVC7f6G3b0nqG0Hp15w1fR
+				rLvDmAnjYkgI2DeTjQtgCnmELiKBFKIALpS8wKGAS5cm
+				g3fB5/YDYyXAF02lClIbVb3trN2Vfviv21SLf743tpVK
+				8E0hRa/AF8S/taI+wimbl37phDPp/yT29NUcoAc= )
+ftp.example.com.	300 IN A 1.1.1.2
+ns1.example.com.	300 IN RRSIG A 8 3 300 (
+				20141120051645 20141021044633 57009 example.com.
+				kTAz0VojkQiU/Me0JuGU2izJV36aJP2XEJDuqNsrYcNR
+				qVwcg2nvLtS8psUCoDeth3RDUX1hbmRh+BcbxDYRJzJs
+				Bxze1+/TLWlyRdwSqt3MImhjfKPyaPgEQOLsLir3+YMA
+				LDmg5hVRJKSZ6GfZfoAVEXHaPyenEArKqxy/fNE= )
+ns1.example.com.	300 IN A 192.168.1.13
+web.example.com.	300 IN RRSIG CNAME 8 3 300 (
+				20141120051645 20141021044633 57009 example.com.
+				Mj46gBs4JgvaVrCDY4fkEavqfojWwOR+0sPcKuduKeFJ
+				nqjPP4fzRG5utnSWh1pYUbpy/mPLp/2dbipuBoyTyBVh
+				4OWAK6KqZzd1itFTfsIy3eKrJO9V5D5bS5ubmrUt/vY+
+				CQZZIPr+kaQx5H8hVDbUgneR5ikjHJ8yexUZcoQ= )
+web.example.com.	300 IN CNAME www.example.com.
+www.example.com.	300 IN RRSIG A 8 3 300 (
+				20141120050809 20141021044633 57009 example.com.
+				IwRj8T9jmHhL0ovA/ceX+G8QPT8l4e9npPhPobYMKyAX
+				FiOun2h6ZnW71J27ti+Bcqjs2MEaeI1H0G547Up6s/jR
+				rqDYTmYUVWTJ8sSLRHunqqhLAlRUR8nJbzahnLr65U6J
+				v3roeE2gTNQLT2fiWnZfwKWYZfWtbz/1DY/QirQ= )
+www.example.com.	300 IN A 1.1.1.1
+xyz.example.com.	300 IN RRSIG A 8 3 300 (
+				20141120050809 20141021044633 57009 example.com.
+				spcmu0Hp5+1bGC6YDklFNhyZ+LWU9U79E4CHyj4Bh6Xe
+				gISyY+ZYxqL0BAdcBWQNcIvRC4vkwn4hc/M/A6b4ZP3p
+				+q6noVOSaTiFy16u9Y0S7k7IbBEuBH9hdY1OZDb5eUFf
+				05aJdcvgFhSpqBIqS+6FAmuxzllrvKGAFSA8XJU= )
+xyz.example.com.	300 IN A 1.1.1.3
+2ABONG5LKJIEA4Q293HV7EG3PM91JR67.example.com. 900 IN RRSIG NSEC3 8 3 900 (
+				20141120051308 20141021044721 57009 example.com.
+				EtVA1qYk8ws3x4693eXFUqWPUi0umDFsHVbnBTbHxNId
+				R77/U6NLkFBZKRR5LjBPTfdinoPA7IgnrrEtqy4XeQS2
+				1P/sOLgeCeDEBhFbFEWcRVe/mqfK4G0DVCYGEFOZH3K7
+				U5oHjvsUiYIhu4+Ay1QQwvS26ANjhEg6Tm01u94= )
+2ABONG5LKJIEA4Q293HV7EG3PM91JR67.example.com. 900 IN NSEC3 1 0 10 4F518F934EB7C445 (
+				ASVMJV767SA02CNUHC8M8T3HVVEFPVA7
+				A RRSIG )
+ASVMJV767SA02CNUHC8M8T3HVVEFPVA7.example.com. 900 IN RRSIG NSEC3 8 3 900 (
+				20141120051428 20141021044721 57009 example.com.
+				BLe94SN2hXJvLpXU2narhEwE4MSRUKrE4gv/ZFjzPHAm
+				NxRkfb5eNtTI87w2HoUn+SyYpANSm5UkdedJWRruTz1S
+				zMtv+PnA/ilPiBs2jq+h+I1yN5UF47gBW5DKVuNjsz1Z
+				1nAVdVCj+VGsRnLQr+xeSBZn+Ovzwi+c/i7TLL8= )
+ASVMJV767SA02CNUHC8M8T3HVVEFPVA7.example.com. 900 IN NSEC3 1 0 10 4F518F934EB7C445 (
+				D28G26AK55CIM2B3O395VUMM1NUDNC3Q
+				A RRSIG )
+D28G26AK55CIM2B3O395VUMM1NUDNC3Q.example.com. 900 IN RRSIG NSEC3 8 3 900 (
+				20141120051308 20141021044721 57009 example.com.
+				KMAgItwHIW+loQ2zOIu41UbyO4Vnh38NyJTuLmGVQ7Mh
+				pbHqpeucsvW2xY8fujetW8E2SgnzUL4+qiaEcSF7x6oH
+				d6xgP8U9XdlYX01zhAy3gR2+y36Q0MOCrb9T4Kfm3BPJ
+				U0oGd2/PZ2LqJ5IZJhetOGM8/I2j98d2uP+dv2M= )
+D28G26AK55CIM2B3O395VUMM1NUDNC3Q.example.com. 900 IN NSEC3 1 0 10 4F518F934EB7C445 (
+				IR8NDGVFBAV5ITNNIG0DBU76SMTET1LD
+				NS SOA RRSIG DNSKEY NSEC3PARAM
+				TYPE65534 )
+IR8NDGVFBAV5ITNNIG0DBU76SMTET1LD.example.com. 900 IN RRSIG NSEC3 8 3 900 (
+				20141120051308 20141021044721 57009 example.com.
+				bubr1H3vm9+chkO36v3DqtXgaURjsmkPIe+9YIxd8uFE
+				2/BDKsd2ft5GcOgchKzJWeBRAjuC3B2rcxw5b5Xjisqh
+				SoZDmIetQLzvW+0T4dKdxBZ4BbBG5o97ubaMdZvgJq7/
+				/c/FOk6t0CHwjLVmuMMWs51HrAcgk47zWVmDq1w= )
+IR8NDGVFBAV5ITNNIG0DBU76SMTET1LD.example.com. 900 IN NSEC3 1 0 10 4F518F934EB7C445 (
+				M9NIDR53B6I4M90A1OMU0MGEJF4ROLPD
+				CNAME RRSIG )
+M9NIDR53B6I4M90A1OMU0MGEJF4ROLPD.example.com. 900 IN RRSIG NSEC3 8 3 900 (
+				20141120051308 20141021044721 57009 example.com.
+				vSeRNwYW6GoIicMx6TJ+YW5elaV/dtB66QaFz2Ut5I8s
+				edyDpUdilCpnbJqmoDeEHcHaSj6SeqfR1w5AmBYqzbKv
+				V7MXIFc2ZsHhYNmTgOlbAW5eXc/vp3Cod4/rFlqZZUuj
+				yeqIpJmizSYETAMsCFKAXDpD40OdC0tMPMpnpHI= )
+M9NIDR53B6I4M90A1OMU0MGEJF4ROLPD.example.com. 900 IN NSEC3 1 0 10 4F518F934EB7C445 (
+				UORKLNJKEF4J9JKQBOI2SNCD4387Q5GD
+				A RRSIG )
+UORKLNJKEF4J9JKQBOI2SNCD4387Q5GD.example.com. 900 IN RRSIG NSEC3 8 3 900 (
+				20141120051308 20141021044721 57009 example.com.
+				Yp/62JxpCS6F3+xQ10vE09MaEhtJX8lAIDHV+KHJAE75
+				IizMBRhvWqyuWQk0n5a946UX0wdA8tnM04UEYKxmaBqi
+				jWHqVoSrgz7UQTm1XW6Pz6+Rvp+HBXtC0CETRRJlbmnd
+				KQFrP/RfmCBRnnDDmP3Yvmppl2Dx+aewZPlchro= )
+UORKLNJKEF4J9JKQBOI2SNCD4387Q5GD.example.com. 900 IN NSEC3 1 0 10 4F518F934EB7C445 (
+				2ABONG5LKJIEA4Q293HV7EG3PM91JR67
+				A RRSIG )
+example.com.		300 IN SOA ns1.example.com. dnsadmin.example.com. (
+				2014102108 ; serial
+				10800      ; refresh (3 hours)
+				1080       ; retry (18 minutes)
+				2419200    ; expire (4 weeks)
+				900        ; minimum (15 minutes)
+				)</screen></para>
+ </section>
 </section>
