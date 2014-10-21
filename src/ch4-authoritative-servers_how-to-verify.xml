@@ -11,12 +11,12 @@
     <!-- #1 -->
     <listitem>
      <para><ulink url="http://dnssec-debugger.verisignlabs.com/" /></para>
-      <imagedata fileref="img/verisign-dnssec-debugger-example.png" />
+      <imagedata fileref="../img/verisign-dnssec-debugger-example.png" />
     </listitem>
     <!-- #2 -->
     <listitem>
      <para><ulink url="http://dnsviz.net/" /></para>
-      <imagedata fileref="img/dnsviz-example-small.png" />
+      <imagedata fileref="../img/dnsviz-example-small.png" />
     </listitem>
    </orderedlist></para>
  </section>

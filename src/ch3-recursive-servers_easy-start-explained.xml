@@ -46,7 +46,7 @@
   <title>How Does DNSSEC Change DNS Lookup (Revisited)?</title>
   <para>So by now you’ve enabled validation on your recursive name server, and verified that it works. What exactly changed? In <xref linkend="how-does-dnssec-change-dns-lookup"/> we looked at the very high level, simplified 12-steps of DNSSEC validation process. Let’s revisit that process now and see what your validating resolver is doing in more details. Again, we are using the example to lookup the A record for the domain name www.isc.org:</para>
   <para>
-  <imagedata fileref="image-placeholder.jpg"/>
+  <imagedata fileref="../img/image-placeholder.jpg"/>
   <orderedlist>
    <!-- #1 -->
    <listitem>

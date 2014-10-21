@@ -11,7 +11,7 @@
 
  <para>The following example shows the DNSSEC validating process of looking up the name www.isc.org at a very high level:</para>
  <para>
-  <imagedata fileref="image-placeholder.jpg"/>
+  <imagedata fileref="../img/image-placeholder.jpg"/>
   <orderedlist>
    <!-- #1 -->
    <listitem>
