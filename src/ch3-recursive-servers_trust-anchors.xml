@@ -2,7 +2,7 @@
  <title>Trust Anchors</title>
  <para>A trust anchor is a DNSKEY that is placed into a validating resolver so that the validator can verify the results for a given request back to a known public key (the trust anchor). A validating resolver must have at least one trust anchor installed in order to perform DNSSEC validation.</para>
 
- <para>BIND9 includes a copy of the root key, in the file <command>bind.keys</command>. You can download the root key manually from reputable sources such as <ulink url="https://www.isc.org/bind-keys"/>. The key file must be readable to named.</para>
+ <para>BIND9 includes a copy of the root key, in the file <code>bind.keys</code>. You can download the root key manually from reputable sources such as <ulink url="https://www.isc.org/bind-keys"/>. The key file must be readable to named.</para>
 
 
  <!-- ====== HOw Trust Anchors are Used ====== -->
@@ -72,7 +72,7 @@
   <title>Trusted Keys and Managed Keys</title>
   <para>So we have at least one DNSKEY on file, and it is known as a trust anchor. How did it get here, and how do we maintain it?</para>
 
-  <para>If you followed the recommendation in <xref linkend="easy-start-guide-for-recursive-servers"/>, by setting <command>dnssec-validation</command> to <command>auto</command>, then there is nothing you need to do. BIND already includes a default key (usually in the file <command>bind.keys</command>), that will automatically update itself. It looks something like this:
+  <para>If you followed the recommendation in <xref linkend="easy-start-guide-for-recursive-servers"/>, by setting <code>dnssec-validation</code> to <code>auto</code>, then there is nothing you need to do. BIND already includes a default key (usually in the file <code>bind.keys</code>), that will automatically update itself. It looks something like this:
    <screen>managed-keys {
     . initial-key 257 3 8 "AwEAAagAIKlVZrpC6Ia7gEzahOR+9W29euxhJhVVLOyQbSEW0O8gcCjF
     FVQUTf6v58fLjwBd0YI0EzrAcQqBGCzh/RStIoO8g0NfnfL2MTJRkxoX
@@ -84,13 +84,13 @@
 };</screen>
   </para>
 
-  <para>You could, of course, decide to manage this key on your own by hand. First, you’ll need to make sure that your <command>dnssec-validation</command> is set to <command>yes</command>:
+  <para>You could, of course, decide to manage this key on your own by hand. First, you’ll need to make sure that your <code>dnssec-validation</code> is set to <code>yes</code>:
    <screen>options {
     dnssec-validation yes;
 };</screen>
   </para>
 
-  <para>Then make sure that you have the following <command>trust-keys</command> statement configured, after you download the root key manually from a trustworthy source. This installs the root DNSKEY. Whenever the root key changes, this file needs to be updated manually. Failing to do so will break nearly all DNS requests made to this server.
+  <para>Then make sure that you have the following <code>trust-keys</code> statement configured, after you download the root key manually from a trustworthy source. This installs the root DNSKEY. Whenever the root key changes, this file needs to be updated manually. Failing to do so will break nearly all DNS requests made to this server.
    <screen>trusted-keys {
     . 257 3 8 "AwEAAagAIKlVZrpC6Ia7gEzahOR+9W29euxhJhVVLOyQbSEW0O8gcCjF
     FVQUTf6v58fLjwBd0YI0EzrAcQqBGCzh/RStIoO8g0NfnfL2MTJRkxoX
@@ -102,7 +102,7 @@
 };</screen>
   </para>
 
-  <para>Looking back at the example in <xref linkend="how-trust-anchors-are-used"/>, if you wanted to explicitly trust <command>.gov</command> and only validate domain names under .gov, your <command>trusted-keys</command> statement would look something like this:
+  <para>Looking back at the example in <xref linkend="how-trust-anchors-are-used"/>, if you wanted to explicitly trust <code>.gov</code> and only validate domain names under .gov, your <code>trusted-keys</code> statement would look something like this:
    <screen>trusted-keys {
     gov. 257 3 8 “AQO8daaz7B+yshOfL60rytKd9aOSujgponEw3fwBMEC3
     /+e9XzHw2k+VKnbJTZ+QaVtpfUd1q9HKZIv/ck83Gl5T

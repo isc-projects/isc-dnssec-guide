@@ -5,7 +5,7 @@
  <!-- ====== Check BIND if DNSSEC-capable ====== --> 
  <section id="check-if-bind-is-dnssec-capable">
   <title>Check BIND if DNSSEC-capable</title>
-  <para>First of all, all versions of BIND9 supports DNSSEC. The BIND software you are running may already support DNSSEC as shipped. Run the command <command>named -V</command> to see what flags it was built with. If it was built with OpenSSL (<command>--with-openssl</command>), then it supports DNSSEC. Below is an example screenshot of running <command>named -V</command>:
+  <para>First of all, all versions of BIND9 supports DNSSEC. The BIND software you are running may already support DNSSEC as shipped. Run the code <code>named -V</code> to see what flags it was built with. If it was built with OpenSSL (<code>--with-openssl</code>), then it supports DNSSEC. Below is an example screenshot of running <code>named -V</code>:
   <screen>$ <userinput>/usr/sbin/named -V</userinput>
 BIND 9.8.4-rpz2+rl005.12-P1 built with '--prefix=/usr' '--mandir=/usr/share/man' '--infodir=/usr/share/info'
 '--sysconfdir=/etc/bind' '--localstatedir=/var' '--enable-threads' '--enable-largefile' '--with-libtool'
@@ -18,7 +18,7 @@ using libxml2 version: 2.8.0</screen></para>
  <!-- ====== Build BIND to be DNSSEC-capable ====== --> 
  <section id="build-bind-to-be-dnssec-capable">
   <title>Building BIND to be DNSSEC-capable</title>
-  <para>If the BIND9 software you have does not support DNSSEC, it may be necessary to rebuild it from source. At the very minimum, you need to use the <command>--with-openssl</command> switch:
+  <para>If the BIND9 software you have does not support DNSSEC, it may be necessary to rebuild it from source. At the very minimum, you need to use the <code>--with-openssl</code> switch:
   <screen>$ <userinput>./configure --with-openssl</userinput>
 $ <userinput>make</userinput>
 $ <userinput>make install</userinput></screen></para>
@@ -29,6 +29,6 @@ $ <userinput>make install</userinput></screen></para>
   <title>System Entropy</title>
   <para>If you plan on deploying DNSSEC to your authoritative server, you will need to generate some cryptographic keys. The amount of time it takes to generate the keys depends on the source of randomness, or entropy, on your systems, and on some systems it may take several hours to generate keys.</para>
 
-  <para>There are software packages, such as <command>haveged</command> for Linux, that provides additional entropy for your system. Once installed, it will significantly reduce the time needed to generate keys from hours down to seconds.</para>
+  <para>There are software packages, such as <code>haveged</code> for Linux, that provides additional entropy for your system. Once installed, it will significantly reduce the time needed to generate keys from hours down to seconds.</para>
  </section>
 </section>

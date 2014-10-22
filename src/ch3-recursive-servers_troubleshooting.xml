@@ -29,7 +29,7 @@
 ;; MSG SIZE  rcvd: 40</screen>
  </para>
 
- <para>With <command>delv</command>, a resolution failed message:
+ <para>With <code>delv</code>, a resolution failed message:
   <screen>$ <userinput>delv @192.168.1.11 www.isc.org. A +rtrace</userinput>
 ;; fetch: www.isc.org/A
 ;; <userinput>resolution failed: failure</userinput></screen>
@@ -175,7 +175,7 @@ named[18235]: loading configuration: failure</screen></para>
 ;; WHEN: Thu Oct 16 20:18:10 CST 2014
 ;; MSG SIZE  rcvd: 42</screen></para>
 
-  <para><command>delv</command> shows similar result:
+  <para><code>delv</code> shows similar result:
    <screen>$ delv @192.168.1.11 www.yahoo.com. +rtrace
 ;; fetch: www.yahoo.com/A
 ;; <userinput>resolution failed: failure</userinput></screen></para>

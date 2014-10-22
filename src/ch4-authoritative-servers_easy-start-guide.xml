@@ -2,7 +2,7 @@
  <title>Easy Start Guide for Authoritative Servers</title>
  <para>This section provides the minimum amount of information to setup a working DNSSEC-enabled authoritative server. An DNSSEC-enabled authoritative name server hosts additional resource records that validating resolvers can query and verify the authenticity of the answer set. To learn more about how validating resolvers work, please see <xref linkend="dnssec-recursive-servers" />.</para>
 
- <para>For our examples below, we will be working with the zone <command>example.com</command>. There are 4 steps to configure an authoritative name server:
+ <para>For our examples below, we will be working with the zone <code>example.com</code>. There are 4 steps to configure an authoritative name server:
   <orderedlist>
    <!-- #1 Reconfigure BIND -->
    <listitem>
@@ -26,7 +26,7 @@
  <!-- === #1 Reconfigure BIND === -->
  <section id="signing-easy-start-reconfigure-bind">
   <title>Reconfigure BIND</title>
-  <para>Below is a very short and simplified <command>named.conf</command>, in our example environment, this file is <command>/etc/bind/named.conf</command>. Make sure you have the lines that are in bold in your own configuration file:
+  <para>Below is a very short and simplified <code>named.conf</code>, in our example environment, this file is <code>/etc/bind/named.conf</code>. Make sure you have the lines that are in bold in your own configuration file:
 
    <screen>options {
     directory "/etc/bind";
@@ -56,9 +56,9 @@ Generating key pair...++++++ .............++++++
 Kexample.com.+008+57009
 # <userinput>dnssec-keygen -a RSASHA256 -b 2048 -3 -f KSK example.com</userinput>
 Generating key pair........................+++ ..................................+++ 
-<userinput>Kexample.com.+008+28267</userinput></screen></para>
+Kexample.com.+008+28267</screen></para>
 
-  <para>This generated 4 key files in <command>/etc/bind/keys</command>, the only one we care about for now is the KSK key, namely <command>Kexample.com.+008+28267.key</command>. It might be a good idea to create a symbolic link to help you remember which key is which:
+  <para>This generated 4 key files in <code>/etc/bind/keys</code>, the only one we care about for now is the KSK key, namely <code>Kexample.com.+008+28267.key</code>. It might be a good idea to create a symbolic link to help you remember which key is which:
    <screen># <userinput>ln -s Kexample.com.+008+28267.key ksk.key</userinput></screen></para>
  </section>
 
@@ -66,25 +66,25 @@ Generating key pair........................+++ .................................
  <!-- === #3 Sign Zone Data === -->
  <section id="signing-easy-start-sign-zone-data">
   <title>Sign Zone Data</title>
-  <para>Now we have keys, let’s sign the zone and generate those DNSSEC resource records! Run these two commands:
+  <para>Now we have keys, let’s sign the zone and generate those DNSSEC resource records! Run these two codes:
    <screen># <userinput>rndc loadkeys example.com</userinput>
-# <userinput>rndc signing -nsec3param 1 0 10 $(head -c 300 /dev/random | sha1sum | cut -b 1-16) example.com</userinput></screen></para>
+# <userinput>rndc signing -nsec3param 1 0 10 1234567890abcdef example.com</userinput></screen></para>
 
   <para>You’ll know these worked if you see the following syslog messages:
-   <screen>Oct 21 13:47:07 received control channel command 'loadkeys example.com'
+   <screen>Oct 21 13:47:07 received control channel code 'loadkeys example.com'
 Oct 21 13:47:07 zone example.com/IN (signed): reconfiguring zone keys
 Oct 21 13:47:07 zone example.com/IN (signed): next key event: 21-Oct-2014 14:47:07.131
 ……
-Oct 21 13:47:21 received control channel command 'signing -nsec3param 1 0 10 4f518f934eb7c445 example.com'
-Oct 21 13:47:21 zone example.com/IN (signed): zone_addnsec3chain(1,CREATE,10,4F518F934EB7C445)</screen></para>
+Oct 21 13:47:21 received control channel code 'signing -nsec3param 1 0 10 1234567890abcdef example.com'
+Oct 21 13:47:21 zone example.com/IN (signed): zone_addnsec3chain(1,CREATE,10,1234567890ABCDEF)</screen></para>
 
   <note>
-  <para>In our example above, we used a system random source to create a 16-character hex string, you can of course, manually enter a string like this:
-   <screen># rndc signing -nsec3param 1 0 10 <userinput>1234567890abcdef</userinput> example.com</screen></para></note>
-
-  <!-- TODO: jkuo Tue Oct 21 07:28:30 UTC 2014
-       Need to link to "NSEC or NSEC3" section when it is available. -->
-  <para>We will discuss more about what this means in the section “NSEC or NSEC3”.</para>
+     <!-- TODO: jkuo Tue Oct 21 07:28:30 UTC 2014
+          Need to link to "NSEC or NSEC3" section when it is available. -->
+   <para>In our example above, we used a not-very-random string 1234567890abcdef as the "salt", it is best that you use some random source to create it. Here is an example on Linux to create a 16-character hex string: 
+    <screen># <userinput>rndc signing -nsec3param 1 0 10 $(head -c 300 /dev/random | sha1sum | cut -b 1-16) example.com</userinput></screen>
+    We will discuss more about what this means in the section “NSEC or NSEC3”.</para>
+  </note>
  </section>
 
 
@@ -93,7 +93,7 @@ Oct 21 13:47:21 zone example.com/IN (signed): zone_addnsec3chain(1,CREATE,10,4F5
   <title>Upload to Parent Zone</title>
   <para>Everything is done on our local name server, all we need to generate some information to be uploaded to the parent zone. The formats and the upload methods are actually dictated by your parent zone’s administrator, so contact your registrar or parent zone administrator to find out what the actual format should be, and how to deliver or upload the information to your parent zone.</para>
 
-  <para>Below is an example of generating DS record format from the KSK, you can use the full name for your key (such as <command>Kexample.com.+008+28267.key</command>), or if you created a symbolic link with a more meaningful name, you can use that here too (<command>ksk.key</command>).
+  <para>Below is an example of generating DS record format from the KSK, you can use the full name for your key (such as <code>Kexample.com.+008+28267.key</code>), or if you created a symbolic link with a more meaningful name, you can use that here too (<code>ksk.key</code>).
    <screen># <userinput>cd /etc/bind/keys</userinput>
 # <userinput>dnssec-dsfromkey -a SHA-1 Kexample.com.+008+28267.key</userinput>
 example.com. IN DS 28267 8 1 66D47CE4B4F551BE5EDA43AC5F3109E8C98E2FAE
@@ -126,9 +126,9 @@ example.com. IN DS 28267 8 2 71D9335416B7132519190A95685E18CBF478DCF4CA988670627
   <title>So... What Now?</title>
   <para>Congratulations, your zone is signed, and parent zone has accepted your upload. Your zone is now officially DNSSEC-enabled. What happens now? Well, there are a few maintenance tasks you need to do on a regular basis, which you can find in <xref linkend="signing-maintenance-tasks"/>.</para>
 
-  <para>Other than that, you can edit the zone file as you normally would, and reload it using commands such as <command>rndc reload example.com</command>, and new DNSSEC resource records will automatically be created.</para>
+  <para>Other than that, you can edit the zone file as you normally would, and reload it using codes such as <code>rndc reload example.com</code>, and new DNSSEC resource records will automatically be created.</para>
 
-  <para>Curious as to what all these commands did to your zone file? Read on to <xref linkend="your-zone-file-before-and-after-dnssec" /> and find out.</para>
+  <para>Curious as to what all these codes did to your zone file? Read on to <xref linkend="your-zone-file-before-and-after-dnssec" /> and find out.</para>
  </section>
 
   <!-- === Your Zone File, Before and After DNSSEC === -->
@@ -165,7 +165,7 @@ example.com.		300 IN SOA ns1.example.com. dnsadmin.example.com. (
 ;; WHEN: Tue Oct 21 13:04:49 CST 2014
 ;; XFR size: 8 records (messages 1, bytes 222)</screen></para>
 
-  <para>One way to tell that your zone is signed, is to check its content for all the usual DNSSEC resource records, such as RRSIG and DNSKEY. Below shows the test zone <command>example.com</command> after we have signed its zone data. As you can see, the zone grew in size, and the number of records multiplied:
+  <para>One way to tell that your zone is signed, is to check its content for all the usual DNSSEC resource records, such as RRSIG and DNSKEY. Below shows the test zone <code>example.com</code> after we have signed its zone data. As you can see, the zone grew in size, and the number of records multiplied:
    <screen>$ <userinput>dig @192.168.1.13 example.com. +multiline AXFR</userinput>
 
 ; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.13 example.com. +multiline AXFR
