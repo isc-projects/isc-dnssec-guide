@@ -66,13 +66,11 @@ Kexample.com.+008+28267</screen></para>
  <!-- === #3 Sign Zone Data === -->
  <section id="signing-easy-start-sign-zone-data">
   <title>Sign Zone Data</title>
-  <para>Now we have keys, let’s sign the zone and generate those DNSSEC resource records! Run these two codes:
-   <screen># <userinput>rndc loadkeys example.com</userinput>
-# <userinput>rndc signing -nsec3param 1 0 10 1234567890abcdef example.com</userinput></screen></para>
+  <para>Now we have keys, let’s sign the zone and generate those DNSSEC resource records! Run the following command:
+   <screen># <userinput>rndc signing -nsec3param 1 0 10 1234567890abcdef example.com</userinput></screen></para>
 
   <para>You’ll know these worked if you see the following syslog messages:
-   <screen>Oct 21 13:47:07 received control channel code 'loadkeys example.com'
-Oct 21 13:47:07 zone example.com/IN (signed): reconfiguring zone keys
+   <screen>Oct 21 13:47:07 zone example.com/IN (signed): reconfiguring zone keys
 Oct 21 13:47:07 zone example.com/IN (signed): next key event: 21-Oct-2014 14:47:07.131
 ……
 Oct 21 13:47:21 received control channel code 'signing -nsec3param 1 0 10 1234567890abcdef example.com'
