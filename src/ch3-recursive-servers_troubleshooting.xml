@@ -40,7 +40,7 @@
  <!-- ====== BIND DNSSEC Debug Logging ====== -->
  <section id="bind-dnssec-debug-logging">
   <title>BIND DNSSEC Debug Logging</title>
-  <para>A word of caution: before you enable debug logging, be aware that this may dramatically increase the load on your production servers, depending on the traffic the servers are already experiencing.</para>
+  <para>A word of caution: before you enable debug logging, be aware that this may dramatically increase the load on your name servers.</para>
 
   <para>With that said, sometimes it may become necessary to enable BIND debug logging to see more details of how DNSSEC is validating (or not). DNSSEC-related messages are not recorded in syslog by default, even if query log is enabled, only DNSSEC errors will show up in syslog. Enabling debug logging is not recommended for production servers, as it increases load on the server.</para>
 
@@ -64,53 +64,53 @@
 };</screen></para>
 
   <para>After restarting BIND, a large number of log messages will appear in syslog. The example below shows the log messages as a result of successfully looking up and validating the domain name www.isc.org.
-<screen>dnssec: validating @0xb8012d88: . NS: starting
-dnssec: validating @0xb8012d88: . NS: attempting positive response validation
-dnssec: validating @0xb805a9b0: . DNSKEY: starting
-dnssec: validating @0xb805a9b0: . DNSKEY: attempting positive response validation
-dnssec: validating @0xb805a9b0: . DNSKEY: verify rdataset (keyid=19036): success
-dnssec: validating @0xb805a9b0: . DNSKEY: signed by trusted key; marking as secure
-dnssec: validator @0xb805a9b0: dns_validator_destroy
-dnssec: validating @0xb8012d88: . NS: in fetch_callback_validator
-dnssec: validating @0xb8012d88: . NS: keyset with trust 8
-dnssec: validating @0xb8012d88: . NS: resuming validate
-dnssec: validating @0xb8012d88: . NS: verify rdataset (keyid=8230): success
-dnssec: validating @0xb8012d88: . NS: marking as secure, noqname proof not needed
-dnssec: validator @0xb8012d88: dns_validator_destroy
-dnssec: validating @0xb8012d88: www.isc.org A: starting
-dnssec: validating @0xb8012d88: www.isc.org A: attempting positive response validation
-dnssec: validating @0xb805a9b0: isc.org DNSKEY: starting
-dnssec: validating @0xb805a9b0: isc.org DNSKEY: attempting positive response validation
-dnssec: validating @0xb827e298: isc.org DS: starting
-dnssec: validating @0xb827e298: isc.org DS: attempting positive response validation 
-dnssec: validating @0xb827fd18: org DNSKEY: starting
-dnssec: validating @0xb827fd18: org DNSKEY: attempting positive response validation 
-dnssec: validating @0xb8281798: . NS: starting
-dnssec: validating @0xb8281798: . NS: attempting positive response validation 
-dnssec: validating @0xb8281798: . NS: keyset with trust 8
-dnssec: validating @0xb8280790: org DS: starting
-dnssec: validating @0xb8280790: org DS: attempting positive response validation 
-dnssec: validating @0xb8280790: org DS: keyset with trust 8
-dnssec: validating @0xb8280790: org DS: verify rdataset (keyid=8230): success
-dnssec: validating @0xb8280790: org DS: marking as secure, noqname proof not needed
-dnssec: validator @0xb8280790: dns_validator_destroy
-dnssec: validating @0xb827fd18: org DNSKEY: in dsfetched
-dnssec: validating @0xb827fd18: org DNSKEY: dsset with trust 8
-dnssec: validating @0xb827fd18: org DNSKEY: verify rdataset (keyid=21366): success
-dnssec: validating @0xb827fd18: org DNSKEY: marking as secure (DS)
-dnssec: validator @0xb827fd18: dns_validator_destroy
-dnssec: validating @0xb827e298: isc.org DS: in fetch_callback_validator
-dnssec: validating @0xb827e298: isc.org DS: keyset with trust 8
-dnssec: validating @0xb827e298: isc.org DS: resuming validate
-dnssec: validating @0xb827e298: isc.org DS: verify rdataset (keyid=33287): success
-dnssec: validating @0xb827e298: isc.org DS: marking as secure, noqname proof not needed
-dnssec: validator @0xb827e298: dns_validator_destroy
-dnssec: validating @0xb805a9b0: isc.org DNSKEY: in dsfetched 
-dnssec: validating @0xb805a9b0: isc.org DNSKEY: dsset with trust 8
-dnssec: validating @0xb805a9b0: isc.org DNSKEY: verify rdataset (keyid=12892): success
-dnssec: validating @0xb805a9b0: isc.org DNSKEY: marking as secure (DS)
-dnssec: validator @0xb805a9b0: dns_validator_destroy
-dnssec: validating @0xb8012d88: www.isc.org A: in fetch_callback_validator</screen></para>
+<screen>validating @0xb8012d88: . NS: starting
+validating @0xb8012d88: . NS: attempting positive response validation
+validating @0xb805a9b0: . DNSKEY: starting
+validating @0xb805a9b0: . DNSKEY: attempting positive response validation
+validating @0xb805a9b0: . DNSKEY: verify rdataset (keyid=19036): success
+validating @0xb805a9b0: . DNSKEY: signed by trusted key; marking as secure
+validator @0xb805a9b0: dns_validator_destroy
+validating @0xb8012d88: . NS: in fetch_callback_validator
+validating @0xb8012d88: . NS: keyset with trust 8
+validating @0xb8012d88: . NS: resuming validate
+validating @0xb8012d88: . NS: verify rdataset (keyid=8230): success
+validating @0xb8012d88: . NS: marking as secure, noqname proof not needed
+validator @0xb8012d88: dns_validator_destroy
+validating @0xb8012d88: www.isc.org A: starting
+validating @0xb8012d88: www.isc.org A: attempting positive response validation
+validating @0xb805a9b0: isc.org DNSKEY: starting
+validating @0xb805a9b0: isc.org DNSKEY: attempting positive response validation
+validating @0xb827e298: isc.org DS: starting
+validating @0xb827e298: isc.org DS: attempting positive response validation 
+validating @0xb827fd18: org DNSKEY: starting
+validating @0xb827fd18: org DNSKEY: attempting positive response validation 
+validating @0xb8281798: . NS: starting
+validating @0xb8281798: . NS: attempting positive response validation 
+validating @0xb8281798: . NS: keyset with trust 8
+validating @0xb8280790: org DS: starting
+validating @0xb8280790: org DS: attempting positive response validation 
+validating @0xb8280790: org DS: keyset with trust 8
+validating @0xb8280790: org DS: verify rdataset (keyid=8230): success
+validating @0xb8280790: org DS: marking as secure, noqname proof not needed
+validator @0xb8280790: dns_validator_destroy
+validating @0xb827fd18: org DNSKEY: in dsfetched
+validating @0xb827fd18: org DNSKEY: dsset with trust 8
+validating @0xb827fd18: org DNSKEY: verify rdataset (keyid=21366): success
+validating @0xb827fd18: org DNSKEY: marking as secure (DS)
+validator @0xb827fd18: dns_validator_destroy
+validating @0xb827e298: isc.org DS: in fetch_callback_validator
+validating @0xb827e298: isc.org DS: keyset with trust 8
+validating @0xb827e298: isc.org DS: resuming validate
+validating @0xb827e298: isc.org DS: verify rdataset (keyid=33287): success
+validating @0xb827e298: isc.org DS: marking as secure, noqname proof not needed
+validator @0xb827e298: dns_validator_destroy
+validating @0xb805a9b0: isc.org DNSKEY: in dsfetched 
+validating @0xb805a9b0: isc.org DNSKEY: dsset with trust 8
+validating @0xb805a9b0: isc.org DNSKEY: verify rdataset (keyid=12892): success
+validating @0xb805a9b0: isc.org DNSKEY: marking as secure (DS)
+validator @0xb805a9b0: dns_validator_destroy
+validating @0xb8012d88: www.isc.org A: in fetch_callback_validator</screen></para>
  </section>
 
  <!-- ====== Incorrect Time ====== -->
@@ -120,18 +120,18 @@ dnssec: validating @0xb8012d88: www.isc.org A: in fetch_callback_validator</scre
 
   <para>First, the example below shows the log messages when the RRSIG has expired. This could mean the validating resolver system time is incorrectly set too far in the future, or the zone administrator has not kept up with RRSIG maintenance.
    <screen>dnssec: validating @0xb7b839b0: . DNSKEY: starting
-dnssec: validating @0xb7b839b0: . DNSKEY: attempting positive response validation
-dnssec: validating @0xb7b839b0: . DNSKEY: <userinput>verify failed due to bad signature (keyid=19036): RRSIG has expired</userinput>
-dnssec: validating @0xb7b839b0: . DNSKEY: unable to find a DNSKEY which verifies the DNSKEY RRset and also matches a trusted key for '.'
-dnssec: validating @0xb7b839b0: . DNSKEY: please check the 'trusted-keys' for '.' in named.conf.
-dnssec: validator @0xb7b839b0: dns_validator_destroy</screen></para>
+validating @0xb7b839b0: . DNSKEY: attempting positive response validation
+validating @0xb7b839b0: . DNSKEY: <userinput>verify failed due to bad signature (keyid=19036): RRSIG has expired</userinput>
+validating @0xb7b839b0: . DNSKEY: unable to find a DNSKEY which verifies the DNSKEY RRset and also matches a trusted key for '.'
+validating @0xb7b839b0: . DNSKEY: please check the 'trusted-keys' for '.' in named.conf.
+validator @0xb7b839b0: dns_validator_destroy</screen></para>
 
   <para>The logs below show RRSIG validity period has not begun. This could mean validation resolver system is incorrectly set too far in the past, or the zone administrator has incorrectly generated signatures for this domain name.
    <screen>dnssec: validating @0xb7c1bd88: www.isc.org A: starting
-dnssec: validating @0xb7c1bd88: www.isc.org A: attempting positive response validation
-dnssec: validating @0xb7c1bd88: www.isc.org A: keyset with trust 8
-dnssec: validating @0xb7c1bd88: www.isc.org A: <userinput>verify failed due to bad signature (keyid=4521): RRSIG validity period has not begun</userinput>
-dnssec: validating @0xb7c1bd88: www.isc.org A: failed to verify rdataset</screen></para>
+validating @0xb7c1bd88: www.isc.org A: attempting positive response validation
+validating @0xb7c1bd88: www.isc.org A: keyset with trust 8
+validating @0xb7c1bd88: www.isc.org A: <userinput>verify failed due to bad signature (keyid=4521): RRSIG validity period has not begun</userinput>
+validating @0xb7c1bd88: www.isc.org A: failed to verify rdataset</screen></para>
 
 <!-- TODO: jkuo Wed Oct 15 02:32:10 UTC 2014
 The section "Resource Record Signatures: RRSIG" does not exist yet, 
