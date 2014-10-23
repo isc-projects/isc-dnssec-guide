@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+<!ENTITY mdash  "&#x2014;" >
+]>
+
+<!-- jkuo Thu Oct 23 13:36:48 UTC 2014
+Some information in this chapter is taken from the following sources:
+ - NIST SP800-81-2
+ - https://kb.isc.org/article/AA-00626 Evan Hunt
+-->
+
+<chapter id="dnssec-advanced-discussions">
+ <title>Advanced Discussions</title>
+  <!-- === Do I need a ZSK and KSK? === -->
+  <section id="do-i-need-zsk-and-ksk">
+   <title>Do I Need a ZSK and KSK?</title>
+  </section>
+
+  <!-- === Can I Use the Same Key for Multiple Zones? === -->
+  <section id="same-key-for-multiple-zones">
+   <title>Can I Use the Same Key for Multiple Zones?</title>
+  </section>
+
+  <!-- === Which Algorithem? === -->
+  <section id="which-algorithm">
+   <title>Which Algorithm?</title>
+  </section>
+
+  <!-- === Key Sizes === -->
+  <section id="key-sizes">
+   <title>Key Sizes</title>
+  </section>
+
+  <!-- === NSEC vs NSEC3 === -->
+  <section id="nsec-or-nsec3">
+   <title>NSEC or NSEC3?</title>
+  </section>
+
+  <!-- === Optout - Pros and Cons === -->
+  <section id="optout">
+   <title>Optout - Pros and Cons</title>
+  </section>
+
+  <!-- === Salt - Pros and Cons === -->
+  <section id="salt">
+   <title>Salt - Pros and Cons</title>
+  </section>
+
+  <!-- === Private Key Storage === -->
+  <section id="private-key-storage">
+   <title>Private Key Storage</title>
+  </section>
+
+  <!-- === HSMs === -->
+  <section id="hardware-security-modules">
+   <title>Hardware Security Modules (HSM)</title>
+  </section>
+
+  <!-- === Key Rollovers === -->
+  <section id="key-rollovers">
+   <title>Key Rollovers</title>
+  </section>
+
+  <!-- === Key Management and Meta Data === -->
+  <section id="keymanagement-and-meta-data">
+   <title>Key Management and Meta Data</title>
+  </section>
+
+  <!-- === DNSSEC and Dynamic Updates === -->
+  <section id="dnssec-and-dynamic-updates">
+   <title>DNSSEC and Dynamic Updates</title>
+  </section>
+
+  <!-- === DNSSEC and Inline Signing === -->
+  <section id="dnssec-and-inline-signing">
+   <title>DNSSEC and Inline Signing</title>
+  </section>
+
+  <!-- === DNSSEC Look-aside Validation === -->
+  <section id="dlv">
+   <title>DNSSEC Look-aside Validation (DLV)</title>
+  </section>
+
+  <!-- === DNSSEC on Private Networks === -->
+  <section id="dnssec-on-private-networks">
+   <title>DNSSEC on Private Networks</title>
+  </section>
+
+  <!-- === Intro to DANE === -->
+  <section id="intro-to-dane">
+   <title>Introduction to DANE</title>
+  </section>
+
+  <!-- === Disadvantages of DNSSEC === -->
+  <section id="disadvantages-of-dnssec">
+   <title>Disadvantages of DNSSEC</title>
+  </section>
+</chapter>
