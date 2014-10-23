@@ -8,15 +8,15 @@
   <orderedlist>
    <!-- #1 -->
    <listitem>
-    <para>Versign Labs DNSSEC Debugger: <ulink url="http://dnssec-debugger.verisignlabs.com/" /></para>
+    <simpara>Versign Labs DNSSEC Debugger: <ulink url="http://dnssec-debugger.verisignlabs.com/" /></simpara>
    </listitem>
    <!-- #2 -->
    <listitem>
-    <para>DNSViz: <ulink url="http://dnsviz.net/" /></para>
+    <simpara>DNSViz: <ulink url="http://dnsviz.net/" /></simpara>
    </listitem>
    <!-- #3 -->
    <listitem>
-    <para>Sec Spider: <ulink url="http://secspider.cs.ucla.edu/" /></para>
+    <simpara>Sec Spider: <ulink url="http://secspider.cs.ucla.edu/" /></simpara>
    </listitem>
   </orderedlist></para>
 
