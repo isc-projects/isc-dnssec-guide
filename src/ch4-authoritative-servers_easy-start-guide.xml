@@ -101,17 +101,17 @@ example.com. IN DS 28267 8 2 71D9335416B7132519190A95685E18CBF478DCF4CA988670627
    <orderedlist>
     <!-- #1 DS Record -->
     <listitem>
-     <screen>example.com. IN DS 28267 8 1 66D47CE4B4F551BE5EDA43AC5F3109E8C98E2FAE</screen>
+     <simpara><code>example.com. IN DS 28267 8 1 66D47CE4B4F551BE5EDA43AC5F3109E8C98E2FAE</code></simpara>
     </listitem>
 
     <!-- #2 DNSKEY -->
     <listitem>
-     <screen>example.com. 172800 IN DNSKEY 257 3 8 (AwEAAbGOPf...U9AX2QHMY8=) ; key id = 28267</screen>
+     <simpara><code>example.com. 172800 IN DNSKEY 257 3 8 (AwEAAbGOPf...U9AX2QHMY8=) ; key id = 28267</code></simpara>
     </listitem>
 
     <!-- #3 trust-key -->
     <listitem>
-     <screen>"example.com." 257 3 8 "AwEAAbGOPf...U9AX2QHMY8=";</screen>
+     <simpara><code>"example.com." 257 3 8 "AwEAAbGOPf...U9AX2QHMY8=";</code></simpara>
     </listitem>
    </orderedlist>
   </para>
