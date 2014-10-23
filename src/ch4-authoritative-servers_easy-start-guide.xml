@@ -49,7 +49,7 @@ zone "example.com" IN {
  <!-- === #2 Generate Keys === -->
  <section id="signing-easy-start-generate-keys">
   <title>Generate Keys</title>
-  <para>Now that we have defined where keys will be stored, let’s go there and generate some keys. Refer to the section “System Entropy” for information on how you could speed this process up by increasing the randomness available to your system.
+  <para>Now that we have defined where keys will be stored, let’s go there and generate some keys. Refer to <xref linkend="system-entropy" /> for information on how you could speed this process up by increasing the randomness available to your system.
    <screen># <userinput>cd /etc/bind/keys</userinput>
 # <userinput>dnssec-keygen -a RSASHA256 -b 1024 -3 example.com</userinput>
 Generating key pair...++++++ .............++++++ 
@@ -58,8 +58,7 @@ Kexample.com.+008+57009
 Generating key pair........................+++ ..................................+++ 
 Kexample.com.+008+28267</screen></para>
 
-  <para>This generated 4 key files in <code>/etc/bind/keys</code>, the only one we care about for now is the KSK key, namely <code>Kexample.com.+008+28267.key</code>. It might be a good idea to create a symbolic link to help you remember which key is which:
-   <screen># <userinput>ln -s Kexample.com.+008+28267.key ksk.key</userinput></screen></para>
+  <para>This generated 4 key files in <code>/etc/bind/keys</code>, the only one we care about for now is the KSK key, namely <code>Kexample.com.+008+28267.key</code>. Remember this file name, we will be need it again shortly.</para>
  </section>
 
 
@@ -126,7 +125,7 @@ example.com. IN DS 28267 8 2 71D9335416B7132519190A95685E18CBF478DCF4CA988670627
 
   <para>Other than that, you can edit the zone file as you normally would, and reload it using codes such as <code>rndc reload example.com</code>, and new DNSSEC resource records will automatically be created.</para>
 
-  <para>Curious as to what all these codes did to your zone file? Read on to <xref linkend="your-zone-file-before-and-after-dnssec" /> and find out.</para>
+  <para>Curious as to what all these commands did to your zone file? Read on to <xref linkend="your-zone-file-before-and-after-dnssec" /> and find out.</para>
  </section>
 
   <!-- === Your Zone File, Before and After DNSSEC === -->
@@ -163,7 +162,7 @@ example.com.		300 IN SOA ns1.example.com. dnsadmin.example.com. (
 ;; WHEN: Tue Oct 21 13:04:49 CST 2014
 ;; XFR size: 8 records (messages 1, bytes 222)</screen></para>
 
-  <para>One way to tell that your zone is signed, is to check its content for all the usual DNSSEC resource records, such as RRSIG and DNSKEY. Below shows the test zone <code>example.com</code> after we have signed its zone data. As you can see, the zone grew in size, and the number of records multiplied:
+  <para>Below shows the test zone <code>example.com</code> after we have signed its zone data. As you can see, the zone grew in size, and the number of records multiplied:
    <screen>$ <userinput>dig @192.168.1.13 example.com. +multiline AXFR</userinput>
 
 ; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.13 example.com. +multiline AXFR
