@@ -25,6 +25,19 @@ Some information in this chapter is taken from the following sources:
   <!-- === Which Algorithem? === -->
   <section id="which-algorithm">
    <title>Which Algorithm?</title>
+   <para><emphasis>Eeny, meeny, miny, moe</emphasis></para>
+   <para><emphasis>Which Algorithm Should I Encode?</emphasis></para>
+
+   <para>There are at least three algorithm choices for DNSSEC as of this writing:
+    <itemizedlist>
+     <listitem><simpara>RSA</simpara></listitem>
+     <listitem><simpara>Digital Signature Algorithm (DSA)</simpara></listitem>
+     <listitem><simpara>Elliptic Curve DSA (ECDSA)</simpara></listitem>
+    </itemizedlist></para>
+
+   <para>RSA is the only one that is mandated to be implemented with DNSSEC, and is currently the most widely supported algorithm by both name servers and clients. So for the near future, RSA is the algorithm to use.</para>
+
+   <para>However, RSA is a little long in the tooth, and ECDSA is emerging as the next new crypto standard. In fact, the US federal government has recommended to stop using RSA by September 2015, and migrate to using ECDSA (or similar).</para>
   </section>
 
   <!-- === Key Sizes === -->
