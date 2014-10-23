@@ -10,15 +10,41 @@
    <orderedlist>
     <!-- #1 -->
     <listitem>
-     <para><ulink url="http://dnssec-debugger.verisignlabs.com/" /></para>
-      <imagedata fileref="../img/verisign-dnssec-debugger-example.png" />
+     <para>Versign Labs DNSSEC Debugger: <ulink url="http://dnssec-debugger.verisignlabs.com/" /></para>
     </listitem>
     <!-- #2 -->
     <listitem>
-     <para><ulink url="http://dnsviz.net/" /></para>
-      <imagedata fileref="../img/dnsviz-example-small.png" />
+     <para>DNSViz: <ulink url="http://dnsviz.net/" /></para>
+    </listitem>
+    <!-- #3 -->
+    <listitem>
+     <para>Sec Spider: <ulink url="http://secspider.cs.ucla.edu/" /></para>
     </listitem>
    </orderedlist></para>
+
+   <!-- ====== Versign DNSSEC Debugger ====== -->
+   <section id="external-tools-dnssec-debugger">
+    <title>Versign DNSSEC Debugger</title>
+     <para>URL: <ulink url="http://dnssec-debugger.verisignlabs.com/" /></para>
+     <para>This tool shows a nice summary of checks performed on your domain name, and you can expand to view more details for each of the items checked to get a detailed report.</para>
+     <imagedata fileref="../img/verisign-dnssec-debugger-example.png" />
+   </section>
+
+   <!-- ====== DNSViz ====== -->
+   <section id="external-tools-dnsviz">
+    <title>DNSViz</title>
+    <para>URL: <ulink url="http://dnsviz.net/" /></para>
+    <para>DNSViz provides a visual analysis of the DNSSEC authentication chain for a domain name and its resolution path in the DNS namespace.</para>
+    <imagedata fileref="../img/dnsviz-example-small.png" />
+   </section>
+
+   <!-- ====== Sec Spider ====== -->
+   <section id="external-tools-secspider">
+    <title>Sec Spider</title>
+    <para>URL: <ulink url="http://secspider.cs.ucla.edu/" /></para>
+    <para>Similar to DNSViz, with the added bonus of letting users move elements on the diagram.</para>
+    <imagedata fileref="../img/secspider-example-small.png" />
+   </section>
  </section>
 
  <!-- === Use dig -->
