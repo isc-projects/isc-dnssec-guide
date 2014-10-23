@@ -4,24 +4,30 @@
 <!ENTITY mdash  "&#x2014;" >
 ]>
 
-  <chapter id="dnssec-authoritative-servers">
-   <title>Authoritative Servers: Signing</title>
-    <!-- === Easy Start Guide for Authoritative Servers === -->
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch4-authoritative-servers_easy-start-guide.xml" />
+<!-- jkuo Thu Oct 23 12:29:22 UTC 2014
+Some information for this chapter were taken from the following
+articles owned by ISC:
+ - https://kb.isc.org/article/AA-00626 Evan Hunt
+ - https://kb.isc.org/article/AA-00711 Michael McNally
+-->
 
-    <!-- === How to Test Authoritative Servers === -->
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch4-authoritative-servers_how-to-verify.xml" />
+<chapter id="dnssec-authoritative-servers">
+ <title>Authoritative Servers: Signing</title>
+  <!-- === Easy Start Guide for Authoritative Servers === -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch4-authoritative-servers_easy-start-guide.xml" />
 
-    <!-- === Signing Easy Start Explained === -->
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch4-authoritative-servers_easy-start-explained.xml" />
+  <!-- === How to Test Authoritative Servers === -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch4-authoritative-servers_how-to-verify.xml" />
 
-    <!-- === Working with Parent Zone === -->
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch4-authoritative-servers_parent-zone.xml" />
+  <!-- === Signing Easy Start Explained === -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch4-authoritative-servers_easy-start-explained.xml" />
 
-    <!-- === Maintenance Tasks === -->
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch4-authoritative-servers_maintenance-tasks.xml" />
+  <!-- === Working with Parent Zone === -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch4-authoritative-servers_parent-zone.xml" />
+
+  <!-- === Maintenance Tasks === -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch4-authoritative-servers_maintenance-tasks.xml" />
     
-    <!-- === Signing Basic Troubleshooting === -->
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch4-authoritative-servers_troubleshooting.xml" />
-
-  </chapter>
+  <!-- === Signing Basic Troubleshooting === -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch4-authoritative-servers_troubleshooting.xml" />
+</chapter>
