@@ -13,7 +13,7 @@ BIND 9.8.4-rpz2+rl005.12-P1 built with '--prefix=/usr' '--mandir=/usr/share/man'
 '--enable-ipv6' 'CFLAGS=-fno-strict-aliasing -DDIG_SIGCHASE -O2'
 using OpenSSL version: OpenSSL 1.0.1e 11 Feb 2013
 using libxml2 version: 2.8.0</screen></para>
-  <para>If the BIND9 software you have does not support DNSSEC, it may be necessary to rebuild it from source. At the very minimum, you need to use the <code>--with-openssl</code> switch during configuration.</para>
+  <para>If the BIND9 software you have does not support DNSSEC, it may be necessary to rebuild it from source or upgrade to a newer version.</para>
  </section>
 
  <!-- ====== System Entropy ====== --> 
