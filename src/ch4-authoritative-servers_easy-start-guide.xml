@@ -85,33 +85,27 @@ Oct 21 13:47:21 zone example.com/IN (signed): zone_addnsec3chain(1,CREATE,10,123
  <!-- === #4 Upload to Parent Zone === -->
  <section id="signing-easy-start-upload-to-parent-zone">
   <title>Upload to Parent Zone</title>
-  <para>Everything is done on our local name server, all we need to generate some information to be uploaded to the parent zone. The formats and the upload methods are actually dictated by your parent zone’s administrator, so contact your registrar or parent zone administrator to find out what the actual format should be, and how to deliver or upload the information to your parent zone.</para>
+  <para>Everything is done on our local name server, now we need to generate some information to be uploaded to the parent zone to complete the chain of trust.The formats and the upload methods are actually dictated by your parent zone’s administrator, so contact your registrar or parent zone administrator to find out what the actual format should be, and how to deliver or upload the information to your parent zone.</para>
 
-  <para>Below is an example of generating DS record format from the KSK, you can use the full name for your key (such as <code>Kexample.com.+008+28267.key</code>), or if you created a symbolic link with a more meaningful name, you can use that here too (<code>ksk.key</code>).
-   <screen># <userinput>cd /etc/bind/keys</userinput>
-# <userinput>dnssec-dsfromkey -a SHA-1 Kexample.com.+008+28267.key</userinput>
-example.com. IN DS 28267 8 1 66D47CE4B4F551BE5EDA43AC5F3109E8C98E2FAE
-# <userinput>dnssec-dsfromkey -a SHA-256 ksk.key</userinput>
-example.com. IN DS 28267 8 2 71D9335416B7132519190A95685E18CBF478DCF4CA98867062777938F8FEAB89</screen></para>
-
-  <para>Here are some examples of what you may upload to your parent zone. Again, contact your parent zone administrator(s) to find out what is the correct format for your zone:
+  <para>Here are some examples of what you may upload to your parent zone. Again, contact your parent zone administrator(s) to find out what is the correct format for you:
    <orderedlist>
     <!-- #1 DS Record -->
     <listitem>
-     <simpara><code>example.com. IN DS 28267 8 1 66D47CE4B4F551BE5EDA43AC5F3109E8C98E2FAE</code></simpara>
+     <simpara>DS Record Format: <code>example.com. IN DS 28267 8 1 66D47CE4B4F551BE5EDA43AC5F3109E8C98E2FAE</code></simpara>
     </listitem>
 
     <!-- #2 DNSKEY -->
     <listitem>
-     <simpara><code>example.com. 172800 IN DNSKEY 257 3 8 (AwEAAbGOPf...U9AX2QHMY8=) ; key id = 28267</code></simpara>
+     <simpara>DNSKEY Format: <code>example.com. 172800 IN DNSKEY 257 3 8 (AwEAAbGOPf...U9AX2QHMY8=) ; key id = 28267</code></simpara>
     </listitem>
 
     <!-- #3 trust-key -->
     <listitem>
-     <simpara><code>"example.com." 257 3 8 "AwEAAbGOPf...U9AX2QHMY8=";</code></simpara>
+     <simpara>Trusted Key Format: <code>"example.com." 257 3 8 "AwEAAbGOPf...U9AX2QHMY8=";</code></simpara>
     </listitem>
-   </orderedlist>
-  </para>
+   </orderedlist></para>
+
+  <para>For more details and examples on how to work with your parent zone, please see <xref linkend="working-with-parent-zone" /></para>
  </section>
 
 
