@@ -1,8 +1,9 @@
 <section id="easy-start-guide-for-authoritative-servers">
  <title>Easy Start Guide for Authoritative Servers</title>
- <para>This section provides the minimum amount of information to setup a working DNSSEC-enabled authoritative server. An DNSSEC-enabled authoritative name server hosts additional resource records that validating resolvers can query and verify the authenticity of the answer set. To learn more about how validating resolvers work, please see <xref linkend="dnssec-recursive-servers" />.</para>
+ <para>
+ This section provides the minimum amount of information to setup a working DNSSEC-enabled authoritative name server. A DNSSEC-enabled zone (or "signed" zone) contains additional resource records that are used to verify the authenticity of its zone information. To learn more about DNSSEC resource records, please see <xref linkend="what-does-dnssec-add-to-dns" />.</para>
 
- <para>For our examples below, we will be working with the zone <code>example.com</code>. There are 4 steps to configure an authoritative name server:
+ <para>For our examples below, we will be working with the zone <code>example.com</code>. There are four steps to configure an authoritative name server:
   <orderedlist>
    <!-- #1 Reconfigure BIND -->
    <listitem>
