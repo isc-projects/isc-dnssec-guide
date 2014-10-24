@@ -38,7 +38,7 @@
 zone "example.com" IN {
     type master;
     file "example.com.db";
-    <userinput>key-directory "/etc/bind/keys";
+    <userinput>key-directory "/etc/bind/keys/example.com";
     inline-signing yes;
     auto-dnssec maintain;</userinput>
     allow-transfer { 192.168.1.0/24; };
@@ -50,7 +50,7 @@ zone "example.com" IN {
  <section id="signing-easy-start-generate-keys">
   <title>Generate Keys</title>
   <para>Now that we have defined where keys will be stored, let’s go there and generate some keys. Refer to <xref linkend="system-entropy" /> for information on how you could speed this process up by increasing the randomness available to your system.
-   <screen># <userinput>cd /etc/bind/keys</userinput>
+   <screen># <userinput>cd /etc/bind/keys/example.com</userinput>
 # <userinput>dnssec-keygen -a RSASHA256 -b 1024 -3 example.com</userinput>
 Generating key pair...++++++ .............++++++ 
 Kexample.com.+008+57009
@@ -58,7 +58,7 @@ Kexample.com.+008+57009
 Generating key pair........................+++ ..................................+++ 
 Kexample.com.+008+28267</screen></para>
 
-  <para>This generated four key files in <code>/etc/bind/keys</code>, the only one we care about for now is the KSK key, namely <code>Kexample.com.+008+28267.key</code>. Remember this file name, we will be need it again shortly.</para>
+  <para>This generated four key files in <code>/etc/bind/keys/example.com</code>, the only one we care about for now is the KSK key, namely <code>Kexample.com.+008+28267.key</code>. Remember this file name, we will be need it again shortly.</para>
  </section>
 
 
