@@ -21,6 +21,11 @@ body {
 	-webkit-border-radius: 10px;
 }
 
+.quote {
+    font-style: italic;
+    font-size: 14px;
+}
+
 .screen {
 	background-color: #ffffee;
 	border: 1px solid #ddddaa;

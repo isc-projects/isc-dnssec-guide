@@ -25,8 +25,7 @@ Some information in this chapter is taken from the following sources:
   <!-- === Which Algorithem? === -->
   <section id="which-algorithm">
    <title>Which Algorithm?</title>
-   <para><emphasis>Eeny, meeny, miny, moe</emphasis></para>
-   <para><emphasis>Which Algorithm Should I Encode?</emphasis></para>
+   <para><quote>Eeny, Meey, Miny, Mo.  Which Algorithm Should I Encode?</quote></para>
 
    <para>There are at least three algorithm choices for DNSSEC as of this writing:
     <itemizedlist>
