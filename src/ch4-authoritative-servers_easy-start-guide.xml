@@ -26,12 +26,11 @@
  <!-- === #1 Reconfigure BIND === -->
  <section id="signing-easy-start-reconfigure-bind">
   <title>Reconfigure BIND</title>
-  <para>Below is a very short and simplified <code>named.conf</code>, in our example environment, this file is <code>/etc/bind/named.conf</code>. Make sure you have the lines that are in bold in your own configuration file:
-
+  <para>Below is a very simple <code>named.conf</code>, in our example environment, this file is <code>/etc/bind/named.conf</code>.
    <screen>options {
+    dnssec-enable yes;
     directory "/etc/bind";
-    <userinput>key-directory "/etc/bind/keys";</userinput>
-    <userinput>dnssec-enable yes;</userinput>
+    key-directory "/etc/bind/keys";
     allow-recursion { none; };
     minimal-responses yes;
 };
@@ -39,8 +38,8 @@
 zone "example.com" IN {
     type master;
     file "/etc/bind/db/example.com.db";
-    <userinput>auto-dnssec maintain;</userinput>
-    <userinput>inline-signing yes;</userinput>
+    inline-signing yes;
+    auto-dnssec maintain;
     allow-transfer { 192.168.1.0/24; };
 };</screen></para>
  </section>
@@ -58,7 +57,7 @@ Kexample.com.+008+57009
 Generating key pair........................+++ ..................................+++ 
 Kexample.com.+008+28267</screen></para>
 
-  <para>This generated 4 key files in <code>/etc/bind/keys</code>, the only one we care about for now is the KSK key, namely <code>Kexample.com.+008+28267.key</code>. Remember this file name, we will be need it again shortly.</para>
+  <para>This generated four key files in <code>/etc/bind/keys</code>, the only one we care about for now is the KSK key, namely <code>Kexample.com.+008+28267.key</code>. Remember this file name, we will be need it again shortly.</para>
  </section>
 
 
@@ -76,11 +75,9 @@ Oct 21 13:47:21 received control channel code 'signing -nsec3param 1 0 10 123456
 Oct 21 13:47:21 zone example.com/IN (signed): zone_addnsec3chain(1,CREATE,10,1234567890ABCDEF)</screen></para>
 
   <note>
-     <!-- TODO: jkuo Tue Oct 21 07:28:30 UTC 2014
-          Need to link to "NSEC or NSEC3" section when it is available. -->
    <para>In our example above, we used a not-very-random string 1234567890abcdef as the "salt", it is best that you use some random source to create it. Here is an example on Linux to create a 16-character hex string: 
     <screen># <userinput>rndc signing -nsec3param 1 0 10 $(head -c 300 /dev/random | sha1sum | cut -b 1-16) example.com</userinput></screen>
-    We will discuss more about what this means in the section “NSEC or NSEC3”.</para>
+    We will discuss more about what this means in <xref linkend="nsec-or-nsec3" />.</para>
   </note>
  </section>
 
