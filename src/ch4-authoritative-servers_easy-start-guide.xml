@@ -26,20 +26,20 @@
  <!-- === #1 Reconfigure BIND === -->
  <section id="signing-easy-start-reconfigure-bind">
   <title>Reconfigure BIND</title>
-  <para>Below is a very simple <code>named.conf</code>, in our example environment, this file is <code>/etc/bind/named.conf</code>.
+  <para>Below is a very simple <code>named.conf</code>, in our example environment, this file is <code>/etc/bind/named.conf</code>. The lines you most likely need to add are in bold.
    <screen>options {
-    dnssec-enable yes;
+    <userinput>dnssec-enable yes;</userinput>
     directory "/etc/bind";
-    key-directory "/etc/bind/keys";
     allow-recursion { none; };
     minimal-responses yes;
 };
 
 zone "example.com" IN {
     type master;
-    file "/etc/bind/db/example.com.db";
+    file "example.com.db";
+    <userinput>key-directory "/etc/bind/keys";
     inline-signing yes;
-    auto-dnssec maintain;
+    auto-dnssec maintain;</userinput>
     allow-transfer { 192.168.1.0/24; };
 };</screen></para>
  </section>

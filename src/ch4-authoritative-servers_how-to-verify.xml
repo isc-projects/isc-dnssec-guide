@@ -5,7 +5,7 @@
  <!-- === Look for Key Data in Your Zone === -->
  <section id="signing-verify-key-data">
   <title>Look for Key Data in Your Zone</title>
-  <para>One of the ways to see if your zone is signed, is to check for the presence of DNSKEY record types. In our example, we created 2 keys, and we expect to see both keys returned when we query for them.
+  <para>One of the ways to see if your zone is signed, is to check for the presence of DNSKEY record types. In our example, we created two keys, and we expect to see both keys returned when we query for them.
    <screen>$ <userinput>dig @192.168.1.13 example.com. DNSKEY +multiline +noall +answer</userinput>
 
 ; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.13 example.com. DNSKEY +multiline +noall +answer
