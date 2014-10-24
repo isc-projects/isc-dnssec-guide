@@ -3,7 +3,7 @@
 
  <!-- ====== Overview ====== -->
  <section id="whats-edns0-all-about-overview">
-  <title>Overview</title>
+  <title>EDNS Overview</title>
 
   <para>Traditional DNS queries are typically small in size, that fits nicely into a single UDP packet (less than 512 bytes). Extension Mechanisms for DNS (EDNS, or EDNS(0)) gives us a mechanism to send DNS data in multiple larger packets over UDP. In order to support EDNS, both the DNS server and the network need to be properly prepared to support the larger packet size and multiple fragments.</para>
 
@@ -62,11 +62,10 @@ www.isc.org.		23 IN RRSIG A 5 3 60 (
  </section>
 
  <!-- ====== Wait... DNS uses TCP? ====== -->
- <!-- TODO: Finish this section -->
  <section id="dns-uses-tcp">
-  <title>Wait... DNS uses TCP?</title>
-  <para> Yes. DNS uses TCP 53 as a fallback, when it cannot use UDP to transmit data. This has always been the case even way before DNSSEC arrived on the scene. Traditional DNS relies on TCP 53 for operations such as zone transfer. The use of DNSSEC (and DNS over IPv6) increases the chance that DNS data will be transmitted on TCP.</para>
+  <title>Wait... DNS Uses TCP?</title>
+  <para> Yes. DNS uses TCP port 53 as a fallback mechanism, when it cannot use UDP to transmit data. This has always been the case even way before DNSSEC arrived on the scene. Traditional DNS relies on TCP 53 for operations such as zone transfer. The use of DNSSEC (and DNS over IPv6) increases the chance that DNS data will be transmitted on TCP.</para>
 
-  <para>If your network is blocking TCP port 53 today, you may already experience instability with DNS resolution before deploying DNSSEC.</para>
+  <para>If your network gears are blocking or filtering TCP port 53 today, you may already experience instability with DNS resolution before deploying DNSSEC.</para>
  </section>
 </section>
