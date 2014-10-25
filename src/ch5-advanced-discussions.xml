@@ -12,73 +12,25 @@ Some information in this chapter is taken from the following sources:
 
 <chapter id="dnssec-advanced-discussions">
  <title>Advanced Discussions</title>
-  <!-- === Do I need a ZSK and KSK? === -->
-  <section id="do-i-need-zsk-and-ksk">
-   <title>Do I Need a ZSK and KSK?</title>
-  </section>
 
-  <!-- === Can I Use the Same Key for Multiple Zones? === -->
-  <section id="same-key-for-multiple-zones">
-   <title>Can I Use the Same Key for Multiple Zones?</title>
-  </section>
+  <!-- === Key Generation === -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch5-advanced-discussions_key-generation.xml" />
 
-  <!-- === Which Algorithem? === -->
-  <section id="which-algorithm">
-   <title>Which Algorithm?</title>
-   <para><quote>Eeny, Meey, Miny, Mo.  Which Algorithm Should I Encode?</quote></para>
+  <!-- === NSEC or NSEC3 === -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch5-advanced-discussions_nsec-or-nsec3.xml" />
 
-   <para>There are at least three algorithm choices for DNSSEC as of this writing:
-    <itemizedlist>
-     <listitem><simpara>RSA</simpara></listitem>
-     <listitem><simpara>Digital Signature Algorithm (DSA)</simpara></listitem>
-     <listitem><simpara>Elliptic Curve DSA (ECDSA)</simpara></listitem>
-    </itemizedlist></para>
+  <!-- === Key Storage === -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch5-advanced-discussions_key-storage.xml" />
 
-   <para>RSA is the only one that is mandated to be implemented with DNSSEC, and is currently the most widely supported algorithm by both name servers and clients. So for the near future, RSA is the algorithm to use.</para>
+  <!-- === Key Management === -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch5-advanced-discussions_key-management.xml" />
 
-   <para>However, RSA is a little long in the tooth, and ECDSA is emerging as the next new crypto standard. In fact, the US federal government has recommended to stop using RSA by September 2015, and migrate to using ECDSA (or similar).</para>
-  </section>
 
-  <!-- === Key Sizes === -->
-  <section id="key-sizes">
-   <title>Key Sizes</title>
-  </section>
 
-  <!-- === NSEC vs NSEC3 === -->
-  <section id="nsec-or-nsec3">
-   <title>NSEC or NSEC3?</title>
-  </section>
-
-  <!-- === Optout - Pros and Cons === -->
-  <section id="optout">
-   <title>Optout - Pros and Cons</title>
-  </section>
-
-  <!-- === Salt - Pros and Cons === -->
-  <section id="salt">
-   <title>Salt - Pros and Cons</title>
-  </section>
-
-  <!-- === Private Key Storage === -->
-  <section id="private-key-storage">
-   <title>Private Key Storage</title>
-  </section>
-
-  <!-- === HSMs === -->
-  <section id="hardware-security-modules">
-   <title>Hardware Security Modules (HSM)</title>
-  </section>
-
-  <!-- === Key Rollovers === -->
-  <section id="key-rollovers">
-   <title>Key Rollovers</title>
-  </section>
-
-  <!-- === Key Management and Meta Data === -->
-  <section id="keymanagement-and-meta-data">
-   <title>Key Management and Meta Data</title>
-  </section>
-
+  <!-- TODO: jkuo Sat Oct 25 03:07:44 UTC 2014
+       Need to organize these topics into another section / file
+       Maybe "Other DNSSEC topics" or something similar.
+  -->
   <!-- === DNSSEC and Dynamic Updates === -->
   <section id="dnssec-and-dynamic-updates">
    <title>DNSSEC and Dynamic Updates</title>

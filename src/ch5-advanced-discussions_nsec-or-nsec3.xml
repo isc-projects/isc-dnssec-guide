@@ -1,0 +1,24 @@
+<section id="advanced-discussions-nsec-or-nsec3">
+ <!-- TODO jkuo Sat Oct 25 03:04:34 UTC 2014
+      Need a better title here, some possible ones:
+      - NSEC or NSEC3: choosing what's right for you
+      - All about NSEC and NSEC3
+      - Understanding NSEC and NSEC3
+ -->
+ <title>Proof of Non-Existence (NSEC and NSEC3) </title>
+ 
+ <!-- === NSEC vs NSEC3 === -->
+ <section id="nsec-or-nsec3">
+  <title>NSEC or NSEC3?</title>
+ </section>
+
+ <!-- === Optout - Pros and Cons === -->
+ <section id="optout">
+  <title>Optout - Pros and Cons</title>
+ </section>
+
+ <!-- === Salt - Pros and Cons === -->
+ <section id="salt">
+  <title>Salt - Pros and Cons</title>
+ </section>
+</section>

@@ -1,0 +1,13 @@
+<section id="advanced-discussions-key-storage">
+ <title>Key Storage</title>
+
+ <!-- === Private Key Storage === -->
+ <section id="private-key-storage">
+  <title>Private Key Storage</title>
+ </section>
+
+ <!-- === HSMs === -->
+ <section id="hardware-security-modules">
+  <title>Hardware Security Modules (HSM)</title>
+ </section>
+</section>
