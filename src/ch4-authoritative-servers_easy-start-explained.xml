@@ -1,3 +1,75 @@
 <section id="signing-easy-start-explained">
  <title>Signing Easy Start Explained</title> 
+
+ <!-- === Reconfigure BIND Explained === -->
+ <section id="signing-reconfigure-bind-explained">
+  <title>Reconfigure BIND Explained</title>
+  <para>In <xref linkend="signing-easy-start-reconfigure-bind"/>, we highlighted a few lines, let's explain what each one of them does.
+   <screen>options {
+    <userinput>dnssec-enable yes;</userinput>
+    directory "/etc/bind";
+    allow-recursion { none; };
+    minimal-responses yes;
+};
+
+zone "example.com" IN {
+    type master;
+    file "example.com.db";
+    <userinput>key-directory "/etc/bind/keys/example.com";
+    inline-signing yes;
+    auto-dnssec maintain;</userinput>
+    allow-transfer { 192.168.1.0/24; };
+};</screen></para>
+
+  <!-- ====== dnssec-enable ====== -->
+  <section id="signing-dnssec-enable-explained">
+   <title>dnssec-enable</title>
+   <para>This line enables DNSSEC support in <code>named</code>. If not set, named behaves as if it does not support DNSSEC. The default is yes. We are just explicitly declaring it again here, in case your distribution has it disabled.</para>
+  </section>
+
+  <!-- ====== key-directory ====== -->
+  <section id="signing-key-directory-explained">
+   <title>key-directory</title>
+   <para>This specifies where <code>named</code> should look for public and private DNSSEC key files. The default is the current working directory. In our example, we organized keys based on zone names, and placed all keys for <code>example.com</code> under one directory <code>/etc/bind/keys/example.com</code>.</para>
+  </section>
+ 
+  <!-- ====== inline-signing ====== -->
+  <section id="signing-inline-signing-explained">
+   <title>inline-signing</title>
+   <para>This option is disabled by default. When enabled, BIND converts traditional (insecure) zone data to signed (secure) data automatically and transparently, using keys found in <code>key-directory</code>.</para>
+
+   <para>This feature alleviates the burden of resigning zone data put on DNSSEC zone administrators. As the zone administrator, you can continue to manually maintain the unsigned version of the zone just like before, and BIND will automatically convert the the zone into a dynamic zone, sign it on the fly, and incrementing serial number automatically for the signed version of the zone. The unsigned version of the zone is left intact.</para>
+
+   <para>To learn more about inline signing and some examples of using it in your DNSSEC deployment strategy, please see <ulink url="https://kb.isc.org/article/AA-00626">Inline Signing in ISC BIND 9.9.0 -- Examples</ulink>.</para>
+  </section>
+
+  <!-- ====== auto-dnssec ====== -->
+  <section id="signing-auto-dnssec-explained">
+   <title>auto-dnssec</title>
+   <para>With keys, comes the burden of key management. Just like passwords and underwear, keys need to be changed periodically. This is sometimes called "key rollover". <code>auto-dnssec</code> provides varying levels of automatic key management. There are three possible settings:
+    <orderedlist>
+     <!-- #1 -->
+     <listitem>
+      <simpara><emphasis>off</emphasis>: this is the default, key management is done manually</simpara>
+     </listitem>
+
+     <!-- #2 -->
+     <listitem>
+      <simpara><emphasis>allow</emphasis>: permits keys to be updated and the zone fully re-signed whenever the user issues the command rndc sign zonename.</simpara>
+     </listitem>
+
+     <!-- #3 -->
+     <listitem>
+      <simpara><emphasis>maintain</emphasis>: includes what "allow" has, but also automatically adjusts the zone's DNSSEC keys on schedule, according to the key's timing metadata.</simpara>
+     </listitem>
+    </orderedlist></para>
+
+    <para>We have opted for the "maintain" mode in our example, which provides the most automated key management. With this option enabled, BIND will periodically check to see if new keys are available, or old keys need to be retired, and automatically add or remove the appropriate DNSKEY records from the zone. The frequency of the check can be controlled via <code>dnssec-loadkeys-interval</code>, default is 60 minutes (1 hour).</para>
+  </section>
+ </section>
+
+ <!-- === Generate Keys Explained === -->
+ <section id="signing-generate-keys-explained">
+  <title>Generate Keys Explained</title>
+ </section>
 </section>
