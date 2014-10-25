@@ -31,17 +31,16 @@
    <screen>options {
     <userinput>dnssec-enable yes;</userinput>
     directory "/etc/bind";
-    allow-recursion { none; };
+    recursion no;
     minimal-responses yes;
 };
 
 zone "example.com" IN {
     type master;
-    file "example.com.db";
-    <userinput>key-directory "/etc/bind/keys/example.com";
+    file "db/example.com.db";
+    <userinput>key-directory "keys/example.com";
     inline-signing yes;
     auto-dnssec maintain;</userinput>
-    allow-transfer { 192.168.1.0/24; };
 };</screen></para>
  </section>
 
@@ -65,7 +64,7 @@ Kexample.com.+008+28267</screen></para>
  <!-- === #3 Sign Zone Data === -->
  <section id="signing-easy-start-sign-zone-data">
   <title>Sign Zone Data</title>
-  <para>Now we have keys, let’s sign the zone and generate those DNSSEC resource records! Run the following command:
+  <para>Now we have keys, let’s sign the zone and generate those DNSSEC resource records! We will need to provide some random hex string, in the example below it is 1234567890abcdef: 
    <screen># <userinput>rndc signing -nsec3param 1 0 10 1234567890abcdef example.com</userinput></screen></para>
 
   <para>You’ll know these worked if you see the following syslog messages:
@@ -124,9 +123,9 @@ Oct 21 13:47:21 zone example.com/IN (signed): zone_addnsec3chain(1,CREATE,10,123
  <section id="your-zone-file-before-and-after-dnssec">
   <title>Your Zone File, Before and After DNSSEC</title>
   <para>In the previous section <xref linkend="easy-start-guide-for-authoritative-servers" />, we provided the minimal amount of information to essentially convert an traditional DNS zone into a DNSSEC-enabled zone. This is what the zone looked like before we started: 
-   <screen>$ <userinput>dig @192.168.1.13 example.com. AXFR +multiline</userinput>
+   <screen>$ <userinput>dig @192.168.1.13 example.com. AXFR +multiline +onesoa</userinput>
 
-; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.13 example.com. AXFR +multiline
+; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.13 example.com. AXFR +multiline +onesoa
 ; (1 server found)
 ;; global options: +cmd
 example.com.		300 IN SOA ns1.example.com. dnsadmin.example.com. (
@@ -141,23 +140,12 @@ ftp.example.com.	300	IN	A	1.1.1.2
 ns1.example.com.	300	IN	A	192.168.1.13
 web.example.com.	300	IN	CNAME	www.example.com.
 www.example.com.	300	IN	A	1.1.1.1
-xyz.example.com.	300	IN	A	1.1.1.3
-example.com.		300 IN SOA ns1.example.com. dnsadmin.example.com. (
-				2014102100 ; serial
-				10800      ; refresh (3 hours)
-				1080       ; retry (18 minutes)
-				2419200    ; expire (4 weeks)
-				900        ; minimum (15 minutes)
-				)
-;; Query time: 27 msec
-;; SERVER: 192.168.1.13#53(192.168.1.13)
-;; WHEN: Tue Oct 21 13:04:49 CST 2014
-;; XFR size: 8 records (messages 1, bytes 222)</screen></para>
+xyz.example.com.	300	IN	A	1.1.1.3</screen></para>
 
   <para>Below shows the test zone <code>example.com</code> after we have signed its zone data. As you can see, the zone grew in size, and the number of records multiplied:
-   <screen>$ <userinput>dig @192.168.1.13 example.com. +multiline AXFR</userinput>
+   <screen>$ <userinput>dig @192.168.1.13 example.com. AXFR +multiline +onesoa</userinput>
 
-; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.13 example.com. +multiline AXFR
+; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.13 example.com. AXFR +multiline +onesoa
 ; (1 server found)
 ;; global options: +cmd
 example.com.		300 IN SOA ns1.example.com. dnsadmin.example.com. (
@@ -315,14 +303,7 @@ UORKLNJKEF4J9JKQBOI2SNCD4387Q5GD.example.com. 900 IN RRSIG NSEC3 8 3 900 (
 				KQFrP/RfmCBRnnDDmP3Yvmppl2Dx+aewZPlchro= )
 UORKLNJKEF4J9JKQBOI2SNCD4387Q5GD.example.com. 900 IN NSEC3 1 0 10 4F518F934EB7C445 (
 				2ABONG5LKJIEA4Q293HV7EG3PM91JR67
-				A RRSIG )
-example.com.		300 IN SOA ns1.example.com. dnsadmin.example.com. (
-				2014102108 ; serial
-				10800      ; refresh (3 hours)
-				1080       ; retry (18 minutes)
-				2419200    ; expire (4 weeks)
-				900        ; minimum (15 minutes)
-				)</screen></para>
+				A RRSIG )</screen></para>
   <para>But this is a really messy way to tell if your zone is properly setup with DNSSEC. Fortunately, there are tools to help us with that. Read on to <xref linkend="how-to-test-authoritative-server" /> to learn more.
   </para>
  </section>

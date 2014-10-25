@@ -8,34 +8,42 @@
    <screen>options {
     <userinput>dnssec-enable yes;</userinput>
     directory "/etc/bind";
-    allow-recursion { none; };
+    recursion no;
     minimal-responses yes;
 };
 
 zone "example.com" IN {
     type master;
-    file "example.com.db";
-    <userinput>key-directory "/etc/bind/keys/example.com";
+    file "db/example.com.db";
+    <userinput>key-directory "keys/example.com";
     inline-signing yes;
     auto-dnssec maintain;</userinput>
-    allow-transfer { 192.168.1.0/24; };
 };</screen></para>
 
   <!-- ====== dnssec-enable ====== -->
   <section id="signing-dnssec-enable-explained">
    <title>dnssec-enable</title>
+   <screen>options {
+    dnssec-enable yes;
+};</screen>
    <para>This line enables DNSSEC support in <code>named</code>. If not set, named behaves as if it does not support DNSSEC. The default is yes. We are just explicitly declaring it again here, in case your distribution has it disabled.</para>
   </section>
 
   <!-- ====== key-directory ====== -->
   <section id="signing-key-directory-explained">
    <title>key-directory</title>
+   <screen>zone "example.com" IN {
+    key-directory "keys/example.com";
+};</screen>
    <para>This specifies where <code>named</code> should look for public and private DNSSEC key files. The default is the current working directory. In our example, we organized keys based on zone names, and placed all keys for <code>example.com</code> under one directory <code>/etc/bind/keys/example.com</code>.</para>
   </section>
  
   <!-- ====== inline-signing ====== -->
   <section id="signing-inline-signing-explained">
    <title>inline-signing</title>
+   <screen>zone "example.com" IN {
+    inline-signing yes;
+};</screen>
    <para>This option is disabled by default. When enabled, BIND converts traditional (insecure) zone data to signed (secure) data automatically and transparently, using keys found in <code>key-directory</code>.</para>
 
    <para>This feature alleviates the burden of resigning zone data put on DNSSEC zone administrators. As the zone administrator, you can continue to manually maintain the unsigned version of the zone just like before, and BIND will automatically convert the the zone into a dynamic zone, sign it on the fly, and incrementing serial number automatically for the signed version of the zone. The unsigned version of the zone is left intact.</para>
@@ -46,6 +54,9 @@ zone "example.com" IN {
   <!-- ====== auto-dnssec ====== -->
   <section id="signing-auto-dnssec-explained">
    <title>auto-dnssec</title>
+   <screen>zone "example.com" IN {
+    auto-dnssec maintain;
+};</screen>
    <para>With keys, comes the burden of key management. Just like passwords and underwear, keys need to be changed periodically. This is sometimes called "key rollover". <code>auto-dnssec</code> provides varying levels of automatic key management. There are three possible settings:
     <orderedlist>
      <!-- #1 -->
@@ -66,6 +77,16 @@ zone "example.com" IN {
 
     <para>We have opted for the "maintain" mode in our example, which provides the most automated key management. With this option enabled, BIND will periodically check to see if new keys are available, or old keys need to be retired, and automatically add or remove the appropriate DNSKEY records from the zone. The frequency of the check can be controlled via <code>dnssec-loadkeys-interval</code>, default is 60 minutes (1 hour).</para>
   </section>
+
+  <!-- TODO: jkuo  Sat Oct 25 01:21:44 UTC 2014
+       Need to write a section on manually management in the Advanced Discussion section
+       that covers these two areas:
+       1) No auto-dnssec (no key management)
+       2) No inline-signing (manual signing, need to discuss dnssec-signzone)
+  -->
+  <note>
+   <para>If you don't like all this auto-magic of inline signing and key rollovers, see the section on "Manual Management".</para>
+  </note>
  </section>
 
  <!-- === Generate Keys Explained === -->
