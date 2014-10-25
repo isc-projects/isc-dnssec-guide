@@ -131,4 +131,45 @@ example.com. IN DNSKEY 256 3 8 AwEAAfbc/0...k RRUS08lf</screen></para>
 
   <para>The parameters we showed in the example, algorithm of RSASHA256, key length of 1024 and 2048, and the use of NSEC3 are just suggestions, you need to evaluate what values work best for your environment. To learn more about key generation, different algorithm choices, and key sizes, see <xref linkend="advanced-discussions-key-generation"/>.</para>
  </section>
+
+ 
+ <!-- === Sign Zone Data Explained === -->
+ <section id="signing-sign-zone-data-explained">
+  <title>Sign Zone Data Explained</title>
+  <para>In <xref linkend="signing-easy-start-sign-zone-data"/>, we we used a not-very random hex string 1234567890abcdef to sign our zone data:
+
+   <screen># <userinput>rndc signing -nsec3param 1 0 10 1234567890abcdef example.com</userinput></screen></para>
+
+  <para>Actually, if you looked at your zone data, DNSSEC records were already generated before running this command. As soon as BIND is able to load keys, since inline signing was enabled, a signed version of the zone would be created, but with the default NSEC records.</para>
+  
+  <para>We are doing this extra step to create NSEC3 records for our zone, which provides more privacy for our zone data through the use of secure hashing algorithms. In our example, there are four parameters used, in the order they appeared, 1 represents the algorithm, 0 represents the opt-out flag, 10 represents the number of iterations, and 1234567890abcedf is the salt. Let's look at how each one can be configured:
+   <itemizedlist>
+    <listitem>
+     <simpara><emphasis>Algorithm</emphasis>: Not much of a choice here, the only defined value currently is 1 for SHA-1.</simpara></listitem>
+    <listitem>
+     <simpara><emphasis>Opt-out</emphasis>: Set this to 1 if you want to do NSEC3 opt-out (see <xref linkend="optout"/> for more information)</simpara></listitem>
+    <listitem>
+     <simpara><emphasis>Iterations</emphasis>: iterations defines the number of additional times to apply the algorithm when generating an NSEC3 hash. More iterations yields more secure results, but consumes more resources for both authoritative server sand validating resolvers.</simpara></listitem>
+    <listitem>
+     <simpara><emphasis>Salt</emphasis>: The salt is a string of data expressed in hexadecimal, or a hyphen (‘-’) if no salt is to be used. (see <xref linkend="salt"/> for more information)</simpara></listitem>
+   </itemizedlist></para>
+
+   <para>So, for example, to create an NSEC3 chain using the SHA-1 hash algorithm, no opt-out flag, 10 iterations, and a salt value of ”FFFF”, use: 
+    <screen># <userinput>rndc signing -nsec3param 1 0 10 FFFF example.com</userinput></screen></para>
+
+   <para>To set the opt-out flag, 15 iterations, and no salt, use: 
+    <screen># <userinput>rndc signing -nsec3param 1 1 15 - example.com</userinput></screen></para>
+ 
+   <note>
+    <para>In our example above, we used a not-very-random string 1234567890abcdef as the "salt", it is best that you use some random source to create it. Here is an example on Linux to create a 16-character hex string:
+     <screen># <userinput>rndc signing -nsec3param 1 0 10 $(head -c 300 /dev/random | sha1sum | cut -b 1-16) example.com</userinput></screen>
+    </para>
+   </note>
+
+   <para>To learn more about whether or not NSEC3 is right for you, see <xref linkend="advanced-discussions-nsec-or-nsec3"/>.</para>
+ </section>
+
+
+ <!-- === Upload to Parent Zone Explained === -->
+
 </section>
