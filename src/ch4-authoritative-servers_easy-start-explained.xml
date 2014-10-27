@@ -1,6 +1,49 @@
 <section id="signing-easy-start-explained">
  <title>Signing Easy Start Explained</title> 
 
+ <!-- === Generate Keys Explained === -->
+ <section id="signing-generate-keys-explained">
+  <title>Generate Keys Explained</title>
+  <para>In <xref linkend="signing-easy-start-generate-keys"/>, we generated two pairs of keys by running these commands:
+   <screen># <userinput>cd /etc/bind/keys/example.com</userinput>
+# <userinput>dnssec-keygen -a RSASHA256 -b 1024 -3 example.com</userinput>
+Generating key pair...++++++ .............++++++ 
+Kexample.com.+008+57009
+# <userinput>dnssec-keygen -a RSASHA256 -b 2048 -3 -f KSK example.com</userinput>
+Generating key pair........................+++ ..................................+++ 
+Kexample.com.+008+28267</screen></para>
+
+  <para>With these commands, we generated NSEC3-compatible key pairs (see <xref linkend="advanced-discussions-nsec-or-nsec3"/> to learn more about NSEC3). In the end, four key files were created in <code>/etc/bind/keys/example.com</code>:
+   <itemizedlist>
+    <listitem><simpara><code>Kexample.com.+008+28267.key</code></simpara></listitem>
+    <listitem><simpara><code>Kexample.com.+008+28267.private</code></simpara></listitem>
+    <listitem><simpara><code>Kexample.com.+008+57009.key</code></simpara></listitem>
+    <listitem><simpara><code>Kexample.com.+008+57009.private</code></simpara></listitem>
+   </itemizedlist></para>
+
+  <para>The two files ending in <code>.private</code> need to be kept, well, private. These are your private keys, guard them carefully. You should at the very least protect them via file permission settings. Please see <xref linkend="advanced-discussions-key-storage"/> for more information about how to store your keys.</para>
+
+  <para>The two files ending in <code>.key</code> are your public keys. One is the zone-signing key (ZSK), and one is the key-signing Key (KSK). We can tell which is which by looking at the actual file contents (actual keys shortened for display):
+   <screen># <userinput>cat Kexample.com.+008+28267.key
+; This is a key-signing key, keyid 28267, for example.com.</userinput>
+; Created: 20141025013006 (Sat Oct 25 09:30:06 2014)
+; Publish: 20141025013006 (Sat Oct 25 09:30:06 2014)
+; Activate: 20141025013006 (Sat Oct 25 09:30:06 2014)
+example.com. IN DNSKEY 257 3 8 AwEAAb4N53...1EskDIMy8=
+
+# <userinput>cat Kexample.com.+008+57009.key
+; This is a zone-signing key, keyid 57009, for example.com.</userinput>
+; Created: 20141025012905 (Sat Oct 25 09:29:05 2014)
+; Publish: 20141025012905 (Sat Oct 25 09:29:05 2014)
+; Activate: 20141025012905 (Sat Oct 25 09:29:05 2014)
+example.com. IN DNSKEY 256 3 8 AwEAAfbc/0...k RRUS08lf</screen></para>
+
+  <para>The first line of each file tell us what type of key it is. Also, by looking at the actual DNSKEY record, we could tell them apart: 256 is ZSK, and 257 is KSK.</para>
+
+  <para>The parameters we showed in the example, algorithm of RSASHA256, key length of 1024 and 2048, and the use of NSEC3 are just suggestions, you need to evaluate what values work best for your environment. To learn more about key generation, different algorithm choices, and key sizes, see <xref linkend="advanced-discussions-key-generation"/>.</para>
+ </section>
+
+
  <!-- === Reconfigure BIND Explained === -->
  <section id="signing-reconfigure-bind-explained">
   <title>Reconfigure BIND Explained</title>
@@ -89,54 +132,11 @@ zone "example.com" IN {
   </note>
  </section>
 
-
- <!-- === Generate Keys Explained === -->
- <section id="signing-generate-keys-explained">
-  <title>Generate Keys Explained</title>
-  <para>In <xref linkend="signing-easy-start-generate-keys"/>, we generated two pairs of keys by running these commands:
-   <screen># <userinput>cd /etc/bind/keys/example.com</userinput>
-# <userinput>dnssec-keygen -a RSASHA256 -b 1024 -3 example.com</userinput>
-Generating key pair...++++++ .............++++++ 
-Kexample.com.+008+57009
-# <userinput>dnssec-keygen -a RSASHA256 -b 2048 -3 -f KSK example.com</userinput>
-Generating key pair........................+++ ..................................+++ 
-Kexample.com.+008+28267</screen></para>
-
-  <para>With these commands, we generated NSEC3-compatible key pairs (see <xref linkend="advanced-discussions-nsec-or-nsec3"/> to learn more about NSEC3). In the end, four key files were created in <code>/etc/bind/keys/example.com</code>:
-   <itemizedlist>
-    <listitem><simpara><code>Kexample.com.+008+28267.key</code></simpara></listitem>
-    <listitem><simpara><code>Kexample.com.+008+28267.private</code></simpara></listitem>
-    <listitem><simpara><code>Kexample.com.+008+57009.key</code></simpara></listitem>
-    <listitem><simpara><code>Kexample.com.+008+57009.private</code></simpara></listitem>
-   </itemizedlist></para>
-
-  <para>The two files ending in <code>.private</code> need to be kept, well, private. These are your private keys, guard them carefully. You should at the very least protect them via file permission settings. Please see <xref linkend="advanced-discussions-key-storage"/> for more information about how to store your keys.</para>
-
-  <para>The two files ending in <code>.key</code> are your public keys. One is the zone-signing key (ZSK), and one is the key-signing Key (KSK). We can tell which is which by looking at the actual file contents (actual keys shortened for display):
-   <screen># <userinput>cat Kexample.com.+008+28267.key
-; This is a key-signing key, keyid 28267, for example.com.</userinput>
-; Created: 20141025013006 (Sat Oct 25 09:30:06 2014)
-; Publish: 20141025013006 (Sat Oct 25 09:30:06 2014)
-; Activate: 20141025013006 (Sat Oct 25 09:30:06 2014)
-example.com. IN DNSKEY 257 3 8 AwEAAb4N53...1EskDIMy8=
-
-# <userinput>cat Kexample.com.+008+57009.key
-; This is a zone-signing key, keyid 57009, for example.com.</userinput>
-; Created: 20141025012905 (Sat Oct 25 09:29:05 2014)
-; Publish: 20141025012905 (Sat Oct 25 09:29:05 2014)
-; Activate: 20141025012905 (Sat Oct 25 09:29:05 2014)
-example.com. IN DNSKEY 256 3 8 AwEAAfbc/0...k RRUS08lf</screen></para>
-
-  <para>The first line of each file tell us what type of key it is. Also, by looking at the actual DNSKEY record, we could tell them apart: 256 is ZSK, and 257 is KSK.</para>
-
-  <para>The parameters we showed in the example, algorithm of RSASHA256, key length of 1024 and 2048, and the use of NSEC3 are just suggestions, you need to evaluate what values work best for your environment. To learn more about key generation, different algorithm choices, and key sizes, see <xref linkend="advanced-discussions-key-generation"/>.</para>
- </section>
-
  
- <!-- === Sign Zone Data Explained === -->
- <section id="signing-sign-zone-data-explained">
-  <title>Sign Zone Data Explained</title>
-  <para>In <xref linkend="signing-easy-start-sign-zone-data"/>, we we used a not-very random hex string 1234567890abcdef to sign our zone data:
+ <!-- === Additional Privacy Explained === -->
+ <section id="signing-additional-privacy-explained">
+  <title>Additional Privacy Explained</title>
+  <para>In <xref linkend="signing-easy-start-additional-privacy"/>, we we used a not-very random hex string 1234567890abcdef to sign our zone data:
 
    <screen># <userinput>rndc signing -nsec3param 1 0 10 1234567890abcdef example.com</userinput></screen></para>
 
