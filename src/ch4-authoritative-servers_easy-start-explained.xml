@@ -40,6 +40,16 @@ example.com. IN DNSKEY 256 3 8 AwEAAfbc/0...k RRUS08lf</screen></para>
 
   <para>The first line of each file tell us what type of key it is. Also, by looking at the actual DNSKEY record, we could tell them apart: 256 is ZSK, and 257 is KSK.</para>
 
+  <para>So, this is a ZSK:
+   <screen># <userinput>cat Kexample.com.+008+57009.key</userinput>
+...
+example.com. IN DNSKEY <userinput>256</userinput> 3 8 AwEAAfbc/0...k RRUS08lf</screen></para>
+
+  <para>And this is a KSK:
+   <screen># <userinput>cat Kexample.com.+008+28267.key</userinput>
+...
+example.com. IN DNSKEY <userinput>257</userinput> 3 8 AwEAAb4N53...1EskDIMy8=</screen></para>
+
   <para>The parameters we showed in the example, algorithm of RSASHA256, key length of 1024 and 2048, and the use of NSEC3 are just suggestions, you need to evaluate what values work best for your environment. To learn more about key generation, different algorithm choices, and key sizes, see <xref linkend="advanced-discussions-key-generation"/>.</para>
  </section>
 
