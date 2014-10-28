@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+<!ENTITY mdash  "&#x2014;" >
+]>
+
+  <chapter id="troubleshooting">
+   <title>Basic Troubleshooting</title>
+   <note>
+    <para>This new chapter combines troubleshooting techniques from both recursive and authoritative sections, and needs a re-write so it's more symptom-based. Also awaiting feedback on top-3 most commonly seen problems. It is currently under heavy construction.</para>
+   </note>
+    <!-- Introduction to Troubleshooting -->
+
+    <!-- TODO jkuo Tue Oct 28 14:12:08 UTC 2014
+         We'll come back and break this down later, for now, just
+         take in the whole section from Recursive Server, the goal
+         here is not to distinguish so much between recursive and
+         authoritative, but focus on "this is the symptom" and
+         "these are the possible causes"
+    -->
+    <!-- Recursive Server Troubleshooting -->
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="troubleshooting_recursive.xml" />
+
+  </chapter>

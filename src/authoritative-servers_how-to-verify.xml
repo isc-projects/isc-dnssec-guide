@@ -110,5 +110,5 @@ example.com.  61179	IN	DS	28267 8 2 71D9335416B7132519190A95685E18CBF478DCF4CA98
  </section>
 
  <!-- === Verify using External Tools === -->
- <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch4-authoritative-servers_how-to-verify-external-tools.xml" />
+ <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="authoritative-servers_how-to-verify-external-tools.xml" />
 </section>

@@ -37,28 +37,6 @@
  <para>Read on to learn more about basic troubleshooting tips for validating resolvers.</para>
 
 
- <!-- ====== How Do I know I Have a Validation Problem? ====== -->
- <section id="how-do-i-know-i-have-a-validation-problem">
-  <title>How Do I know I Have a Validation Problem?</title>
-  <para>Since all DNSSEC validation failures result in a general <code>SERVFAIL</code> message, how do we know that it was related to validation in the first place? Fortunately, there is a flag to disable DNSSEC validation in <code>dig</code>, <code>+cd</code> (checking disable). When you've received a <code>SERVFAIL</code> message, re-run the query one more time, and throw in the <code>+cd</code> flag. If the query succeeds with <code>+cd</code>, but ends in <code>SERVFAIL</code> without it, then you know you are dealing with a validation problem.
-   <screen>$ <userinput>dig @192.168.1.7 www.isc.org. A +cd</userinput>
-
-; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.7 www.isc.org. A +cd
-; (1 server found)
-;; global options: +cmd
-;; Got answer:
-;; ->>HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 33590
-;; flags: qr rd ra cd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
-
-;; OPT PSEUDOSECTION:
-; EDNS: version: 0, flags:; udp: 4096
-;; QUESTION SECTION:
-;www.isc.org.			IN	A
-
-;; ANSWER SECTION:
-www.isc.org.		30	IN	A	149.20.64.69</screen></para>
- </section>
-
 
  <!-- ====== BIND DNSSEC Debug Logging ====== -->
  <section id="bind-dnssec-debug-logging">

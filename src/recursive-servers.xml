@@ -18,9 +18,6 @@
     <!-- === Trust Anchors === -->
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="recursive-servers_trust-anchors.xml" />
 
-    <!-- === Validating Resolver Basic Troubleshooting === -->
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="recursive-servers_troubleshooting.xml" />
-
     <!-- === Why You Can't Validate a Zone for which You're Authoritative === -->
 
     <!-- === What's EDNS0 all about - and why should I care? === -->
