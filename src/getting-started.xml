@@ -8,10 +8,10 @@
   <chapter id="getting-started">
     <title>Getting Started</title>
 
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch2-getting-started_software-requirements.xml" />
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch2-getting-started_hardware-requirements.xml" />
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch2-getting-started_network-requirements.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="getting-started_software-requirements.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="getting-started_hardware-requirements.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="getting-started_network-requirements.xml" />
     <!--
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch2-getting-started_operational-best-practices.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="getting-started_operational-best-practices.xml" />
     -->
   </chapter>

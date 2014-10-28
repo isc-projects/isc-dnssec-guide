@@ -59,13 +59,13 @@ TODO:
     </abstract>
   </bookinfo>
 
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch1-introduction.xml" />
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch2-getting-started.xml" />
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch3-recursive-servers.xml" />
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch4-authoritative-servers.xml" />
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch5-advanced-discussions.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="introduction.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="getting-started.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="recursive-servers.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="authoritative-servers.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="advanced-discussions.xml" />
 <!--
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch6-recipes.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="recipes.xml" />
 -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="dnssec-guide-appendices.xml" />
 

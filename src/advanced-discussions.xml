@@ -14,16 +14,16 @@ Some information in this chapter is taken from the following sources:
  <title>Advanced Discussions</title>
 
   <!-- === Key Generation === -->
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch5-advanced-discussions_key-generation.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="advanced-discussions_key-generation.xml" />
 
   <!-- === NSEC or NSEC3 === -->
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch5-advanced-discussions_nsec-or-nsec3.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="advanced-discussions_nsec-or-nsec3.xml" />
 
   <!-- === Key Storage === -->
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch5-advanced-discussions_key-storage.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="advanced-discussions_key-storage.xml" />
 
   <!-- === Key Management === -->
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch5-advanced-discussions_key-management.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="advanced-discussions_key-management.xml" />
 
 
 

@@ -10,13 +10,13 @@
   <para>This guide provides information on how to configure DNSSEC using BIND9. Readers are assumed to have basic knowledge of the Domain Name System (DNS) and related network infrastructure. In-depth knowledge of DNS or DNSSEC, and public key cryptography are not required. This guide is intended for system administrators, engineers, and consultants who are new to DNSSEC, or those who understand the technology but need configuration and deployment examples.</para>
 
   <!-- === What is DNSSEC?=== -->
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch1-introduction_what-is-dnssec.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="introduction_what-is-dnssec.xml" />
 
   <!-- === What does DNSSEC Add to DNS?=== -->
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch1-introduction_what-does-dnssec-add-to-dns.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="introduction_what-does-dnssec-add-to-dns.xml" />
     
   <!-- === How does DNSSEC Change DNS Lookup? === -->
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="ch1-introduction_how-does-dnssec-change-dns-lookup.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="introduction_how-does-dnssec-change-dns-lookup.xml" />
 
   <!-- === Why is it Important? === -->
   <section id="why-is-it-important">
