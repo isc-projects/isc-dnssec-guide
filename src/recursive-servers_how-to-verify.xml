@@ -2,7 +2,8 @@
 <section id="how-to-test-recursive-server">
  <title>How To Test Recursive Server (So You Think You Are Validating)</title>
  <para>Okay, so now that you have reconfigured your recursive server and restarted it, how do you know that your recursive name server is actually verifying each DNS query? There are several ways to check, and we’ve listed a few suggestions below, starting with the easiest.</para>
-      
+
+
  <!-- ====== Using Web-based Tools to Verify ===== -->
  <section id="using-web-based-tests-to-verify">
   <title>Using Web-based Tools to Verify</title>
@@ -29,6 +30,7 @@
   <simpara><imagedata fileref="../img/dnssec-or-not-YES.png" /></simpara>
  </section>
 
+
  <!-- ====== Using dig to Verify ===== -->
  <section id="using-dig-to-verify">
   <title>Using dig to Verify</title>
@@ -38,12 +40,9 @@
   
   <para><code>dig</code> is a flexible tool for interrogating DNS name servers. It performs DNS lookups and displays the answers that are returned from the name server(s) that were queried. Most seasonsed DNS administrators use <code>dig</code> to troubleshoot DNS problems because of its flexibility, ease of use, and clarity of output.</para>
 
-  <!-- TODO: Should we even mention the DNSSEC OK (do) bit? Is it even relevent at this level? Or should we just
-             focus on the fact that RRSIG is returned, and the Authenticated Data (ad) bit is present? -->
-
   <para>The example below shows using dig to query the name server 192.168.1.7 for the A record for www.isc.org before DNSSEC validation is enabled. Notice although we specifically used the <code>+dnssec</code> code line option, we do not see the DNSSEC OK (<code>do</code>) bit in the response, nor do we see any DNSSEC resource records.
-  <screen>$ <userinput>dig @192.168.1.7 www.isc.org. A +dnssec</userinput>
-; &lt;&lt;>> DiG 9.10.0-P2 &lt;&lt;>> @192.168.1.7 www.isc.org. A +dnssec
+  <screen>$ <userinput>dig @192.168.1.7 www.isc.org. A +dnssec +multiline</userinput>
+; &lt;&lt;>> DiG 9.10.0-P2 &lt;&lt;>> @192.168.1.7 www.isc.org. A +dnssec +multiline
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
@@ -86,52 +85,9 @@ www.isc.org.		4 IN A	149.20.64.69
 ;; SERVER: 192.168.1.7#53(192.168.1.7)
 ;; WHEN: Fri Oct 03 16:40:04 CST 2014
 ;; MSG SIZE  rcvd: 223</screen></para>
-
-  <para>It is also important to make sure DNSSEC is protecting you from domain names that you should not trust or resolve. There is a domain name specifically setup for this purpose, <ulink url="http://www.dnssec-failed.org/"/>. Prior to enabling DNSSEC validation, you should have no trouble resolving this name as shown below using <code>dig</code>:
-   <screen>$ <userinput>dig @192.168.1.11 www.dnssec-failed.org. A</userinput>
-
-; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.11 www.dnssec-failed.org. A
-; (1 server found)
-;; global options: +cmd
-;; Got answer:
-;; ->>HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 28878
-;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
-
-;; OPT PSEUDOSECTION:
-; EDNS: version: 0, flags:; udp: 4096
-;; QUESTION SECTION:
-;www.dnssec-failed.org.		IN	A
-
-;; ANSWER SECTION:
-www.dnssec-failed.org.	7200	IN	A	68.87.109.242
-www.dnssec-failed.org.	7200	IN	A	69.252.193.191
-
-;; Query time: 955 msec
-;; SERVER: 192.168.1.11#53(192.168.1.11)
-;; WHEN: Fri Oct 17 07:42:50 CST 2014
-;; MSG SIZE  rcvd: 82</screen></para>
-
-  <para>After DNSSEC validation is enabled, looking up this domain name should result in SERVFAIL.
-   <screen>$ <userinput>dig @192.168.1.11 www.dnssec-failed.org. A</userinput>
-
-; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.11 www.dnssec-failed.org. A
-; (1 server found)
-;; global options: +cmd
-;; Got answer:
-;; ->>HEADER&lt;&lt;- opcode: QUERY, status: <userinput>SERVFAIL</userinput>, id: 46592
-;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
-
-;; OPT PSEUDOSECTION:
-; EDNS: version: 0, flags:; udp: 4096
-;; QUESTION SECTION:
-;www.dnssec-failed.org.		IN	A
-
-;; Query time: 2435 msec
-;; SERVER: 192.168.1.11#53(192.168.1.11)
-;; WHEN: Fri Oct 17 07:44:56 CST 2014
-;; MSG SIZE  rcvd: 50</screen></para>
  </section>
-      
+
+
  <!-- ====== Using delv to Verify ===== -->
  <section id="using-delv-to-verify">
   <title>Using delv to Verify</title>
@@ -181,7 +137,60 @@ www.isc.org.		19 IN RRSIG A 5 3 60 (
  </section>
 
 
- <!-- TODO  jkuo Tue Oct 28 14:10:34 UTC 2014
+ <!-- ====== Verifying Protection from Bad Domain Names ====== -->
+ <section id="verifying-protection-from-bad-domain-names">
+  <title>Verifying Protection from Bad Domain Names</title>
+  <para>It is also important to make sure DNSSEC is protecting you from domain names that you should not trust or resolve. There is a domain name specifically setup for this purpose, <code>www.dnssec-failed.org</code>. Prior to enabling DNSSEC validation, you should have no trouble visiting the URL <ulink url="http://www.dnssec-failed.org/" />:</para>
+  <simpara><imagedata fileref="../img/dnssec-failed-org-example.png" /></simpara>
+
+
+  <para>And no problem resolving the domain name as shown below using <code>dig</code>:
+   <screen>$ <userinput>dig @192.168.1.11 www.dnssec-failed.org. A</userinput>
+
+; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.11 www.dnssec-failed.org. A
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 28878
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;www.dnssec-failed.org.		IN	A
+
+;; ANSWER SECTION:
+www.dnssec-failed.org.	7200	IN	A	68.87.109.242
+www.dnssec-failed.org.	7200	IN	A	69.252.193.191
+
+;; Query time: 955 msec
+;; SERVER: 192.168.1.11#53(192.168.1.11)
+;; WHEN: Fri Oct 17 07:42:50 CST 2014
+;; MSG SIZE  rcvd: 82</screen></para>
+
+  <para>After DNSSEC validation is enabled, any attempt to loading the URL should result in some kind of "Sorry, this page cannot be displayed" error message from your web browser. And looking up this domain name using <code>dig</code> should result in SERVFAIL, as shown below:
+   <screen>$ <userinput>dig @192.168.1.11 www.dnssec-failed.org. A</userinput>
+
+; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.11 www.dnssec-failed.org. A
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER&lt;&lt;- opcode: QUERY, status: <userinput>SERVFAIL</userinput>, id: 46592
+;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;www.dnssec-failed.org.		IN	A
+
+;; Query time: 2435 msec
+;; SERVER: 192.168.1.11#53(192.168.1.11)
+;; WHEN: Fri Oct 17 07:44:56 CST 2014
+;; MSG SIZE  rcvd: 50</screen></para>
+ </section>
+
+
+  <!-- TODO  jkuo Tue Oct 28 14:10:34 UTC 2014
       For the time being we'll place this section here since
       we are moving troubleshooting into its own chapter, and
       we'll figure out later where this section should go later.
@@ -209,6 +218,5 @@ www.isc.org.		30	IN	A	149.20.64.69</screen></para>
 
   <para>For more information on troubleshooting, please see <xref linkend="troubleshooting"/>.</para>
  </section>
-
 </section>
 
