@@ -8,7 +8,8 @@
   <screen>options {
     dnssec-enable yes;
 };</screen>
-  <para>This line enables DNSSEC support in named. Unless set to yes, named behaves as if it does not support DNSSEC. The default is yes. Note that if this is the only thing you enable, the default validation behavior is set to rely on manual keys (which is not included), and no validation will actually take place until you have configured a <code>trusted-key</code>.</para>
+
+  <para>This line enables DNSSEC support, the default is yes, we're declaring it explicitly here. Note that if this is the only thing you enable and nothing else, the default validation behavior is set to rely on manual keys, and no validation will actually take place until you have manually configured at least one <code>trusted-key</code>.</para>
  </section>
 
  <!-- dnssec-validation -->
@@ -35,7 +36,7 @@
    </itemizedlist>
   </para>
 
-  <para>Let's discuss the difference here between <code>yes</code> and <code>auto</code>. If you set it to <code>yes</code> (the default), the trust anchor will need to be manually defined and maintained using the <code>trusted-key</code> statement in the configuration file; if you set it to <code>auto</code> (as shown in the example), then the <code>managed-key</code> statement is used, to automatically keep the keys up-to-date without intervention from the DNS administrator.</para>
+  <para>Let’s discuss the difference between <code>yes</code> and <code>auto</code>. If you set it to <code>yes</code> (the default), the trust anchor will need to be manually defined and maintained using the <code>trusted-key</code> statement in the configuration file; if you set it to <code>auto</code> (as shown in the example), then no further action should be required as BIND includes a copy<footnote><para>BIND technically includes two copies of the root key, one is in <code>bind.keys.h</code> and is built into the executable, and one is in <code>bind.keys</code> as a <code>managed-key</code> statement. The two copies of the key are identical.</para></footnote> of the root key. When set to <code>auto</code>, BIND will automatically keep the keys up-to-date without intervention from the DNS administrator.</para>
   
   <para>To learn more about trust anchors, please refer to <xref linkend="trusted-keys-and-managed-keys"/>.</para>
  </section>
