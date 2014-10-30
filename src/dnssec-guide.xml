@@ -2,8 +2,7 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
 <!ENTITY mdash  "&#x2014;" >
-
-<!ENTITY __VERSION__ "0.1">
+<!ENTITY __VERSION__ "0.2">
 ]>
 
 <!--
@@ -48,14 +47,13 @@ TODO:
       high-reliability applications.</para>
 
       <para>Domain Name System Security Extensions (DNSSEC) extends standard DNS to
-      prove the data is not modified and came from the official source. DNSSEC adds
-      resource records and message header bits which can be used to verify that the
-      requested data matches what the zone administrator put in the zone and has not
-      been altered in transit.</para>
+      provide a measure of security; it proves that the data comes from the official
+      source and has not been modified in transit.</para>
 
       <para>ISC BIND supports the full DNSSEC standard.</para>
 
-      <para>This guide provides information how to configure, use, and troubleshoot DNSSEC using BIND9.</para>
+      <para>This guide provides information how to configure, use, and troubleshoot
+      DNSSEC using BIND.</para>
     </abstract>
   </bookinfo>
 
@@ -72,15 +70,16 @@ TODO:
 
 
 <!--
+  TODO: jkuo Thu Oct 30 11:01:18 UTC 2014
+  Is this where we should acknolwedge people who helped review the document?
+
   <chapter id="acknowledgements">
     <title>Acknowledgements</title>
       <para>BIND is primarily designed, developed, and maintained by
       Internet Systems Consortium, Inc. It is an open source project
       and contributions are welcomed.</para>
   </chapter>
--->
 
-<!-- TODO: Add bibliography section (mostly RFCs, probably) -->
-<!-- TODO: how to help: run unit tests, join lists, review trac tickets -->
-<!-- <index>    <title>Index</title> </index> -->
+  <index>    <title>Index</title> </index>
+-->
 </book>
