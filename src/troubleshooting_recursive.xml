@@ -38,6 +38,10 @@
 
 
 
+ <!-- TODO jkuo  Thu Oct 30 08:51:54 UTC 2014
+      need to add a section here about using "query-error", and update all affected sections
+ -->
+
  <!-- ====== BIND DNSSEC Debug Logging ====== -->
  <section id="bind-dnssec-debug-logging">
   <title>BIND DNSSEC Debug Logging</title>
@@ -121,19 +125,10 @@ validating @0xb8012d88: www.isc.org A: in fetch_callback_validator</screen></par
   <para>In DNSSEC, every record will come with at least one RRSIG, and RRSIG contains two timestamps indicating when it starts becoming valid, and when it expires. If the validating resolver’s current system time does not fall within the RRSIG two timestamps, the following error messages occur in BIND debug log.</para>
 
   <para>First, the example below shows the log messages when the RRSIG has expired. This could mean the validating resolver system time is incorrectly set too far in the future, or the zone administrator has not kept up with RRSIG maintenance.
-   <screen>dnssec: validating @0xb7b839b0: . DNSKEY: starting
-validating @0xb7b839b0: . DNSKEY: attempting positive response validation
-validating @0xb7b839b0: . DNSKEY: <userinput>verify failed due to bad signature (keyid=19036): RRSIG has expired</userinput>
-validating @0xb7b839b0: . DNSKEY: unable to find a DNSKEY which verifies the DNSKEY RRset and also matches a trusted key for '.'
-validating @0xb7b839b0: . DNSKEY: please check the 'trusted-keys' for '.' in named.conf.
-validator @0xb7b839b0: dns_validator_destroy</screen></para>
+   <screen>validating @0xb7b839b0: . DNSKEY: <userinput>verify failed due to bad signature (keyid=19036): RRSIG has expired</userinput></screen></para>
 
   <para>The logs below show RRSIG validity period has not begun. This could mean validation resolver system is incorrectly set too far in the past, or the zone administrator has incorrectly generated signatures for this domain name.
-   <screen>dnssec: validating @0xb7c1bd88: www.isc.org A: starting
-validating @0xb7c1bd88: www.isc.org A: attempting positive response validation
-validating @0xb7c1bd88: www.isc.org A: keyset with trust 8
-validating @0xb7c1bd88: www.isc.org A: <userinput>verify failed due to bad signature (keyid=4521): RRSIG validity period has not begun</userinput>
-validating @0xb7c1bd88: www.isc.org A: failed to verify rdataset</screen></para>
+   <screen>validating @0xb7c1bd88: www.isc.org A: <userinput>verify failed due to bad signature (keyid=4521): RRSIG validity period has not begun</userinput></screen></para>
 
 <!-- TODO: jkuo Wed Oct 15 02:32:10 UTC 2014
 The section "Resource Record Signatures: RRSIG" does not exist yet, 
