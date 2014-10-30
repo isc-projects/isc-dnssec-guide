@@ -6,6 +6,9 @@
 
 <chapter id="Appendices">
   <title>Appendix</title>
+  <!-- === Deployment Checklist === -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="appendix_deployment-checklist.xml" />
+
   <!-- === Commonly Asked Questions === -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="appendix_commonly-asked-questions.xml" />
 </chapter>

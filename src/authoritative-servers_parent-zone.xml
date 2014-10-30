@@ -69,10 +69,7 @@ example.com. IN DNSKEY <userinput>257</userinput> 3 <userinput>8</userinput> AwE
  <!-- === What if My Parent Zone Doesn't Support DNSSEC? === -->
  <section id="parent-no-dnssec-support">
   <title>What if My Parent Zone Doesn't Support DNSSEC?</title>
-  <!-- TODO: jkuo Thu Oct 30 16:18:24 UTC 2014
-       Add link to section about check list (not yet written)
-  -->
-  <para>Well, you should have used the check-list in this document (LINK-TO-SIGNING-CHECK-LIST) before you went ahead and did all this work. Without a parent zone to vouch for you, none of your new shiny DNSSEC records will yield to much significance when it comes to validation. Your zone will still be resolvable without cooperation from your parent zone.</para>
+  <para>Well, first of all, you should have used <xref linkend="signing-deployment-checklist" /> included in the appendix before you went ahead and did all this work. Without a parent zone to vouch for you, none of your new shiny DNSSEC records will yield to much significance when it comes to validation. Your zone will still be resolvable without cooperation from your parent zone.</para>
 
   <para>But not all hope is lost. Assuming you want everyone on the Internet to be able to validate your DNS data, you should do both of the followings:
    <orderedlist>
