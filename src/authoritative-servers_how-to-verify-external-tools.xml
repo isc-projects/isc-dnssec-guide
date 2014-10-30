@@ -25,7 +25,7 @@
   <title>Versign DNSSEC Debugger</title>
    <para>URL: <ulink url="http://dnssec-debugger.verisignlabs.com/" /></para>
    <para>This tool shows a nice summary of checks performed on your domain name, and you can expand to view more details for each of the items checked to get a detailed report.</para>
-   <imagedata fileref="../img/verisign-dnssec-debugger-example.png" />
+   <simpara><imagedata fileref="../img/verisign-dnssec-debugger-example.png" /></simpara>
  </section>
 
  <!-- ====== DNSViz ====== -->
@@ -33,7 +33,7 @@
   <title>DNSViz</title>
   <para>URL: <ulink url="http://dnsviz.net/" /></para>
   <para>DNSViz provides a visual analysis of the DNSSEC authentication chain for a domain name and its resolution path in the DNS namespace.</para>
-  <imagedata fileref="../img/dnsviz-example-small.png" />
+  <simpara><imagedata fileref="../img/dnsviz-example-small.png" /></simpara>
  </section>
 
   <!-- ====== Sec Spider ====== -->
@@ -41,6 +41,6 @@
   <title>Sec Spider</title>
   <para>URL: <ulink url="http://secspider.cs.ucla.edu/" /></para>
   <para>Similar to DNSViz, with the added bonus of letting users move elements on the diagram.</para>
-  <imagedata fileref="../img/secspider-example-small.png" />
+  <simpara><imagedata fileref="../img/secspider-example-small.png" /></simpara>
  </section>
 </section>
