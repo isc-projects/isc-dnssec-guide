@@ -5,7 +5,7 @@
  <section id="whats-edns0-all-about-overview">
   <title>EDNS Overview</title>
 
-  <para>Traditional DNS queries are typically small in size, that fits nicely into a single UDP packet (less than 512 bytes). Extension Mechanisms for DNS (EDNS, or EDNS(0)) gives us a mechanism to send DNS data in multiple larger packets over UDP. In order to support EDNS, both the DNS server and the network need to be properly prepared to support the larger packet size and multiple fragments.</para>
+  <para>Traditional DNS queries are typically small in size, that fits nicely into a single UDP packet (less than 512 bytes). Extension mechanism for DNS (EDNS, or EDNS(0)) gives us a mechanism to send DNS data in multiple larger packets over UDP. In order to support EDNS, both the DNS server and the network need to be properly prepared to support the larger packet size and multiple fragments.</para>
 
   <para>This is important for DNSSEC, since DNSSEC responses are larger than traditional DNS. If DNS servers and network environment cannot support large multiple UDP packets, it will cause retransmission over TCP, or the larger UDP responses are discarded. Users will likely experience slow DNS resolution or unable to resolve certain names at all.</para>
 

@@ -38,7 +38,7 @@ Kexample.com.+008+57009
 Generating key pair........................+++ ..................................+++ 
 Kexample.com.+008+28267</screen></para>
 
-  <para>This generated four key files in <code>/etc/bind/keys/example.com</code>, the only one we care about for now is the KSK key, namely <code>Kexample.com.+008+28267.key</code>. Remember this file name, we will be need it again shortly. Make sure these files are readable by <code>named</code>.</para>
+  <para>This generated four key files in <code>/etc/bind/keys/example.com</code>, the only one we care about for now is the KSK key, <code>Kexample.com.+008+28267.key</code>. Remember this file name, we will be need it again shortly. Make sure these files are readable by <code>named</code>.</para>
 
   <para>Refer to <xref linkend="system-entropy"/> for information on how you could speed this process up by increasing the randomness available to your system.</para>
  </section>
