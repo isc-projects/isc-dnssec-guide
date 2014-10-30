@@ -51,52 +51,52 @@
   <orderedlist>
    <!-- #1 -->
    <listitem>
-    <simpara>Validating resolver queries the name server for isc.org for the A record of www.isc.org. This query has the DNSSEC OK (do) bit set to 1, notifying the remote authoritative server that DNSSEC answers are desired.</simpara>
+    <simpara>Validating resolver queries the name server for isc.org for the A record of <code>www.isc.org</code>. This query has the <code>DNSSEC OK</code> (<code>do</code>) bit set to 1, notifying the remote authoritative server that DNSSEC answers are desired.</simpara>
    </listitem>
 
    <!-- #2 -->
    <listitem>
-    <simpara>The zone isc.org is signed, and its name servers are DNSSEC-aware, thus it responds the answer to the A record query plus the RRSIG for the A record.</simpara>
+    <simpara>The zone <code>isc.org</code> is signed, and its name servers are DNSSEC-aware, thus it responds the answer to the A record query plus the RRSIG for the A record.</simpara>
    </listitem>
 
    <!-- #3 -->
    <listitem>
-	<simpara>Validating resolver queries for the DNSKEY for isc.org</simpara>
+	<simpara>Validating resolver queries for the DNSKEY for <code>isc.org</code>.</simpara>
    </listitem>
 
    <!-- #4 -->
    <listitem>
-    <simpara>isc.org name server responds with the DNSKEY and RRSIG records. The DNSKEY is used to verify the RRSIG received in #2</simpara>
+    <simpara><code>isc.org</code> name server responds with the DNSKEY and RRSIG records. The DNSKEY is used to verify the answers received in #2.</simpara>
    </listitem>
 
    <!-- #5 -->
    <listitem>
-	<simpara>Validating resolver queries the parent (.org) for the DS record for isc.org.</simpara>
+	<simpara>Validating resolver queries the parent (<code>.org</code>) for the DS record for <code>isc.org</code>.</simpara>
    </listitem>
 
    <!-- #6 -->
    <listitem>
-	<simpara>.org name server responds with the DS and RRSIG records. The DS record is used to verify the DNSKEY and RRSIG received in #4</simpara>
+	<simpara><code>.org</code> name server responds with the DS and RRSIG records. The DS record is used to verify the answers received in #4.</simpara>
    </listitem>
 
    <!-- #7 -->
    <listitem>
-	<simpara>Validating resolver queries for the DNSKEY for .org</simpara>
+	<simpara>Validating resolver queries for the DNSKEY for <code>.org</code>.</simpara>
    </listitem>
 
    <!-- #8 -->
    <listitem>
-    <simpara>.org name server responds with DNSKEY and RRSIG. The DNSKEY is used to verify the RRSIG received in #6.</simpara>
+    <simpara><code>.org</code> name server responds with DNSKEY and RRSIG. The DNSKEY is used to verify the answers received in #6.</simpara>
    </listitem>
 
    <!-- #9 -->
    <listitem>
-    <simpara>Validating resolver queries the parent (root) for the DS record for .org.</simpara>
+    <simpara>Validating resolver queries the parent (root) for the DS record for <code>.org</code>.</simpara>
    </listitem>
 
    <!-- #10 -->
    <listitem>
-    <simpara>Root name server responds with DS and RRSIG records. The DS record is used to verify the DNSKEY and RRSIG received in #8.</simpara>
+    <simpara>Root name server responds with DS and RRSIG records. The DS record is used to verify the answers received in #8.</simpara>
    </listitem>
 
    <!-- #11 -->
@@ -106,10 +106,10 @@
 
    <!-- #12 -->
    <listitem>
-    <simpara>Root name server responds with DNSKEY and RRSIG. The DNSKEY is used to verify the RRSIG received in #10.</simpara>
+    <simpara>Root name server responds with DNSKEY and RRSIG. The DNSKEY is used to verify the answers received in #10.</simpara>
    </listitem>
   </orderedlist></para>
 
-  <para>Just like in <xref linkend="how-does-dnssec-change-dns-lookup"/>, after step #12, the validating resolver takes the DNSKEY received and compares to the key it has stored on file.  This key-on-file is called a trust anchor, and that is what we will talk about next.</para>
+  <para>Just like in <xref linkend="how-does-dnssec-change-dns-lookup"/>, after step #12, the validating resolver takes the DNSKEY received and compares to the key or keys it has configured. These configured keys are also known as trust anchors, and that is what we will talk about next in <xref linkend="trust-anchors"/>.</para>
  </section>
 </section>
