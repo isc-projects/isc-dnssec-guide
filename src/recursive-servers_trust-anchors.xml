@@ -21,7 +21,7 @@
    <orderedlist>
     <!-- #1 -->
     <listitem>
-     <simpara>Validating resolver queries <code>fbi.gov</code> name server for the A record of <code>www.fbi.gov<code>.</simpara>
+     <simpara>Validating resolver queries <code>fbi.gov</code> name server for the A record of <code>www.fbi.gov</code>.</simpara>
     </listitem>
     <!-- #2 -->
     <listitem>
