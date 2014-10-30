@@ -34,11 +34,11 @@
 
    <!-- RFC5155 -->
    <listitem>
-    <simpara>NSEC3 (proof of nonexistence)</simpara>
+    <simpara>NSEC3 (proof of nonexistence with added privacy)</simpara>
    </listitem>
 
    <listitem>
-    <simpara>NSEC3PARAM</simpara>
+    <simpara>NSEC3PARAM (NSEC3 chain parameters)</simpara>
    </listitem>
   </itemizedlist>
  </para>
