@@ -18,22 +18,72 @@
        Need to link to the DS record section that explains more about DS records
   -->
   <para>Below is an example of generating DS record formats from the KSK we created earlier (<code>Kexample.com.+008+28267.key</code>) using two different secure hashing algorithms (SHA-1 and SHA-256, respectively):
-   <screen># <userinput>cd /etc/bind/keys</userinput>
+   <screen># <userinput>cd /etc/bind/keys/example.com</userinput>
 # <userinput>dnssec-dsfromkey -a SHA-1 Kexample.com.+008+28267.key</userinput>
-example.com. IN DS 28267 8 1 66D47CE4B4F551BE5EDA43AC5F3109E8C98E2FAE
-# <userinput>dnssec-dsfromkey -a SHA-256 ksk.key</userinput>
-example.com. IN DS 28267 8 2 71D9335416B7132519190A95685E18CBF478DCF4CA98867062777938F8FEAB89</screen></para>
+example.com. IN DS 28267 <userinput>8 1</userinput> 66D47CE4B4F551BE5EDA43AC5F3109E8C98E2FAE
+# <userinput>dnssec-dsfromkey -a SHA-256 Kexample.com.+008+28267.key</userinput>
+example.com. IN DS 28267 <userinput>8 2</userinput> 71D9335416B7132519190A95685E18CBF478DCF4CA98867062777938F8FEAB89</screen></para>
+
+  <para>Some registrars many ask you to manually specify the types of algorithm and digest used. In the first example, 8 represents the algorithm used, and 1 represents the digest type; in the second example, 8 is the algorithm, and 2 is the digest type. The key tag or key ID is 28267.</para>
  </section>
 
 
  <!-- === DNSKEY Format === -->
  <section id="parent-dnskey-format">
   <title>DNSKEY Format</title>
+
+  <!-- TODO: jkuo Thu Oct 30 16:10:09 UTC 2014
+       Need to link to section explaning algorithm field...?
+       1: RSA/MD5
+       3: DSA
+       5: RSA/SHA1 (Mandatory)
+       6: DSA/NSEC3
+       7: RSA/SHA1 - NSEC3
+       8: RSA/SHA-256
+       10: RSA/SHA-512
+  -->
+  <para>Below is an example of DNSKEY format (actual key shortened for display):
+   <screen>example.com. 172800 IN DNSKEY 257 3 8 (AwEAAbGOPf...AX2QHMY8=) ; key id = 16027</screen></para>
+
+  <para>The key itself is easy to find (it's kind of hard to miss that big long base64 string) in the file. Remember, we want KSK, so look for the presence of 257.
+   <screen># <userinput>cd /etc/bind/keys/example.com</userinput>
+# <userinput>cat Kexample.com.+008+28267.key</userinput>
+; This is a key-signing key, keyid <userinput>28267</userinput>, for example.com.
+; Created: 20141021053830 (Tue Oct 21 13:38:30 2014)
+; Publish: 20141021053830 (Tue Oct 21 13:38:30 2014)
+; Activate: 20141021053830 (Tue Oct 21 13:38:30 2014)
+example.com. IN DNSKEY <userinput>257</userinput> 3 <userinput>8</userinput> AwEAAdQ2ct...R+qwWDh6U=</screen></para>
+
+  <para>Some registrars may ask you to manually specify the type of algorithm used and the key tag number. In our example above, the chosen algorithm is 8, and the key ID is 28267.</para>
  </section>
 
 
  <!-- === Trusted Key Format === -->
  <section id="parent-trusted-key-format">
   <title>Trusted Key Format</title>
+  <para>This format is very similar to the DNSKEY format, the differences are mostly cosmetic. Below is an example of <code>trusted-key</code> formant (again, actual key shortened for display):
+   <screen>"example.com." 257 3 8 "AwEAAbGOPf...9AX2QHMY8=";</screen></para>
+ </section>
+
+
+ <!-- === What if My Parent Zone Doesn't Support DNSSEC? === -->
+ <section id="parent-no-dnssec-support">
+  <title>What if My Parent Zone Doesn't Support DNSSEC?</title>
+  <!-- TODO: jkuo Thu Oct 30 16:18:24 UTC 2014
+       Add link to section about check list (not yet written)
+  -->
+  <para>Well, you should have used the check-list in this document (LINK-TO-SIGNING-CHECK-LIST) before you went ahead and did all this work. Without a parent zone to vouch for you, none of your new shiny DNSSEC records will yield to much significance when it comes to validation. Your zone will still be resolvable without cooperation from your parent zone.</para>
+
+  <para>But not all hope is lost. Assuming you want everyone on the Internet to be able to validate your DNS data, you should do both of the followings:
+   <orderedlist>
+    <listitem>
+     <simpara>Contact your registrar and ask for DNSSEC support.</simpara>
+    </listitem>
+    <listitem>
+     <simpara>Look into using <xref linkend="dlv"/>.</simpara>
+    </listitem>
+   </orderedlist></para>
+
+  <para>The long term solution is still to have your parent zone work with you. If your registrar does not support DNSSEC, maybe it's time to switch to one that does.</para>
  </section>
 </section>
