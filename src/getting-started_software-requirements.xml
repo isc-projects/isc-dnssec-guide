@@ -31,5 +31,6 @@ using libxml2 version: 2.9.1</screen></para>
   <title>System Entropy</title>
   <para>If you plan on deploying DNSSEC to your authoritative server, you will need to generate some cryptographic keys (<xref linkend="signing-generate-keys-explained"/>). The amount of time it takes to generate the keys depends on the source of randomness, or entropy, on your systems. On some systems (especially virtual machines) with insufficient entropy, it may take much longer than one cares to wait to generate keys.</para>
   <para>There are software packages, such as <code>haveged</code> for Linux, that provides additional entropy for your system. Once installed, it will significantly reduce the time needed to generate keys down to seconds.</para>
+  <para>The more entropy there is, the stronger keys you make. If you want or need high quality random numbers (thus high quality keys), take a look at <xref linkend="specialized-hardware" /> for some of the hardware-based solutions.</para>
  </section>
 </section>
