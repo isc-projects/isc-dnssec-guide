@@ -5,25 +5,26 @@
  
  <para>To convert a traditional (insecure) DNS zone to a secure one, we need to create various additional records (DNSKEY, RRSIG, NSEC or NSEC3), and upload verifiable information (such as DS record) to the parent zone to complete the chain of trust. For more information about DNSSEC resource records, please see <xref linkend="what-does-dnssec-add-to-dns" />.</para>
 
- <para>For our examples below, we will be working with the assumption that there is an existing insecure zone <code>example.com</code> that we will be converting to a secure version.
+ <para>For our examples below, we will be working with the assumption that there is an existing insecure zone <code>example.com</code> that we will be converting to a secure version.</para>
+
+  <!-- TODO jkuo Fri Oct 31 17:13:12 UTC 2014
+  Perhaps this is no needed anymore? Check back
+  to see if this affects the flow of the doc.
   <orderedlist>
-   <!-- #1 Generate Keys -->
    <listitem>
-    <simpara><xref linkend="signing-easy-start-generate-keys" /></simpara>
+    <simpara><xref linkend="signing-easy-start-generate-keys">Generate Keys</xref></simpara>
    </listitem>
-   <!-- #2 Reconfigure BIND -->
    <listitem>
     <simpara><xref linkend="signing-easy-start-reconfigure-bind" /></simpara>
    </listitem>
-   <!-- #3 (Optional) Additional Privacy -->
    <listitem>
     <simpara><xref linkend="signing-easy-start-additional-privacy" /></simpara>
    </listitem>
-   <!-- #4 Upload to Parent Zone -->
    <listitem>
     <simpara><xref linkend="signing-easy-start-upload-to-parent-zone" /></simpara>
    </listitem>
   </orderedlist></para>
+  -->
 
  <!-- === #1 Generate Keys === -->
  <section id="signing-easy-start-generate-keys">
