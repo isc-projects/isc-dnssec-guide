@@ -29,7 +29,7 @@
 ;; MSG SIZE  rcvd: 40</screen>
  </para>
 
- <para>With <code>delv</code>, a resolution failed message:
+ <para>With <code>delv</code>, a "resolution failed" message is output instead:
   <screen>$ <userinput>delv @192.168.1.11 www.isc.org. A +rtrace</userinput>
 ;; fetch: www.isc.org/A
 ;; <userinput>resolution failed: failure</userinput></screen></para>
