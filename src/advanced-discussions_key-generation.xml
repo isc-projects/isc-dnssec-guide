@@ -25,7 +25,7 @@
 
   <para>RSA is the only one that is mandated to be implemented with DNSSEC, and is currently the most widely supported algorithm by both name servers and clients. So for the near future, RSA is the algorithm to use.</para>
 
-  <para>However, RSA is a little long in the tooth, and ECDSA is emerging as the next new crypto standard. In fact, the US federal government has recommended to stop using RSA by September 2015, and migrate to using ECDSA (or similar).</para>
+  <para>However, RSA is a little long in the tooth, and ECDSA is emerging as the next new cryptographic standard. In fact, the US federal government has recommended to stop using RSA by September 2015, and migrate to using ECDSA (or similar).</para>
  </section>
 
  <!-- === Key Sizes === -->
