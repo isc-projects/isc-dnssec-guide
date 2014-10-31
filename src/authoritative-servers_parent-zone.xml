@@ -25,6 +25,11 @@ example.com. IN DS 28267 <userinput>8 1</userinput> 66D47CE4B4F551BE5EDA43AC5F31
 example.com. IN DS 28267 <userinput>8 2</userinput> 71D9335416B7132519190A95685E18CBF478DCF4CA98867062777938F8FEAB89</screen></para>
 
   <para>Some registrars many ask you to manually specify the types of algorithm and digest used. In the first example, 8 represents the algorithm used, and 1 represents the digest type; in the second example, 8 is the algorithm, and 2 is the digest type. The key tag or key ID is 28267.</para>
+
+  <para>Alternatively, you could generate it from the DNSKEY records like this:
+   <screen>$ <userinput>dig @192.168.1.13 example.com. DNSKEY | dnssec-dsfromkey -f - example.com</userinput>
+example.com. IN DS 28267 8 1 66D47CE4B4F551BE5EDA43AC5F3109E8C98E2FAE
+example.com. IN DS 28267 8 2 71D9335416B7132519190A95685E18CBF478DCF4CA98867062777938F8FEAB89</screen></para>
  </section>
 
 
