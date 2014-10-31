@@ -6,8 +6,7 @@
 
 <chapter id="introduction">
   <title>Introduction</title>
-
-  <para>This guide provides information on how to configure DNSSEC using BIND9. Readers are assumed to have basic knowledge of the Domain Name System (DNS) and related network infrastructure. In-depth knowledge of DNS or DNSSEC, and public key cryptography are not required. This guide is intended for system administrators, engineers, and consultants who are new to DNSSEC, or those who understand the technology but need configuration and deployment examples.</para>
+  <para>This guide provides information on how to configure DNSSEC using BIND9. Readers are assumed to have basic knowledge of the Domain Name System (DNS) and related network infrastructure. In-depth knowledge of DNS, DNSSEC, public key cryptography, or hashing functions are not required. This guide is intended for DNS administrators who are new to DNSSEC, or those who understand the technology but need configuration and deployment examples.</para>
 
   <!-- === What is DNSSEC?=== -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="introduction_what-is-dnssec.xml" />
