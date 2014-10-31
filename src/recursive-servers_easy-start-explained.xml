@@ -45,17 +45,17 @@
  <!-- === How Does DNSSEC Change DNS Lookup (Revisited) === -->
  <section id="how-does-dnssec-change-dns-lookup-revisited">
   <title>How Does DNSSEC Change DNS Lookup (Revisited)?</title>
-  <para>So by now you’ve enabled validation on your recursive name server, and verified that it works. What exactly changed? In <xref linkend="how-does-dnssec-change-dns-lookup"/> we looked at the very high level, simplified 12-steps of DNSSEC validation process. Let’s revisit that process now and see what your validating resolver is doing in more details. Again, we are using the example to lookup the A record for the domain name www.isc.org:</para>
+  <para>So by now you’ve enabled validation on your recursive name server, and verified that it works. What exactly changed? In <xref linkend="how-does-dnssec-change-dns-lookup"/> we looked at the very high level, simplified 12-steps of DNSSEC validation process. Let’s revisit that process now and see what your validating resolver is doing in more details. Again, we are using the example to lookup the A record for the domain name <code>www.isc.org</code>:</para>
   <para>
   <imagedata fileref="../img/image-placeholder.jpg"/>
   <orderedlist>
    <!-- #1 -->
    <listitem>
-    <simpara>Validating resolver queries the name server for isc.org for the A record of <code>www.isc.org</code>. This query has the <code>DNSSEC OK</code> (<code>do</code>) bit set to 1, notifying the remote authoritative server that DNSSEC answers are desired.</simpara>
+    <simpara>Validating resolver queries <code>isc.org</code> name servers for the A record of <code>www.isc.org</code>. This query has the <code>DNSSEC OK</code> (<code>do</code>) bit set to 1, notifying the remote authoritative server that DNSSEC answers are desired.</simpara>
    </listitem>
    <!-- #2 -->
    <listitem>
-    <simpara>The zone <code>isc.org</code> is signed, and its name servers are DNSSEC-aware, thus it responds the answer to the A record query plus the RRSIG for the A record.</simpara>
+    <simpara>The zone <code>isc.org</code> is signed, and its name servers are DNSSEC-aware, thus it responds with the answer to the A record query plus the RRSIG for the A record.</simpara>
    </listitem>
    <!-- #3 -->
    <listitem>
@@ -106,7 +106,7 @@
  <!-- === How are Answers Verified? === -->
  <section id="how-are-answers-verified">
   <title>How are Answers Verified?</title> 
-  <note>Keep in mind as you read this section, that although the word <emphasis>encryption</emphasis> is used from time to time, DNSSEC does not provide you with privacy. Public key cryptograph is used to provide data authenticity (who sent it) and data integrity (it did not change during transit), but any eavesdropper can still see your DNS requests and responses in clear text.</note>
+  <note>Keep in mind as you read this section, that although words like <emphasis>encryption</emphasis> and <emphasis>decryption</emphasis> are used from time to time, DNSSEC does not provide you with privacy. Public key cryptography is used to provide data authenticity (who sent it) and data integrity (it did not change during transit), but any eavesdropper can still see your DNS requests and responses in clear text, even whtn DNSSEC is enabled.</note>
   
   <para>So how exactly are DNSSEC answers verified? Before we can talk about how they are verified, let's first see how verifiable information is generated. On the authoritative server, each DNS record (or message) is run through a hash function, then this hashed value is encrypted by a private key. This encrypted hash value is the digital signature.</para>
   
