@@ -7,10 +7,10 @@
  <para>That leaves DNSKEY records. Just like passwords and underwear, keys need to be changed periodically. If you followed the examples in this guide with inline signing and automatic key management, you need to do the following two things regularly:
   <orderedlist>
    <listitem>
-    <simpara>Generate new ZSK pair, wait some period of time, and delete old information from zone.</simpara>
+    <simpara>Generate new ZSK pair every month, wait some period of time, and delete old information from zone.</simpara>
    </listitem>
    <listitem>
-    <simpara>Generate new KSK pair, upload to parent zone, wait some period of time, and delete old information from zone.</simpara>
+    <simpara>Generate new KSK pair every year, upload to parent zone, wait some period of time, and delete old information from zone.</simpara>
    </listitem>
   </orderedlist></para>
 
