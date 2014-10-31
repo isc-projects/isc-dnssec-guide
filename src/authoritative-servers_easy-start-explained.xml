@@ -110,7 +110,7 @@ zone "example.com" IN {
    <screen>zone "example.com" IN {
     auto-dnssec maintain;
 };</screen>
-   <para>With keys, comes the burden of key management. Just like passwords and underwear, keys need to be changed periodically. This is sometimes called "key rollover". <code>auto-dnssec</code> provides varying levels of automatic key management. There are three possible settings:
+   <para>With keys, comes the burden of key management. <code>auto-dnssec</code> provides varying levels of automatic key management. There are three possible settings:
     <orderedlist>
      <!-- #1 -->
      <listitem>

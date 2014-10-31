@@ -1,3 +1,18 @@
 <section id="signing-maintenance-tasks">
  <title>Maintenance Tasks</title>
+ <para>Zone data is signed, parent zone has published your DS records, at this point your zone is officially secure. When other validating resolvers lookup information in your zone, they are able to follow the 12-step process as described in <xref linkend="how-does-dnssec-change-dns-lookup-revisited" /> and verify the authenticity and integrity of the answers.</para>
+
+ <para>There is not all that much left for you to do, as the DNSSEC zone administrator, at an ongoing basis. Whenever you update your zone, BIND will automatically resign your zone with new RRSIG and NSEC or NSEC3 records, and even increment the serial number for you.</para>
+
+ <para>That leaves DNSKEY records. Just like passwords and underwear, keys need to be changed periodically. If you followed the examples in this guide with inline signing and automatic key management, you need to do the following two things regularly:
+  <orderedlist>
+   <listitem>
+    <simpara>Generate new ZSK pair, wait some period of time, and delete old information from zone.</simpara>
+   </listitem>
+   <listitem>
+    <simpara>Generate new KSK pair, upload to parent zone, wait some period of time, and delete old information from zone.</simpara>
+   </listitem>
+  </orderedlist></para>
+
+ <para>We will talk more about the details of key rollover and timing in <xref linkend="key-rollovers" />.</para>
 </section>
