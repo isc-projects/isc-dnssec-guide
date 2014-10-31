@@ -27,7 +27,4 @@ articles owned by ISC:
 
   <!-- === Maintenance Tasks === -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="authoritative-servers_maintenance-tasks.xml" />
-    
-  <!-- === Signing Basic Troubleshooting === -->
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="authoritative-servers_troubleshooting.xml" />
 </chapter>
