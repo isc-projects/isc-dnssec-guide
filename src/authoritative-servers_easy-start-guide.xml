@@ -78,7 +78,7 @@ server reload successful</screen></para>
    <screen>Oct 21 13:47:21 received control channel command 'signing -nsec3param 1 0 10 1234567890abcdef example.com'
 Oct 21 13:47:21 zone example.com/IN (signed): zone_addnsec3chain(1,CREATE,10,1234567890ABCDEF)</screen></para>
 
-  <para>If you do not plan on using NSEC3, you can skip this step. To learn more about the pros and cons of NSEC3, please see <xref linkend="nsec-or-nsec3"/>.</para>
+  <para>If you do not plan on using NSEC3, you can skip this step. To learn more about NSEC and NSEC3, please see <xref linkend="nsec-or-nsec3"/>.</para>
  </section>
 
 
@@ -86,6 +86,8 @@ Oct 21 13:47:21 zone example.com/IN (signed): zone_addnsec3chain(1,CREATE,10,123
  <section id="signing-easy-start-upload-to-parent-zone">
   <title>Upload to Parent Zone</title>
   <para>Everything is done on our name server, now we need to generate some information to be uploaded to the parent zone to complete the chain of trust.The formats and the upload methods are actually dictated by your parent zone’s administrator, so contact your registrar or parent zone administrator to find out what the actual format should be, and how to deliver or upload the information to your parent zone.</para>
+
+  <note>Before uploading to your parent zone, verify that your newly signed zone has propagated to all of your name servers (usually zone transfers). If some of your name servers still have unsigned zone data while the parent tells the world it should be signed, validating resolvers around the world will not resolve your domain name.</note>
 
   <para>Here are some examples of what you may upload to your parent zone, actual keys shortened for display. Again, contact your parent zone administrator(s) to find out what is the correct format for you:
    <orderedlist>
