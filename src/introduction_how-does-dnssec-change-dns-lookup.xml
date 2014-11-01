@@ -42,7 +42,7 @@
 
    <!-- #6 -->
    <listitem>
-    <simpara>The verifiable information is sent from the <code>.org</code> server. At this point, validating resolver compares this to the answer it received in #4, and the two of them should match, proving the authenticity of the <code>isc.org</code> name server.</simpara>
+    <simpara>The verifiable information is sent from the <code>.org</code> server. At this point, validating resolver compares this to the answer it received in #4, and the two of them should match, proving the authenticity of <code>isc.org</code>.</simpara>
 
     <simpara>We need to take another quick break here and examine this process. You might be thinking to yourself, well, what if the clever attacker that took over <code>isc.org</code> also compromised the <code>.org</code> servers? Of course all this information will match! That’s why we will turn our attention now to the <code>.org</code> servers, interrogate it for its cryptographic keys, and move on one level up to <code>.org</code>’s parent, root.</simpara>
    </listitem>
