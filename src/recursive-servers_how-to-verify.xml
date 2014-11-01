@@ -38,7 +38,7 @@
 
   <para>While nslookup is popular, partly because it comes pre-installed on most systems, it is not DNSSEC-aware. The Domain Information Groper (<code>dig</code>), on the other hand, fully supports the DNSSEC standard, and comes as a part of BIND. If you do not have dig already installed on your system, install it by downloading it from ISC’s web site. ISC provides pre-compiled Windows versions on its web site.</para>
   
-  <para><code>dig</code> is a flexible tool for interrogating DNS name servers. It performs DNS lookups and displays the answers that are returned from the name server(s) that were queried. Most seasonsed DNS administrators use <code>dig</code> to troubleshoot DNS problems because of its flexibility, ease of use, and clarity of output.</para>
+  <para><code>dig</code> is a flexible tool for interrogating DNS name servers. It performs DNS lookups and displays the answers that are returned from the name server(s) that were queried. Most seasoned DNS administrators use <code>dig</code> to troubleshoot DNS problems because of its flexibility, ease of use, and clarity of output.</para>
 
   <para>The example below shows using dig to query the name server 192.168.1.7 for the A record for www.isc.org before DNSSEC validation is enabled. Notice although we specifically used the <code>+dnssec</code> code line option, we do not see the DNSSEC OK (<code>do</code>) bit in the response, nor do we see any DNSSEC resource records.
   <screen>$ <userinput>dig @192.168.1.7 www.isc.org. A +dnssec +multiline</userinput>

@@ -62,7 +62,7 @@
   <title>Trusted Keys and Managed Keys</title>
   <para>So we have at least one key configured, and it is known as a trust anchor. How did it get here, and how do we maintain it?</para>
 
-  <para>If you followed the recommendation in <xref linkend="easy-start-guide-for-recursive-servers"/>, by setting <code>dnssec-validation</code> to <code>auto</code>, then there is nothing you need to do. BIND already includes a default key (usually in the file <code>bind.keys</code>), that will automatically update itself. It looks something like this:
+  <para>If you followed the recommendation in <xref linkend="easy-start-guide-for-recursive-servers"/>, by setting <code>dnssec-validation</code> to <code>auto</code>, then there is nothing you need to do. BIND already includes a default key (in the file <code>bind.keys</code>), that will automatically update itself. It looks something like this:
    <screen>managed-keys {
     . initial-key 257 3 8 "AwEAAagAIKlVZrpC6Ia7gEzahOR+9W29euxhJhVVLOyQbSEW0O8gcCjF
     FVQUTf6v58fLjwBd0YI0EzrAcQqBGCzh/RStIoO8g0NfnfL2MTJRkxoX
