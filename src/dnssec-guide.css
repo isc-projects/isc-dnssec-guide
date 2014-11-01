@@ -21,6 +21,16 @@ body {
 	-webkit-border-radius: 10px;
 }
 
+
+.answer {
+    font-size: 12px;
+}
+.question {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+
 .quote {
     font-style: italic;
     font-size: 14px;
