@@ -1,8 +1,75 @@
-    <!-- === Commonly Asked Questions about DNSSEC === -->
-    <section id="commonly-asked-questions-about-dnssec">
-    <title>Commonly Asked Questions about DNSSEC</title>
-    <para>No questions are too stupid to ask, below is a collection of such questions and answers.</para>
+<!-- === Commonly Asked Questions about DNSSEC === -->
+<section id="commonly-asked-questions-about-dnssec">
+ <title>Commonly Asked Questions about DNSSEC</title>
+ <para>No questions are too stupid to ask, below is a collection of such questions and answers.</para>
+ <qandaset defaultlabel='qanda'>
+  <qandaentry>
+   <question><para>Do I need IPv6 to have DNSSEC?</para></question>
+   <answer><para>No. DNSSEC can be deployed independet of IPv6.</para></answer>
+  </qandaentry>
 
+  <qandaentry>
+   <question><para>Does DNSSEC encrypt my DNS traffic, so others cannot eavesdrop on my DNS queries?</para></question>
+   <answer><para>No. Although cryptographic keys and digital signatures are used in DNSSEC, they only provide authenticity and integrity, not privacy. Someone who sniffs network traffic can still see all the DNS queries and answers in plain text, DNSSEC just makes it very difficult for the eavesdropper to alter or spoof the DNS responses.</para></answer>
+  </qandaentry>
+
+  <qandaentry>
+   <question><para>Does DNSSEC protect the communication between my laptop and my name server?</para></question>
+   <answer><para>Unfortunately, no. DNSSEC is a protocol among DNS servers. Enabling DNSSEC will change the way your name server communicates with other name servers, but not your how your laptop computer or mobile client communicates with your recursive server. This communication between the recursive server to the clients are commonly called the “last mile”, and enabling DNSSEC does not enhance security for the last mile.</para></answer>
+  </qandaentry>
+
+  <qandaentry>
+   <question><para>Is DNSSEC going to protect me from malicious web sites?</para></question>
+   <answer><para>The answer for now is, unfortunately for early stages of DNSSEC deployment, no. DNSSEC is designed so you can have confidence that when you received the DNS response for www.isc.org over port 53, you know it really came from the ISC name servers, and the answers are authentic. But that does not mean the web server you visit over port 80 or port 443 is necessarily safe. Further more, 99% of the domain names (as of this writing) have not signed their zones yet, so DNSSEC cannot even validate their answers.</para>
+       <para>The answer for sometime in the future is, as more and more zones are signed and more and more recursive servers are validating, DNSSEC will make it much more difficult for attackers to spoof DNS responses or perform cache poisoning. It still does not protect users from visiting a malicious web site that the attacker owns and operates, it just becomes unlikely that the attacker can hijack other domain names.</para></answer>
+  </qandaentry>
+
+  <qandaentry>
+   <question><para>If I enable DNSSEC validation, will it break DNS lookup for majority of the domain names, since most domains names don’t have DNSSEC yet?</para></question>
+   <answer><para>No, DNSSEC is backwards compatible to “standard” DNS. As of this writing, although 99% of the .com domains have yet to be signed, a DNSSEC-enabled validating resolver can still lookup all of these domain names following the “old fashioned way”. There are four (4) categories of responses (RFC 4035 Sec 4.3):
+        <orderedlist>
+         <listitem>
+          <simpara><emphasis>Secure</emphasis>: Domains that have DNSSEC deployed correctly</simpara>
+         </listitem>
+         <listitem>
+          <simpara><emphasis>Insecure</emphasis>: Domains that have yet to deploy DNSSEC</simpara>
+         </listitem>
+         <listitem>
+          <simpara><emphasis>Bogus</emphasis>: Domains that deployed DNSSEC but did it incorrectly</simpara>
+         </listitem>
+         <listitem>
+          <simpara><emphasis>Indeterminate</emphasis>: Unable to determine whether or not to use DNSSEC</simpara>
+         </listitem>
+        </orderedlist>
+       </para>
+       <para>A validating resolver will still resolve #1 and #2, only #3 and #4 will result in a SERVFAIL.
+You may already be using DNSSEC validation without realizing it, since some ISP’s have begun enabling DNSSEC validation on their recursive name servers. Google public DNS (8.8.8.8) also has enabled DNSSEC validation.</para></answer>
+  </qandaentry>
+
+  <qandaentry>
+   <question><para>Do I need to have special client software to use DNSSEC?</para></question>
+   <answer><para>The short answer is no, DNSSEC only changes the communication behavior among DNS servers, not DNS server (validating resolver) and client (stub resolver). With DNSSEC validation enabled on your recursive server, if a domain name doesn’t pass the checks, an error message (typically SERVFAIL) is returned to the clients, and to most client software today, it looks as if the DNS query has failed, or the domain name does not exist.</para>
+       <para>The longer answer is although you don’t have to, you may want to. There are more and more client softwares that take advantage of the new DNSSEC features and give user better feedback about the domain name they are visiting. CZ.NIC Lab’s has created a plugin for several popular web browsers, and Mozilla has created a new web browser Bloodhound that performs DNSSEC validation.</para>
+       <para>As DNSSEC deployment becomes more common place, we are sure to see more and more software libraries and applications be updated to support its features.</para></answer>
+  </qandaentry>
+
+  <qandaentry>
+   <question><para>Since DNSSEC uses public key cryptography, do I need Public Key Infrastructure (PKI) in order to use DNSSEC?</para></question>
+   <answer><para>No.</para></answer>
+  </qandaentry>
+
+  <qandaentry>
+   <question><para>Do I need to purchase SSL certificates from a Certificate Authority (CA) to use DNSSEC?</para></question>
+   <answer><para>No. With DNSSEC, you generate and publish your own keys, and sign your own data as well. There is no need to pay someone else to do it for you.</para></answer>
+  </qandaentry>
+
+  <qandaentry>
+   <question><para>Is DNSSEC the same thing as TSIG that I have between my master and slave servers?</para></question>
+   <answer><para>No. TSIG is typically used between master and slave name servers to secure zone transfers, DNSSEC secures DNS lookup by validating answers. Even if you enabled DNSSEC, zone transfers are still not validated, and if you wish to secure the communication between your master and slave name servers, you should consider setting up TSIG or similar secure channels.</para></answer>
+  </qandaentry>
+ </qandaset>
+
+<!--
       <section id="caq-do-i-need-ipv6">
        <title>Do I need IPv6 to have DNSSEC?</title>
        <para>No. DNSSEC can be deployed independent of IPv6.</para>
@@ -67,5 +134,6 @@ You may already be using DNSSEC validation without realizing it, since some ISP�
        <title>Is DNSSEC the same thing as TSIG that I have between my master and slave servers?</title>
        <para>No. Talk about some similarities and differences.</para>
       </section>
-    </section>
+-->
+</section>
 
