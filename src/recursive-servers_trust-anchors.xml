@@ -73,7 +73,7 @@
     QxA+Uk1ihz0=";
 };</screen></para>
 
-  <para>You could, of course, decide to manage this key on your own by hand. First, you’ll need to make sure that your <code>dnssec-validation</code> is set to <code>yes</code>:
+  <para>You could, of course, decide to manage this key on your own by hand. First, you’ll need to make sure that your <code>dnssec-validation</code> is set to <code>yes</code> rather than <code>auto</code>:
    <screen>options {
     dnssec-validation yes;
 };</screen></para>
