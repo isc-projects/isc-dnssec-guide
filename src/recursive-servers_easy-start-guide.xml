@@ -1,7 +1,20 @@
 <section id="easy-start-guide-for-recursive-servers">
  <title>Easy Start Guide for Recursive Servers</title>
  <para>This section provides the minimum amount of information to setup a working DNSSEC-aware recursive server, also known as a validating resolver. A validating resolver performs validation for each remote response received, following the chain of trust to verify the answers it receives are legitimate through the use of public key cryptography and hashing functions.</para>
- 
+
+ <para>Once DNSSEC validation is enabled, any DNS responses that do not pass the validation checks will result in the domain name not getting resolved. What this means for the DNS administrator is, if there is a DNSSEC configuration issue (sometimes outside of the administrator's control), a specific name, or sometimes entire domains, may "disappear" from DNS; what this means for the end user is, some parts of a URL will not load, or web browser will display some error message indicating the page cannot be displayed at all.</para>
+
+ <para>For example, if root name servers were misconfigured with the wrong information about <code>.org</code>, it could cause all validation for <code>.org</code> domains to fail. To the end users, it would appear that no one could get to any <code>.org</code> web sites.</para>
+
+ <note>
+ <qandaset defaultlabel='qanda'>
+  <qandaentry>
+   <question><simpara>ISC reviewers: Should we even talk about negative trust anchors?</simpara></question>
+   <answer><simpara>???</simpara></answer>
+  </qandaentry>
+ </qandaset>
+ </note>
+
 <!-- TODO: jreed: enabled by default but not useful by default
 since no trust anchor configured by default;
 maybe this section should explain the auto here before testing  -->
