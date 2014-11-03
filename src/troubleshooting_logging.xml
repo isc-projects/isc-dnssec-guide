@@ -1,5 +1,5 @@
-<section id="validating-resolver-basic-troubleshooting">
- <title>Validating Resolver Basic Troubleshooting</title>
+<section id="troubleshooting-logging">
+ <title>Logging</title>
 
  <!-- TODO: Is this too much information for a basic troubleshooting?
             Consider removing the debug logging section completely.
