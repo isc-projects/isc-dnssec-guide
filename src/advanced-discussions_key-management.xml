@@ -4,9 +4,57 @@
  <!-- === Key Rollovers === -->
  <section id="key-rollovers">
   <title>Key Rollovers</title>
+  <para>Best practice is to use different keys to sign zone data (ZSK) and DNSKEY data (KSK). Since they serve different functions, their timing and methods of rollovers are also different. ZSK should be changed every one to three months, while KSK should be changed every one to two years.</para>
+
+
+  <note>This section is pretty much just taken from here:
+  https://tools.ietf.org/html/draft-ietf-dnsop-dnssec-key-timing-06</note>
+  <!-- ====== ZSK Rollover ====== -->
+  <section id="zsk-rollover">
+   <title>ZSK Rolloever</title>
+   <para>Generally speaking, ZSK is smaller in size (compared to KSK) for performance, but smaller keys take less time to break, thus ZSK should be changed, or rolled, more frequently. ZSK can be rolled in one of the following two ways:
+    <orderedlist>
+     <!-- #1 -->
+     <listitem>
+      <simpara><emphasis>Pre-publication</emphasis>: Publish new ZSK into zone data before it is actually used. Wait at least one TTL so the world knows about both keys, then stop using the old key and generate new RRSIG using the new key. Wait at least another TTL before removing the old key.</simpara>
+      <simpara>The benefit of the Pre-publication approach is it does not dramatically increase the zone size, but the duration of the rollover is longer. If not sufficient amount of time has passed after new ZSK is published, some resolvers may only have the old ZSK cached when the new RRSIG records are published, and validation may fail.</simpara>
+     </listitem>
+     <!-- #2 -->
+     <listitem>
+      <simpara><emphasis>Double Signature</emphasis>: Publish new ZSK and new RRSIG, essentially double the size of the zone. Wait at least one TTL before removing the old ZSK and old RRSIG.</simpara>
+      <simpara>The benefit of the Double Signature approach is that it is easier to understand and execute, but suffers from increased zone size (essentially double) during a rollover event.</simpara>
+     </listitem>
+    </orderedlist>
+   </para>
+  </section>
+
+  <section id="ksk-rolloever">
+   <title>KSK Rollover</title>
+   <para>Rolling KSK requires interaction with the parent zone, so operationally this may be more complex than rolling ZSK. There are three methods of rolling KSK:
+    <orderedlist>
+     <!-- #1 -->
+     <listitem>
+      <simpara><emphasis>Double-KSK</emphasis>: the new KSK is added to the DNSKEY RRset which is then signed with both the old and new key.  After waiting for the old RRset to expire from caches, the DS record in the parent zone is changed.  After waiting a further interval for this change to be reflected in caches, the old key is removed from the RRset.</simpara>
+      <simpara>Basically, the new KSK is added first at the child zone and being used to sign DNSKEY, then the DS record is changed, followed by the removal of the old KSK. Double-KSK limits the interaction with the parent zone to a minim, but for the duration of the rollover, the size of the DNSKEY RRset is increased.</simpara>
+     </listitem>
+     <!-- #2 -->
+     <listitem>
+      <simpara><emphasis>Double-DS</emphasis>: the new DS record is published.  After waiting for this change to propagate into caches, the KSK is changed.  After a further interval during which the old DNSKEY RRset expires from caches, the old DS record is removed.</simpara>
+      <simpara>Double-DS is the reverse of Double-KSK: the new DS is published at the parent first, then the KSK at the child is updated, then remove the old DS at the parent. The benefit is that the size of the DNSKEY RRset is kept to a minimum, but interactions with the parent zone is increased two two events.</simpara>
+     </listitem>
+     <!-- #3 -->
+     <listitem>
+      <simpara><emphasis>Double-RRset</emphasis>: the new KSK is added to the DNSKEY RRset which is then signed with both the old and new key, and the new DS record added to the parent zone.  After waiting a suitable interval for the old DS and DNSKEY RRsets to expire from caches, the old DNSKEY and DS record are removed.</simpara>
+      <simpara>Double-RRset is the fastest way to roll the KSK (shortest rollover time), but has the drawbacks of both of the other methods: a larger DNSKEY RRset and two interactions with the parent.</simpara>
+     </listitem>
+    </orderedlist>
+   </para>
+  </section>
  </section>
 
+
  <!-- === Key Management and Meta Data === -->
+ <!-- TODO -->
  <section id="keymanagement-and-meta-data">
   <title>Key Management and Meta Data</title>
  </section>
@@ -15,5 +63,7 @@
  <!-- === How Long Do I Wait Before Deleting Old Data? === -->
  <section id="how-long-before-deleting-old-data">
   <title>How Long Do I Wait Before Deleting Old Data?</title>
+  <para>
+  That depends on which approach you chose to perform your key rollover as described in <xref linkend="key-rollovers"/>. The goal here is to not "orphan" anyone out there who may be getting a cached answer, and the information to verify that cached answer doesn't exist. For example, if you chose to pre-publish your ZSK, but did not wait long enough before removing the old ZSK, you're running with the risk that there may be users out there receiving the old RRSIG out of cache, but when they are unable to verify the cached old RRSIG because the old ZSK has already been removed. To these users, the domain names would fail validation, until the cached entries expire.</para>
  </section>
 </section>
