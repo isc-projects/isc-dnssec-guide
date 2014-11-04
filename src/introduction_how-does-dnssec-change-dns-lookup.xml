@@ -5,13 +5,17 @@
 
  <para>With DNSSEC validation enabled, recursive name servers (validating resolver) will ask for additional resource records in its query, hoping the remote authoritative name servers will respond with more than just the answer to the query, but some proof to go along with the answer as well. If DNSSEC responses are received, the validating resolver will perform cryptographic computation to verify that the data received was not altered during transit. It will repeat this process, tracing the keys all the way up the DNS delegation chain, to the zone’s parent, and its parent, and its parent, all the way until the validating resolver reaches a key that it trusts. In the ideal, fully deployed world of DNSSEC, all validating resolvers only need to trust one key: the root key.</para>
 
-  <!-- TODO: jkuo 
-  Need to add in a diagram here showing the 12 steps
-  -->
-
  <para>The following example shows the DNSSEC validating process of looking up the name <code>www.isc.org</code> at a very high level:</para>
  <para>
-  <imagedata fileref="../img/image-placeholder.jpg"/>
+  <figure>
+   <title>DNSSEC Validation 12 Steps</title>
+   <mediaobject>
+    <imageobject>
+     <imagedata fileref="../img/dnssec-12-steps.png" />
+    </imageobject>
+   </mediaobject>
+  </figure>
+
   <orderedlist>
    <!-- #1 -->
    <listitem>
