@@ -13,7 +13,7 @@ Kexample.com.+008+57009
 Generating key pair........................+++ ..................................+++ 
 Kexample.com.+008+28267</screen></para>
 
-  <para>With these commands, we generated NSEC3-compatible key pairs (see <xref linkend="advanced-discussions-nsec-or-nsec3"/> to learn more about NSEC3). In the end, four key files were created in <code>/etc/bind/keys/example.com</code>:
+  <para>With these commands, we generated NSEC3-compatible key pairs (see <xref linkend="advanced-discussions-nsec3"/> to learn more about NSEC3). In the end, four key files were created in <code>/etc/bind/keys/example.com</code>:
    <itemizedlist>
     <listitem><simpara><code>Kexample.com.+008+28267.key</code></simpara></listitem>
     <listitem><simpara><code>Kexample.com.+008+28267.private</code></simpara></listitem>
@@ -157,11 +157,11 @@ zone "example.com" IN {
     <listitem>
      <simpara><emphasis>Algorithm</emphasis>: Not much of a choice here, the only defined value currently is 1 for SHA-1.</simpara></listitem>
     <listitem>
-     <simpara><emphasis>Opt-out</emphasis>: Set this to 1 if you want to do NSEC3 opt-out (see <xref linkend="optout"/> for more information)</simpara></listitem>
+     <simpara><emphasis>Opt-out</emphasis>: Set this to 1 if you want to do NSEC3 opt-out (see <xref linkend="advanced-discussions-nsec3-optout"/> for more information)</simpara></listitem>
     <listitem>
      <simpara><emphasis>Iterations</emphasis>: iterations defines the number of additional times to apply the algorithm when generating an NSEC3 hash. More iterations yields more secure results, but consumes more resources for both authoritative server sand validating resolvers.</simpara></listitem>
     <listitem>
-     <simpara><emphasis>Salt</emphasis>: The salt is a string of data expressed in hexadecimal, or a hyphen (‘-’) if no salt is to be used. (see <xref linkend="salt"/> for more information)</simpara></listitem>
+     <simpara><emphasis>Salt</emphasis>: The salt is a string of data expressed in hexadecimal, or a hyphen (‘-’) if no salt is to be used. (see <xref linkend="advanced-discussions-nsec3-salt"/> for more information)</simpara></listitem>
    </itemizedlist></para>
 
    <para>So, for example, to create an NSEC3 chain using the SHA-1 hash algorithm, no opt-out flag, 10 iterations, and a salt value of ”FFFF”, use: 

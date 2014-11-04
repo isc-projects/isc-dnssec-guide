@@ -16,8 +16,8 @@ Some information in this chapter is taken from the following sources:
   <!-- === Key Generation === -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="advanced-discussions_key-generation.xml" />
 
-  <!-- === NSEC or NSEC3 === -->
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="advanced-discussions_nsec-or-nsec3.xml" />
+  <!-- === Proof of Nonexistence=== -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="advanced-discussions_proof-of-nonexistence.xml" />
 
   <!-- === Key Storage === -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="advanced-discussions_key-storage.xml" />

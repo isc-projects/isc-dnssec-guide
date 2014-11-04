@@ -54,6 +54,6 @@
    <listitem><simpara>NSEC3PARAM</simpara></listitem>
   </itemizedlist></para>
  
- <para>We will look at these record types in more detail in <xref linkend="nsec-or-nsec3" />.</para>
+ <para>We will look at these record types in more detail in <xref linkend="advanced-discussions-proof-of-nonexistence" />.</para>
 </section>
 

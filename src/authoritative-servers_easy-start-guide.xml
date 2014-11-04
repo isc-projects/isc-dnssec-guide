@@ -78,7 +78,7 @@ server reload successful</screen></para>
    <screen>Oct 21 13:47:21 received control channel command 'signing -nsec3param 1 0 10 1234567890abcdef example.com'
 Oct 21 13:47:21 zone example.com/IN (signed): zone_addnsec3chain(1,CREATE,10,1234567890ABCDEF)</screen></para>
 
-  <para>If you do not plan on using NSEC3, you can skip this step. To learn more about NSEC and NSEC3, please see <xref linkend="nsec-or-nsec3"/>.</para>
+  <para>If you do not plan on using NSEC3, you can skip this step. To learn more about NSEC and NSEC3, please see <xref linkend="advanced-discussions-nsec-or-nsec3"/>.</para>
  </section>
 
 
