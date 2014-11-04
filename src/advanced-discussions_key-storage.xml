@@ -1,6 +1,15 @@
 <section id="advanced-discussions-key-storage">
  <title>Key Storage</title>
 
+ <!-- === Public Key Storage === -->
+ <section id="public-key-storage">
+  <title>Public Key Storage</title>
+  <para>The beauty of a public key cryptography system is that the public key portion can and should be distributed to as many people as possible. As the administrator, you may want to keep the public keys on an easily accessible file system for operational ease, but there is no need to securely store them, since both ZSK and KSK public keys are published in the zone data as DNSKEY resource records.</para>
+
+  <para>Additionally, the a portion of the KSK public key is also uploaded to the parent zone (see <xref linkend="working-with-parent-zone" /> for more details), and is published by the parent zone as DS records.</para>
+ </section>
+
+
  <!-- === Private Key Storage === -->
  <section id="private-key-storage">
   <title>Private Key Storage</title>
@@ -13,6 +22,7 @@
 
   <para>And don't forget to change these keys regularly, as described in <xref linkend="key-rollovers" />.</para>
  </section>
+
 
  <!-- === HSMs === -->
  <section id="hardware-security-modules">
