@@ -86,7 +86,7 @@ www.example.com.	600	IN	A	192.168.1.100
     <title>Query Path</title>
     <mediaobject>
      <imageobject>
-      <imagedata fileref="../img/troubleshooting-example-1.png" />
+      <imagedata fileref="../img/troubleshooting-example-1.png" width="80%" scalefit="1"/>
      </imageobject>
     </mediaobject>
    </figure>

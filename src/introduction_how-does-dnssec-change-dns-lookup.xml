@@ -11,7 +11,7 @@
    <title>DNSSEC Validation 12 Steps</title>
    <mediaobject>
     <imageobject>
-     <imagedata fileref="../img/dnssec-12-steps.png" />
+     <imagedata fileref="../img/dnssec-12-steps.png" width="100%" scalefit="1"/>
     </imageobject>
    </mediaobject>
   </figure>

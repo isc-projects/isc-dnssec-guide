@@ -54,7 +54,7 @@
     <title>DNSSEC Validation 12 Steps, Revisited</title>
     <mediaobject>
      <imageobject>
-      <imagedata fileref="../img/dnssec-12-steps.png" />
+      <imagedata fileref="../img/dnssec-12-steps.png" width="100%" scalefit="1"/>
     </imageobject>
     </mediaobject>
    </figure>
@@ -126,7 +126,7 @@
    <title>Signature Generation</title>
    <mediaobject>
     <imageobject>
-     <imagedata fileref="../img/signature-generation.png" />
+     <imagedata fileref="../img/signature-generation.png" width="80%" scalefit="1"/>
     </imageobject>
    </mediaobject>
   </figure>
@@ -137,7 +137,7 @@
    <title>Signature Verification</title>
    <mediaobject>
     <imageobject>
-     <imagedata fileref="../img/signature-verification.png" />
+     <imagedata fileref="../img/signature-verification.png" width="80%" scalefit="1"/>
     </imageobject>
    </mediaobject>
   </figure>

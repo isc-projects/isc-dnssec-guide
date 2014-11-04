@@ -17,7 +17,7 @@
     <title>DNSSEC Validation with .gov Trust Anchor</title>
     <mediaobject>
      <imageobject>
-      <imagedata fileref="../img/dnssec-8-steps.png" />
+      <imagedata fileref="../img/dnssec-8-steps.png" width="100%" scalefit="1"/>
      </imageobject>
     </mediaobject>
    </figure>
