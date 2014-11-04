@@ -83,7 +83,7 @@ www.example.com.	600	IN	A	192.168.1.100
 
   <para>Finally! We found the authoritative name server! Now we know our query path looks like this:
    <figure>
-    <title>Signature Verification</title>
+    <title>Query Path</title>
     <mediaobject>
      <imageobject>
       <imagedata fileref="../img/troubleshooting-example-1.png" />
