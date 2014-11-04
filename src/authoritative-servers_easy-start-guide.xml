@@ -71,7 +71,7 @@ server reload successful</screen></para>
  <!-- === #3 Sign Zone Data === -->
  <section id="signing-easy-start-additional-privacy">
   <title>(Optional) Additional Privacy</title>
-  <para>After reloading the server configuration file, additional DNSSEC resource records are auto-magically generated already. This step gives your zone data a little bit more privacy by reading in a random hex input that you provide. In the example below it is 1234567890abcdef: 
+  <para>After reloading the server configuration file, additional DNSSEC resource records are auto-magically generated already. This step gives your zone data a little bit more privacy<footnote><para>Please read up on how this does not stop a determined person from getting your zone data in <xref linkend="advanced-discussions-nsec3"/>.</para></footnote> by reading in a random hex input that you provide. In the example below it is 1234567890abcdef: 
    <screen># <userinput>rndc signing -nsec3param 1 0 10 1234567890abcdef example.com</userinput></screen></para>
 
   <para>You’ll know it worked if you see the following syslog messages:

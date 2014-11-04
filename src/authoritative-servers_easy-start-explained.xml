@@ -176,7 +176,7 @@ zone "example.com" IN {
     </para>
    </note>
 
-   <para>To learn more about whether or not NSEC3 is right for you, see <xref linkend="advanced-discussions-nsec-or-nsec3"/>.</para>
+   <para>To learn more about NSEC and NSEC3, please see <xref linkend="advanced-discussions-proof-of-nonexistence" />.</para>
  </section>
 
 
