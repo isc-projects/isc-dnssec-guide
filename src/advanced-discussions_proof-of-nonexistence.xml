@@ -1,9 +1,46 @@
 <section id="advanced-discussions-proof-of-nonexistence">
  <title>Proof of Non-Existence (NSEC and NSEC3) </title>
+ <para>How do you prove that something does not exist? This zen-like question is an interesting one, and in this section we will provide an overview of how DNSSEC solves the problem.</para>
+
+ <para>Why is it even important to have authenticated denial of existence? Couldn't we just send back a "hey, what you asked for does not exist", and somehow generate a digital signature to go with it, proving it really is from the correct authoritative source? Well, the technical challenge of signing nothing aside, this solution has flaws, one of which is it gives an attacker a way to create the appearance of denial of service by replaying this message on the network.</para>
+
+ <para>We are going to use a little story, and tell it three different times to illustrate how proof of nonexistence works. In our story, we run a small company with three employees: Alice, Edward, and Susan. We list their names in a phone directory, and we hired a nameless intern to answer our phone calls.</para>
+
+ <para>If we followed the approach of giving back the same answer no matter what was asked, when people called and asked for "Bob", our intern would simply answer: "Sorry, that person doesn't work here, and to prove that I am not lying, here's the signature: 'deaf coffee beef'". Now this is a legitimate answer, but since the signature doesn't change,  an attacker could record this message, and when the next person called in asking for Susan, she will hear the exact same message: "Sorry, that person doesn't work here, and to prove that I am not lying, here's the signature: 'deaf coffee beef'". And this answer is verifiable, since the magic signature ("deaf coffee beef" ) can be validated <footnote><para>Actually it cannot be verified, read <xref linkend="how-are-answers-verified" /> to learn why this would not work.</para></footnote>. Now the attacker has successfully fooled the caller into thinking that Susan doesn't work at our company, and might even be able to convince all callers that no one works at this company (no names exist).</para>
+
+ <para>To solve this problem, two different solutions were created, we will look at the first one, NSEC, next.</para>
+
  
  <!-- === NSEC === -->
  <section id="advanced-discussions-nsec">
   <title>NSEC</title>
+  <para>The NSEC record is used to prove that something really does not exist, by providing the name before it, and the name after it. Using our tiny company example, this would be analogous to someone calling for Bob over the phone, and our nameless intern answered the phone with: "I'm sorry, that person doesn't work here. The name before that is Alice, and the name after that is Edward". Let's say someone called in again for a non-existent person, Oliver, the answer would be: "I'm sorry, that person doesn't work here. The name before that is Edward, and the name after that is Susan". Another caller asked for Todd, and the answer would be: "I'm sorry, that person doesn't work here. The name before that is Susan, and the name after that is Alice".</para>
+
+  <para>So we end up with three NSEC records (output is trimmed for this example):
+   <orderedlist>
+    <!-- #1 -->
+    <listitem>
+     <screen>alice.example.com.	300	IN	NSEC	edward.example.com.</screen>
+    </listitem>
+    <!-- #2 -->
+    <listitem>
+     <screen>edward.example.com.	300	IN	NSEC	susan.example.com.</screen>
+    </listitem>
+    <!-- #3 -->
+    <listitem>
+     <screen>susan.example.com.	300	IN	NSEC	alice.example.com.</screen>
+    </listitem>
+   </orderedlist></para>
+
+  <para>What if the attacker tried to use the same replay method described earlier? If someone called for Edward, none of the three answers would fit. If attacker played message #1, "I'm sorry, that person doesn't work here. The name before it is Alice, and the name after it is Edward", it is obviously false, since "Edward" is in the response; same for #2. As for #3, Edward does not fall in range after Susan or before Alice, and the caller can logically deduct that it was an incorrect answer.</para>
+
+  <para>In BIND, your zone data will be automatically sorted on the fly before generating NSEC records, much like how a phone directory is sorted.</para>
+
+  <para>Pretty clever, right?</para>
+
+  <para>Unfortunately, this solution has a drawback: a curious person can keep calling back, and our nameless intern will keep divulging information about our employees. Imagine if the caller first asked: "Is Bob there?" and received back the names Alice and Edward. The caller can then call back again: "Is Edward-a there?", and will get back Edward and Susan. Repeat the process enough times, the caller will eventually learn every name in our company phone directory.</para>
+
+  <para>For some of you, this may not be a problem, since the very idea of DNS is very similar to a public phone book: if you don't want a name to be known publicly, don't put it in DNS! However, if you have some concerns about zone enumeration, read about <xref linkend="advanced-discussions-nsec3" /> to find out we can mitigate some of the risks of zone exposure.</para>
  </section>
 
  <!-- === NSEC3 === -->
