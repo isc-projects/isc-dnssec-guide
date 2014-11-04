@@ -11,36 +11,49 @@
   administrators. -->
  <para>DNSSEC introduces six new resource record types:
   <itemizedlist>
-
-   <!-- TODO: Need to briefly talk about public key cryptography in less than 3 sentences -->
    <listitem>
-    <simpara>RRSIG (for digital signature)</simpara>
+    <simpara>RRSIG (digital signature)</simpara>
    </listitem>
-
-   <!-- TODO: Need to talk about ZSK and KSK briefly -->
    <listitem>
-    <simpara>DNSKEY (the public key)</simpara>
+    <simpara>DNSKEY (public key)</simpara>
    </listitem>
-
-   <!-- TODO: Need to talk about operational impact such as upload to parent -->
    <listitem>
-    <simpara>DS (Delegation Signer)</simpara>
+    <simpara>DS (parent-child)</simpara>
    </listitem>
-
-   <!-- TODO: Talk about "proof of nonexistence" in general in its own section -->
    <listitem>
-    <simpara>NSEC (pointer to next secure record, proof of nonexistence)</simpara>
+    <simpara>NSEC (proof of nonexistence)</simpara>
    </listitem>
-
-   <!-- RFC5155 -->
    <listitem>
-    <simpara>NSEC3 (proof of nonexistence with added privacy)</simpara>
+    <simpara>NSEC3 (proof of nonexistence)</simpara>
    </listitem>
-
    <listitem>
-    <simpara>NSEC3PARAM (NSEC3 chain parameters)</simpara>
+    <simpara>NSEC3PARAM (proof of nonexistence)</simpara>
    </listitem>
   </itemizedlist>
  </para>
+
+ <para>This guide will not dissect into the anatomy of each resource record type in detail, below is a short introduction on each of the new record types:
+  <itemizedlist>
+   <listitem>
+    <simpara><emphasis>RRSIG</emphasis>: With DNSSEC enabled, just about every DNS answer (A, PTR, MX, SOA, etc.) will come with at least one RRSIG, or RRSIG, or resource record signature. These signatures are used by recursive name servers, also known as validating resolvers, to verify the answers received. To learn how digital signatures are generated and used, see <xref linkend="how-are-answers-verified" />.</simpara>
+   </listitem>
+
+   <listitem>
+    <simpara><emphasis>DNSKEY</emphasis>: DNSSEC relies on public key cryptography for data authenticity and integrity. There are several keys used in DNSSEC, some private, some public. The public keys are published to the world as part of the zone data, and they are stored in the DNSKEY record type. Please see <xref linkend="signing-generate-keys-explained" /> to learn more.</simpara>
+   </listitem>
+
+   <listitem>
+    <simpara><emphasis>DS</emphasis>: One of the key components of DNSSEC is that the parent zone can "vouch" for its child zone. DS record is verifiable information a parent zone keeps on its child as part of the chain of trust. To learn more about Chain of Trust, see <xref linkend="chain-of-trust" />.</simpara>
+   </listitem>
+  </itemizedlist></para>
+
+ <para>The next three types of resource records all deal with a very interesting problem: proving that something really does not exist:
+  <itemizedlist>
+   <listitem><simpara>NSEC</simpara></listitem>
+   <listitem><simpara>NSEC3</simpara></listitem>
+   <listitem><simpara>NSEC3PARAM</simpara></listitem>
+  </itemizedlist></para>
+ 
+ <para>We will look at these record types in more detail in <xref linkend="nsec-or-nsec3" />.</para>
 </section>
 
