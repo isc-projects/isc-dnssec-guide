@@ -34,18 +34,42 @@
 
   <para>What if the attacker tried to use the same replay method described earlier? If someone called for Edward, none of the three answers would fit. If attacker played message #1, "I'm sorry, that person doesn't work here. The name before it is Alice, and the name after it is Edward", it is obviously false, since "Edward" is in the response; same for #2. As for #3, Edward does not fall in range after Susan or before Alice, and the caller can logically deduct that it was an incorrect answer.</para>
 
-  <para>In BIND, your zone data will be automatically sorted on the fly before generating NSEC records, much like how a phone directory is sorted.</para>
+  <para>In BIND inline signing, your zone data will be automatically sorted on the fly before generating NSEC records, much like how a phone directory is sorted.</para>
 
-  <para>Pretty clever, right?</para>
+  <para>Unfortunately, the NSEC solution has a few drawbacks, one of which is "zone walking". A curious person can keep calling back, and our nameless, gullible intern will keep divulging information about our employees. Imagine if the caller first asked: "Is Bob there?" and received back the names Alice and Edward. The caller can then call back again: "Is Edward-a there?", and will get back Edward and Susan. Repeat the process enough times, the caller will eventually learn every name in our company phone directory. For many of you, this may not be a problem, since the very idea of DNS is similar to a public phone book: if you don't want a name to be known publicly, don't put it in DNS!</para>
 
-  <para>Unfortunately, this solution has a drawback: a curious person can keep calling back, and our nameless intern will keep divulging information about our employees. Imagine if the caller first asked: "Is Bob there?" and received back the names Alice and Edward. The caller can then call back again: "Is Edward-a there?", and will get back Edward and Susan. Repeat the process enough times, the caller will eventually learn every name in our company phone directory.</para>
-
-  <para>For some of you, this may not be a problem, since the very idea of DNS is very similar to a public phone book: if you don't want a name to be known publicly, don't put it in DNS! However, if you have some concerns about zone enumeration, read about <xref linkend="advanced-discussions-nsec3" /> to find out we can mitigate some of the risks of zone exposure.</para>
+  <para>The second drawback of NSEC is a actually increased operational overhead: no opt-out mechanism for insecure child zones, this generally is a problem for parent zone operators dealing with a lot of insecure child zones, such as <code>.com</code>. To learn more about opt-out, please see <xref linkend="advanced-discussions-nsec3-optout" />.</para>
  </section>
 
  <!-- === NSEC3 === -->
  <section id="advanced-discussions-nsec3">
   <title>NSEC3</title>
+  <para>NSEC3 adds two additional features that NSEC does not have:
+   <orderedlist>
+    <listitem><simpara>No easy zone enumeration.</simpara></listitem>
+    <listitem><simpara>Provides a mechanism for child zone to opt out.</simpara></listitem>
+   </orderedlist></para>
+
+  <para>Recall, in <xref linkend="advanced-discussions-nsec" />, we provided a range of names to prove that something really does not exist. But as it turns out, even disclosing these ranges of names becomes a problem: this made it very easy for the curious minded to look at your entire zone. Not only that, unlike a zone transfer, this "zone walking" is more resource intensive. So how do we disclose something, without actually disclosing it?</para>
+
+  <para>The answer is actually quite simple, hashing functions, or one-way hashes. Without going into much details, think of it like a magical meat grinder. A juicy piece of ribeye steak goes in one end, and out comes a predictable shape and size of ground meat (hash) with a somewhat unique pattern. No matter how hard you try, you cannot turn the ground meat back into the juicy ribeye steak, that's what we call a one-way hash.</para>
+
+  <para>NSEC3 basically runs the names through a one-way hash, before giving it out, so the recipients can verify the non-existence, without any knowledge of the actual names.</para>
+
+  <para>So let's tell our little phone receptionist story for the third time, this time with NSEC3. This time, our intern is not given a list of actual names, he is given a list of "hashed" names. So instead of Alice, Edward, and Susan, the list he is given reads like this (hashes shortened for easier reading):
+   <screen>FSK5....  (produced from Edward)
+JKMA.... (produced from Susan)
+NTQ0.... (produced from Alice)</screen></para>
+
+  <para>Then, the phone rings, someone's asking for Bob again. Our intern takes the name Bob through a hash function, and the result is L8J2..., so he tells them on the phone: "I'm sorry, that person doesn't work here. The name before that is JKMA..., and the name after that is NTQ0...". There, we proved Bob doesn't exist, without giving away any names! To put that into proper NSEC3 resource records, they would look like this (again, hashes shortened for display):
+   <screen>FSK5....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  JKMA... A RRSIG
+JKMA....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  NTQ0... A RRSIG
+NTQ0....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  FSK5... A RRSIG</screen></para>
+
+  <para>Some of you who paid attention earlier may recognize the numbers here 1, 0, 10, and 1234567890ABCDEF from <xref linkend="signing-additional-privacy-explained" />, then you will remember that these four parameters represent algorithm, opt-out, iterations, and salt, respectively. We will discuss more about opt out in <xref linkend="advanced-discussions-nsec3-optout" /> and salt in <xref linkend="advanced-discussions-nsec3-salt" />.</para>
+
+<note><title>Hashes and Privacy</title>
+Just because we employed one-way hash functions does not mean there's no way for a determined individual to figure out what your zone data is. Someone could still gather all of your NSEC3 records and hashed names, and perform an offline brute-force attack by trying all possible combinations to figure out what the original name is. This would be like if someone really wanted to know how you got the ground meat, he could buy all cuts of meat and ground it up at home, and compare the output with the meat you gave him. It is expensive and time consuming (especially with real meat), but like everything else in cryptography, if someone has enough resources and patience, nothing is truly private forever.</note>
  </section>
 
  <!-- === NSEC or NSEC3 === -->
