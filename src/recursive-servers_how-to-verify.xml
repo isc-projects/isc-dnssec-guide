@@ -1,7 +1,7 @@
 <!-- === How To Test Recursive Server === -->
 <section id="how-to-test-recursive-server">
  <title>How To Test Recursive Server (So You Think You Are Validating)</title>
- <para>Okay, so now that you have reconfigured your recursive server and restarted it, how do you know that your recursive name server is actually verifying each DNS query? There are several ways to check, and we’ve listed a few suggestions below, starting with the easiest.</para>
+ <para>Okay, so now that you have reconfigured your recursive server and restarted it, how do you know that your recursive name server is actually verifying each DNS query? There are several ways to check, and we've listed a few suggestions below, starting with the easiest.</para>
 
 
  <!-- ====== Using Web-based Tools to Verify ===== -->
@@ -34,9 +34,9 @@
  <!-- ====== Using dig to Verify ===== -->
  <section id="using-dig-to-verify">
   <title>Using dig to Verify</title>
-  <para>If you don’t trust the JavaScript magic that the web-based tools rely on, you can take matters into your own hands and use a command line DNS tool to check your validating resolver yourself.</para>
+  <para>If you don't trust the JavaScript magic that the web-based tools rely on, you can take matters into your own hands and use a command line DNS tool to check your validating resolver yourself.</para>
 
-  <para>While nslookup is popular, partly because it comes pre-installed on most systems, it is not DNSSEC-aware. The Domain Information Groper (<code>dig</code>), on the other hand, fully supports the DNSSEC standard, and comes as a part of BIND. If you do not have dig already installed on your system, install it by downloading it from ISC’s web site. ISC provides pre-compiled Windows versions on its web site.</para>
+  <para>While nslookup is popular, partly because it comes pre-installed on most systems, it is not DNSSEC-aware. The Domain Information Groper (<code>dig</code>), on the other hand, fully supports the DNSSEC standard, and comes as a part of BIND. If you do not have dig already installed on your system, install it by downloading it from ISC's web site. ISC provides pre-compiled Windows versions on its web site.</para>
   
   <para><code>dig</code> is a flexible tool for interrogating DNS name servers. It performs DNS lookups and displays the answers that are returned from the name server(s) that were queried. Most seasoned DNS administrators use <code>dig</code> to troubleshoot DNS problems because of its flexibility, ease of use, and clarity of output.</para>
 

@@ -15,7 +15,7 @@
 
   <qandaentry>
    <question><para>Does DNSSEC protect the communication between my laptop and my name server?</para></question>
-   <answer><para>Unfortunately, no. DNSSEC is a protocol among DNS servers. Enabling DNSSEC will change the way your name server communicates with other name servers, but not your how your laptop computer or mobile client communicates with your recursive server. This communication between the recursive server to the clients are commonly called the “last mile”, and enabling DNSSEC does not enhance security for the last mile.</para></answer>
+   <answer><para>Unfortunately, no. DNSSEC is a protocol among DNS servers. Enabling DNSSEC will change the way your name server communicates with other name servers, but not your how your laptop computer or mobile client communicates with your recursive server. This communication between the recursive server to the clients are commonly called the "last mile", and enabling DNSSEC does not enhance security for the last mile.</para></answer>
   </qandaentry>
 
   <qandaentry>
@@ -25,8 +25,8 @@
   </qandaentry>
 
   <qandaentry>
-   <question><para>If I enable DNSSEC validation, will it break DNS lookup for majority of the domain names, since most domains names don’t have DNSSEC yet?</para></question>
-   <answer><para>No, DNSSEC is backwards compatible to “standard” DNS. As of this writing, although 99% of the .com domains have yet to be signed, a DNSSEC-enabled validating resolver can still lookup all of these domain names following the “old fashioned way”. There are four (4) categories of responses (RFC 4035 Sec 4.3):
+   <question><para>If I enable DNSSEC validation, will it break DNS lookup for majority of the domain names, since most domains names don't have DNSSEC yet?</para></question>
+   <answer><para>No, DNSSEC is backwards compatible to "standard" DNS. As of this writing, although 99% of the .com domains have yet to be signed, a DNSSEC-enabled validating resolver can still lookup all of these domain names following the "old fashioned way". There are four (4) categories of responses (RFC 4035 Sec 4.3):
         <orderedlist>
          <listitem>
           <simpara><emphasis>Secure</emphasis>: Domains that have DNSSEC deployed correctly</simpara>
@@ -43,13 +43,13 @@
         </orderedlist>
        </para>
        <para>A validating resolver will still resolve #1 and #2, only #3 and #4 will result in a SERVFAIL.
-You may already be using DNSSEC validation without realizing it, since some ISP’s have begun enabling DNSSEC validation on their recursive name servers. Google public DNS (8.8.8.8) also has enabled DNSSEC validation.</para></answer>
+You may already be using DNSSEC validation without realizing it, since some ISP's have begun enabling DNSSEC validation on their recursive name servers. Google public DNS (8.8.8.8) also has enabled DNSSEC validation.</para></answer>
   </qandaentry>
 
   <qandaentry>
    <question><para>Do I need to have special client software to use DNSSEC?</para></question>
-   <answer><para>The short answer is no, DNSSEC only changes the communication behavior among DNS servers, not DNS server (validating resolver) and client (stub resolver). With DNSSEC validation enabled on your recursive server, if a domain name doesn’t pass the checks, an error message (typically SERVFAIL) is returned to the clients, and to most client software today, it looks as if the DNS query has failed, or the domain name does not exist.</para>
-       <para>The longer answer is although you don’t have to, you may want to. There are more and more client softwares that take advantage of the new DNSSEC features and give user better feedback about the domain name they are visiting. CZ.NIC Lab’s has created a plugin for several popular web browsers, and Mozilla has created a new web browser Bloodhound that performs DNSSEC validation.</para>
+   <answer><para>The short answer is no, DNSSEC only changes the communication behavior among DNS servers, not DNS server (validating resolver) and client (stub resolver). With DNSSEC validation enabled on your recursive server, if a domain name doesn't pass the checks, an error message (typically SERVFAIL) is returned to the clients, and to most client software today, it looks as if the DNS query has failed, or the domain name does not exist.</para>
+       <para>The longer answer is although you don't have to, you may want to. There are more and more client softwares that take advantage of the new DNSSEC features and give user better feedback about the domain name they are visiting. CZ.NIC Lab's has created a plugin for several popular web browsers, and Mozilla has created a new web browser Bloodhound that performs DNSSEC validation.</para>
        <para>As DNSSEC deployment becomes more common place, we are sure to see more and more software libraries and applications be updated to support its features.</para></answer>
   </qandaentry>
 
@@ -82,7 +82,7 @@ You may already be using DNSSEC validation without realizing it, since some ISP�
 
       <section id="caq-does-dnssec-protect-last-mile">
        <title>Does DNSSEC protect the communication between my laptop and my name server?</title>
-       <para>Unfortunately, no. DNSSEC is a protocol among DNS servers. Enabling DNSSEC will change the way your name server communicates with other name servers, but not your how your laptop computer or mobile client communicates with your recursive server. This communication between the recursive server to the clients are commonly called the “last mile”, and enabling DNSSEC does not enhance security for the last mile.</para>
+       <para>Unfortunately, no. DNSSEC is a protocol among DNS servers. Enabling DNSSEC will change the way your name server communicates with other name servers, but not your how your laptop computer or mobile client communicates with your recursive server. This communication between the recursive server to the clients are commonly called the "last mile", and enabling DNSSEC does not enhance security for the last mile.</para>
       </section>
 
       <section id="caq-does-dnssec-protect-from-malicious-web-sites">
@@ -92,8 +92,8 @@ You may already be using DNSSEC validation without realizing it, since some ISP�
       </section>
 
       <section id="caq-will-dnssec-break-most-dns-lookups">
-       <title>If I enable DNSSEC validation, will it break DNS lookup for majority of the domain names, since most domains names don’t have DNSSEC yet?</title>
-       <para>No, DNSSEC is backwards compatible to “standard” DNS. As of this writing, although 99% of the .com domains have yet to be signed, a DNSSEC-enabled validating resolver can still lookup all of these domain names following the “old fashioned way”. There are four (4) categories of responses (RFC 4035 Sec 4.3):
+       <title>If I enable DNSSEC validation, will it break DNS lookup for majority of the domain names, since most domains names don't have DNSSEC yet?</title>
+       <para>No, DNSSEC is backwards compatible to "standard" DNS. As of this writing, although 99% of the .com domains have yet to be signed, a DNSSEC-enabled validating resolver can still lookup all of these domain names following the "old fashioned way". There are four (4) categories of responses (RFC 4035 Sec 4.3):
         <orderedlist>
          <listitem>
           <simpara><emphasis>Secure</emphasis>: Domains that have DNSSEC deployed correctly</simpara>
@@ -110,13 +110,13 @@ You may already be using DNSSEC validation without realizing it, since some ISP�
         </orderedlist>
        </para>
        <para>A validating resolver will still resolve #1 and #2, only #3 and #4 will result in a SERVFAIL.
-You may already be using DNSSEC validation without realizing it, since some ISP’s have begun enabling DNSSEC validation on their recursive name servers. Google public DNS (8.8.8.8) also has enabled DNSSEC validation.</para>
+You may already be using DNSSEC validation without realizing it, since some ISP's have begun enabling DNSSEC validation on their recursive name servers. Google public DNS (8.8.8.8) also has enabled DNSSEC validation.</para>
       </section>
 
       <section id="caq-do-i-need-special-client-software">
        <title>Do I need to have special client software to use DNSSEC?</title>
-       <para>The short answer is no, DNSSEC only changes the communication behavior among DNS servers, not DNS server (validating resolver) and client (stub resolver). With DNSSEC validation enabled on your recursive server, if a domain name doesn’t pass the checks, an error message (typically SERVFAIL) is returned to the clients, and to most client software today, it looks as if the DNS query has failed, or the domain name does not exist.</para>
-       <para>The longer answer is although you don’t have to, you may want to. There are more and more client softwares that take advantage of the new DNSSEC features and give user better feedback about the domain name they are visiting. CZ.NIC Lab’s has created a plugin for several popular web browsers, and Mozilla has created a new web browser Bloodhound that performs DNSSEC validation.</para>
+       <para>The short answer is no, DNSSEC only changes the communication behavior among DNS servers, not DNS server (validating resolver) and client (stub resolver). With DNSSEC validation enabled on your recursive server, if a domain name doesn't pass the checks, an error message (typically SERVFAIL) is returned to the clients, and to most client software today, it looks as if the DNS query has failed, or the domain name does not exist.</para>
+       <para>The longer answer is although you don't have to, you may want to. There are more and more client softwares that take advantage of the new DNSSEC features and give user better feedback about the domain name they are visiting. CZ.NIC Lab's has created a plugin for several popular web browsers, and Mozilla has created a new web browser Bloodhound that performs DNSSEC validation.</para>
        <para>As DNSSEC deployment becomes more common place, we are sure to see more and more software libraries and applications be updated to support its features.</para>
       </section>
 

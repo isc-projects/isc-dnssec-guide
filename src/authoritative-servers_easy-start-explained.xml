@@ -161,10 +161,10 @@ zone "example.com" IN {
     <listitem>
      <simpara><emphasis>Iterations</emphasis>: iterations defines the number of additional times to apply the algorithm when generating an NSEC3 hash. More iterations yields more secure results, but consumes more resources for both authoritative server sand validating resolvers.</simpara></listitem>
     <listitem>
-     <simpara><emphasis>Salt</emphasis>: The salt is a string of data expressed in hexadecimal, or a hyphen (‘-’) if no salt is to be used. (see <xref linkend="advanced-discussions-nsec3-salt"/> for more information)</simpara></listitem>
+     <simpara><emphasis>Salt</emphasis>: The salt is a string of data expressed in hexadecimal, or a hyphen (`-') if no salt is to be used. (see <xref linkend="advanced-discussions-nsec3-salt"/> for more information)</simpara></listitem>
    </itemizedlist></para>
 
-   <para>So, for example, to create an NSEC3 chain using the SHA-1 hash algorithm, no opt-out flag, 10 iterations, and a salt value of ”FFFF”, use: 
+   <para>So, for example, to create an NSEC3 chain using the SHA-1 hash algorithm, no opt-out flag, 10 iterations, and a salt value of "FFFF", use: 
     <screen># <userinput>rndc signing -nsec3param 1 0 10 FFFF example.com</userinput></screen></para>
 
    <para>To set the opt-out flag, 15 iterations, and no salt, use: 

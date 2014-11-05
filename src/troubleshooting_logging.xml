@@ -62,7 +62,7 @@
   <para>The example below shows how to log DNSSEC messages to its own file:
    <screen>logging {
    channel dnssec_log {
-        file “/var/log/dnssec.log”;
+        file "/var/log/dnssec.log";
         severity debug 3;
     };
     category dnssec { dnssec_log; };
@@ -122,7 +122,7 @@ validating @0xb8012d88: www.isc.org A: in fetch_callback_validator</screen></par
  <!-- ====== Incorrect Time ====== -->
  <section id="bind-dnssec-troubleshooting-incorrect-time">
   <title>Incorrect Time</title>
-  <para>In DNSSEC, every record will come with at least one RRSIG, and RRSIG contains two timestamps indicating when it starts becoming valid, and when it expires. If the validating resolver’s current system time does not fall within the RRSIG two timestamps, the following error messages occur in BIND debug log.</para>
+  <para>In DNSSEC, every record will come with at least one RRSIG, and RRSIG contains two timestamps indicating when it starts becoming valid, and when it expires. If the validating resolver's current system time does not fall within the RRSIG two timestamps, the following error messages occur in BIND debug log.</para>
 
   <para>First, the example below shows the log messages when the RRSIG has expired. This could mean the validating resolver system time is incorrectly set too far in the future, or the zone administrator has not kept up with RRSIG maintenance.
    <screen>validating @0xb7b839b0: . DNSKEY: <userinput>verify failed due to bad signature (keyid=19036): RRSIG has expired</userinput></screen></para>
@@ -134,7 +134,7 @@ validating @0xb8012d88: www.isc.org A: in fetch_callback_validator</screen></par
 The section "Resource Record Signatures: RRSIG" does not exist yet, 
 it will be in the Authoritative Server: Signing section. -->
  
-<para>Please refer to the section “Resource Record Signatures: RRSIG” for more details on how signatures are generated. </para>
+<para>Please refer to the section "Resource Record Signatures: RRSIG" for more details on how signatures are generated. </para>
  </section>
 
 

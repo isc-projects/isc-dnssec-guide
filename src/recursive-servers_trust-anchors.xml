@@ -8,7 +8,7 @@
   <title>How Trust Anchors are Used</title>
   <para>In the section <xref linkend="how-does-dnssec-change-dns-lookup-revisited"/>, we walked through the DNSSEC lookup process (12 steps), and at the end of the 12 steps, a critical comparison happens: the key received from the remote server, and the key we have on file are compared to see if we trust it. The key we have on file is called a trust anchor, sometimes also known as trust key, trust point, or secure entry point.</para>
 
-  <para>The 12-step lookup process describes the DNSSEC lookup in the ideal world where every single domain name is signed and properly delegated, each validating resolver only needs to have one trust anchor, and that is the root’s public key. But there is no restriction that the validating resolver must only have one trust anchor. In fact, in the early stages of DNSSEC adoption, it is not unusual for a validating resolver to have more than one trust anchor.</para>
+  <para>The 12-step lookup process describes the DNSSEC lookup in the ideal world where every single domain name is signed and properly delegated, each validating resolver only needs to have one trust anchor, and that is the root's public key. But there is no restriction that the validating resolver must only have one trust anchor. In fact, in the early stages of DNSSEC adoption, it is not unusual for a validating resolver to have more than one trust anchor.</para>
 
   <para>For instance, before the root zone was signed (prior to the year 2010), some validating resolvers that wish to validate domain names in the <code>.gov</code> zone needed to obtain and install the key for <code>.gov</code>. A sample lookup process for <code>www.fbi.gov</code> would thus be only 8 steps rather than 12 steps that look like this:</para>
 
@@ -56,7 +56,7 @@
     </listitem>
    </orderedlist></para> 
 
-  <para>This all looks very similar, except it’s shorter than the 12-steps that we saw earlier. Once the validating resolver receives the DNSKEY file in #8, it recognizes that this is the manually configured trusted key (trust anchor), and never goes to the root name servers to ask for the DS record for <code>.gov</code>, or ask the the root name servers for its DNSKEY.</para>
+  <para>This all looks very similar, except it's shorter than the 12-steps that we saw earlier. Once the validating resolver receives the DNSKEY file in #8, it recognizes that this is the manually configured trusted key (trust anchor), and never goes to the root name servers to ask for the DS record for <code>.gov</code>, or ask the the root name servers for its DNSKEY.</para>
 
   <para>In fact, whenever the validating resolver receives a DNSKEY, it checks to see if this is a configured trusted key, to decide whether or not it needs to continue chasing down the validation chain.</para>
  </section>
@@ -78,7 +78,7 @@
     QxA+Uk1ihz0=";
 };</screen></para>
 
-  <para>You could, of course, decide to manage this key on your own by hand. First, you’ll need to make sure that your <code>dnssec-validation</code> is set to <code>yes</code> rather than <code>auto</code>:
+  <para>You could, of course, decide to manage this key on your own by hand. First, you'll need to make sure that your <code>dnssec-validation</code> is set to <code>yes</code> rather than <code>auto</code>:
    <screen>options {
     dnssec-validation yes;
 };</screen></para>
@@ -96,14 +96,14 @@
 
   <para>Looking back at the example in <xref linkend="how-trust-anchors-are-used"/>, if you wanted to explicitly trust <code>.gov</code> and only validate domain names under <code>.gov</code>, your <code>trusted-keys</code> statement would look something like this:
    <screen>trusted-keys {
-    gov. 257 3 8 “AQO8daaz7B+yshOfL60rytKd9aOSujgponEw3fwBMEC3
+    gov. 257 3 8 "AQO8daaz7B+yshOfL60rytKd9aOSujgponEw3fwBMEC3
     /+e9XzHw2k+VKnbJTZ+QaVtpfUd1q9HKZIv/ck83Gl5T
     jYKE5jtUZ2kpEDZfVNGv6yx0smtWAXv1nCJS9ohnyOTd
     397eMojGDHqkEC+uojEScZheEkMxzgCZwDAs+/CSU7mS
     uHtCRZn19xlZUd5Gv7yDQ3mbOUwuy30oSk0z1Q5UUPpo
     ihOugIZHFX6Jk7NLiW2wlqfq9qhV4zj7TiBiJY0mCc4z
     HN8/aq2VKDHp2Na7mWzvKyTy+SYQkBQ/08LbPwj9YMc+
-    uCzKL6sU/ObHv17EFhD8aPDftTHZvV9L+OZr”;
+    uCzKL6sU/ObHv17EFhD8aPDftTHZvV9L+OZr";
 };</screen></para>
 
   <note>
