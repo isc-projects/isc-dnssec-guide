@@ -85,7 +85,7 @@ Oct 21 13:47:21 zone example.com/IN (signed): zone_addnsec3chain(1,CREATE,10,123
  <!-- === #4 Upload to Parent Zone === -->
  <section id="signing-easy-start-upload-to-parent-zone">
   <title>Upload to Parent Zone</title>
-  <para>Everything is done on our name server, now we need to generate some information to be uploaded to the parent zone to complete the chain of trust.The formats and the upload methods are actually dictated by your parent zone’s administrator, so contact your registrar or parent zone administrator to find out what the actual format should be, and how to deliver or upload the information to your parent zone.</para>
+  <para>Everything is done on our name server, now we need to generate some information to be uploaded to the parent zone to complete the chain of trust. The formats and the upload methods are actually dictated by your parent zone’s administrator, so contact your registrar or parent zone administrator to find out what the actual format should be, and how to deliver or upload the information to your parent zone.</para>
 
   <note>Before uploading to your parent zone, verify that your newly signed zone has propagated to all of your name servers (usually zone transfers). If some of your name servers still have unsigned zone data while the parent tells the world it should be signed, validating resolvers around the world will not resolve your domain name.</note>
 

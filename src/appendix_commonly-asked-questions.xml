@@ -5,7 +5,7 @@
  <qandaset defaultlabel='qanda'>
   <qandaentry>
    <question><para>Do I need IPv6 to have DNSSEC?</para></question>
-   <answer><para>No. DNSSEC can be deployed independet of IPv6.</para></answer>
+   <answer><para>No. DNSSEC can be deployed independent of IPv6.</para></answer>
   </qandaentry>
 
   <qandaentry>

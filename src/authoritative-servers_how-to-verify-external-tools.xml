@@ -8,7 +8,7 @@
   <orderedlist>
    <!-- #1 -->
    <listitem>
-    <simpara>Versign Labs DNSSEC Debugger: <ulink url="http://dnssec-debugger.verisignlabs.com/" /></simpara>
+    <simpara>Verisign Labs DNSSEC Debugger: <ulink url="http://dnssec-debugger.verisignlabs.com/" /></simpara>
    </listitem>
    <!-- #2 -->
    <listitem>
@@ -20,9 +20,9 @@
    </listitem>
   </orderedlist></para>
 
-  <!-- ====== Versign DNSSEC Debugger ====== -->
+  <!-- ====== Verisign DNSSEC Debugger ====== -->
  <section id="external-tools-dnssec-debugger">
-  <title>Versign DNSSEC Debugger</title>
+  <title>Verisign DNSSEC Debugger</title>
    <para>URL: <ulink url="http://dnssec-debugger.verisignlabs.com/" /></para>
    <para>This tool shows a nice summary of checks performed on your domain name, and you can expand to view more details for each of the items checked to get a detailed report.</para>
 

@@ -11,7 +11,7 @@
   https://tools.ietf.org/html/draft-ietf-dnsop-dnssec-key-timing-06</note>
   <!-- ====== ZSK Rollover ====== -->
   <section id="zsk-rollover">
-   <title>ZSK Rolloever</title>
+   <title>ZSK Rollover</title>
    <para>Generally speaking, ZSK is smaller in size (compared to KSK) for performance, but smaller keys take less time to break, thus ZSK should be changed, or rolled, more frequently. ZSK can be rolled in one of the following two ways:
     <orderedlist>
      <!-- #1 -->
