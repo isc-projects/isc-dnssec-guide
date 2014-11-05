@@ -99,7 +99,7 @@ zone "example.com" IN {
 };</screen>
    <para>This option is disabled by default. When enabled, BIND converts traditional (insecure) zone data to signed (secure) data automatically and transparently, using keys found in <code>key-directory</code>.</para>
 
-   <para>This feature alleviates the burden of resigning zone data put on DNSSEC zone administrators. As the zone administrator, you can continue to manually maintain the unsigned version of the zone just like before, and BIND will automatically convert the the zone into a dynamic zone, sign it on the fly, and incrementing serial number automatically for the signed version of the zone. The unsigned version of the zone is left intact.</para>
+   <para>This feature alleviates the burden of resigning zone data put on DNSSEC zone administrators. As the zone administrator, you can continue to manually maintain the unsigned version of the zone just like before, and BIND will automatically convert the zone into a dynamic zone, sign it on the fly, and incrementing serial number automatically for the signed version of the zone. The unsigned version of the zone is left intact.</para>
 
    <para>To learn more about inline signing and some examples of using it in your DNSSEC deployment strategy, please see <ulink url="https://kb.isc.org/article/AA-00626">Inline Signing in ISC BIND 9.9.0 -- Examples</ulink>.</para>
   </section>
@@ -146,7 +146,7 @@ zone "example.com" IN {
  <!-- === Additional Privacy Explained === -->
  <section id="signing-additional-privacy-explained">
   <title>Additional Privacy Explained</title>
-  <para>In <xref linkend="signing-easy-start-additional-privacy"/>, we we used a not-very random hex string 1234567890abcdef to sign our zone data:
+  <para>In <xref linkend="signing-easy-start-additional-privacy"/>, we used a not-very random hex string 1234567890abcdef to sign our zone data:
 
    <screen># <userinput>rndc signing -nsec3param 1 0 10 1234567890abcdef example.com</userinput></screen></para>
 

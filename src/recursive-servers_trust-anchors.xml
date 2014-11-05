@@ -56,7 +56,7 @@
     </listitem>
    </orderedlist></para> 
 
-  <para>This all looks very similar, except it's shorter than the 12-steps that we saw earlier. Once the validating resolver receives the DNSKEY file in #8, it recognizes that this is the manually configured trusted key (trust anchor), and never goes to the root name servers to ask for the DS record for <code>.gov</code>, or ask the the root name servers for its DNSKEY.</para>
+  <para>This all looks very similar, except it's shorter than the 12-steps that we saw earlier. Once the validating resolver receives the DNSKEY file in #8, it recognizes that this is the manually configured trusted key (trust anchor), and never goes to the root name servers to ask for the DS record for <code>.gov</code>, or ask the root name servers for its DNSKEY.</para>
 
   <para>In fact, whenever the validating resolver receives a DNSKEY, it checks to see if this is a configured trusted key, to decide whether or not it needs to continue chasing down the validation chain.</para>
  </section>

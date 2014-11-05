@@ -40,7 +40,7 @@
      <!-- #2 -->
      <listitem>
       <simpara><emphasis>Double-DS</emphasis>: the new DS record is published.  After waiting for this change to propagate into caches, the KSK is changed.  After a further interval during which the old DNSKEY RRset expires from caches, the old DS record is removed.</simpara>
-      <simpara>Double-DS is the reverse of Double-KSK: the new DS is published at the parent first, then the KSK at the child is updated, then remove the old DS at the parent. The benefit is that the size of the DNSKEY RRset is kept to a minimum, but interactions with the parent zone is increased two two events.</simpara>
+      <simpara>Double-DS is the reverse of Double-KSK: the new DS is published at the parent first, then the KSK at the child is updated, then remove the old DS at the parent. The benefit is that the size of the DNSKEY RRset is kept to a minimum, but interactions with the parent zone is increased to two events.</simpara>
      </listitem>
      <!-- #3 -->
      <listitem>
