@@ -82,7 +82,7 @@ example.com.		300 IN RRSIG SOA 8 2 300 (
    <screen># <userinput>cd /etc/bind/db</userinput>
 # <userinput>ls</userinput>
 example.com.db	example.com.db.jbk  example.com.db.signed  example.com.db.signed.jnl</screen></para>
-  <para>These are stored in raw (binary) format for faster loading. You could reveal the human-readable version by using <code>named-compilzone</code>:
+  <para>These are stored in raw (binary) format for faster loading. You could reveal the human-readable version by using <command>named-compilezone</command>:
    <screen># <userinput>cd /etc/bind/db</userinput>
 # named-compilezone -D -f raw -o - example.com example.com.db.signed</screen></para>
  </section>

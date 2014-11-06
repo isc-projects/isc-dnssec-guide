@@ -66,7 +66,7 @@ example.com. IN DNSKEY <userinput>257</userinput> 3 <userinput>8</userinput> AwE
  <!-- === Trusted Key Format === -->
  <section id="parent-trusted-key-format">
   <title>Trusted Key Format</title>
-  <para>This format is very similar to the DNSKEY format, the differences are mostly cosmetic. Below is an example of <code>trusted-key</code> formant (again, actual key shortened for display):
+  <para>This format is very similar to the DNSKEY format, the differences are mostly cosmetic. Below is an example of <varname>trusted-keys</varname> format (again, actual key shortened for display):
    <screen>"example.com." 257 3 8 "AwEAAbGOPf...9AX2QHMY8=";</screen></para>
  </section>
 
