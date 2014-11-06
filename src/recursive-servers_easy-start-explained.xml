@@ -36,11 +36,11 @@
    </itemizedlist>
   </para>
 
-  <para>Let's discuss the difference between <code>yes</code> and <code>auto</code>. If you set it to <code>yes</code> (the default), the trust anchor will need to be manually defined and maintained using the <code>trusted-key</code> statement in the configuration file; if you set it to <code>auto</code> (as shown in the example), then no further action should be required as BIND includes a copy<footnote><para>BIND technically includes two copies of the root key, one is in <code>bind.keys.h</code> and is built into the executable, and one is in <code>bind.keys</code> as a <code>managed-key</code> statement. The two copies of the key are identical.</para></footnote> of the root key. When set to <code>auto</code>, BIND will automatically keep the keys up-to-date without intervention from the DNS administrator.</para>
+  <para>Let's discuss the difference between <replaceable>yes</replaceable> and <replaceable>auto</replaceable>. If you set it to <replaceable>yes</replaceable> (the default), the trust anchor will need to be manually defined and maintained using the <code>trusted-key</code> statement in the configuration file; if you set it to <replaceable>auto</replaceable> (as shown in the example), then no further action should be required as BIND includes a copy<footnote><para>BIND technically includes two copies of the root key, one is in <filename>bind.keys.h</filename> and is built into the executable, and one is in <filename>bind.keys</filename> as a <code>managed-key</code> statement. The two copies of the key are identical.</para></footnote> of the root key. When set to <replaceable>auto</replaceable>, BIND will automatically keep the keys up-to-date without intervention from the DNS administrator.</para>
   
   <para>To learn more about trust anchors, please refer to <xref linkend="trusted-keys-and-managed-keys"/>.</para>
 
-  <note><code>dnssec-enable</code> needs to be set to yes (default value is yes) in order for <code>dnssec-validation</code> to be effective.
+  <note><varname>dnssec-enable</varname> needs to be set to yes (default value is yes) in order for <varname>dnssec-validation</varname> to be effective.
   </note>
  </section>
 

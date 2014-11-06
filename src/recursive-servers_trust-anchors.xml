@@ -67,7 +67,7 @@
   <title>Trusted Keys and Managed Keys</title>
   <para>So we have at least one key configured, and it is known as a trust anchor. How did it get here, and how do we maintain it?</para>
 
-  <para>If you followed the recommendation in <xref linkend="easy-start-guide-for-recursive-servers"/>, by setting <code>dnssec-validation</code> to <code>auto</code>, then there is nothing you need to do. BIND already includes a default key (in the file <code>bind.keys</code>), that will automatically update itself. It looks something like this:
+  <para>If you followed the recommendation in <xref linkend="easy-start-guide-for-recursive-servers"/>, by setting <varname>dnssec-validation</varname> to <replaceable>auto</replaceable>, then there is nothing you need to do. BIND already includes a default key (in the file <filename>bind.keys</filename>), that will automatically update itself. It looks something like this:
    <screen>managed-keys {
     . initial-key 257 3 8 "AwEAAagAIKlVZrpC6Ia7gEzahOR+9W29euxhJhVVLOyQbSEW0O8gcCjF
     FVQUTf6v58fLjwBd0YI0EzrAcQqBGCzh/RStIoO8g0NfnfL2MTJRkxoX
@@ -78,12 +78,12 @@
     QxA+Uk1ihz0=";
 };</screen></para>
 
-  <para>You could, of course, decide to manage this key on your own by hand. First, you'll need to make sure that your <code>dnssec-validation</code> is set to <code>yes</code> rather than <code>auto</code>:
+  <para>You could, of course, decide to manage this key on your own by hand. First, you'll need to make sure that your <varname>dnssec-validation</varname> is set to <replaceable>yes</replaceable> rather than <replaceable>auto</replaceable>:
    <screen>options {
     dnssec-validation yes;
 };</screen></para>
 
-  <para>Then, download the root key manually from a trustworthy source, such as <ulink url="https://www.isc.org/bind-keys"/>. Finally, take the root key you manually downloaded, and put it into a <code>trusted-keys</code> statement as shown below:
+  <para>Then, download the root key manually from a trustworthy source, such as <ulink url="https://www.isc.org/bind-keys"/>. Finally, take the root key you manually downloaded, and put it into a <varname>trusted-keys</varname> statement as shown below:
    <screen>trusted-keys {
     . 257 3 8 "AwEAAagAIKlVZrpC6Ia7gEzahOR+9W29euxhJhVVLOyQbSEW0O8gcCjF
     FVQUTf6v58fLjwBd0YI0EzrAcQqBGCzh/RStIoO8g0NfnfL2MTJRkxoX
@@ -94,7 +94,7 @@
     QxA+Uk1ihz0=";
 };</screen></para>
 
-  <para>Looking back at the example in <xref linkend="how-trust-anchors-are-used"/>, if you wanted to explicitly trust <code>.gov</code> and only validate domain names under <code>.gov</code>, your <code>trusted-keys</code> statement would look something like this:
+  <para>Looking back at the example in <xref linkend="how-trust-anchors-are-used"/>, if you wanted to explicitly trust <code>.gov</code> and only validate domain names under <code>.gov</code>, your <varname>trusted-keys</varname> statement would look something like this:
    <screen>trusted-keys {
     gov. 257 3 8 "AQO8daaz7B+yshOfL60rytKd9aOSujgponEw3fwBMEC3
     /+e9XzHw2k+VKnbJTZ+QaVtpfUd1q9HKZIv/ck83Gl5T

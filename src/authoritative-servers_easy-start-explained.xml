@@ -13,12 +13,12 @@ Kexample.com.+008+57009
 Generating key pair........................+++ ..................................+++ 
 Kexample.com.+008+28267</screen></para>
 
-  <para>With these commands, we generated NSEC3-compatible key pairs (see <xref linkend="advanced-discussions-nsec3"/> to learn more about NSEC3). In the end, four key files were created in <code>/etc/bind/keys/example.com</code>:
+  <para>With these commands, we generated NSEC3-compatible key pairs (see <xref linkend="advanced-discussions-nsec3"/> to learn more about NSEC3). In the end, four key files were created in <filename>/etc/bind/keys/example.com</filename>:
    <itemizedlist>
-    <listitem><simpara><code>Kexample.com.+008+28267.key</code></simpara></listitem>
-    <listitem><simpara><code>Kexample.com.+008+28267.private</code></simpara></listitem>
-    <listitem><simpara><code>Kexample.com.+008+57009.key</code></simpara></listitem>
-    <listitem><simpara><code>Kexample.com.+008+57009.private</code></simpara></listitem>
+    <listitem><simpara><filename>Kexample.com.+008+28267.key</filename></simpara></listitem>
+    <listitem><simpara><filename>Kexample.com.+008+28267.private</filename></simpara></listitem>
+    <listitem><simpara><filename>Kexample.com.+008+57009.key</filename></simpara></listitem>
+    <listitem><simpara><filename>Kexample.com.+008+57009.private</filename></simpara></listitem>
    </itemizedlist></para>
 
   <para>The two files ending in <code>.private</code> need to be kept, well, private. These are your private keys, guard them carefully. You should at the very least protect them via file permission settings. Please see <xref linkend="advanced-discussions-key-storage"/> for more information about how to store your keys.</para>
@@ -79,7 +79,7 @@ zone "example.com" IN {
    <screen>options {
     dnssec-enable yes;
 };</screen>
-   <para>This line enables DNSSEC support in <code>named</code>. If not set, named behaves as if it does not support DNSSEC. The default is yes. We are just explicitly declaring it again here, in case your distribution has it disabled.</para>
+   <para>This line enables DNSSEC support in <command>named</command>. If not set, named behaves as if it does not support DNSSEC. The default is yes. We are just explicitly declaring it again here, in case your distribution has it disabled.</para>
   </section>
 
   <!-- ====== key-directory ====== -->
@@ -88,7 +88,7 @@ zone "example.com" IN {
    <screen>zone "example.com" IN {
     key-directory "keys/example.com";
 };</screen>
-   <para>This specifies where <code>named</code> should look for public and private DNSSEC key files. The default is the current working directory. In our example, we organized keys based on zone names, and placed all keys for <code>example.com</code> under one directory <code>/etc/bind/keys/example.com</code>.</para>
+   <para>This specifies where <command>named</command> should look for public and private DNSSEC key files. The default is the current working directory. In our example, we organized keys based on zone names, and placed all keys for <code>example.com</code> under one directory <filename>/etc/bind/keys/example.com</filename>.</para>
   </section>
  
   <!-- ====== inline-signing ====== -->
@@ -97,7 +97,7 @@ zone "example.com" IN {
    <screen>zone "example.com" IN {
     inline-signing yes;
 };</screen>
-   <para>This option is disabled by default. When enabled, BIND converts traditional (insecure) zone data to signed (secure) data automatically and transparently, using keys found in <code>key-directory</code>.</para>
+   <para>This option is disabled by default. When enabled, BIND converts traditional (insecure) zone data to signed (secure) data automatically and transparently, using keys found in <varname>key-directory</varname>.</para>
 
    <para>This feature alleviates the burden of resigning zone data put on DNSSEC zone administrators. As the zone administrator, you can continue to manually maintain the unsigned version of the zone just like before, and BIND will automatically convert the zone into a dynamic zone, sign it on the fly, and incrementing serial number automatically for the signed version of the zone. The unsigned version of the zone is left intact.</para>
 
@@ -110,7 +110,7 @@ zone "example.com" IN {
    <screen>zone "example.com" IN {
     auto-dnssec maintain;
 };</screen>
-   <para>With keys, comes the burden of key management. <code>auto-dnssec</code> provides varying levels of automatic key management. There are three possible settings:
+   <para>With keys, comes the burden of key management. <varname>auto-dnssec</varname> provides varying levels of automatic key management. There are three possible settings:
     <orderedlist>
      <!-- #1 -->
      <listitem>
@@ -128,7 +128,7 @@ zone "example.com" IN {
      </listitem>
     </orderedlist></para>
 
-    <para>We have opted for the "maintain" mode in our example, which provides the most automated key management. With this option enabled, BIND will periodically check to see if new keys are available, or old keys need to be retired, and automatically add or remove the appropriate DNSKEY records from the zone. The frequency of the check can be controlled via <code>dnssec-loadkeys-interval</code>, default is 60 minutes (1 hour).</para>
+    <para>We have opted for the "maintain" mode in our example, which provides the most automated key management. With this option enabled, BIND will periodically check to see if new keys are available, or old keys need to be retired, and automatically add or remove the appropriate DNSKEY records from the zone. The frequency of the check can be controlled via <varname>dnssec-loadkeys-interval</varname>, default is 60 minutes (1 hour).</para>
   </section>
 
   <!-- TODO: jkuo  Sat Oct 25 01:21:44 UTC 2014

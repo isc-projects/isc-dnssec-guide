@@ -17,7 +17,7 @@
   <!-- TODO: jkuo Fri Oct 24 12:07:57 UTC 2014
        Need to link to the DS record section that explains more about DS records
   -->
-  <para>Below is an example of generating DS record formats from the KSK we created earlier (<code>Kexample.com.+008+28267.key</code>) using two different secure hashing algorithms (SHA-1 and SHA-256, respectively):
+  <para>Below is an example of generating DS record formats from the KSK we created earlier (<filename>Kexample.com.+008+28267.key</filename>) using two different secure hashing algorithms (SHA-1 and SHA-256, respectively):
    <screen># <userinput>cd /etc/bind/keys/example.com</userinput>
 # <userinput>dnssec-dsfromkey -a SHA-1 Kexample.com.+008+28267.key</userinput>
 example.com. IN DS 28267 <userinput>8 1</userinput> 66D47CE4B4F551BE5EDA43AC5F3109E8C98E2FAE

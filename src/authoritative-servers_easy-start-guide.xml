@@ -29,7 +29,7 @@
  <!-- === #1 Generate Keys === -->
  <section id="signing-easy-start-generate-keys">
   <title>Generate Keys</title>
-  <para>Everything in DNSSEC centers around keys, and we will begin by generating our own keys. In our example, we are keeping all the keys for <code>example.com</code> in its own directory, <code>/etc/bind/keys/example.com</code>.
+  <para>Everything in DNSSEC centers around keys, and we will begin by generating our own keys. In our example, we are keeping all the keys for <code>example.com</code> in its own directory, <filename>/etc/bind/keys/example.com</filename>.
    <screen># <userinput>mkdir -p /etc/bind/keys/example.com</userinput>
 # <userinput>cd /etc/bind/keys/example.com</userinput>
 # <userinput>dnssec-keygen -a RSASHA256 -b 1024 -3 example.com</userinput>
@@ -39,7 +39,7 @@ Kexample.com.+008+57009
 Generating key pair........................+++ ..................................+++ 
 Kexample.com.+008+28267</screen></para>
 
-  <para>This generated four key files in <code>/etc/bind/keys/example.com</code>, the only one we care about for now is the KSK key, <code>Kexample.com.+008+28267.key</code>. Remember this file name, we will be need it again shortly. Make sure these files are readable by <code>named</code>.</para>
+  <para>This generated four key files in <filename>/etc/bind/keys/example.com</filename>, the only one we care about for now is the KSK key, <filename>Kexample.com.+008+28267.key</filename>. Remember this file name, we will be need it again shortly. Make sure these files are readable by <command>named</command>.</para>
 
   <para>Refer to <xref linkend="system-entropy"/> for information on how you could speed this process up.</para>
  </section>
@@ -47,7 +47,7 @@ Kexample.com.+008+28267</screen></para>
  <!-- === #2 Reconfigure BIND === -->
  <section id="signing-easy-start-reconfigure-bind">
   <title>Reconfigure BIND</title>
-  <para>Below is a very simple <code>named.conf</code>, in our example environment, this file is <code>/etc/bind/named.conf</code>. The lines you most likely need to add are in bold.
+  <para>Below is a very simple <filename>named.conf</filename>, in our example environment, this file is <filename>/etc/bind/named.conf</filename>. The lines you most likely need to add are in bold.
    <screen>options {
     <userinput>dnssec-enable yes;</userinput>
     directory "/etc/bind";
@@ -63,7 +63,7 @@ zone "example.com" IN {
     auto-dnssec maintain;</userinput>
 };</screen></para>
 
-  <para>When you are done updating the configuration file, tell <code>named</code> to reload:
+  <para>When you are done updating the configuration file, tell <command>named</command> to reload:
    <screen># <userinput>rndc reload</userinput>
 server reload successful</screen></para>
  </section>
@@ -114,7 +114,7 @@ Oct 21 13:47:21 zone example.com/IN (signed): zone_addnsec3chain(1,CREATE,10,123
   <title>So... What Now?</title>
   <para>Congratulations, your zone is signed, and parent zone has accepted your upload. Your zone is now officially DNSSEC-enabled. What happens now? Well, there are a few maintenance tasks you need to do on a regular basis, which you can find in <xref linkend="signing-maintenance-tasks"/>.</para>
 
-  <para>Other than that, you can edit the zone file as you normally would, and reload it using codes such as <code>rndc reload example.com</code>, and new DNSSEC resource records will automatically be created.</para>
+  <para>Other than that, you can edit the zone file as you normally would, and reload it using codes such as <command>rndc reload example.com</command>, and new DNSSEC resource records will automatically be created.</para>
 
   <para>Curious as to what all these commands did to your zone file? Read on to <xref linkend="your-zone-file-before-and-after-dnssec"/> and find out.</para>
  </section>

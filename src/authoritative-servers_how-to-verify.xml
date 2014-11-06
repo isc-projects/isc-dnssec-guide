@@ -78,7 +78,7 @@ example.com.		300 IN RRSIG SOA 8 2 300 (
  <!-- === Examine the Zone File === -->
  <section id="signing-verify-zone-file">
   <title>Examine the Zone File</title>
-  <para>Our original zone file <code>example.com.db</code> remains untouched, named has generated 3 additional files automatically for us (shown below).  The signed DNS data is stored in <code>example.com.db.signed</code> and in the associated journal file.
+  <para>Our original zone file <filename>example.com.db</filename> remains untouched, named has generated 3 additional files automatically for us (shown below).  The signed DNS data is stored in <filename>example.com.db.signed</filename> and in the associated journal file.
    <screen># <userinput>cd /etc/bind/db</userinput>
 # <userinput>ls</userinput>
 example.com.db	example.com.db.jbk  example.com.db.signed  example.com.db.signed.jnl</screen></para>

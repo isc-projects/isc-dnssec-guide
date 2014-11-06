@@ -5,7 +5,7 @@
  <!-- =====  BIND Version ====== -->
  <section id="bind-version">
   <title>BIND Version</title>
-  <para>Some of the features used in this guide require BIND 9.9 or newer. To check the version of <code>named</code> you have installed, used the <code>-v</code> switch as shown below:
+  <para>Some of the features used in this guide require BIND 9.9 or newer. To check the version of <command>named</command> you have installed, used the <option>-v</option> switch as shown below:
    <screen># <userinput>named -v</userinput>
 BIND 9.10.1</screen></para>
  </section>
@@ -14,7 +14,7 @@ BIND 9.10.1</screen></para>
  <!-- ====== Check BIND if DNSSEC-capable ====== --> 
  <section id="dnssec-support-in-bind">
   <title>DNSSEC Support in BIND</title>
-  <para>All versions of BIND9 supports DNSSEC. The BIND software you are running most likely already supports DNSSEC as shipped. Run the command <code>named -V</code> to see what flags it was built with. If it was built with OpenSSL (<code>--with-openssl</code>), then it supports DNSSEC. Below is an example screenshot of running <code>named -V</code>:
+  <para>All versions of BIND9 supports DNSSEC. The BIND software you are running most likely already supports DNSSEC as shipped. Run the command <command>named -V</command> to see what flags it was built with. If it was built with OpenSSL (<option>--with-openssl</option>), then it supports DNSSEC. Below is an example screenshot of running <command>named -V</command>:
   <screen>$ <userinput>named -V</userinput>
 BIND 9.10.1 &lt;id:fe66c6b1> built by make with '--prefix=/opt/local' '--mandir=/opt/local/share/man' '<userinput>--with-openssl</userinput>=/opt/local'
 '--with-libxml2=/opt/local' '--without-libjson' '--enable-threads' '--enable-ipv6' 'CC=/usr/bin/clang' 'CFLAGS=-pipe -Os -arch x86_64'
@@ -31,7 +31,7 @@ using libxml2 version: 2.9.1</screen></para>
   <title>System Entropy</title>
   <para>If you plan on deploying DNSSEC to your authoritative server, you will need to generate cryptographic keys (<xref linkend="signing-generate-keys-explained"/>). The amount of time it takes to generate the keys depends on the source of randomness, or entropy, on your systems. On some systems (especially virtual machines) with insufficient entropy, it may take much longer than one cares to wait to generate keys.</para>
 
-  <para>There are software packages, such as <code>haveged</code> for Linux, that provides additional entropy for your system. Once installed, they will significantly reduce the time needed to generate keys.</para>
+  <para>There are software packages, such as <command>haveged</command> for Linux, that provides additional entropy for your system. Once installed, they will significantly reduce the time needed to generate keys.</para>
 
   <para>The more entropy there is, the better pseudo-random numbers you get, and stronger keys are generated. If you want or need high quality random numbers, take a look at <xref linkend="specialized-hardware" /> for some of the hardware-based solutions.</para>
  </section>
