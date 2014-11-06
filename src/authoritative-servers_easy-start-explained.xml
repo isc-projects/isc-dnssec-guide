@@ -159,7 +159,7 @@ zone "example.com" IN {
     <listitem>
      <simpara><emphasis>Opt-out</emphasis>: Set this to 1 if you want to do NSEC3 opt-out (see <xref linkend="advanced-discussions-nsec3-optout"/> for more information)</simpara></listitem>
     <listitem>
-     <simpara><emphasis>Iterations</emphasis>: iterations defines the number of additional times to apply the algorithm when generating an NSEC3 hash. More iterations yields more secure results, but consumes more resources for both authoritative server sand validating resolvers.</simpara></listitem>
+     <simpara><emphasis>Iterations</emphasis>: iterations defines the number of additional times to apply the algorithm when generating an NSEC3 hash. More iterations yields more secure results, but consumes more resources for both authoritative servers and validating resolvers.</simpara></listitem>
     <listitem>
      <simpara><emphasis>Salt</emphasis>: The salt is a string of data expressed in hexadecimal, or a hyphen (`-') if no salt is to be used. (see <xref linkend="advanced-discussions-nsec3-salt"/> for more information)</simpara></listitem>
    </itemizedlist></para>
