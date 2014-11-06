@@ -63,9 +63,7 @@ TODO:
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="authoritative-servers.xml" />
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="troubleshooting.xml" />
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="advanced-discussions.xml" />
-<!--
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="recipes.xml" />
--->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="appendices.xml" />
 
 
