@@ -114,7 +114,6 @@ Oct 21 13:47:21 zone example.com/IN (signed): zone_addnsec3chain(1,CREATE,10,123
   <title>So... What Now?</title>
   <para>Congratulations, your zone is signed, and parent zone has accepted your upload. Your zone is now officially DNSSEC-enabled. What happens now? Well, there are a few maintenance tasks you need to do on a regular basis, which you can find in <xref linkend="signing-maintenance-tasks"/>.</para>
 
-<<<<<<< HEAD
   <para>As for updating your zone file? You have two options. If you prefer to edit the database file, you'll need to remember to use the 'freeze-reload-thaw' cycle like this:
    <orderedlist>
     <listitem><screen>rndc freeze example.com</screen></listitem>
@@ -130,10 +129,7 @@ Oct 21 13:47:21 zone example.com/IN (signed): zone_addnsec3chain(1,CREATE,10,123
 > send
 > quit</screen></para>
 
-  <para>Other than that, you can edit the zone file as you normally would, and reload it using codes such as <code>rndc reload example.com</code>, and new DNSSEC resource records will automatically be created.</para>
-=======
   <para>Other than that, you can edit the zone file as you normally would, and reload it using codes such as <command>rndc reload example.com</command>, and new DNSSEC resource records will automatically be created.</para>
->>>>>>> 5e48380120ac9988d1ebcae7bcfc79535a53d5bf
 
   <para>Curious as to what all these commands did to your zone file? Read on to <xref linkend="your-zone-file-before-and-after-dnssec"/> and find out.</para>
  </section>
