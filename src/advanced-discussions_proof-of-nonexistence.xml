@@ -57,8 +57,9 @@ NTQ0....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  FSK5... A RRSIG</scre
 
   <para>Some of you who paid attention earlier may recognize the numbers here 1, 0, 10, and 1234567890ABCDEF from <xref linkend="signing-additional-privacy-explained" />, then you will remember that these four parameters represent algorithm, opt-out, iterations, and salt, respectively. We will discuss more about opt out in <xref linkend="advanced-discussions-nsec3-optout" /> and salt in <xref linkend="advanced-discussions-nsec3-salt" />.</para>
 
-<note><title>Hashes and Privacy</title>
-Just because we employed one-way hash functions does not mean there's no way for a determined individual to figure out what your zone data is. Someone could still gather all of your NSEC3 records and hashed names, and perform an offline brute-force attack by trying all possible combinations to figure out what the original name is. This would be like if someone really wanted to know how you got the ground meat, he could buy all cuts of meat and ground it up at home, and compare the output with the meat you gave him. It is expensive and time consuming (especially with real meat), but like everything else in cryptography, if someone has enough resources and patience, nothing is truly private forever.</note>
+
+<note><title>Hashes and Praivacy</title>
+Just because we employed one-way hash functions does not mean there's no way for a determined individual to figure out what your zone data is. Someone could still gather all of your NSEC3 records and hashed names, and perform an offline brute-force attack by trying all possible combinations to figure out what the original name is. This would be like if someone really wanted to know how you got the ground meat, he could buy all cuts of meat and ground it up at home, and compare the output with the meat you gave him. It is expensive and time consuming (especially with real meat), but like everything else in cryptography, if someone has enough resources and time, nothing is truly private forever. If you are concerned about someone performing this type of attack on you zone data, see about adding salt as described in <xref linkend="advanced-discussions-nsec3-salt"/>.</note>
  </section>
 
  <!-- === NSEC or NSEC3 === -->
@@ -82,5 +83,18 @@ Just because we employed one-way hash functions does not mean there's no way for
  <!-- === NSEC3 Salt === -->
  <section id="advanced-discussions-nsec3-salt">
   <title>NSEC3 Salt</title>
+  <para>As described in <xref linkend="advanced-discussions-nsec3" />, while NSEC3 doesn't put your zone data in plain public display, it is still not difficult for an attacker to collect all the hashed names, and perform an offline attack. All that is required is running through all the combinations to construct a database of plaintext names to hashed names, also known as a "rainbow table".</para>
+
+  <para>There is one more features NSEC3 gives us to provide additional protection: salt. Basically, salt gives us the ability introduce further randomness into the hashed results. Whenever the salt is changed, any pre-computed rainbow table is rendered useless, and a new rainbow table must be re-computed. If the salt is changed from time to time, it becomes difficult to construct a useful rainbow table, thus difficult to walk the DNS zone data programmatically. How often you want to change your NSEC3 salt is up to you.</para>
+
+  <para>To change your NSEC3 salt, you may run the rndc signing command like this:
+   <screen># <userinput>rndc signing -nsec3param 1 1 10 fedcba0987654321 example.com</userinput></screen></para>
+
+   <note>
+    <para>You can use a pseudo-random source to create the salt for you. Here is an example on Linux to create a 16-character hex string:
+     <screen># <userinput>rndc signing -nsec3param 1 0 10 $(head -c 300 /dev/random | sha1sum | cut -b 1-16) example.com</userinput></screen>
+    </para>
+   </note>
+
  </section>
 </section>

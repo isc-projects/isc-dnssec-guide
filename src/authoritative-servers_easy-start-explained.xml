@@ -170,12 +170,6 @@ zone "example.com" IN {
    <para>To set the opt-out flag, 15 iterations, and no salt, use: 
     <screen># <userinput>rndc signing -nsec3param 1 1 15 - example.com</userinput></screen></para>
  
-   <note>
-    <para>In our example above, we used a not-very-random string 1234567890abcdef as the "salt", it is best that you use some random source to create it. Here is an example on Linux to create a 16-character hex string:
-     <screen># <userinput>rndc signing -nsec3param 1 0 10 $(head -c 300 /dev/random | sha1sum | cut -b 1-16) example.com</userinput></screen>
-    </para>
-   </note>
-
    <para>To learn more about NSEC and NSEC3, please see <xref linkend="advanced-discussions-proof-of-nonexistence" />.</para>
  </section>
 
