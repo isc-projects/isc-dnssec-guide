@@ -1,3 +1,55 @@
 <section id="troubleshooting-common-problems">
  <title>Common Problems</title>
+
+
+ <!-- ====== Incorrect Time ====== -->
+ <section id="troubleshooting-incorrect-time">
+  <title>Incorrect Time</title>
+  <para>In DNSSEC, every record will come with at least one RRSIG, and RRSIG contains two timestamps indicating when it starts becoming valid, and when it expires. If the validating resolver's current system time does not fall within the RRSIG two timestamps, the following error messages occur in BIND debug log.</para>
+
+  <para>First, the example below shows the log messages when the RRSIG has expired. This could mean the validating resolver system time is incorrectly set too far in the future, or the zone administrator has not kept up with RRSIG maintenance.
+   <screen>validating @0xb7b839b0: . DNSKEY: <userinput>verify failed due to bad signature (keyid=19036): RRSIG has expired</userinput></screen></para>
+
+  <para>The logs below show RRSIG validity period has not begun. This could mean validation resolver system is incorrectly set too far in the past, or the zone administrator has incorrectly generated signatures for this domain name.
+   <screen>validating @0xb7c1bd88: www.isc.org A: <userinput>verify failed due to bad signature (keyid=4521): RRSIG validity period has not begun</userinput></screen></para>
+ </section>
+
+
+ <!-- ====== Invalid Trust Anchors ====== -->
+ <section id="troubleshooting-invalid-trust-anchors">
+  <title>Invalid Trust Anchors</title>
+  <para>As we have seen in the section <xref linkend="trust-anchors"/>, whenever a DNSKEY is received by the validating resolver, it is actually compared to the list of keys the resolver has explicitly trust to see if further action is needed. If the two keys match, the validating resolver stops performing further verification and returns the answer(s) as validated.</para>
+
+  <para>But what if the key file on the validating resolver is misconfigured or missing? Below we show some examples of log messages when things are not working properly.</para>
+
+  <para>First of all, if the key you copied is malformed, BIND will not even start up and you will likely find this error message in syslog:
+   <screen>named[18235]: /etc/bind/named.conf.options:29: <userinput>bad base64 encoding</userinput>
+named[18235]: loading configuration: failure</screen></para>
+
+  <para>If the key is a valid base64 string, but the algorithm number is incorrect (we discuss algorithm number in later KEY SIGNING section), or if the wrong key is installed, the first thing you will notice is that pretty much all of your DNS lookups result in SERVFAIL, even when you are looking up domain names that do not have not been DNSSEC-enabled.
+   <screen>$ <userinput>dig @192.168.1.11 www.yahoo.com. A</userinput>
+
+; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.11 www.yahoo.com. A
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER&lt;&lt;- opcode: QUERY, status: <userinput>SERVFAIL</userinput>, id: 8093
+;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;www.yahoo.com.			IN	A</screen></para>
+
+  <para><command>delv</command> shows similar result:
+   <screen>$ <userinput>delv @192.168.1.11 www.yahoo.com. +rtrace</userinput>
+;; fetch: www.yahoo.com/A
+;; <userinput>resolution failed: failure</userinput></screen></para>
+
+  <para>The next symptom you will see is in the DNSSEC log messages:
+   <screen>validating @0xb8b18a38: . DNSKEY: starting
+validating @0xb8b18a38: . DNSKEY: attempting positive response validation
+validating @0xb8b18a38: <userinput>. DNSKEY: unable to find a DNSKEY which verifies the DNSKEY RRset and also matches a trusted key for '.'</userinput>
+validating @0xb8b18a38: . DNSKEY: please check the 'trusted-keys' for '.' in named.conf.</screen></para>
+ </section>
 </section>

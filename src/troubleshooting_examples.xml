@@ -121,7 +121,7 @@ www.example.com.	562	IN	A	192.168.1.100
    <screen>error (no valid KEY) resolving 'example.com/DNSKEY/IN': 192.168.1.13#53
 error (broken trust chain) resolving 'www.example.com/A/IN': 192.168.1.13#53</screen></para>
 
-  <para>So it would appear that on the server 192.168.1.11, there is a broken trust chain. At this point, we can probably conclude the problem is in one of the trusted-keys statements on 192.168.1.11, but let's turn on DNSSEC debug logging (as described in <xref linkend="bind-dnssec-debug-logging" />), and re-run the <command>dig</command> for <code>www.example.com</code> one more time to see what log messages get generated:
+  <para>So it would appear that on the server 192.168.1.11, there is a broken trust chain. At this point, we can probably conclude the problem is in one of the trusted-keys statements on 192.168.1.11, but let's turn on DNSSEC debug logging (as described in <xref linkend="troubleshooting-logging-debug" />), and re-run the <command>dig</command> for <code>www.example.com</code> one more time to see what log messages get generated:
    <screen>...
 validating @0xb4b48968: example.com DNSKEY: attempting positive response validation
 validating @0xb4b48968: example.com DNSKEY: unable to find a DNSKEY which verifies the DNSKEY RRset and also matches a trusted key for 'example.com'
