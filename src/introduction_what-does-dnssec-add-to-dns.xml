@@ -35,7 +35,7 @@
  <para>This guide will not dissect into the anatomy of each resource record type in detail, below is a short introduction on each of the new record types:
   <itemizedlist>
    <listitem>
-    <simpara><emphasis>RRSIG</emphasis>: With DNSSEC enabled, just about every DNS answer (A, PTR, MX, SOA, etc.) will come with at least one RRSIG, or RRSIG, or resource record signature. These signatures are used by recursive name servers, also known as validating resolvers, to verify the answers received. To learn how digital signatures are generated and used, see <xref linkend="how-are-answers-verified" />.</simpara>
+    <simpara><emphasis>RRSIG</emphasis>: With DNSSEC enabled, just about every DNS answer (A, PTR, MX, SOA, etc.) will come with at least one RRSIG, or resource record signature. These signatures are used by recursive name servers, also known as validating resolvers, to verify the answers received. To learn how digital signatures are generated and used, see <xref linkend="how-are-answers-verified" />.</simpara>
    </listitem>
 
    <listitem>
