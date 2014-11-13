@@ -19,6 +19,11 @@
   </qandaentry>
 
   <qandaentry>
+   <question><para>Does DNSSEC secure zone transfers?</para></question>
+   <answer><para>No. You should consider using TSIG to secure zone transfers among your name servers.</para></answer>
+  </qandaentry>
+
+  <qandaentry>
    <question><para>Is DNSSEC going to protect me from malicious web sites?</para></question>
    <answer><para>The answer for now is, unfortunately for early stages of DNSSEC deployment, no. DNSSEC is designed so you can have confidence that when you received the DNS response for www.isc.org over port 53, you know it really came from the ISC name servers, and the answers are authentic. But that does not mean the web server you visit over port 80 or port 443 is necessarily safe. Further more, 99% of the domain names (as of this writing) have not signed their zones yet, so DNSSEC cannot even validate their answers.</para>
        <para>The answer for sometime in the future is, as more and more zones are signed and more and more recursive servers are validating, DNSSEC will make it much more difficult for attackers to spoof DNS responses or perform cache poisoning. It still does not protect users from visiting a malicious web site that the attacker owns and operates, it just becomes unlikely that the attacker can hijack other domain names.</para></answer>
