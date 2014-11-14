@@ -6,15 +6,14 @@
   <title>Public Key Storage</title>
   <para>The beauty of a public key cryptography system is that the public key portion can and should be distributed to as many people as possible. As the administrator, you may want to keep the public keys on an easily accessible file system for operational ease, but there is no need to securely store them, since both ZSK and KSK public keys are published in the zone data as DNSKEY resource records.</para>
 
-  <para>Additionally, the a portion of the KSK public key is also uploaded to the parent zone (see <xref linkend="working-with-parent-zone" /> for more details), and is published by the parent zone as DS records.</para>
+  <para>Additionally, a portion of the KSK public key is also uploaded to the parent zone (see <xref linkend="working-with-parent-zone" /> for more details), and is published by the parent zone as DS records.</para>
  </section>
 
 
  <!-- === Private Key Storage === -->
  <section id="private-key-storage">
   <title>Private Key Storage</title>
-
-  <para>Ideally, private keys should be stored offline, in devices such as a smart card. Operationally, however, this creates certain challenges, since we need the private key to create RRSIG resource records, and it would be a hassle to bring the private key out of storage every time the zone file changes or when signatures expire.</para>
+  <para>Ideally, private keys should be stored offline, in secure devices such as a smart card. Operationally, however, this creates certain challenges, since we need the private key to create RRSIG resource records, and it would be a hassle to bring the private key out of storage every time the zone file changes or when signatures expire.</para>
 
   <para>One way around this is to have two sets of keys, a ZSK and KSK. ZSK private key is used to sign zone data, and can be kept online for ease of use; KSK private key is used to sign just the DNSKEY (the ZSK), it is used less frequently, and can be stored in a much more secure and restricted fashion.</para>
 
