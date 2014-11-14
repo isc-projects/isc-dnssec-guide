@@ -17,13 +17,9 @@
   <!-- === How does DNSSEC Change DNS Lookup? === -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="introduction_how-does-dnssec-change-dns-lookup.xml" />
 
-  <!-- === Why is it Important? === -->
-  <section id="why-is-it-important">
-   <title>Why is it Important? (Why Should I Care?)</title>
-  </section>
+  <!-- === Why is DNSSEC Important? === -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="introduction_why-is-dnssec-important.xml" />
 
   <!-- === How Does DNSSEC Change My Job As An DNS Administrator? === -->
-  <section id="how-does-dnssec-change-my-job-as-an-dns-administrator">
-   <title>How Does DNSSEC Change My Job As An DNS Administrator?</title>
-  </section>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="introduction_how-does-dnssec-change-my-job.xml" />
 </chapter>
