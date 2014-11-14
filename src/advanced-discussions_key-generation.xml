@@ -27,7 +27,7 @@
       <row>
        <entry>ZSK Private</entry>
        <entry>Used by authoritative server to create RRSIG for zone data</entry>
-       <entry>Whenever zone data changes or re-signing is needed</entry>
+       <entry>Used somewhat frequently, whenever zone data changes or re-signing is needed</entry>
       </row>
       <row>
        <entry>ZSK Public</entry>
@@ -37,7 +37,7 @@
       <row>
        <entry>KSK Private</entry>
        <entry>Used by authoritative server to create RRSIG for ZSK Public (DNSKEY)</entry>
-       <entry>Whenever ZSK's change (every 1 to 3 months)</entry>
+       <entry>Very infrequently, whenever ZSK's change (every 1 to 3 months)</entry>
       </row>
       <row>
        <entry>KSK Public</entry>
