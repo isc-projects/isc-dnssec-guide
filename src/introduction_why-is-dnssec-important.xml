@@ -4,7 +4,7 @@
  <para>You might be thinking to yourself: all this DNSSEC stuff sounds wonderful, but why should I care? Below are some reasons why you may want to consider deploying DNSSEC:
   <orderedlist>
    <listitem>
-    <simpara><emphasis>Be a good netizen</emphasis>: By enabling DNSSEC validation (as described in <xref linkend="dnssec-recursive-servers" />) on your DNS servers, you're protecting your users or yourself a little more by checking answers returned to you; by signing your zones (as described in <xref linkend="dnssec-authoritative-servers" />), you are making it possible for other people to verify your zone data. As more people adopt DNSSEC, the Internet as a whole becomes more secure for everyone.</simpara>
+    <simpara><emphasis>Be a good netizen</emphasis>: By enabling DNSSEC validation (as described in <xref linkend="dnssec-validation" />) on your DNS servers, you're protecting your users or yourself a little more by checking answers returned to you; by signing your zones (as described in <xref linkend="dnssec-signing" />), you are making it possible for other people to verify your zone data. As more people adopt DNSSEC, the Internet as a whole becomes more secure for everyone.</simpara>
    </listitem>
 
    <listitem>

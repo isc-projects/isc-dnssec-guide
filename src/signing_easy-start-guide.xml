@@ -1,5 +1,5 @@
 <section id="easy-start-guide-for-authoritative-servers">
- <title>Easy Start Guide for Authoritative Servers</title>
+ <title>Easy Start Guide for Signing Authoritative Zones</title>
  <para>
  This section provides the minimum amount of information to setup a working DNSSEC-enabled authoritative name server. A DNSSEC-enabled zone (or "signed" zone) contains additional resource records that are used to verify the authenticity of its zone information.</para>
  

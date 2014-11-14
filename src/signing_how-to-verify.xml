@@ -1,5 +1,5 @@
 <section id="how-to-test-authoritative-server">
- <title>How To Test Authoritative Server (So You Think You Are Signed)</title>
+ <title>How To Test Authoritative Zones (So You Think You Are Signed)</title>
  <para>So we've generated some keys, ran some commands, and uploaded some data to our parent zone. How do we know our zone is actually signed? Here are a few ways to check.</para>
 
  <!-- === Look for Key Data in Your Zone === -->
@@ -110,5 +110,5 @@ example.com.  61179	IN	DS	28267 8 2 71D9335416B7132519190A95685E18CBF478DCF4CA98
  </section>
 
  <!-- === Verify using External Tools === -->
- <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="authoritative-servers_how-to-verify-external-tools.xml" />
+ <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="signing_how-to-verify-external-tools.xml" />
 </section>

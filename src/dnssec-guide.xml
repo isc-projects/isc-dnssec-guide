@@ -59,8 +59,8 @@ TODO:
 
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="introduction.xml" />
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="getting-started.xml" />
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="recursive-servers.xml" />
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="authoritative-servers.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="validation.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="signing.xml" />
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="troubleshooting.xml" />
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="advanced-discussions.xml" />
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="recipes.xml" />
