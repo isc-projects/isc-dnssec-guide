@@ -64,8 +64,8 @@ www.isc.org.		23 IN RRSIG A 5 3 60 (
  <!-- ====== Wait... DNS uses TCP? ====== -->
  <section id="dns-uses-tcp">
   <title>Wait... DNS Uses TCP?</title>
-  <para> Yes. DNS uses TCP port 53 as a fallback mechanism, when it cannot use UDP to transmit data. This has always been the case even way before DNSSEC arrived on the scene. Traditional DNS relies on TCP 53 for operations such as zone transfer. The use of DNSSEC (and DNS over IPv6) increases the chance that DNS data will be transmitted on TCP.</para>
+  <para> Yes. DNS uses TCP port 53 as a fallback mechanism, when it cannot use UDP to transmit data. This has always been the case even way before DNSSEC arrived at the scene. Traditional DNS relies on TCP 53 for operations such as zone transfer. The use of DNSSEC (and DNS over IPv6) increases the chance that DNS data will be transmitted on TCP.</para>
 
-  <para>If your network gears are blocking or filtering TCP port 53 today, you may already experience instability with DNS resolution before deploying DNSSEC.</para>
+  <para>Due to the increased packet size, DNSSEC may fall back to TCP more often then traditional (insecure) DNS. If your network gears are blocking or filtering TCP port 53 today, you may already experience instability with DNS resolution before deploying DNSSEC.</para>
  </section>
 </section>

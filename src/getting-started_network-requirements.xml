@@ -1,22 +1,15 @@
 <!-- === Network Requirement === -->
 <section id="network-requirements">
  <title>Network Requirements</title>
- <para>From a network perspective, DNS and DNSSEC packets are very similar, DNSSEC responses just look bigger.</para>
- 
- <para>There are three things to test your network for, to make sure it is ready for DNSSEC:
+ <para>From a network perspective, DNS and DNSSEC packets are very similar, DNSSEC responses just look bigger. You should test for the following two items, to make sure your network is ready for DNSSEC:
   <orderedlist>
    <listitem>
-    <simpara>Verify connectivity over both UDP and TCP port 53 (See <xref linkend="dns-uses-tcp"/>)</simpara>
+    <simpara><emphasis>DNS over TCP</emphasis>: Verify network connectivity over TCP port 53, this may mean updating firewall policies or Access Control List (ACL) on routers. See <xref linkend="dns-uses-tcp"/> more details.</simpara>
    </listitem>
 
    <listitem>
-    <simpara>Firewall or packet inspection devices need to be modern or smart enough to accept DNS packets larger than 512 bytes (See <xref linkend="whats-edns0-all-about"/>)</simpara>
+    <simpara><emphasis>Large UDP packets</emphasis>: Some network gears such as firewall may make assumptions about the size of DNS UDP packets and reject DNS traffic that appears too big. See <xref linkend="whats-edns0-all-about"/> for more details.</simpara>
    </listitem>
-
-   <listitem>
-    <simpara>Make sure your network gear does not throw away larger DNS fragmented packets when it exceeds MTU.</simpara>
-   </listitem>
-  </orderedlist></para>
- 
- <para>Because of the increased packet size, DNSSEC may fall back to TCP more often then traditional (insecure) DNS.</para>
+  </orderedlist>
+ </para>
 </section>
