@@ -15,7 +15,7 @@
  <!-- ====== EDNS on DNS Servers ====== -->
  <section id="edns-on-dns-servers">
   <title>EDNS on DNS Servers</title>
-  <para>The good news is, BIND have been shipped with EDNS enabled by default for over a decade, and the UDP packet size already set to the maximum 4096 bytes by default. So as the DNS administrator, there should not be any re-configuration needed. You can use <command>dig</command> to verify that your server supports EDNS and the UDP packet size it is allowing as follows:
+  <para>BIND have been shipped with EDNS enabled by default for over a decade, and the UDP packet size already set to the maximum 4096 bytes. So as the DNS administrator, there should not be any re-configuration needed. You can use <command>dig</command> to verify that your server supports EDNS and the UDP packet size it is allowing as follows:
    <screen>$ <userinput>dig @192.168.1.7 www.isc.org. A +dnssec +multiline</userinput>
 
 ; &lt;&lt;>> DiG 9.10.0-P2 &lt;&lt;>> @192.168.1.7 www.isc.org. A +dnssec +multiline
