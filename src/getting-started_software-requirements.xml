@@ -33,6 +33,6 @@ using libxml2 version: 2.9.1</screen></para>
 
   <para>There are software packages, such as <command>haveged</command> for Linux, that provides additional entropy for your system. Once installed, they will significantly reduce the time needed to generate keys.</para>
 
-  <para>The more entropy there is, the better pseudo-random numbers you get, and stronger keys are generated. If you want or need high quality random numbers, take a look at <xref linkend="specialized-hardware" /> for some of the hardware-based solutions.</para>
+  <para>The more entropy there is, the better pseudo-random numbers you get, and stronger keys are generated. If you want or need high quality random numbers, take a look at <xref linkend="hardware-security-modules" /> for some of the hardware-based solutions.</para>
  </section>
 </section>
