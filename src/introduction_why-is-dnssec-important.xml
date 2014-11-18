@@ -13,12 +13,11 @@
    </listitem>
 
    <listitem>
-    <simpara><emphasis>C.Y.A.</emphasis>: Okay, so the big lofty goal of "let's be good" doesn't appeal to you, and you don't have any compliance . Here is a more practical reason why you should consider DNSSEC: in case of a DNS-based security breach, such as cache poisoning or domain hijacking, after all the financial and brand damage done to your domain name, you might be placed under scrutiny for any preventative measure that could have been put in place. Think of this like having your web site only available via HTTP but not HTTPS.</simpara>
+    <simpara><emphasis>C.Y.A.</emphasis>: Okay, so the big lofty goal of "let's be good" doesn't appeal to you, and you don't have any compliance standards to worry about . Here is a more practical reason why you should consider DNSSEC: in case of a DNS-based security breach, such as cache poisoning or domain hijacking, after all the financial and brand damage done to your domain name, you might be placed under scrutiny for any preventative measure that could have been put in place. Think of this like having your web site only available via HTTP but not HTTPS.</simpara>
    </listitem>
 
-   <!-- TODO: Finish me!! -->
    <listitem>
-    <simpara><emphasis>New Features [FINISH WRITING ME!]</emphasis>: talk about cool features from DANE, email security, improved SSL certificate security, SSHFS, etc. [Link to DANE]</simpara>
+    <simpara><emphasis>New Features</emphasis>: DNSSEC brings not only enhanced security, but with that new level of security, a whole new suite of features. Once DNS can be trusted completely, it becomes possible to publish SSL certificates in DNS, or PGP keys for fully automatic cross-platform email encryption, or SSH fingerprints... People are still coming up with new features, but this all relies on a trust-worthy DNS infrastructure. To take a peek at these next generation DNS features, take a look at <xref linkend="introduction-to-dane" /></simpara>
    </listitem>
   </orderedlist>
  </para>
