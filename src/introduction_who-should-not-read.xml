@@ -1,0 +1,5 @@
+<section id="who-should-not-read">
+ <title>Who May Not Want to Read this Guide?</title>
+ <para>If you are already operated a DNSSEC-signed zone, you may not find anything new in this guide that you don't already know. If you already understand how DNSSEC works, you may learn a thing or two from glancing over this document. If you administer a large or complex BIND environment, this guide may not provide enough information for you, as it is intended to provide the most basic, generic working examples. If you are a TLD operator, administers zone in .gov or .mil, this guide can help you get started, but doe not provide enough details to serve all of your needs. If your DNS environment uses more DNS products other than BIND, this document may provide some background or overlapping information, but you should check each product's vendor documentation for specifics.</para>
+ <para>Finally, if you plan on deploying DNSSEC on internal or private networks, it is not covered in this document, the only extend is a brief discussion in <xref linkend="dnssec-on-private-networks" />.</para>
+</section>

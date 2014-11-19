@@ -1,0 +1,5 @@
+<section id="who-should-read">
+ <title>Who Should Read this Guide?</title>
+ <para>This guide is intended to be an introduction to DNSSEC for the DNS administrator who is comfortable working with the existing BIND and DNS infrastructure. He or she might be curious about DNSSEC, but has not had the time to read up about what DNSSEC is (or is not), whether or not DNSSEC should be a part of her or his environment, and what it means to deploy it in the field.</para>
+ <para>This guide provides basic information on how to configure DNSSEC using BIND9. Readers are assumed to have basic working knowledge of the Domain Name System (DNS) and related network infrastructure, such as concepts of TCP/IP. In-depth knowledge of DNS and TCP/IP is not required. The guide assumes no prior knowledge of DNSSEC or related technology such as public key cryptography.</para>
+</section>
