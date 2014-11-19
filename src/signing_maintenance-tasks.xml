@@ -7,17 +7,17 @@
 
  <para>There is not that much left for you to do, as the DNS administrator, at an ongoing basis. Whenever you update your zone, BIND will automatically resign your zone with new RRSIG and NSEC or NSEC3 records, and even increment the serial number for you.</para>
 
- <para>That leaves DNSKEY records. Just like passwords and underwear, keys need to be changed periodically. If you followed the examples in this guide with inline signing and automatic key management, you need to do the following two things regularly:
+ <para>That leaves DNSKEY records. Just like passwords and underwear, keys need to be changed periodically. If you followed the examples in this guide with inline signing and automatic key management, the recurring tasks you need to perform are very limited. You only need to perform the following two tasks annually:
   <orderedlist>
    <listitem>
-    <simpara>Generate new ZSK pair every month, wait some period of time, and delete old information from zone.</simpara>
+    <simpara>Generate new ZSK pair, retire old ZSK and associated records.</simpara>
    </listitem>
    <listitem>
-    <simpara>Generate new KSK pair every year, upload to parent zone, wait some period of time, and delete old information from zone.</simpara>
+    <simpara>Generate new KSK pair, upload to parent zone, retire old KSK and associated records.</simpara>
    </listitem>
   </orderedlist></para>
 
- <para>We will talk more about the details of key rollover and timing in <xref linkend="key-rollovers" />.</para>
+ <para>Why annually? That's just a convenient length of time that probably coincides with your domain name registration cycle. Some people feel or have the need to do it more frequently, and we will discuss those considerations in <xref linkend="key-rollovers" />. But assuming you do not have special security requirements, nor do you host a high valued zone, changing the key data once a year while you renew your domain registration is probably okay.</para>
 
  <!-- Monthly Tasks -->
  <section id="monthly-tasks">
