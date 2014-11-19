@@ -5,26 +5,12 @@
  
  <para>To convert a traditional (insecure) DNS zone to a secure one, we need to create various additional records (DNSKEY, RRSIG, NSEC or NSEC3), and upload verifiable information (such as DS record) to the parent zone to complete the chain of trust. For more information about DNSSEC resource records, please see <xref linkend="what-does-dnssec-add-to-dns" />.</para>
 
- <para>For our examples below, we will be working with the assumption that there is an existing insecure zone <code>example.com</code> that we will be converting to a secure version.</para>
 
-  <!-- TODO jkuo Fri Oct 31 17:13:12 UTC 2014
-  Perhaps this is no needed anymore? Check back
-  to see if this affects the flow of the doc.
-  <orderedlist>
-   <listitem>
-    <simpara><xref linkend="signing-easy-start-generate-keys">Generate Keys</xref></simpara>
-   </listitem>
-   <listitem>
-    <simpara><xref linkend="signing-easy-start-reconfigure-bind" /></simpara>
-   </listitem>
-   <listitem>
-    <simpara><xref linkend="signing-easy-start-additional-privacy" /></simpara>
-   </listitem>
-   <listitem>
-    <simpara><xref linkend="signing-easy-start-upload-to-parent-zone" /></simpara>
-   </listitem>
-  </orderedlist></para>
-  -->
+
+<note>In this chapter we assume all configuration files, key files, and zone files are stored in <code>/etc/bind</code>. And most of the times we show examples of running various commands as the root user. This is arguably not the best setup, but we don't want to distract you from what's important here: learning how to sign a zone. There are many best practices for deploying a more secure BIND installation, with techniques such as jailed process and restricted user privileges, but we are not going to cover any of those in this document. We are trusting you, a responsible DNS administrator, to take the necessary precautions to secure your system.</note>
+
+
+ <para>For our examples below, we will be working with the assumption that there is an existing insecure zone <code>example.com</code> that we will be converting to a secure version.</para>
 
  <!-- === #1 Generate Keys === -->
  <section id="signing-easy-start-generate-keys">
