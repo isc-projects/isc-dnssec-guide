@@ -16,9 +16,11 @@ BIND 9.10.1</screen></para>
   <title>DNSSEC Support in BIND</title>
   <para>All versions of BIND9 supports DNSSEC. The BIND software you are running most likely already supports DNSSEC as shipped. Run the command <command>named -V</command> to see what flags it was built with. If it was built with OpenSSL (<option>--with-openssl</option>), then it supports DNSSEC. Below is an example screenshot of running <command>named -V</command>:
   <screen>$ <userinput>named -V</userinput>
-BIND 9.10.1 &lt;id:fe66c6b1> built by make with '--prefix=/opt/local' '--mandir=/opt/local/share/man' '<userinput>--with-openssl</userinput>=/opt/local'
-'--with-libxml2=/opt/local' '--without-libjson' '--enable-threads' '--enable-ipv6' 'CC=/usr/bin/clang' 'CFLAGS=-pipe -Os -arch x86_64'
-'LDFLAGS=-L/opt/local/lib -Wl,-headerpad_max_install_names -arch x86_64' 'CPPFLAGS=-I/opt/local/include'
+BIND 9.10.1 &lt;id:fe66c6b1> built by make with '--prefix=/opt/local'
+'--mandir=/opt/local/share/man' '<userinput>--with-openssl</userinput>=/opt/local'
+'--with-libxml2=/opt/local' '--without-libjson' '--enable-threads' '--enable-ipv6'
+'CC=/usr/bin/clang' 'CFLAGS=-pipe -Os -arch x86_64' 'LDFLAGS=-L/opt/local/lib
+-Wl,-headerpad_max_install_names -arch x86_64' 'CPPFLAGS=-I/opt/local/include'
 compiled by CLANG 4.2.1 Compatible Apple LLVM 5.1 (clang-503.0.40)
 using OpenSSL version: OpenSSL 1.0.1i 6 Aug 2014
 using libxml2 version: 2.9.1</screen></para>
