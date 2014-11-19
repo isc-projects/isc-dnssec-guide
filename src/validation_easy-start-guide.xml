@@ -6,26 +6,6 @@
 
  <para>For example, if root name servers were misconfigured with the wrong information about <code>.org</code>, it could cause all validation for <code>.org</code> domains to fail. To the end users, it would appear that no one could get to any <code>.org</code> web sites.</para>
 
- <note>
- <qandaset defaultlabel='qanda'>
-  <qandaentry>
-   <question><simpara>ISC reviewers: Should we even talk about negative trust anchors?</simpara></question>
-   <answer><simpara>???</simpara></answer>
-  </qandaentry>
- </qandaset>
- </note>
-
-<!-- TODO: jreed: enabled by default but not useful by default
-since no trust anchor configured by default;
-maybe this section should explain the auto here before testing  -->
-
-<!-- TODO: jkuo Wed Oct 15 01:52:14 UTC 2014
-Added a little clarification, since most people use a pre-packaged
-version of BIND that came with their OS, some packages have
-everything taken care of (trust anchor + configuration). This 
-is just to remind/advise users to check if their name servers
-are already validating, before changing configuration files. -->
-
  <para>You may not need to reconfigure your name server at all, since recent versions of BIND packages and distributions have been shipped with DNSSEC validation enabled by default. Before making any configuration changes, check whether or not you already have DNSSEC validation by following steps described in <xref linkend="how-to-test-recursive-server"/>.</para>
 
  <para>Enabling DNSSEC validation on a BIND 9 recursive name server is easy, you only need two lines of configuration in your configuration file:
