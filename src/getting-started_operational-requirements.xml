@@ -3,6 +3,8 @@
  <section id="parent-zone">
   <title>Parent Zone</title>
   <para>Before starting your DNSSEC deployment, check with your parent zone administrators to make sure they support DNSSEC. This may or may not be the same entity as your registrar. As you will see later in <xref linkend="working-with-parent-zone" />, a crucial step in DNSSEC deployment is to complete the parent-child trust relationship. If your parent zone does not support DNSSEC yet, contact them to voice your concern.</para>
+
+  <para>ICANN maintains a list of registrars who support DNSSEC: <ulink url="https://www.icann.org/resources/pages/deployment-2012-02-25-en" />.</para>
  </section>
 
  <section id="security-requirements">
