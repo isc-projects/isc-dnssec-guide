@@ -55,7 +55,7 @@ NTQ0.... (produced from Alice)</screen></para>
 JKMA....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  NTQ0... A RRSIG
 NTQ0....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  FSK5... A RRSIG</screen></para>
 
-  <para>Some of you who paid attention earlier may recognize the numbers here 1, 0, 10, and 1234567890ABCDEF from <xref linkend="signing-using-nsec3" />, then you will remember that these four parameters represent algorithm, opt-out, iterations, and salt, respectively. We will discuss more about opt out in <xref linkend="advanced-discussions-nsec3-optout" /> and salt in <xref linkend="advanced-discussions-nsec3-salt" />.</para>
+  <para>Some of you who paid attention earlier may recognize the numbers here 1, 0, 10, and 1234567890ABCDEF from <xref linkend="signing-using-nsec3" />, then you will remember that these four parameters represent algorithm, opt-out, iterations, and salt, respectively. We will discuss more about opt-out in <xref linkend="advanced-discussions-nsec3-optout" /> and salt in <xref linkend="advanced-discussions-nsec3-salt" />.</para>
 
 
 <note><title>Hashes and Privacy</title>
@@ -101,7 +101,7 @@ Just because we employed one-way hash functions does not mean there's no way for
   <title>NSEC3 Opt-Out</title>
   <para>One of the advantages of NSEC3 over NSEC is the ability for parent zones to publish less information about insecure child (delegated) zones, thus reducing overhead on the parent zone's name servers.</para>
 
-  <para>This may not seem like a lot, but imagine in if you are the operator of busy top level domains such as <code>.com</code> or <code>.net</code>, with millions and millions of insecure delegated domain names, it quickly adds up. As of late 2014, less than 0.1% of all <code>.com</code> zones are signed. Basically, without opt out, if you have 50,000 delegations, only 5 of which are secure, you still have to sign all 50,000 delegated names; with NSEC3 opt-out, you will only sign a set of delegated names if there is at least one DS record present, indicating that the delegated name is secure. So with opt-out, instead of signing 50,000 sets of delegations indiscriminately, you will only sign 5 sets of delegations.</para>
+  <para>This may not seem like a lot, but imagine in if you are the operator of busy top level domains such as <code>.com</code> or <code>.net</code>, with millions and millions of insecure delegated domain names, it quickly adds up. As of late 2014, less than 0.1% of all <code>.com</code> zones are signed. Basically, without opt-out, if you have 50,000 delegations, only 5 of which are secure, you still have to sign all 50,000 delegated names; with NSEC3 opt-out, you will only sign a set of delegated names if there is at least one DS record present, indicating that the delegated name is secure. So with opt-out, instead of signing 50,000 sets of delegations indiscriminately, you will only sign 5 sets of delegations.</para>
 
   <para>But for most DNS administrators, the decision whether or not to use NSEC3 opt-out is probably not relevant.</para>
 
