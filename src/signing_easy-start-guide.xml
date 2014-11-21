@@ -57,7 +57,7 @@ server reload successful</screen></para>
  <!-- === #3 Verification === -->
  <section id="signing-verification">
   <title>Verification</title>
-  <para>Your zone is signed, before moving on to the next step of coordinating with your parent zone, let's make sure everything looks good using dig.</para>
+  <para>Your zone is signed, so before moving on to the next step of coordinating with your parent zone, let's make sure everything looks good using <command>dig</command>.</para>
 
   <para>First of all, we need to make a copy of the key <code>Kexample.com.+008+06817.key</code>:
    <screen># <userinput>cp /etc/bind/keys/example.com/Kexample.com.+008+06817.key /tmp/example.key</userinput></screen></para>
@@ -132,7 +132,7 @@ example.com. <userinput>3600</userinput> IN DNSKEY 257 3 8 AwEAAcWDps...lM3NRn/G
  <!-- === So... What Now? === -->
  <section id="signing-easy-start-so-what-now">
   <title>So... What Now?</title>
-  <para>Congratulations, your zone is signed, and parent zone has accepted your upload. Your zone is now officially DNSSEC-enabled. What happens now? Well, there are a few maintenance tasks you need to do on a regular basis, which you can find in <xref linkend="signing-maintenance-tasks"/>. As for updating your zone file, you can continue to update them the same way you have been prior to signing your zone, the normal work flow of editing zone file and use the rndc command to reload the zone still works the same, and although you are editing the unsigned version of the zone, BIND will generate the signed version automatically.</para>
+  <para>Congratulations, your zone is signed, and parent zone has accepted your upload. Your zone is now officially DNSSEC-enabled. What happens now? Well, there are a few maintenance tasks you need to do on a regular basis, which you can find in <xref linkend="signing-maintenance-tasks"/>. As for updating your zone file, you can continue to update them the same way you have been prior to signing your zone, the normal work flow of editing zone file and using the <command>rndc</command> command to reload the zone still works the same, and although you are editing the unsigned version of the zone, BIND will generate the signed version automatically.</para>
 
   <para>Curious as to what all these commands did to your zone file? Read on to <xref linkend="your-zone-file-before-and-after-dnssec"/> and find out.</para>
  </section>
