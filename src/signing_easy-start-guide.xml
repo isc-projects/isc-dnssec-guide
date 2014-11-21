@@ -57,7 +57,44 @@ server reload successful</screen></para>
  <!-- === #3 Verification === -->
  <section id="signing-verification">
   <title>Verification</title>
-  <para>Your zone is signed, before moving on to the next step of coordinating with your parent zone, let's make sure everything looks good from our end.</para>
+  <para>Your zone is signed, before moving on to the next step of coordinating with your parent zone, let's make sure everything looks good using dig.</para>
+
+  <para>First of all, we need to make a copy of the key <code>Kexample.com.+008+06817.key</code>:
+   <screen># <userinput>cp /etc/bind/keys/example.com/Kexample.com.+008+06817.key /tmp/example.key</userinput></screen></para>
+
+  <para>The original key file looks like this (actual key shortened for display):
+   <screen># <userinput>cat /etc/bind/keys/example.com/Kexample.com.+008+06817.key</userinput>
+; This is a key-signing key, keyid 6817, for example.com.
+; Created: 20141120094612 (Thu Nov 20 17:46:12 2014)
+; Publish: 20141120094612 (Thu Nov 20 17:46:12 2014)
+; Activate: 20141120094612 (Thu Nov 20 17:46:12 2014)
+example.com. IN DNSKEY 257 3 8 AwEAAcWDps...lM3NRn/G/R</screen></para>
+
+  <para>We want edit the copy to include a TTL (any value will do), so it looks like this:
+   <screen># <userinput>cat /tmp/example.key</userinput>
+; This is a key-signing key, keyid 6817, for example.com.
+; Created: 20141120094612 (Thu Nov 20 17:46:12 2014)
+; Publish: 20141120094612 (Thu Nov 20 17:46:12 2014)
+; Activate: 20141120094612 (Thu Nov 20 17:46:12 2014)
+example.com. <userinput>3600</userinput> IN DNSKEY 257 3 8 AwEAAcWDps...lM3NRn/G/R</screen></para>
+
+  <para>Now we can run the dig command and point it to using this key file to validate the answer it receives from the local name server, assuming we are running this command on the name server you just signed the zone on:
+   <screen># <userinput>dig @127.0.0.1 example.com. SOA +dnssec +sigchase +trusted-key=/tmp/example.key</userinput>
+[Lots of output snipped]
+;; Ok, find a Trusted Key in the DNSKEY RRset: 6817
+;; VERIFYING DNSKEY RRset for example.com. with DNSKEY:6817: success
+
+;; <userinput>Ok this DNSKEY is a Trusted Key, DNSSEC validation is ok: SUCCESS</userinput></screen></para>
+
+  <para>Alternatively, you could execute the same command from another computer that can reach the name server on the network, using the same key file, and you should receive the same output:
+   <screen>$ <userinput>dig @192.168.1.13 example.com. SOA +dnssec +sigchase +trusted-key=example.key</userinput>
+[Lots of output snipped]
+;; Ok, find a Trusted Key in the DNSKEY RRset: 6817
+;; VERIFYING DNSKEY RRset for example.com. with DNSKEY:6817: success
+
+;; <userinput>Ok this DNSKEY is a Trusted Key, DNSSEC validation is ok: SUCCESS</userinput></screen></para>
+
+  <para>Please see <xref linkend="signing-verification-explained" /> for the full output details from running these commands, as well as a brief explanation of what it means.</para>
  </section>
 
  <!-- === #4 Upload to Parent Zone === -->

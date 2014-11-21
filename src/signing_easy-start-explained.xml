@@ -142,6 +142,11 @@ zone "example.com" IN {
   </note>
  </section>
 
+
+ <!-- === Verification Explained === -->
+ <section id="signing-verification-explained">
+  <title>Verification Explained</title>
+ </section>
  
  <!-- === Additional Privacy Explained === -->
  <!--
