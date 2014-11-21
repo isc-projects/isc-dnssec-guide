@@ -6,49 +6,48 @@
   <title>Generate Keys Explained</title>
   <para>In <xref linkend="signing-easy-start-generate-keys"/>, we generated two pairs of keys by running these commands:
    <screen># <userinput>cd /etc/bind/keys/example.com</userinput>
-# <userinput>dnssec-keygen -a RSASHA256 -b 1024 -3 example.com</userinput>
+# <userinput>dnssec-keygen -a RSASHA256 -b 1024 example.com</userinput>
 Generating key pair...++++++ .............++++++ 
-Kexample.com.+008+57009
-# <userinput>dnssec-keygen -a RSASHA256 -b 2048 -3 -f KSK example.com</userinput>
+Kexample.com.+008+17694
+# <userinput>dnssec-keygen -a RSASHA256 -b 2048 -f KSK example.com</userinput>
 Generating key pair........................+++ ..................................+++ 
-Kexample.com.+008+28267</screen></para>
+Kexample.com.+008+06817</screen></para>
 
   <para>With these commands, we generated NSEC3-compatible key pairs (see <xref linkend="advanced-discussions-nsec3"/> to learn more about NSEC3). In the end, four key files were created in <filename>/etc/bind/keys/example.com</filename>:
    <itemizedlist>
-    <listitem><simpara><filename>Kexample.com.+008+28267.key</filename></simpara></listitem>
-    <listitem><simpara><filename>Kexample.com.+008+28267.private</filename></simpara></listitem>
-    <listitem><simpara><filename>Kexample.com.+008+57009.key</filename></simpara></listitem>
-    <listitem><simpara><filename>Kexample.com.+008+57009.private</filename></simpara></listitem>
+    <listitem><simpara><filename>Kexample.com.+008+06817.key</filename></simpara></listitem>
+    <listitem><simpara><filename>Kexample.com.+008+06817.private</filename></simpara></listitem>
+    <listitem><simpara><filename>Kexample.com.+008+17694.key</filename></simpara></listitem>
+    <listitem><simpara><filename>Kexample.com.+008+17694.private</filename></simpara></listitem>
    </itemizedlist></para>
 
   <para>The two files ending in <code>.private</code> need to be kept, well, private. These are your private keys, guard them carefully. You should at the very least protect them via file permission settings. Please see <xref linkend="advanced-discussions-key-storage"/> for more information about how to store your keys.</para>
 
   <para>The two files ending in <code>.key</code> are your public keys. One is the zone-signing key (ZSK), and one is the key-signing Key (KSK). We can tell which is which by looking at the actual file contents (actual keys shortened for display):
-   <screen># <userinput>cat Kexample.com.+008+28267.key
-; This is a key-signing key, keyid 28267, for example.com.</userinput>
-; Created: 20141025013006 (Sat Oct 25 09:30:06 2014)
-; Publish: 20141025013006 (Sat Oct 25 09:30:06 2014)
-; Activate: 20141025013006 (Sat Oct 25 09:30:06 2014)
-example.com. IN DNSKEY 257 3 8 AwEAAb4N53...1EskDIMy8=
-
-# <userinput>cat Kexample.com.+008+57009.key
-; This is a zone-signing key, keyid 57009, for example.com.</userinput>
-; Created: 20141025012905 (Sat Oct 25 09:29:05 2014)
-; Publish: 20141025012905 (Sat Oct 25 09:29:05 2014)
-; Activate: 20141025012905 (Sat Oct 25 09:29:05 2014)
-example.com. IN DNSKEY 256 3 8 AwEAAfbc/0...k RRUS08lf</screen></para>
+   <screen># <userinput>cat Kexample.com.+008+06817.key
+; This is a key-signing key, keyid 6817, for example.com.</userinput>
+; Created: 20141120094612 (Thu Nov 20 17:46:12 2014)
+; Publish: 20141120094612 (Thu Nov 20 17:46:12 2014)
+; Activate: 20141120094612 (Thu Nov 20 17:46:12 2014)
+example.com. IN DNSKEY 257 3 8 AwEAAcWDps...lM3NRn/G/R
+# <userinput>cat Kexample.com.+008+17694.key
+; This is a zone-signing key, keyid 17694, for example.com.</userinput>
+; Created: 20141120094536 (Thu Nov 20 17:45:36 2014)
+; Publish: 20141120094536 (Thu Nov 20 17:45:36 2014)
+; Activate: 20141120094536 (Thu Nov 20 17:45:36 2014)
+example.com. IN DNSKEY 256 3 8 AwEAAcjGaU...zuu55If5</screen></para>
 
   <para>The first line of each file tell us what type of key it is. Also, by looking at the actual DNSKEY record, we could tell them apart: 256 is ZSK, and 257 is KSK.</para>
 
   <para>So, this is a ZSK:
-   <screen># <userinput>cat Kexample.com.+008+57009.key</userinput>
+   <screen># <userinput>cat Kexample.com.+008+17694.key</userinput>
 ...
-example.com. IN DNSKEY <userinput>256</userinput> 3 8 AwEAAfbc/0...k RRUS08lf</screen></para>
+example.com. IN DNSKEY <userinput>256</userinput> 3 8 AwEAAcjGaU...zuu55If5</screen></para>
 
   <para>And this is a KSK:
-   <screen># <userinput>cat Kexample.com.+008+28267.key</userinput>
+   <screen># <userinput>cat Kexample.com.+008+06817.key</userinput>
 ...
-example.com. IN DNSKEY <userinput>257</userinput> 3 8 AwEAAb4N53...1EskDIMy8=</screen></para>
+example.com. IN DNSKEY <userinput>257</userinput> 3 8 AwEAAcWDps...lM3NRn/G/R</screen></para>
 
   <para>The parameters we showed in the example, algorithm of RSASHA256, key length of 1024 and 2048, and the use of NSEC3 are just suggestions, you need to evaluate what values work best for your environment. To learn more about key generation, different algorithm choices, and key sizes, see <xref linkend="advanced-discussions-key-generation"/>.</para>
  </section>
@@ -146,40 +145,17 @@ zone "example.com" IN {
  <!-- === Verification Explained === -->
  <section id="signing-verification-explained">
   <title>Verification Explained</title>
+
+  <para>
+   <screen>
+# dig @127.0.0.1 example.com. SOA +dnssec +sigchase +trusted-key=/tmp/example.key | cat -n
+;; RRset to chase:
+example.com.		600	IN	SOA	ns1.example.com. admin.example.com. 2014112011 1800 900 2419200 300
+;; RRSIG of the RRset to chase:
+example.com.		600	IN	RRSIG	SOA 8 2 600 20141221015357 20141121005357 17694 example.com. GtY9p+jwo3...VaJTX 7nI=
+  </screen></para> 
  </section>
  
- <!-- === Additional Privacy Explained === -->
- <!--
- <section id="signing-additional-privacy-explained">
-  <title>Additional Privacy Explained</title>
-  <para>In <xref linkend="signing-easy-start-additional-privacy"/>, we used a not-very random hex string 1234567890abcdef to sign our zone data:
-
-   <screen># <userinput>rndc signing -nsec3param 1 0 10 1234567890abcdef example.com</userinput></screen></para>
-
-  <para>Actually, if you looked at your zone data, DNSSEC records were already generated before running this command. As soon as BIND is able to load keys, since inline signing was enabled, a signed version of the zone would be created, but with the default NSEC records.</para>
-  
-  <para>We are doing this extra step to create NSEC3 records for our zone, which provides more privacy for our zone data through the use of secure hashing algorithms. In our example, there are four parameters used, in the order they appeared, 1 represents the algorithm, 0 represents the opt-out flag, 10 represents the number of iterations, and 1234567890abcedf is the salt. Let's look at how each one can be configured:
-   <itemizedlist>
-    <listitem>
-     <simpara><emphasis>Algorithm</emphasis>: Not much of a choice here, the only defined value currently is 1 for SHA-1.</simpara></listitem>
-    <listitem>
-     <simpara><emphasis>Opt-out</emphasis>: Set this to 1 if you want to do NSEC3 opt-out (see <xref linkend="advanced-discussions-nsec3-optout"/> for more information)</simpara></listitem>
-    <listitem>
-     <simpara><emphasis>Iterations</emphasis>: iterations defines the number of additional times to apply the algorithm when generating an NSEC3 hash. More iterations yields more secure results, but consumes more resources for both authoritative servers and validating resolvers.</simpara></listitem>
-    <listitem>
-     <simpara><emphasis>Salt</emphasis>: The salt is a string of data expressed in hexadecimal, or a hyphen (`-') if no salt is to be used. (see <xref linkend="advanced-discussions-nsec3-salt"/> for more information)</simpara></listitem>
-   </itemizedlist></para>
-
-   <para>So, for example, to create an NSEC3 chain using the SHA-1 hash algorithm, no opt-out flag, 10 iterations, and a salt value of "FFFF", use: 
-    <screen># <userinput>rndc signing -nsec3param 1 0 10 FFFF example.com</userinput></screen></para>
-
-   <para>To set the opt-out flag, 15 iterations, and no salt, use: 
-    <screen># <userinput>rndc signing -nsec3param 1 1 15 - example.com</userinput></screen></para>
- 
-   <para>To learn more about NSEC and NSEC3, please see <xref linkend="advanced-discussions-proof-of-nonexistence" />.</para>
- </section>
-
- -->
  <!-- === Upload to Parent Zone Explained??? === -->
 
 </section>

@@ -18,14 +18,14 @@
   <para>Everything in DNSSEC centers around keys, and we will begin by generating our own keys. In our example, we are keeping all the keys for <code>example.com</code> in its own directory, <filename>/etc/bind/keys/example.com</filename>.
    <screen># <userinput>mkdir -p /etc/bind/keys/example.com</userinput>
 # <userinput>cd /etc/bind/keys/example.com</userinput>
-# <userinput>dnssec-keygen -a RSASHA256 -b 1024 -3 example.com</userinput>
+# <userinput>dnssec-keygen -a RSASHA256 -b 1024 example.com</userinput>
 Generating key pair...++++++ .............++++++ 
-Kexample.com.+008+57009
-# <userinput>dnssec-keygen -a RSASHA256 -b 2048 -3 -f KSK example.com</userinput>
+Kexample.com.+008+17694
+# <userinput>dnssec-keygen -a RSASHA256 -b 2048 -f KSK example.com</userinput>
 Generating key pair........................+++ ..................................+++ 
-Kexample.com.+008+28267</screen></para>
+Kexample.com.+008+06817</screen></para>
 
-  <para>This generated four key files in <filename>/etc/bind/keys/example.com</filename>, and the only one we care about for now is the KSK key, <filename>Kexample.com.+008+28267.key</filename>. Remember this file name: we will need it again shortly. Make sure these files are readable by <command>named</command>.</para>
+  <para>This generated four key files in <filename>/etc/bind/keys/example.com</filename>, and the only one we care about for now is the KSK key, <filename>Kexample.com.+008+06817.key</filename>. Remember this file name: we will need it again shortly. Make sure these files are readable by <command>named</command>.</para>
 
   <para>Refer to <xref linkend="system-entropy"/> for information on how you could speed this process up.</para>
  </section>
@@ -108,15 +108,15 @@ example.com. <userinput>3600</userinput> IN DNSKEY 257 3 8 AwEAAcWDps...lM3NRn/G
    <orderedlist>
     <!-- #1 DS Record -->
     <listitem>
-     <simpara>DS Record Format: <code>example.com. IN DS 28267 8 1 66D47CE4B4F551BE5EDA43AC5F3109E8C98E2FAE</code></simpara>
+     <simpara>DS Record Format: <code>example.com. IN DS 6817 8 1 59194A835ACD78D25D538D5F35CA043A8F3F4446</code></simpara>
     </listitem>
     <!-- #2 DNSKEY -->
     <listitem>
-     <simpara>DNSKEY Format: <code>example.com. 172800 IN DNSKEY 257 3 8 (AwEAAbGOPf...U9AX2QHMY8=) ; key id = 28267</code></simpara>
+     <simpara>DNSKEY Format: <code>example.com. 172800 IN DNSKEY 257 3 8 (AwEAAcjGaU...zuu55If5) ; key id = 06817</code></simpara>
     </listitem>
     <!-- #3 trust-key -->
     <listitem>
-     <simpara>Trusted Key Format: <code>"example.com." 257 3 8 "AwEAAbGOPf...U9AX2QHMY8=";</code></simpara>
+     <simpara>Trusted Key Format: <code>"example.com." 257 3 8 "AwEAAcjGaU...zuu55If5";</code></simpara>
     </listitem>
    </orderedlist></para>
 
