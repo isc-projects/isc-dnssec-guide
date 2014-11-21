@@ -22,11 +22,11 @@ articles owned by ISC:
   <!-- === Signing Easy Start Explained === -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="signing_easy-start-explained.xml" />
 
-  <!-- === Using NSEC3 === -->
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="signing_using-nsec3.xml" />
-
   <!-- === Working with Parent Zone === -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="signing_parent-zone.xml" />
+
+  <!-- === Using NSEC3 === -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="signing_using-nsec3.xml" />
 
   <!-- === Maintenance Tasks === -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="signing_maintenance-tasks.xml" />
