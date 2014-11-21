@@ -12,7 +12,7 @@
    </listitem>
  
    <listitem>
-    <simpara><emphasis>Authoritative Server</emphasis>: People who publish DNS data on their name servers need to sign that data. This this entails creating additional resource records, and publishing them to parent domains where necessary. With DNSSEC enabled, authoritative servers will respond to queries with additional DNS data, such as digital signatures and keys, in addition to the standard answers.</simpara>
+    <simpara><emphasis>Authoritative Server</emphasis>: People who publish DNS data on their name servers need to sign that data. This entails creating additional resource records, and publishing them to parent domains where necessary. With DNSSEC enabled, authoritative servers will respond to queries with additional DNS data, such as digital signatures and keys, in addition to the standard answers.</simpara>
    </listitem>
   </itemizedlist></para>
 
