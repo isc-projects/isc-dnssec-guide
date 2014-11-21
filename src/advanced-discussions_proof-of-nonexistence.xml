@@ -55,11 +55,40 @@ NTQ0.... (produced from Alice)</screen></para>
 JKMA....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  NTQ0... A RRSIG
 NTQ0....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  FSK5... A RRSIG</screen></para>
 
-  <para>Some of you who paid attention earlier may recognize the numbers here 1, 0, 10, and 1234567890ABCDEF from <xref linkend="signing-additional-privacy-explained" />, then you will remember that these four parameters represent algorithm, opt-out, iterations, and salt, respectively. We will discuss more about opt out in <xref linkend="advanced-discussions-nsec3-optout" /> and salt in <xref linkend="advanced-discussions-nsec3-salt" />.</para>
+  <para>Some of you who paid attention earlier may recognize the numbers here 1, 0, 10, and 1234567890ABCDEF from <xref linkend="signing-using-nsec3" />, then you will remember that these four parameters represent algorithm, opt-out, iterations, and salt, respectively. We will discuss more about opt out in <xref linkend="advanced-discussions-nsec3-optout" /> and salt in <xref linkend="advanced-discussions-nsec3-salt" />.</para>
 
 
 <note><title>Hashes and Privacy</title>
 Just because we employed one-way hash functions does not mean there's no way for a determined individual to figure out what your zone data is. Someone could still gather all of your NSEC3 records and hashed names, and perform an offline brute-force attack by trying all possible combinations to figure out what the original name is. This would be like if someone really wanted to know how you got the ground meat, he could buy all cuts of meat and ground it up at home, and compare the output with the meat you gave him. It is expensive and time consuming (especially with real meat), but like everything else in cryptography, if someone has enough resources and time, nothing is truly private forever. If you are concerned about someone performing this type of attack on you zone data, see about adding salt as described in <xref linkend="advanced-discussions-nsec3-salt"/>.</note>
+ </section>
+
+
+ <!-- === NSEC3PARAM === -->
+ <section id="advanced-discussions-nsec3param">
+  <title>NSEC3PARAM</title>
+  <para>In <xref linkend="signing-using-nsec3"/>, we used a not-very random hex string 1234567890abcdef to sign our zone data:
+
+   <screen># <userinput>rndc signing -nsec3param 1 0 10 1234567890abcdef example.com</userinput></screen></para>
+
+  <para>Actually, if you looked at your zone data, DNSSEC records were already generated before running this command. As soon as BIND is able to load keys, since inline signing was enabled, a signed version of the zone would be created, but with the default NSEC records.</para>
+  
+  <para>We are doing this extra step to create NSEC3 records for our zone, which provides more privacy for our zone data through the use of secure hashing algorithms. In our example, there are four parameters used, in the order they appeared, 1 represents the algorithm, 0 represents the opt-out flag, 10 represents the number of iterations, and 1234567890abcedf is the salt. Let's look at how each one can be configured:
+   <itemizedlist>
+    <listitem>
+     <simpara><emphasis>Algorithm</emphasis>: Not much of a choice here, the only defined value currently is 1 for SHA-1.</simpara></listitem>
+    <listitem>
+     <simpara><emphasis>Opt-out</emphasis>: Set this to 1 if you want to do NSEC3 opt-out (see <xref linkend="advanced-discussions-nsec3-optout"/> for more information)</simpara></listitem>
+    <listitem>
+     <simpara><emphasis>Iterations</emphasis>: iterations defines the number of additional times to apply the algorithm when generating an NSEC3 hash. More iterations yields more secure results, but consumes more resources for both authoritative servers and validating resolvers.</simpara></listitem>
+    <listitem>
+     <simpara><emphasis>Salt</emphasis>: The salt is a string of data expressed in hexadecimal, or a hyphen (`-') if no salt is to be used. (see <xref linkend="advanced-discussions-nsec3-salt"/> for more information)</simpara></listitem>
+   </itemizedlist></para>
+
+   <para>So, for example, to create an NSEC3 chain using the SHA-1 hash algorithm, no opt-out flag, 10 iterations, and a salt value of "FFFF", use: 
+    <screen># <userinput>rndc signing -nsec3param 1 0 10 FFFF example.com</userinput></screen></para>
+
+   <para>To set the opt-out flag, 15 iterations, and no salt, use: 
+    <screen># <userinput>rndc signing -nsec3param 1 1 15 - example.com</userinput></screen></para>
  </section>
 
  <!-- === NSEC or NSEC3 === -->
@@ -76,7 +105,7 @@ Just because we employed one-way hash functions does not mean there's no way for
 
   <para>But for most DNS administrators, the decision whether or not to use NSEC3 opt-out is probably not relevant.</para>
 
-  <para>If you decide to use opt-out, the command to enable it is very similar to the one we ran in <xref linkend="signing-easy-start-additional-privacy" /> we are just changing the opt-out bit from 0 to 1:
+  <para>If you decide to use opt-out, the command to enable it is very similar to the one we ran in <xref linkend="signing-using-nsec3" /> we are just changing the opt-out bit from 0 to 1:
    <screen># rndc signing -nsec3param 1 <userinput>1</userinput> 10 1234567890abcdef example.com</screen></para>
  </section>
 

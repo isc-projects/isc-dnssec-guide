@@ -144,6 +144,7 @@ zone "example.com" IN {
 
  
  <!-- === Additional Privacy Explained === -->
+ <!--
  <section id="signing-additional-privacy-explained">
   <title>Additional Privacy Explained</title>
   <para>In <xref linkend="signing-easy-start-additional-privacy"/>, we used a not-very random hex string 1234567890abcdef to sign our zone data:
@@ -173,7 +174,7 @@ zone "example.com" IN {
    <para>To learn more about NSEC and NSEC3, please see <xref linkend="advanced-discussions-proof-of-nonexistence" />.</para>
  </section>
 
-
- <!-- === Upload to Parent Zone Explained === -->
+ -->
+ <!-- === Upload to Parent Zone Explained??? === -->
 
 </section>
