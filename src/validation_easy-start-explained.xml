@@ -118,7 +118,7 @@
  <!-- === How are Answers Verified? === -->
  <section id="how-are-answers-verified">
   <title>How are Answers Verified?</title> 
-  <note>Keep in mind as you read this section, that although words like <emphasis>encryption</emphasis> and <emphasis>decryption</emphasis> are used from time to time, DNSSEC does not provide you with privacy. Public key cryptography is used to provide data authenticity (who sent it) and data integrity (it did not change during transit), but any eavesdropper can still see your DNS requests and responses in clear text, even whtn DNSSEC is enabled.</note>
+  <note>Keep in mind as you read this section, that although words like <emphasis>encryption</emphasis> and <emphasis>decryption</emphasis> are used from time to time, DNSSEC does not provide you with privacy. Public key cryptography is used to provide data authenticity (who sent it) and data integrity (it did not change during transit), but any eavesdropper can still see your DNS requests and responses in clear text, even when DNSSEC is enabled.</note>
   
   <para>So how exactly are DNSSEC answers verified? Before we can talk about how they are verified, let's first see how verifiable information is generated. On the authoritative server, each DNS record (or message) is run through a hash function, then this hashed value is encrypted by a private key. This encrypted hash value is the digital signature.</para>
 
