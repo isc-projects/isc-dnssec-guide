@@ -47,13 +47,6 @@
    </listitem>
   </itemizedlist></para>
 
- <para>The next three types of resource records all deal with a very interesting problem: proving that something really does not exist:
-  <itemizedlist>
-   <listitem><simpara>NSEC</simpara></listitem>
-   <listitem><simpara>NSEC3</simpara></listitem>
-   <listitem><simpara>NSEC3PARAM</simpara></listitem>
-  </itemizedlist></para>
- 
- <para>We will look at these record types in more detail in <xref linkend="advanced-discussions-proof-of-nonexistence" />.</para>
+ <para>The NSEC, NSEC3, and NSEC3PARAM resource records all deal with a very interesting problem: proving that something really does not exist.  We will look at these record types in more detail in <xref linkend="advanced-discussions-proof-of-nonexistence" />.</para>
 </section>
 
