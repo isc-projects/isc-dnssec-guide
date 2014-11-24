@@ -25,36 +25,8 @@ Some information in this chapter is taken from the following sources:
   <!-- === Key Management === -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="advanced-discussions_key-management.xml" />
 
-
-
-  <!-- TODO: jkuo Sat Oct 25 03:07:44 UTC 2014
-       Need to organize these topics into another section / file
-       Maybe "Other DNSSEC topics" or something similar.
-  -->
-  <!-- === DNSSEC and Dynamic Updates === -->
-  <section id="dnssec-and-dynamic-updates">
-   <title>DNSSEC and Dynamic Updates</title>
-  </section>
-
-  <!-- === DNSSEC and Inline Signing === -->
-  <section id="dnssec-and-inline-signing">
-   <title>DNSSEC and Inline Signing</title>
-  </section>
-
-  <!-- === DNSSEC Look-aside Validation === -->
-  <section id="dlv">
-   <title>DNSSEC Look-aside Validation (DLV)</title>
-  </section>
-
-  <!-- === DNSSEC on Private Networks === -->
-  <section id="dnssec-on-private-networks">
-   <title>DNSSEC on Private Networks</title>
-  </section>
-
-  <!-- === Intro to DANE === -->
-  <section id="introduction-to-dane">
-   <title>Introduction to DANE</title>
-  </section>
+  <!-- === Other Topics === -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="advanced-discussions_other-topics.xml" />
 
   <!-- === Disadvantages of DNSSEC === -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="advanced-discussions_disadvantages-of-dnssec.xml" />
