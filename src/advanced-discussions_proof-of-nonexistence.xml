@@ -64,7 +64,7 @@ susan.example.com.  300	IN	NSEC	alice.example.com.  A RRSIG NSEC</screen></para>
   name before it is Alice, and the name after it is Edward", it is obviously
   false, since "Edward" is in the response; same for #2, Edward and Susan. As
   for #3, Edward does not fall in range after Susan or before Alice, and the
-      caller can logically deduct that it was an incorrect answer.</para>
+  caller can logically deduct that it was an incorrect answer.</para>
 
   <para>In BIND inline signing, your zone data will be automatically sorted on
   the fly before generating NSEC records, much like how a phone directory is
@@ -202,11 +202,6 @@ salt as described in <xref linkend="advanced-discussions-nsec3-salt"/>.</note>
     <screen># <userinput>rndc signing -nsec3param 1 1 15 - example.com</userinput></screen></para>
  </section>
 
- <!-- === NSEC or NSEC3 === -->
- <section id="advanced-discussions-nsec-or-nsec3">
-  <title>NSEC or NSEC3</title>
- </section>
-
  <!-- === NSEC3 Opt-out === -->
  <section id="advanced-discussions-nsec3-optout">
   <title>NSEC3 Opt-Out</title>
@@ -264,4 +259,25 @@ salt as described in <xref linkend="advanced-discussions-nsec3-salt"/>.</note>
     </para>
    </note>
  </section>
+
+ <!-- === NSEC or NSEC3 === -->
+ <section id="advanced-discussions-nsec-or-nsec3">
+  <title>NSEC or NSEC3?</title>
+  <para>So which one should you choose? NSEC or NSEC3? There is not really a
+  single right answer here that fits everyone. It all comes down to your needs
+  or requirements.</para>
+
+  <para>If you prefer not to make your zone easily enumerable, implementing
+  NSEC3 paired with a new salt periodically will provide a certain level of
+  privacy protection. However, someone could still randomly guess the names in
+  your zone (such as 'ftp' or 'www'), as in the traditional insecure
+  DNS.</para>
+
+  <para>If you have many many delegations, and have a need for opt-out to save
+  resources, NSEC3 is for you.</para>
+
+  <para>Other than that, using NSEC is typically a good choice for most zone
+  administrators, as it relieves the authoritative servers from additional
+  cryptographic operations NSEC3 requires, and NSEC is comparatively easier to
+  troubleshoot than NSEC3.</para> </section>
 </section>
