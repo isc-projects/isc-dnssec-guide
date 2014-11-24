@@ -4,6 +4,34 @@
  <!-- === DNSSEC and Dynamic Updates === -->
  <section id="dnssec-and-dynamic-updates">
   <title>DNSSEC and Dynamic Updates</title>
+  <para>Dynamic DNS (DDNS) actually is independent of DNSSEC. DDNS provides a
+  mechanism other than editing the zone file or zone database, to edit DNS
+  data. Most clients and DNS servers have the capability to handle dynamic
+  updates, and DDNS can also be integrated as part of your DHCP
+  environment.</para>
+
+  <para>When you have both DNSSEC and dynamic updates in your environment,
+  updating zone data works the same way as with traditional (insecure) DNS: you
+  can use <command>rndc freeze</command> before editing the zone file, and
+  <command>rndc thaw</command> when you have finished editing, or you could use
+  the command <command>nsupdate</command> to add, edit, or remove records like
+  this:
+   <screen>$ <userinput>nsupdate</userinput>
+> server 192.168.1.13
+> update add xyz.example.com. 300 IN A 1.1.1.1
+> send
+> quit</screen></para>
+
+  <para>The examples provided in this guide will make <command>named</command>
+  automatically re-sign the zone whenever its content has changed. If you
+  decide to sign your own zone file manually, you will need to remember to
+  executed the <command>dnssec-signzone</command> whenever your zone file has
+  been updated.</para>
+
+  <para>As far as system resources and performance is concerned, be mindful
+  that when you have a DNSSEC zone that changes frequently, every time the zone
+  changes, your system is executing a series of cryptographic operations to
+  (re)generate signatures and NSEC or NSEC3 records.</para>
  </section>
 
  <!-- === DNSSEC and Inline Signing === -->
