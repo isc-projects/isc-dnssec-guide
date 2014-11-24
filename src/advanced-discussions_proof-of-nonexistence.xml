@@ -1,34 +1,91 @@
 <section id="advanced-discussions-proof-of-nonexistence">
  <title>Proof of Non-Existence (NSEC and NSEC3) </title>
- <para>How do you prove that something does not exist? This zen-like question is an interesting one, and in this section we will provide an overview of how DNSSEC solves the problem.</para>
+ <para>How do you prove that something does not exist? This zen-like question
+ is an interesting one, and in this section we will provide an overview of how
+ DNSSEC solves the problem.</para>
 
- <para>Why is it even important to have authenticated denial of existence? Couldn't we just send back a "hey, what you asked for does not exist", and somehow generate a digital signature to go with it, proving it really is from the correct authoritative source? Well, the technical challenge of signing nothing aside, this solution has flaws, one of which is it gives an attacker a way to create the appearance of denial of service by replaying this message on the network.</para>
+ <para>Why is it even important to have authenticated denial of existence?
+ Couldn't we just send back a "hey, what you asked for does not exist", and
+ somehow generate a digital signature to go with it, proving it really is from
+ the correct authoritative source? Well, the technical challenge of signing
+ nothing aside, this solution has flaws, one of which is it gives an attacker a
+ way to create the appearance of denial of service by replaying this message on
+ the network.</para>
 
- <para>We are going to use a little story, and tell it three different times to illustrate how proof of nonexistence works. In our story, we run a small company with three employees: Alice, Edward, and Susan. We list their names in a phone directory, and we hired a nameless intern to answer our phone calls.</para>
+ <para>We are going to use a little story, and tell it three different times to
+ illustrate how proof of nonexistence works. In our story, we run a small
+ company with three employees: Alice, Edward, and Susan. We list their names in
+ a phone directory, and we hired a nameless intern to answer our phone
+ calls.</para>
 
- <para>If we followed the approach of giving back the same answer no matter what was asked, when people called and asked for "Bob", our intern would simply answer: "Sorry, that person doesn't work here, and to prove that I am not lying, here's the signature: 'deaf coffee beef'". Now this is a legitimate answer, but since the signature doesn't change,  an attacker could record this message, and when the next person called in asking for Susan, she will hear the exact same message: "Sorry, that person doesn't work here, and to prove that I am not lying, here's the signature: 'deaf coffee beef'". And this answer is verifiable, since the magic signature ("deaf coffee beef" ) can be validated <footnote><para>Actually it cannot be verified, read <xref linkend="how-are-answers-verified" /> to learn why this would not work.</para></footnote>. Now the attacker has successfully fooled the caller into thinking that Susan doesn't work at our company, and might even be able to convince all callers that no one works at this company (no names exist).</para>
+ <para>If we followed the approach of giving back the same answer no matter
+ what was asked, when people called and asked for "Bob", our intern would
+ simply answer: "Sorry, that person doesn't work here, and to prove that I am
+ not lying, here's the signature: 'deaf coffee beef'". Now this is a legitimate
+ answer, but since the signature doesn't change,  an attacker could record this
+ message, and when the next person called in asking for Susan, she will hear
+ the exact same message: "Sorry, that person doesn't work here, and to prove
+ that I am not lying, here's the signature: 'deaf coffee beef'". And this
+ answer is verifiable, since the magic signature ("deaf coffee beef" ) can be
+ validated <footnote><para>Actually it cannot be verified, read <xref
+ linkend="how-are-answers-verified" /> to learn why this would not
+ work.</para></footnote>. Now the attacker has successfully fooled the caller
+ into thinking that Susan doesn't work at our company, and might even be able
+ to convince all callers that no one works at this company (no names
+ exist).</para>
 
- <para>To solve this problem, two different solutions were created, we will look at the first one, NSEC, next.</para>
+ <para>To solve this problem, two different solutions were created, we will
+ look at the first one, NSEC, next.</para>
 
  
  <!-- === NSEC === -->
  <section id="advanced-discussions-nsec">
   <title>NSEC</title>
-  <para>The NSEC record is used to prove that something really does not exist, by providing the name before it, and the name after it. Using our tiny company example, this would be analogous to someone calling for Bob over the phone, and our nameless intern answered the phone with: "I'm sorry, that person doesn't work here. The name before that is Alice, and the name after that is Edward". Let's say someone called in again for a non-existent person, Oliver, the answer would be: "I'm sorry, that person doesn't work here. The name before that is Edward, and the name after that is Susan". Another caller asked for Todd, and the answer would be: "I'm sorry, that person doesn't work here. The name before that is Susan, and the name after that is Alice".</para>
+  <para>The NSEC record is used to prove that something really does not exist,
+  by providing the name before it, and the name after it. Using our tiny
+  company example, this would be analogous to someone calling for Bob over the
+  phone, and our nameless intern answered the phone with: "I'm sorry, that
+  person doesn't work here. The name before that is Alice, and the name after
+  that is Edward". Let's say someone called in again for a non-existent person,
+  Oliver, the answer would be: "I'm sorry, that person doesn't work here. The
+  name before that is Edward, and the name after that is Susan". Another caller
+  asked for Todd, and the answer would be: "I'm sorry, that person doesn't work
+  here. The name before that is Susan, and the name after that is
+  Alice".</para>
 
   <para>So we end up with three NSEC records:
    <screen>alice.example.com.  300	IN	NSEC	edward.example.com. A RRSIG NSEC
 edward.example.com. 300	IN	NSEC	susan.example.com.  A RRSIG NSEC
 susan.example.com.  300	IN	NSEC	alice.example.com.  A RRSIG NSEC</screen></para>
 
-  <para>What if the attacker tried to use the same replay method described earlier? If someone called for Edward, none of the three answers would fit. If attacker played message #1, "I'm sorry, that person doesn't work here. The name before it is Alice, and the name after it is Edward", it is obviously false, since "Edward" is in the response; same for #2, Edward and Susan. As for #3, Edward does not fall in range after Susan or before Alice, and the caller can logically deduct that it was an incorrect answer.</para>
+  <para>What if the attacker tried to use the same replay method described
+  earlier? If someone called for Edward, none of the three answers would fit.
+  If attacker played message #1, "I'm sorry, that person doesn't work here. The
+  name before it is Alice, and the name after it is Edward", it is obviously
+  false, since "Edward" is in the response; same for #2, Edward and Susan. As
+  for #3, Edward does not fall in range after Susan or before Alice, and the
+      caller can logically deduct that it was an incorrect answer.</para>
 
-  <para>In BIND inline signing, your zone data will be automatically sorted on the fly before generating NSEC records, much like how a phone directory is sorted.</para>
+  <para>In BIND inline signing, your zone data will be automatically sorted on
+  the fly before generating NSEC records, much like how a phone directory is
+  sorted.</para>
 
-  <para>Unfortunately, the NSEC solution has a few drawbacks, one of which is trivial "zone walking". A curious person can keep calling back, and our nameless, gullible intern will keep divulging information about our employees. Imagine if the caller first asked: "Is Bob there?" and received back the names Alice and Edward. The caller can then call back again: "Is Edward-a there?", and will get back Edward and Susan. Repeat the process enough times, the caller will eventually learn every name in our company phone directory. For many of you, this may not be a problem, since the very idea of DNS is similar to a public phone book: if you don't want a name to be known publicly, don't put it in DNS!</para>
+  <para>Unfortunately, the NSEC solution has a few drawbacks, one of which is
+  trivial "zone walking". A curious person can keep calling back, and our
+  nameless, gullible intern will keep divulging information about our
+  employees. Imagine if the caller first asked: "Is Bob there?" and received
+  back the names Alice and Edward. The caller can then call back again: "Is
+  Edward-a there?", and will get back Edward and Susan. Repeat the process
+  enough times, the caller will eventually learn every name in our company
+  phone directory. For many of you, this may not be a problem, since the very
+  idea of DNS is similar to a public phone book: if you don't want a name to be
+  known publicly, don't put it in DNS!</para>
 
-  <para>The second drawback of NSEC is a actually increased operational overhead: no opt-out mechanism for insecure child zones, this generally is a problem for parent zone operators dealing with a lot of insecure child zones, such as <code>.com</code>. To learn more about opt-out, please see <xref linkend="advanced-discussions-nsec3-optout" />.</para>
- </section>
+  <para>The second drawback of NSEC is a actually increased operational
+  overhead: no opt-out mechanism for insecure child zones, this generally is a
+  problem for parent zone operators dealing with a lot of insecure child zones,
+  such as <code>.com</code>. To learn more about opt-out, please see <xref
+  linkend="advanced-discussions-nsec3-optout" />.</para> </section>
 
  <!-- === NSEC3 === -->
  <section id="advanced-discussions-nsec3">
@@ -39,49 +96,106 @@ susan.example.com.  300	IN	NSEC	alice.example.com.  A RRSIG NSEC</screen></para>
     <listitem><simpara>Provides a mechanism for child zone to opt out.</simpara></listitem>
    </orderedlist></para>
 
-  <para>Recall, in <xref linkend="advanced-discussions-nsec" />, we provided a range of names to prove that something really does not exist. But as it turns out, even disclosing these ranges of names becomes a problem: this made it very easy for the curious minded to look at your entire zone. Not only that, unlike a zone transfer, this "zone walking" is more resource intensive. So how do we disclose something, without actually disclosing it?</para>
+  <para>Recall, in <xref linkend="advanced-discussions-nsec" />, we provided a
+  range of names to prove that something really does not exist. But as it turns
+  out, even disclosing these ranges of names becomes a problem: this made it
+  very easy for the curious minded to look at your entire zone. Not only that,
+  unlike a zone transfer, this "zone walking" is more resource intensive. So
+  how do we disclose something, without actually disclosing it?</para>
 
-  <para>The answer is actually quite simple, hashing functions, or one-way hashes. Without going into much details, think of it like a magical meat grinder. A juicy piece of ribeye steak goes in one end, and out comes a predictable shape and size of ground meat (hash) with a somewhat unique pattern. No matter how hard you try, you cannot turn the ground meat back into the juicy ribeye steak, that's what we call a one-way hash.</para>
+  <para>The answer is actually quite simple, hashing functions, or one-way
+  hashes. Without going into much details, think of it like a magical meat
+  grinder. A juicy piece of ribeye steak goes in one end, and out comes a
+  predictable shape and size of ground meat (hash) with a somewhat unique
+  pattern. No matter how hard you try, you cannot turn the ground meat back
+  into the juicy ribeye steak, that's what we call a one-way hash.</para>
 
-  <para>NSEC3 basically runs the names through a one-way hash, before giving it out, so the recipients can verify the non-existence, without any knowledge of the actual names.</para>
+  <para>NSEC3 basically runs the names through a one-way hash, before giving it
+  out, so the recipients can verify the non-existence, without any knowledge of
+  the actual names.</para>
 
-  <para>So let's tell our little phone receptionist story for the third time, this time with NSEC3. This time, our intern is not given a list of actual names, he is given a list of "hashed" names. So instead of Alice, Edward, and Susan, the list he is given reads like this (hashes shortened for easier reading):
+  <para>So let's tell our little phone receptionist story for the third time,
+  this time with NSEC3. This time, our intern is not given a list of actual
+  names, he is given a list of "hashed" names. So instead of Alice, Edward, and
+  Susan, the list he is given reads like this (hashes shortened for easier
+  reading):
    <screen>FSK5....  (produced from Edward)
 JKMA.... (produced from Susan)
 NTQ0.... (produced from Alice)</screen></para>
 
-  <para>Then, the phone rings, someone's asking for Bob again. Our intern takes the name Bob through a hash function, and the result is L8J2..., so he tells them on the phone: "I'm sorry, that person doesn't work here. The name before that is JKMA..., and the name after that is NTQ0...". There, we proved Bob doesn't exist, without giving away any names! To put that into proper NSEC3 resource records, they would look like this (again, hashes shortened for display):
+  <para>Then, the phone rings, someone's asking for Bob again. Our intern takes
+  the name Bob through a hash function, and the result is L8J2..., so he tells
+  them on the phone: "I'm sorry, that person doesn't work here. The name before
+  that is JKMA..., and the name after that is NTQ0...". There, we proved Bob
+  doesn't exist, without giving away any names! To put that into proper NSEC3
+  resource records, they would look like this (again, hashes shortened for
+  display):
    <screen>FSK5....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  JKMA... A RRSIG
 JKMA....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  NTQ0... A RRSIG
 NTQ0....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  FSK5... A RRSIG</screen></para>
 
-  <para>Some of you who paid attention earlier may recognize the numbers here 1, 0, 10, and 1234567890ABCDEF from <xref linkend="signing-using-nsec3" />, then you will remember that these four parameters represent algorithm, opt-out, iterations, and salt, respectively. We will discuss more about opt-out in <xref linkend="advanced-discussions-nsec3-optout" /> and salt in <xref linkend="advanced-discussions-nsec3-salt" />.</para>
+  <para>Some of you who paid attention earlier may recognize the numbers here
+  1, 0, 10, and 1234567890ABCDEF from <xref linkend="signing-using-nsec3" />,
+  then you will remember that these four parameters represent algorithm,
+  opt-out, iterations, and salt, respectively. We will discuss more about
+  opt-out in <xref linkend="advanced-discussions-nsec3-optout" /> and salt in
+  <xref linkend="advanced-discussions-nsec3-salt" />.</para>
 
 
-<note><title>Hashes and Privacy</title>
-Just because we employed one-way hash functions does not mean there's no way for a determined individual to figure out what your zone data is. Someone could still gather all of your NSEC3 records and hashed names, and perform an offline brute-force attack by trying all possible combinations to figure out what the original name is. This would be like if someone really wanted to know how you got the ground meat, he could buy all cuts of meat and ground it up at home, and compare the output with the meat you gave him. It is expensive and time consuming (especially with real meat), but like everything else in cryptography, if someone has enough resources and time, nothing is truly private forever. If you are concerned about someone performing this type of attack on you zone data, see about adding salt as described in <xref linkend="advanced-discussions-nsec3-salt"/>.</note>
+<note><title>Hashes and Privacy</title> Just because we employed one-way hash
+functions does not mean there's no way for a determined individual to figure
+out what your zone data is. Someone could still gather all of your NSEC3
+records and hashed names, and perform an offline brute-force attack by trying
+all possible combinations to figure out what the original name is. This would
+be like if someone really wanted to know how you got the ground meat, he could
+buy all cuts of meat and ground it up at home, and compare the output with the
+meat you gave him. It is expensive and time consuming (especially with real
+meat), but like everything else in cryptography, if someone has enough
+resources and time, nothing is truly private forever. If you are concerned
+about someone performing this type of attack on you zone data, see about adding
+salt as described in <xref linkend="advanced-discussions-nsec3-salt"/>.</note>
  </section>
 
 
  <!-- === NSEC3PARAM === -->
  <section id="advanced-discussions-nsec3param">
   <title>NSEC3PARAM</title>
-  <para>In <xref linkend="signing-using-nsec3" />, our example used four parameters: 1, 0, 10, and 1234567890ABCDEF, in the order they appeared. It looked like this:
+  <para>In <xref linkend="signing-using-nsec3" />, our example used four
+  parameters: 1, 0, 10, and 1234567890ABCDEF, in the order they appeared. It
+  looked like this:
    <screen># <userinput>rndc signing -nsec3param 1 0 10 1234567890abcdef example.com</userinput></screen></para>
 
-  <para>1 represents the algorithm, 0 represents the opt-out flag, 10 represents the number of iterations, and 1234567890abcedf is the salt. Let's look at how each one can be configured:
+  <para>1 represents the algorithm, 0 represents the opt-out flag, 10
+  represents the number of iterations, and 1234567890abcedf is the salt. Let's
+  look at how each one can be configured:
    <itemizedlist>
     <listitem>
-     <simpara><emphasis>Algorithm</emphasis>: Not much of a choice here, the only defined value currently is 1 for SHA-1.</simpara></listitem>
+     <simpara><emphasis>Algorithm</emphasis>: Not much of a choice here, the
+     only defined value currently is 1 for SHA-1.</simpara></listitem>
+
     <listitem>
-     <simpara><emphasis>Opt-out</emphasis>: Set this to 1 if you want to do NSEC3 opt-out, which we will discuss in <xref linkend="advanced-discussions-nsec3-optout" />.</simpara></listitem>
+     <simpara><emphasis>Opt-out</emphasis>: Set this to 1 if you want to do
+     NSEC3 opt-out, which we will discuss in <xref
+     linkend="advanced-discussions-nsec3-optout" />.</simpara></listitem>
+
     <listitem>
-     <simpara><emphasis>Iterations</emphasis>: iterations defines the number of additional times to apply the algorithm when generating an NSEC3 hash. More iterations yields more secure results, but consumes more resources for both authoritative server sand validating resolvers. In the regard, we have similar considerations as we've seen in <xref linkend="key-sizes" /> of security versus resources.</simpara></listitem>
+     <simpara><emphasis>Iterations</emphasis>: iterations defines the number of
+     additional times to apply the algorithm when generating an NSEC3 hash.
+     More iterations yields more secure results, but consumes more resources
+     for both authoritative server sand validating resolvers. In the regard, we
+     have similar considerations as we've seen in <xref linkend="key-sizes"
+     /> of security versus resources.</simpara></listitem>
+
     <listitem>
-     <simpara><emphasis>Salt</emphasis>: The salt is a string of data expressed in hexadecimal, or a hyphen (‘-’) if no salt is to be used. We will learn more about salt in <xref linkend="advanced-discussions-nsec3-salt" />.</simpara></listitem>
+     <simpara><emphasis>Salt</emphasis>: The salt is a string of data expressed
+     in hexadecimal, or a hyphen (‘-’) if no salt is to be used. We will learn
+     more about salt in <xref linkend="advanced-discussions-nsec3-salt"
+     />.</simpara></listitem>
+
    </itemizedlist></para>
 
-   <para>For example, to create an NSEC3 chain using the SHA-1 hash algorithm, no opt-out flag, 10 iterations, and a salt value of "FFFF", use: 
+   <para>For example, to create an NSEC3 chain using the SHA-1 hash algorithm,
+   no opt-out flag, 10 iterations, and a salt value of "FFFF", use: 
     <screen># <userinput>rndc signing -nsec3param 1 0 10 FFFF example.com</userinput></screen></para>
 
    <para>To set the opt-out flag, 15 iterations, and no salt, use: 
@@ -96,31 +210,58 @@ Just because we employed one-way hash functions does not mean there's no way for
  <!-- === NSEC3 Opt-out === -->
  <section id="advanced-discussions-nsec3-optout">
   <title>NSEC3 Opt-Out</title>
-  <para>One of the advantages of NSEC3 over NSEC is the ability for parent zones to publish less information about insecure child (delegated) zones, thus reducing overhead on the parent zone's name servers.</para>
+  <para>One of the advantages of NSEC3 over NSEC is the ability for parent
+  zones to publish less information about insecure child (delegated) zones,
+  thus reducing overhead on the parent zone's name servers.</para>
 
-  <para>This may not seem like a lot, but imagine in if you are the operator of busy top level domains such as <code>.com</code> or <code>.net</code>, with millions and millions of insecure delegated domain names, it quickly adds up. As of late 2014, less than 0.1% of all <code>.com</code> zones are signed. Basically, without opt-out, if you have 50,000 delegations, only 5 of which are secure, you still have to sign all 50,000 delegated names; with NSEC3 opt-out, you will only sign a set of delegated names if there is at least one DS record present, indicating that the delegated name is secure. So with opt-out, instead of signing 50,000 sets of delegations indiscriminately, you will only sign 5 sets of delegations.</para>
+  <para>This may not seem like a lot, but imagine in if you are the operator of
+  busy top level domains such as <code>.com</code> or <code>.net</code>, with
+  millions and millions of insecure delegated domain names, it quickly adds up.
+  As of late 2014, less than 0.1% of all <code>.com</code> zones are signed.
+  Basically, without opt-out, if you have 50,000 delegations, only 5 of which
+  are secure, you still have to sign all 50,000 delegated names; with NSEC3
+  opt-out, you will only sign a set of delegated names if there is at least one
+  DS record present, indicating that the delegated name is secure. So with
+  opt-out, instead of signing 50,000 sets of delegations indiscriminately, you
+  will only sign 5 sets of delegations.</para>
 
-  <para>But for most DNS administrators, the decision whether or not to use NSEC3 opt-out is probably not relevant.</para>
+  <para>But for most DNS administrators, the decision whether or not to use
+  NSEC3 opt-out is probably not relevant.</para>
 
-  <para>If you decide to use opt-out, the command to enable it is very similar to the one we ran in <xref linkend="signing-using-nsec3" /> we are just changing the opt-out bit from 0 to 1:
+  <para>If you decide to use opt-out, the command to enable it is very similar
+  to the one we ran in <xref linkend="signing-using-nsec3" /> we are just
+  changing the opt-out bit from 0 to 1:
    <screen># rndc signing -nsec3param 1 <userinput>1</userinput> 10 1234567890abcdef example.com</screen></para>
  </section>
 
  <!-- === NSEC3 Salt === -->
  <section id="advanced-discussions-nsec3-salt">
   <title>NSEC3 Salt</title>
-  <para>As described in <xref linkend="advanced-discussions-nsec3" />, while NSEC3 doesn't put your zone data in plain public display, it is still not difficult for an attacker to collect all the hashed names, and perform an offline attack. All that is required is running through all the combinations to construct a database of plaintext names to hashed names, also known as a "rainbow table".</para>
+  <para>As described in <xref linkend="advanced-discussions-nsec3" />, while
+  NSEC3 doesn't put your zone data in plain public display, it is still not
+  difficult for an attacker to collect all the hashed names, and perform an
+  offline attack. All that is required is running through all the combinations
+  to construct a database of plaintext names to hashed names, also known as a
+  "rainbow table".</para>
 
-  <para>There is one more features NSEC3 gives us to provide additional protection: salt. Basically, salt gives us the ability introduce further randomness into the hashed results. Whenever the salt is changed, any pre-computed rainbow table is rendered useless, and a new rainbow table must be re-computed. If the salt is changed from time to time, it becomes difficult to construct a useful rainbow table, thus difficult to walk the DNS zone data programmatically. How often you want to change your NSEC3 salt is up to you.</para>
+  <para>There is one more features NSEC3 gives us to provide additional
+  protection: salt. Basically, salt gives us the ability introduce further
+  randomness into the hashed results. Whenever the salt is changed, any
+  pre-computed rainbow table is rendered useless, and a new rainbow table must
+  be re-computed. If the salt is changed from time to time, it becomes
+  difficult to construct a useful rainbow table, thus difficult to walk the DNS
+  zone data programmatically. How often you want to change your NSEC3 salt is
+  up to you.</para>
 
-  <para>To change your NSEC3 salt, you may run the rndc signing command like this:
+  <para>To change your NSEC3 salt, you may run the rndc signing command like
+  this:
    <screen># <userinput>rndc signing -nsec3param 1 1 10 fedcba0987654321 example.com</userinput></screen></para>
 
    <note>
-    <para>You can use a pseudo-random source to create the salt for you. Here is an example on Linux to create a 16-character hex string:
+    <para>You can use a pseudo-random source to create the salt for you. Here
+    is an example on Linux to create a 16-character hex string:
      <screen># <userinput>rndc signing -nsec3param 1 0 10 $(head -c 300 /dev/random | sha1sum | cut -b 1-16) example.com</userinput></screen>
     </para>
    </note>
-
  </section>
 </section>
