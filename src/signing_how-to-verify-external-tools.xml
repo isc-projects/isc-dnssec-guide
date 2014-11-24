@@ -1,30 +1,38 @@
 <!-- === External Tools === -->
-<!-- TODO: jkuo Tue Oct 21 12:50:08 UTC 2014
-      Mark up the screenshot images to highlight what's important?
--->
 <section id="signing-verify-using-external-tools">
  <title>External Testing Tools</title>
- <para>The easiest ways to see if your domain name is fully secured is to use one of these excellent online tools.
+ <para>The easiest ways to see if your domain name is fully secured is to use
+ one of these excellent online tools.
+
   <orderedlist>
    <!-- #1 -->
    <listitem>
-    <simpara>Verisign Labs DNSSEC Debugger: <ulink url="http://dnssec-debugger.verisignlabs.com/" /></simpara>
+    <simpara>Verisign Labs DNSSEC Debugger: <ulink
+    url="http://dnssec-debugger.verisignlabs.com/" /></simpara>
    </listitem>
+
    <!-- #2 -->
    <listitem>
     <simpara>DNSViz: <ulink url="http://dnsviz.net/" /></simpara>
    </listitem>
+
    <!-- #3 -->
    <listitem>
-    <simpara>Sec Spider: <ulink url="http://secspider.cs.ucla.edu/" /></simpara>
+    <simpara>Sec Spider: <ulink url="http://secspider.cs.ucla.edu/"
+    /></simpara>
    </listitem>
-  </orderedlist></para>
+  </orderedlist>
+ </para>
 
-  <!-- ====== Verisign DNSSEC Debugger ====== -->
+
+ <!-- ====== Verisign DNSSEC Debugger ====== -->
  <section id="external-tools-dnssec-debugger">
   <title>Verisign DNSSEC Debugger</title>
-   <para>URL: <ulink url="http://dnssec-debugger.verisignlabs.com/" /></para>
-   <para>This tool shows a nice summary of checks performed on your domain name, and you can expand to view more details for each of the items checked to get a detailed report.</para>
+  <para>URL: <ulink url="http://dnssec-debugger.verisignlabs.com/" /></para>
+
+  <para>This tool shows a nice summary of checks performed on your domain
+  name, and you can expand to view more details for each of the items checked
+  to get a detailed report.</para>
 
   <figure>
    <title>Verisign DNSSEC Debugger</title>
@@ -40,7 +48,8 @@
  <section id="external-tools-dnsviz">
   <title>DNSViz</title>
   <para>URL: <ulink url="http://dnsviz.net/" /></para>
-  <para>DNSViz provides a visual analysis of the DNSSEC authentication chain for a domain name and its resolution path in the DNS namespace.</para>
+  <para>DNSViz provides a visual analysis of the DNSSEC authentication chain
+  for a domain name and its resolution path in the DNS namespace.</para>
 
   <figure>
    <title>DNSViz</title>
@@ -52,11 +61,12 @@
   </figure>
  </section>
 
-  <!-- ====== Sec Spider ====== -->
+ <!-- ====== Sec Spider ====== -->
  <section id="external-tools-secspider">
   <title>Sec Spider</title>
   <para>URL: <ulink url="http://secspider.cs.ucla.edu/" /></para>
-  <para>Similar to DNSViz, with the added bonus of letting users move elements on the diagram.</para>
+  <para>Similar to DNSViz, with the added bonus of letting users move elements
+  on the diagram.</para>
 
   <figure>
    <title>Sec Spider</title>

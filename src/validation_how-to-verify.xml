@@ -1,32 +1,45 @@
 <!-- === How To Test Recursive Server === -->
 <section id="how-to-test-recursive-server">
  <title>How To Test Recursive Server (So You Think You Are Validating)</title>
- <para>Okay, so now that you have reconfigured your recursive server and restarted it, how do you know that your recursive name server is actually verifying each DNS query? There are several ways to check, and we've listed a few suggestions below, starting with the easiest.</para>
+ <para>Okay, so now that you have reconfigured your recursive server and
+ restarted it, how do you know that your recursive name server is actually
+ verifying each DNS query? There are several ways to check, and we've listed a
+ few suggestions below, starting with the easiest.</para>
 
 
  <!-- ====== Using Web-based Tools to Verify ===== -->
  <section id="using-web-based-tests-to-verify">
   <title>Using Web-based Tools to Verify</title>
-  <para>For most people, the simplest way to check if the recursive name server is indeed validating DNS queries, is to use one of the many web-based tools that often employ JavaScript.</para>
+  <para>For most people, the simplest way to check if the recursive name server
+  is indeed validating DNS queries, is to use one of the many web-based tools
+  that often employ JavaScript.</para>
 
-  <para>Configure your client computer to use the newly reconfigured recursive server for DNS resolution, then you can use any one of these web-based tests to see if it is in fact validating answers DNS responses.
+  <para>Configure your client computer to use the newly reconfigured recursive
+  server for DNS resolution, then you can use any one of these web-based tests
+  to see if it is in fact validating answers DNS responses.
    <itemizedlist>
     <listitem>
-          <ulink url="http://test.dnssec-or-not.com/" />
+     <ulink url="http://test.dnssec-or-not.com/" />
     </listitem>
     <listitem>
-          <ulink url="http://dnssectest.sidnlabs.nl/" />
+     <ulink url="http://dnssectest.sidnlabs.nl/" />
     </listitem>
     <listitem>
-          <ulink url="http://dnssec.vs.uni-due.de/" />
+     <ulink url="http://dnssec.vs.uni-due.de/" />
     </listitem>
    </itemizedlist>
   </para>
 
-  <para>For example, opening the URL <ulink url="http://test.dnssec-or-not.com/" /> in your web browser will show the following before DNSSEC validation is enabled:</para>
+  <para>For example, opening the URL <ulink
+  url="http://test.dnssec-or-not.com/" /> in your web browser will show the
+  following before DNSSEC validation is enabled:</para>
+
   <simpara><imagedata fileref="../img/dnssec-or-not-NO.png" /></simpara>
 
-  <para>After DNSSEC validation is enabled, loading the URL <ulink url="http://test.dnssec-or-not.com/" /> in a web browser shows the following:</para>
+  <para>After DNSSEC validation is enabled, loading the URL <ulink
+  url="http://test.dnssec-or-not.com/" /> in a web browser shows the
+  following:</para>
+
   <simpara><imagedata fileref="../img/dnssec-or-not-YES.png" /></simpara>
  </section>
 
@@ -34,13 +47,29 @@
  <!-- ====== Using dig to Verify ===== -->
  <section id="using-dig-to-verify">
   <title>Using dig to Verify</title>
-  <para>If you don't trust the JavaScript magic that the web-based tools rely on, you can take matters into your own hands and use a command line DNS tool to check your validating resolver yourself.</para>
+  <para>If you don't trust the JavaScript magic that the web-based tools rely
+  on, you can take matters into your own hands and use a command line DNS tool
+  to check your validating resolver yourself.</para>
 
-  <para>While nslookup is popular, partly because it comes pre-installed on most systems, it is not DNSSEC-aware. The Domain Information Groper (<command>dig</command>), on the other hand, fully supports the DNSSEC standard, and comes as a part of BIND. If you do not have dig already installed on your system, install it by downloading it from ISC's web site. ISC provides pre-compiled Windows versions on its web site.</para>
+  <para>While nslookup is popular, partly because it comes pre-installed on
+  most systems, it is not DNSSEC-aware. The Domain Information Groper
+  (<command>dig</command>), on the other hand, fully supports the DNSSEC
+  standard, and comes as a part of BIND. If you do not have dig already
+  installed on your system, install it by downloading it from ISC's web site.
+  ISC provides pre-compiled Windows versions on its web site.</para>
   
-  <para><command>dig</command> is a flexible tool for interrogating DNS name servers. It performs DNS lookups and displays the answers that are returned from the name server(s) that were queried. Most seasoned DNS administrators use <command>dig</command> to troubleshoot DNS problems because of its flexibility, ease of use, and clarity of output.</para>
+  <para><command>dig</command> is a flexible tool for interrogating DNS name
+  servers. It performs DNS lookups and displays the answers that are returned
+  from the name server(s) that were queried. Most seasoned DNS administrators
+  use <command>dig</command> to troubleshoot DNS problems because of its
+  flexibility, ease of use, and clarity of output.</para>
 
-  <para>The example below shows using dig to query the name server 192.168.1.7 for the A record for www.isc.org before DNSSEC validation is enabled. Notice although we specifically used the <option>+dnssec</option> code line option, we do not see the DNSSEC OK (<code>do</code>) bit in the response, nor do we see any DNSSEC resource records.
+  <para>The example below shows using dig to query the name server 192.168.1.7
+  for the A record for www.isc.org before DNSSEC validation is enabled. Notice
+  although we specifically used the <option>+dnssec</option> code line
+  option, we do not see the DNSSEC OK (<code>do</code>) bit in the
+  response, nor do we see any DNSSEC resource records.
+
   <screen>$ <userinput>dig @192.168.1.7 www.isc.org. A +dnssec +multiline</userinput>
 ; &lt;&lt;>> DiG 9.10.0-P2 &lt;&lt;>> @192.168.1.7 www.isc.org. A +dnssec +multiline
 ; (1 server found)
@@ -55,9 +84,17 @@
 ;www.isc.org.			IN	A
 
 ;; ANSWER SECTION:
-www.isc.org.		60	IN	A	149.20.64.69</screen></para>
+www.isc.org.		60	IN	A	149.20.64.69</screen>
+  </para>
 
-  <para>Below shows what the results look like querying the same server (192.168.1.7) after enabling DNSSEC validation. The exact same command is run, and this time notice three key differences, 1) the presence of the Authenticated Data (<code>ad</code>) flag in the header, 2) the DNSSEC OK (<code>do</code>) flag indicating the recursive server is DNSSEC-aware, and 3) an additional resource record of type RRSIG, with the same name as the A record.
+  <para>Below shows what the results look like querying the same server
+  (192.168.1.7) after enabling DNSSEC validation. The exact same command is
+  run, and this time notice three key differences, 1) the presence of the
+  Authenticated Data (<code>ad</code>) flag in the header, 2) the DNSSEC OK
+  (<code>do</code>) flag indicating the recursive server is DNSSEC-aware, and
+  3) an additional resource record of type RRSIG, with the same name as the A
+  record.
+
   <screen>$ <userinput>dig @192.168.1.7 www.isc.org. A +dnssec +multiline</userinput>
 
 ; &lt;&lt;>> DiG 9.10.0-P2 &lt;&lt;>> @192.168.1.7 www.isc.org. A +dnssec +multiline
@@ -84,30 +121,43 @@ www.isc.org.		4 IN A	149.20.64.69
 ;; Query time: 3 msec
 ;; SERVER: 192.168.1.7#53(192.168.1.7)
 ;; WHEN: Fri Oct 03 16:40:04 CST 2014
-;; MSG SIZE  rcvd: 223</screen></para>
+;; MSG SIZE  rcvd: 223</screen>
+
+  </para>
  </section>
 
 
  <!-- ====== Using delv to Verify ===== -->
  <section id="using-delv-to-verify">
   <title>Using delv to Verify</title>
-  <para>If you have BIND 9.10 or later, you can use Domain Entity Lookup &amp; Validation (<command>delv</command>) to validate your setup. This program is similar to <command>dig</command>, but is specifically tailored for DNSSEC.</para>
+  <para>If you have BIND 9.10 or later, you can use Domain Entity Lookup &amp;
+  Validation (<command>delv</command>) to validate your setup. This program is
+  similar to <command>dig</command>, but is specifically tailored for
+  DNSSEC.</para>
 
   <para>Without DNSSEC:
   <screen>$ <userinput>delv @192.168.1.7 www.isc.org. A</userinput>
 ;; no valid RRSIG resolving 'org/DS/IN': 192.168.1.7#53
 ;; no valid DS resolving 'www.isc.org/A/IN': 192.168.1.7#53
-;; resolution failed: no valid DS</screen></para>
+;; resolution failed: no valid DS</screen>
 
-  <para><command>delv</command> also comes with a handy <option>+rtrace</option> (trace resolver fetches) switch that shows a little more information on what was fetched:
+  </para>
+
+  <para><command>delv</command> also comes with a handy
+  <option>+rtrace</option> (trace resolver fetches) switch that shows a little
+  more information on what was fetched:
+
   <screen>$ <userinput> delv @192.168.1.7 www.isc.org. A +rtrace</userinput>
 ;; fetch: www.isc.org/A
 ;; fetch: org/DS
 ;; no valid RRSIG resolving 'org/DS/IN': 192.168.1.7#53
 ;; no valid DS resolving 'www.isc.org/A/IN': 192.168.1.7#53
-;; resolution failed: no valid DS</screen></para>
+;; resolution failed: no valid DS</screen>
+  </para>
 
-  <para>After enabling DNSSEC validation, re-running the exact same codes show us the following results:
+  <para>After enabling DNSSEC validation, re-running the exact same codes show
+  us the following results:
+
   <screen>$ <userinput>delv @192.168.1.7 www.isc.org. A +multiline</userinput>
 ; fully validated
 www.isc.org.		60 IN A	149.20.64.69
@@ -116,9 +166,13 @@ www.isc.org.		60 IN RRSIG A 5 3 60 (
 				DX5BaGVd4KzU2AIH911Kar/UmdmkARyPhJVLr0oyPZaq
 				5zoobGqFI4efvzL0mcpncuUg3BSU5Q48WdBu92xinMdb
 				E75zl+adgEBOsFgFQR/zqM3myt/8SngWm4+TQ3XFh9eN
-				jqExHZZuZ268Ntlxqgf9OmKRRv8X8YigaPShuyU= )</screen></para>
+				jqExHZZuZ268Ntlxqgf9OmKRRv8X8YigaPShuyU= )</screen>
 
-  <para>And <option>+rtrace</option> shows all the glory of what records were fetched to validate this answer:
+  </para>
+
+  <para>And <option>+rtrace</option> shows all the glory of what records were
+  fetched to validate this answer:
+
   <screen>$ <userinput>delv @192.168.1.7 www.isc.org +rtrace +multiline</userinput>
 ;; fetch: www.isc.org/A
 ;; fetch: isc.org/DNSKEY
@@ -133,18 +187,29 @@ www.isc.org.		19 IN RRSIG A 5 3 60 (
 				DX5BaGVd4KzU2AIH911Kar/UmdmkARyPhJVLr0oyPZaq
 				5zoobGqFI4efvzL0mcpncuUg3BSU5Q48WdBu92xinMdb
 				E75zl+adgEBOsFgFQR/zqM3myt/8SngWm4+TQ3XFh9eN
-				jqExHZZuZ268Ntlxqgf9OmKRRv8X8YigaPShuyU= )</screen></para>
+				jqExHZZuZ268Ntlxqgf9OmKRRv8X8YigaPShuyU= )</screen>
+
+  </para>
  </section>
 
 
  <!-- ====== Verifying Protection from Bad Domain Names ====== -->
  <section id="verifying-protection-from-bad-domain-names">
   <title>Verifying Protection from Bad Domain Names</title>
-  <para>It is also important to make sure DNSSEC is protecting you from domain names that you should not trust or resolve. There is a domain name specifically setup for this purpose, <code>www.dnssec-failed.org</code>. Prior to enabling DNSSEC validation, you should have no trouble visiting the URL <ulink url="http://www.dnssec-failed.org/" />:</para>
-  <simpara><imagedata fileref="../img/dnssec-failed-org-example.png" /></simpara>
+  <para>It is also important to make sure DNSSEC is protecting you from domain
+  names that you should not trust or resolve. There is a domain name
+  specifically setup for this purpose, <code>www.dnssec-failed.org</code>.
+  Prior to enabling DNSSEC validation, you should have no trouble visiting the
+  URL <ulink url="http://www.dnssec-failed.org/" />:</para>
+
+  <simpara>
+   <imagedata fileref="../img/dnssec-failed-org-example.png" />
+  </simpara>
 
 
-  <para>And no problem resolving the domain name as shown below using <command>dig</command>:
+  <para>And no problem resolving the domain name as shown below using
+  <command>dig</command>:
+
    <screen>$ <userinput>dig @192.168.1.11 www.dnssec-failed.org. A</userinput>
 
 ; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.11 www.dnssec-failed.org. A
@@ -166,9 +231,15 @@ www.dnssec-failed.org.	7200	IN	A	69.252.193.191
 ;; Query time: 955 msec
 ;; SERVER: 192.168.1.11#53(192.168.1.11)
 ;; WHEN: Fri Oct 17 07:42:50 CST 2014
-;; MSG SIZE  rcvd: 82</screen></para>
+;; MSG SIZE  rcvd: 82</screen>
 
-  <para>After DNSSEC validation is enabled, any attempt to loading the URL should result in some kind of "Sorry, this page cannot be displayed" error message from your web browser. And looking up this domain name using <command>dig</command> should result in SERVFAIL, as shown below:
+  </para>
+
+  <para>After DNSSEC validation is enabled, any attempt to loading the URL
+  should result in some kind of "Sorry, this page cannot be displayed" error
+  message from your web browser. And looking up this domain name using
+  <command>dig</command> should result in SERVFAIL, as shown below:
+
    <screen>$ <userinput>dig @192.168.1.11 www.dnssec-failed.org. A</userinput>
 
 ; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.11 www.dnssec-failed.org. A
@@ -186,19 +257,24 @@ www.dnssec-failed.org.	7200	IN	A	69.252.193.191
 ;; Query time: 2435 msec
 ;; SERVER: 192.168.1.11#53(192.168.1.11)
 ;; WHEN: Fri Oct 17 07:44:56 CST 2014
-;; MSG SIZE  rcvd: 50</screen></para>
+;; MSG SIZE  rcvd: 50</screen>
+
+  </para>
  </section>
 
 
-  <!-- TODO  jkuo Tue Oct 28 14:10:34 UTC 2014
-      For the time being we'll place this section here since
-      we are moving troubleshooting into its own chapter, and
-      we'll figure out later where this section should go later.
- -->
  <!-- ====== How Do I know I Have a Validation Problem? ====== -->
  <section id="how-do-i-know-i-have-a-validation-problem">
   <title>How Do I know I Have a Validation Problem?</title>
-  <para>Since all DNSSEC validation failures result in a general <code>SERVFAIL</code> message, how do we know that it was related to validation in the first place? Fortunately, there is a flag to disable DNSSEC validation in <command>dig</command>, <option>+cd</option> (checking disable). When you've received a <code>SERVFAIL</code> message, re-run the query one more time, and throw in the <option>+cd</option> flag. If the query succeeds with <option>+cd</option>, but ends in <code>SERVFAIL</code> without it, then you know you are dealing with a validation problem.
+  <para>Since all DNSSEC validation failures result in a general
+  <code>SERVFAIL</code> message, how do we know that it was related to
+  validation in the first place? Fortunately, there is a flag to disable DNSSEC
+  validation in <command>dig</command>, <option>+cd</option> (checking
+  disable). When you've received a <code>SERVFAIL</code> message, re-run the
+  query one more time, and throw in the <option>+cd</option> flag. If the query
+  succeeds with <option>+cd</option>, but ends in <code>SERVFAIL</code> without
+  it, then you know you are dealing with a validation problem.
+
    <screen>$ <userinput>dig @192.168.1.7 www.isc.org. A +cd</userinput>
 
 ; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.7 www.isc.org. A +cd
@@ -214,9 +290,13 @@ www.dnssec-failed.org.	7200	IN	A	69.252.193.191
 ;www.isc.org.			IN	A
 
 ;; ANSWER SECTION:
-www.isc.org.		30	IN	A	149.20.64.69</screen></para>
+www.isc.org.		30	IN	A	149.20.64.69</screen>
 
-  <para>For more information on troubleshooting, please see <xref linkend="troubleshooting"/>.</para>
+  </para>
+
+  <para>For more information on troubleshooting, please see <xref
+  linkend="troubleshooting"/>.</para>
+
  </section>
 </section>
 

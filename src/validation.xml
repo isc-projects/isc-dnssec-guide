@@ -7,21 +7,22 @@
 <chapter id="dnssec-validation">
  <title>Validation</title>
  <!-- === Easy Start Guide for Recursive Servers === -->
- <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="validation_easy-start-guide.xml" />
+ <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="validation_easy-start-guide.xml" />
 
  <!-- === How to Test Recursive Servers === -->
- <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="validation_how-to-verify.xml" />
+ <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="validation_how-to-verify.xml" />
 
  <!-- === Validation Easy Start Explained === -->
- <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="validation_easy-start-explained.xml" />
+ <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="validation_easy-start-explained.xml" />
 
  <!-- === Trust Anchors === -->
- <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="validation_trust-anchors.xml" />
+ <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="validation_trust-anchors.xml" />
 
  <!-- === What's EDNS0 all about - and why should I care? === -->
- <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="validation_whats-edns0-all-about.xml" />
-
-
- <!-- === Why You Can't Validate a Zone for which You're Authoritative === -->
- <!-- === Negative Trust Anchors === -->
+ <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="validation_whats-edns0-all-about.xml" />
 </chapter>
