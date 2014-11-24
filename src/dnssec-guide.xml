@@ -2,7 +2,7 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
 <!ENTITY mdash  "&#x2014;" >
-<!ENTITY __VERSION__ "0.2">
+<!ENTITY __VERSION__ "0.3">
 ]>
 
 <!--
@@ -32,39 +32,57 @@
     </copyright>
 
     <abstract>
-      <para>This is version &__VERSION__; of the DNSSEC deployment guide for BIND.
-<!--
-TODO:
-      The most up-to-date version of this document (in PDF, HTML,
-      and plain text formats), along with other documents for
-      BIND can be found at <ulink url="http://www.isc.org/downloads/bind/"/>.
--->
-      </para>
+      <para>This is version &__VERSION__; of the DNSSEC deployment guide for
+      BIND.</para>
 
-      <para>BIND is open source software that implements the Domain Name System (DNS)
-      protocols for the Internet. It is a reference implementation of those protocols,
-      but it is also production-grade software, suitable for use in high-volume and
-      high-reliability applications.</para>
+      <para>BIND is open source software that implements the Domain Name System
+      (DNS) protocols for the Internet. It is a reference implementation of
+      those protocols, but it is also production-grade software, suitable for
+      use in high-volume and high-reliability applications.</para>
 
-      <para>Domain Name System Security Extensions (DNSSEC) extends standard DNS to
-      provide a measure of security; it proves that the data comes from the official
-      source and has not been modified in transit.</para>
+      <para>Domain Name System Security Extensions (DNSSEC) extends standard
+      DNS to provide a measure of security; it proves that the data comes from
+      the official source and has not been modified in transit.</para>
 
       <para>ISC BIND supports the full DNSSEC standard.</para>
 
-      <para>This guide provides information how to configure, use, and troubleshoot
-      DNSSEC using BIND.</para>
+      <para>This guide provides information how to configure, use, and
+      troubleshoot DNSSEC using BIND.</para>
+
     </abstract>
   </bookinfo>
 
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="introduction.xml" />
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="getting-started.xml" />
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="validation.xml" />
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="signing.xml" />
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="troubleshooting.xml" />
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="advanced-discussions.xml" />
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="recipes.xml" />
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="appendices.xml" />
+  <!-- Chapter 1: Introduction -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+  href="introduction.xml" />
+
+  <!-- Chapter 2: Getting Started -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+  href="getting-started.xml" />
+
+  <!-- Chapter 3: Validation -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+  href="validation.xml" />
+
+  <!-- Chapter 4: Signing -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+  href="signing.xml" />
+
+  <!-- Chapter 5: Basic Troubleshooting -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+  href="troubleshooting.xml" />
+
+  <!-- Chapter 6: Advanced Discussions --> 
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+  href="advanced-discussions.xml" />
+  
+  <!-- Chapter 7: Recipes -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+  href="recipes.xml" />
+
+  <!-- Appendix -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+  href="appendices.xml" />
 
 
 <!--
