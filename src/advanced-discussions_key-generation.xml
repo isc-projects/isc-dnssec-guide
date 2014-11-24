@@ -3,16 +3,28 @@
  <!-- === Can I Use the Same Key for Multiple Zones? === -->
  <section id="same-key-for-multiple-zones">
   <title>Can I Use the Same Key for Multiple Zones?</title>
-  <para>  Yes, but you shouldn't. This is like using the same password for your email account, social media login, and online banking credential. On a technical level, this is completely feasible, but then you increase the risk when a key is compromised. The best practice, as well as the examples shown in this guide, is to use a separate set of keys for each zone, just like how you should use different passwords for each of the web sites you log into.</para>
+  <para>Yes, but you shouldn't. This is like using the same password for your
+  email account, social media login, and online banking credential. On a
+  technical level, this is completely feasible, but then you increase the risk
+  when a key is compromised. The best practice, as well as the examples shown
+  in this guide, is to use a separate set of keys for each zone, just like how
+  you should use different passwords for each of the web sites you log
+  into.</para>
+
  </section>
 
 
  <!-- === Do I need Both ZSK and KSK? === -->
  <section id="do-i-need-zsk-and-ksk">
   <title>Do I Need Both ZSK and KSK?</title>
-  <para>No, but you should. Just like we discussed in <xref linkend="same-key-for-multiple-zones" />, having just one set of keys for DNSSEC can be done technically, but it is not best practice, therefore not recommended.</para>
+  <para>No, but you should. Just like we discussed in <xref
+  linkend="same-key-for-multiple-zones" />, having just one set of keys for
+  DNSSEC can be done technically, but it is not best practice, therefore not
+  recommended.</para>
 
-  <para>If you kept the two sets of keys separate, the below are the use of each key:
+  <para>If you kept the two sets of keys separate, the below are the use of
+  each key:
+
    <table>
     <title>Key Usage Comparison</title>
     <tgroup cols='3' align='left' colsep='0' rowsep='0'>
@@ -26,75 +38,115 @@
      <tbody>
       <row>
        <entry>ZSK Private</entry>
-       <entry>Used by authoritative server to create RRSIG for zone data</entry>
-       <entry>Used somewhat frequently, whenever zone data changes or re-signing is needed</entry>
+       <entry>Used by authoritative server to create RRSIG for zone
+       data</entry>
+       <entry>Used somewhat frequently, whenever zone data changes or
+       re-signing is needed</entry>
       </row>
       <row>
        <entry>ZSK Public</entry>
        <entry>Used by recursive server to validate zone data RRset</entry>
-       <entry>Used very frequently, whenever recursive server validates a response</entry>
+       <entry>Used very frequently, whenever recursive server validates a
+       response</entry>
       </row>
       <row>
        <entry>KSK Private</entry>
-       <entry>Used by authoritative server to create RRSIG for ZSK Public (DNSKEY)</entry>
-       <entry>Very infrequently, whenever ZSK's change (every 1 to 3 months)</entry>
+       <entry>Used by authoritative server to create RRSIG for ZSK Public
+       (DNSKEY)</entry>
+       <entry>Very infrequently, whenever ZSK's change (every 1 to 3
+       months)</entry>
       </row>
       <row>
        <entry>KSK Public</entry>
        <entry>Used by recursive server to validate DNSKEY RRset</entry>
-       <entry>Used very frequently, whenever recursive server validates a DNSKEY RRset</entry>
+       <entry>Used very frequently, whenever recursive server validates a
+       DNSKEY RRset</entry>
       </row>
      </tbody>
     </tgroup>
    </table>
   </para>
-
-  <note>
-   <qandaset>
-    <qandaentry>
-     <question><simpara>Question for ISC Reviewers: Should we refer readers to RFC6781 Section 3.1?</simpara></question>
-     <answer><simpara>...</simpara></answer>
-    </qandaentry>
-   </qandaset>
-  </note>
  </section>
 
 
  <!-- === Which Algorithem? === -->
  <section id="which-algorithm">
   <title>Which Algorithm?</title>
-  <para><quote>Eeny, Meey, Miny, Mo.  Which Algorithm Should I Encode?</quote></para>
+  <para><quote>Eeny, Meey, Miny, Mo.  Which Algorithm Should I
+  Encode?</quote></para>
 
-  <para>There are at least three algorithm choices for DNSSEC as of this writing:
+  <para>There are at least three algorithm choices for DNSSEC as of this
+  writing:
+
    <itemizedlist>
-    <listitem><simpara>RSA</simpara></listitem>
-    <listitem><simpara>Digital Signature Algorithm (DSA)</simpara></listitem>
-    <listitem><simpara>Elliptic Curve DSA (ECDSA)</simpara></listitem>
-   </itemizedlist></para>
+    <listitem>
+     <simpara>RSA</simpara>
+    </listitem>
+    <listitem>
+     <simpara>Digital Signature Algorithm (DSA)</simpara>
+    </listitem>
+    <listitem>
+     <simpara>Elliptic Curve DSA (ECDSA)</simpara>
+    </listitem>
+   </itemizedlist>
 
-  <para>RSA is the only one that is mandated to be implemented with DNSSEC, and at the time of this writing, is the most widely supported algorithm by both name servers and clients. For the near future, RSA/SHA-256 is the algorithm of choice, with RSA/SHA-1 being an alternative.</para>
+  </para>
 
-  <para>However, RSA is a little long in the tooth, and ECDSA is emerging as the next new cryptographic standard. In fact, the US federal government has recommended to stop using RSA altogether by September 2015, and migrate to using ECDSA or similar algorithms.</para>
+  <para>RSA is the only one that is mandated to be implemented with DNSSEC, and
+  at the time of this writing, is the most widely supported algorithm by both
+  name servers and clients. For the near future, RSA/SHA-256 is the algorithm
+  of choice, with RSA/SHA-1 being an alternative.</para>
 
-  <para>So for now, use RSA, but keep your eyes on emerging new standards or requirements.</para>
+
+  <para>However, RSA is a little long in the tooth, and ECDSA is emerging as
+  the next new cryptographic standard. In fact, the US federal government has
+  recommended to stop using RSA altogether by September 2015, and migrate to
+  using ECDSA or similar algorithms.</para>
+
+  <para>So for now, use RSA, but keep your eyes on emerging new standards or
+  requirements.</para>
+
  </section>
 
 
  <!-- === Key Sizes === -->
  <section id="key-sizes">
   <title>Key Sizes</title>
-  <para>The choice of key sizes is a classic issue of finding the balance between performance and security. The larger the key size, the longer it takes for an attacker to crack the key; but larger keys also means more resources are needed both when generating signatures (authoritative servers) and verifying signatures (recursive servers).</para>
+  <para>The choice of key sizes is a classic issue of finding the balance
+  between performance and security. The larger the key size, the longer it
+  takes for an attacker to crack the key; but larger keys also means more
+  resources are needed both when generating signatures (authoritative servers)
+  and verifying signatures (recursive servers).</para>
 
-  <para>Of the two sets of keys, ZSK is used much more frequently. Whenever zone data changes, or when signatures expire, ZSK is used, so performance certainly is of a bigger concern. As for KSK, it is used less frequently, so performance is less of a factor, but its impact is bigger because of its role in signing other keys.</para>
+  <para>Of the two sets of keys, ZSK is used much more frequently. Whenever
+  zone data changes, or when signatures expire, ZSK is used, so performance
+  certainly is of a bigger concern. As for KSK, it is used less frequently, so
+  performance is less of a factor, but its impact is bigger because of its role
+  in signing other keys.</para>
 
-  <para>In this guide, the following key length were chosen for each set, with the recommendation that they be rotated more frequently for better security:
+  <para>In this guide, the following key length were chosen for each set, with
+  the recommendation that they be rotated more frequently for better security:
+
    <itemizedlist>
-    <listitem><simpara><emphasis>ZSK</emphasis>: RSA 1024 bits, rollover every month</simpara></listitem>
-    <listitem><simpara><emphasis>KSK</emphasis>: RSA 2048 bits, rollover every year</simpara></listitem>
-   </itemizedlist></para>
+    <listitem>
+     <simpara><emphasis>ZSK</emphasis>:
+     RSA 1024 bits, rollover every month</simpara>
+    </listitem>
+    <listitem>
+     <simpara><emphasis>KSK</emphasis>:
+     RSA 2048 bits, rollover every year</simpara>
+    </listitem>
+   </itemizedlist>
+  
+  </para>
 
   <para>These should be the minimum key sizes one should choose.</para>
 
-  <para>If you choose to implement larger key sizes, keep in mind that larger key size results in larger DNS responses, and this may mean more load on network resources. Depending on network configuration, end users may even experience resolution failures due to the increased response sizes, as we have discussed in <xref linkend="whats-edns0-all-about" />.</para>
+  <para>If you choose to implement larger key sizes, keep in mind that larger
+  key size results in larger DNS responses, and this may mean more load on
+  network resources. Depending on network configuration, end users may even
+  experience resolution failures due to the increased response sizes, as we
+  have discussed in <xref linkend="whats-edns0-all-about" />.</para>
+
  </section>
 </section>

@@ -4,37 +4,75 @@
  <!-- === Public Key Storage === -->
  <section id="public-key-storage">
   <title>Public Key Storage</title>
-  <para>The beauty of a public key cryptography system is that the public key portion can and should be distributed to as many people as possible. As the administrator, you may want to keep the public keys on an easily accessible file system for operational ease, but there is no need to securely store them, since both ZSK and KSK public keys are published in the zone data as DNSKEY resource records.</para>
+  <para>The beauty of a public key cryptography system is that the public key
+  portion can and should be distributed to as many people as possible. As the
+  administrator, you may want to keep the public keys on an easily accessible
+  file system for operational ease, but there is no need to securely store
+  them, since both ZSK and KSK public keys are published in the zone data as
+  DNSKEY resource records.</para>
 
-  <para>Additionally, a portion of the KSK public key is also uploaded to the parent zone (see <xref linkend="working-with-parent-zone" /> for more details), and is published by the parent zone as DS records.</para>
+  <para>Additionally, a portion of the KSK public key is also uploaded to the
+  parent zone (see <xref linkend="working-with-parent-zone" /> for more
+  details), and is published by the parent zone as DS records.</para>
+
  </section>
 
 
  <!-- === Private Key Storage === -->
  <section id="private-key-storage">
   <title>Private Key Storage</title>
-  <para>Ideally, private keys should be stored offline, in secure devices such as a smart card. Operationally, however, this creates certain challenges, since we need the private key to create RRSIG resource records, and it would be a hassle to bring the private key out of storage every time the zone file changes or when signatures expire.</para>
+  <para>Ideally, private keys should be stored offline, in secure devices such
+  as a smart card. Operationally, however, this creates certain challenges,
+  since we need the private key to create RRSIG resource records, and it would
+  be a hassle to bring the private key out of storage every time the zone file
+  changes or when signatures expire.</para>
 
-  <para>One way around this is to have two sets of keys, a ZSK and KSK. ZSK private key is used to sign zone data, and can be kept online for ease of use; KSK private key is used to sign just the DNSKEY (the ZSK), it is used less frequently, and can be stored in a much more secure and restricted fashion.</para>
+  <para>One way around this is to have two sets of keys, a ZSK and KSK. ZSK
+  private key is used to sign zone data, and can be kept online for ease of
+  use; KSK private key is used to sign just the DNSKEY (the ZSK), it is used
+  less frequently, and can be stored in a much more secure and restricted
+  fashion.</para>
 
-  <para>For example, a KSK private key stored on a USB flash drive that is kept in a fireproof safe, only brought online once a month to sign a new pair of ZSK, combined with a ZSK private key stored on the network file-system available for routine use, maybe be a good a good balance between operational flexibility and security.</para>
+  <para>For example, a KSK private key stored on a USB flash drive that is kept
+  in a fireproof safe, only brought online once a month to sign a new pair of
+  ZSK, combined with a ZSK private key stored on the network file-system
+  available for routine use, maybe be a good a good balance between operational
+  flexibility and security.</para>
 
-  <para>And don't forget to change these keys regularly, as described in <xref linkend="key-rollovers" />.</para>
+  <para>And don't forget to change these keys regularly, as described in <xref
+  linkend="key-rollovers" />.</para>
+
  </section>
 
 
  <!-- === HSMs === -->
  <section id="hardware-security-modules">
   <title>Hardware Security Modules (HSM)</title>
-  <para>A Hardware Security Module (HSM) comes in different shapes and sizes, but as the name indicates, it's a physical device or devices, usually with some or all of the following features:
+  <para>A Hardware Security Module (HSM) comes in different shapes and sizes,
+  but as the name indicates, it's a physical device or devices, usually with
+  some or all of the following features:
+
    <itemizedlist>
-    <listitem><simpara>Tamper-resistant key storage</simpara></listitem>
-    <listitem><simpara>Strong random number generation</simpara></listitem>
-    <listitem><simpara>Hardware for faster cryptographic operations</simpara></listitem>
-   </itemizedlist></para>
+    <listitem>
+     <simpara>Tamper-resistant key storage</simpara>
+    </listitem>
+    <listitem>
+     <simpara>Strong random number generation</simpara>
+    </listitem>
+    <listitem>
+     <simpara>Hardware for faster cryptographic operations</simpara>
+    </listitem>
+   </itemizedlist>
+  </para>
 
-  <para>Most organizations do not incorporate HSMs into their security practices due to cost and the added operational complexity.</para>
+  <para>Most organizations do not incorporate HSMs into their security
+  practices due to cost and the added operational complexity.</para>
 
-  <para>BIND supports PKCS #11 (Public Key Cryptography Standard #11) for communication with HSMs and other cryptographic support devices. For more information on how to configure BIND to work with HSMs, please refer to the <ulink url="http://www.isc.org/downloads/bind/doc/">BIND 9 Administrator Reference Manual</ulink>.</para>
+  <para>BIND supports PKCS #11 (Public Key Cryptography Standard #11) for
+  communication with HSMs and other cryptographic support devices. For more
+  information on how to configure BIND to work with HSMs, please refer to the
+  <ulink url="http://www.isc.org/downloads/bind/doc/">BIND 9 Administrator
+  Reference Manual</ulink>.</para>
+
  </section>
 </section>

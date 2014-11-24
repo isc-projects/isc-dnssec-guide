@@ -56,7 +56,9 @@
   <para>So we end up with three NSEC records:
    <screen>alice.example.com.  300	IN	NSEC	edward.example.com. A RRSIG NSEC
 edward.example.com. 300	IN	NSEC	susan.example.com.  A RRSIG NSEC
-susan.example.com.  300	IN	NSEC	alice.example.com.  A RRSIG NSEC</screen></para>
+susan.example.com.  300	IN	NSEC	alice.example.com.  A RRSIG NSEC</screen>
+
+  </para>
 
   <para>What if the attacker tried to use the same replay method described
   earlier? If someone called for Edward, none of the three answers would fit.
@@ -93,9 +95,14 @@ susan.example.com.  300	IN	NSEC	alice.example.com.  A RRSIG NSEC</screen></para>
   <title>NSEC3</title>
   <para>NSEC3 adds two additional features that NSEC does not have:
    <orderedlist>
-    <listitem><simpara>No easy zone enumeration.</simpara></listitem>
-    <listitem><simpara>Provides a mechanism for child zone to opt out.</simpara></listitem>
-   </orderedlist></para>
+    <listitem>
+     <simpara>No easy zone enumeration.</simpara>
+    </listitem>
+    <listitem>
+     <simpara>Provides a mechanism for child zone to opt out.</simpara>
+    </listitem>
+   </orderedlist>
+  </para>
 
   <para>Recall, in <xref linkend="advanced-discussions-nsec" />, we provided a
   range of names to prove that something really does not exist. But as it turns
@@ -133,7 +140,9 @@ NTQ0.... (produced from Alice)</screen></para>
   display):
    <screen>FSK5....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  JKMA... A RRSIG
 JKMA....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  NTQ0... A RRSIG
-NTQ0....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  FSK5... A RRSIG</screen></para>
+NTQ0....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  FSK5... A RRSIG</screen>
+
+  </para>
 
   <para>Some of you who paid attention earlier may recognize the numbers here
   1, 0, 10, and 1234567890ABCDEF from <xref linkend="signing-using-nsec3" />,
@@ -162,7 +171,9 @@ salt as described in <xref linkend="advanced-discussions-nsec3-salt"/>.</note>
   <para>In <xref linkend="signing-using-nsec3" />, our example used four
   parameters: 1, 0, 10, and 1234567890ABCDEF, in the order they appeared. It
   looked like this:
-   <screen># <userinput>rndc signing -nsec3param 1 0 10 1234567890abcdef example.com</userinput></screen></para>
+   <screen># <userinput>rndc signing -nsec3param 1 0 10 1234567890abcdef example.com</userinput></screen>
+  
+  </para>
 
   <para>1 represents the algorithm, 0 represents the opt-out flag, 10
   represents the number of iterations, and 1234567890abcedf is the salt. Let's
@@ -195,10 +206,14 @@ salt as described in <xref linkend="advanced-discussions-nsec3-salt"/>.</note>
 
    <para>For example, to create an NSEC3 chain using the SHA-1 hash algorithm,
    no opt-out flag, 10 iterations, and a salt value of "FFFF", use: 
-    <screen># <userinput>rndc signing -nsec3param 1 0 10 FFFF example.com</userinput></screen></para>
+    <screen># <userinput>rndc signing -nsec3param 1 0 10 FFFF example.com</userinput></screen>
+   
+   </para>
 
    <para>To set the opt-out flag, 15 iterations, and no salt, use: 
-    <screen># <userinput>rndc signing -nsec3param 1 1 15 - example.com</userinput></screen></para>
+    <screen># <userinput>rndc signing -nsec3param 1 1 15 - example.com</userinput></screen>
+
+   </para>
  </section>
 
  <!-- === NSEC3 Opt-out === -->
@@ -225,7 +240,9 @@ salt as described in <xref linkend="advanced-discussions-nsec3-salt"/>.</note>
   <para>If you decide to use opt-out, the command to enable it is very similar
   to the one we ran in <xref linkend="signing-using-nsec3" /> we are just
   changing the opt-out bit from 0 to 1:
-   <screen># rndc signing -nsec3param 1 <userinput>1</userinput> 10 1234567890abcdef example.com</screen></para>
+   <screen># rndc signing -nsec3param 1 <userinput>1</userinput> 10 1234567890abcdef example.com</screen>
+  
+  </para>
  </section>
 
  <!-- === NSEC3 Salt === -->
@@ -249,7 +266,9 @@ salt as described in <xref linkend="advanced-discussions-nsec3-salt"/>.</note>
 
   <para>To change your NSEC3 salt, you may run the rndc signing command like
   this:
-   <screen># <userinput>rndc signing -nsec3param 1 1 10 fedcba0987654321 example.com</userinput></screen></para>
+   <screen># <userinput>rndc signing -nsec3param 1 1 10 fedcba0987654321 example.com</userinput></screen>
+  
+  </para>
 
    <note>
     <para>You can use a pseudo-random source to create the salt for you. Here
