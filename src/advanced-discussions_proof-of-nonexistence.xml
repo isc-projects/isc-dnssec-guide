@@ -87,6 +87,7 @@ susan.example.com.  300	IN	NSEC	alice.example.com.  A RRSIG NSEC</screen></para>
   such as <code>.com</code>. To learn more about opt-out, please see <xref
   linkend="advanced-discussions-nsec3-optout" />.</para> </section>
 
+
  <!-- === NSEC3 === -->
  <section id="advanced-discussions-nsec3">
   <title>NSEC3</title>
@@ -154,8 +155,6 @@ meat), but like everything else in cryptography, if someone has enough
 resources and time, nothing is truly private forever. If you are concerned
 about someone performing this type of attack on you zone data, see about adding
 salt as described in <xref linkend="advanced-discussions-nsec3-salt"/>.</note>
- </section>
-
 
  <!-- === NSEC3PARAM === -->
  <section id="advanced-discussions-nsec3param">
@@ -259,6 +258,7 @@ salt as described in <xref linkend="advanced-discussions-nsec3-salt"/>.</note>
     </para>
    </note>
  </section>
+</section>
 
  <!-- === NSEC or NSEC3 === -->
  <section id="advanced-discussions-nsec-or-nsec3">
