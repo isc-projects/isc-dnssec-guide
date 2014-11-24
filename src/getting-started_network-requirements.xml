@@ -1,14 +1,23 @@
 <!-- === Network Requirement === -->
 <section id="network-requirements">
  <title>Network Requirements</title>
- <para>From a network perspective, DNS and DNSSEC packets are very similar, DNSSEC responses just look bigger. You should test for the following two items, to make sure your network is ready for DNSSEC:
+ <para>From a network perspective, DNS and DNSSEC packets are very similar,
+ DNSSEC responses just look bigger. You should test for the following two
+ items, to make sure your network is ready for DNSSEC:
+
   <orderedlist>
    <listitem>
-    <simpara><emphasis>DNS over TCP</emphasis>: Verify network connectivity over TCP port 53, this may mean updating firewall policies or Access Control List (ACL) on routers. See <xref linkend="dns-uses-tcp"/> more details.</simpara>
+    <simpara><emphasis>DNS over TCP</emphasis>: Verify network connectivity
+    over TCP port 53, this may mean updating firewall policies or Access
+    Control List (ACL) on routers. See <xref linkend="dns-uses-tcp"/> more
+    details.</simpara>
    </listitem>
 
    <listitem>
-    <simpara><emphasis>Large UDP packets</emphasis>: Some network gears such as firewall may make assumptions about the size of DNS UDP packets and reject DNS traffic that appears too big. See <xref linkend="whats-edns0-all-about"/> for more details.</simpara>
+    <simpara><emphasis>Large UDP packets</emphasis>: Some network gears such as
+    firewall may make assumptions about the size of DNS UDP packets and reject
+    DNS traffic that appears too big. See <xref
+    linkend="whats-edns0-all-about"/> for more details.</simpara>
    </listitem>
   </orderedlist>
  </para>
