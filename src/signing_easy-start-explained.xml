@@ -4,26 +4,52 @@
  <!-- === Generate Keys Explained === -->
  <section id="signing-generate-keys-explained">
   <title>Generate Keys Explained</title>
-  <para>In <xref linkend="signing-easy-start-generate-keys"/>, we generated two pairs of keys by running these commands:
+  <para>In <xref linkend="signing-easy-start-generate-keys"/>, we generated two
+  pairs of keys by running these commands:
+
    <screen># <userinput>cd /etc/bind/keys/example.com</userinput>
 # <userinput>dnssec-keygen -a RSASHA256 -b 1024 example.com</userinput>
 Generating key pair...++++++ .............++++++ 
 Kexample.com.+008+17694
 # <userinput>dnssec-keygen -a RSASHA256 -b 2048 -f KSK example.com</userinput>
 Generating key pair........................+++ ..................................+++ 
-Kexample.com.+008+06817</screen></para>
+Kexample.com.+008+06817</screen>
 
-  <para>With these commands, we generated NSEC3-compatible key pairs (see <xref linkend="advanced-discussions-nsec3"/> to learn more about NSEC3). In the end, four key files were created in <filename>/etc/bind/keys/example.com</filename>:
+  </para>
+
+  <para>With these commands, we generated NSEC3-compatible key pairs (see <xref
+  linkend="advanced-discussions-nsec3"/> to learn more about NSEC3). In the
+  end, four key files were created in
+  <filename>/etc/bind/keys/example.com</filename>:
+
    <itemizedlist>
-    <listitem><simpara><filename>Kexample.com.+008+06817.key</filename></simpara></listitem>
-    <listitem><simpara><filename>Kexample.com.+008+06817.private</filename></simpara></listitem>
-    <listitem><simpara><filename>Kexample.com.+008+17694.key</filename></simpara></listitem>
-    <listitem><simpara><filename>Kexample.com.+008+17694.private</filename></simpara></listitem>
-   </itemizedlist></para>
+    <listitem>
+     <simpara><filename>Kexample.com.+008+06817.key</filename></simpara>
+    </listitem>
+    <listitem>
+     <simpara><filename>Kexample.com.+008+06817.private</filename></simpara>
+    </listitem>
+    <listitem>
+     <simpara><filename>Kexample.com.+008+17694.key</filename></simpara>
+    </listitem>
+    <listitem>
+     <simpara><filename>Kexample.com.+008+17694.private</filename></simpara>
+    </listitem>
+   </itemizedlist>
+   
+  </para>
 
-  <para>The two files ending in <code>.private</code> need to be kept, well, private. These are your private keys, guard them carefully. You should at the very least protect them via file permission settings. Please see <xref linkend="advanced-discussions-key-storage"/> for more information about how to store your keys.</para>
+  <para>The two files ending in <code>.private</code> need to be kept, well,
+  private. These are your private keys, guard them carefully. You should at the
+  very least protect them via file permission settings. Please see <xref
+  linkend="advanced-discussions-key-storage"/> for more information about how
+  to store your keys.</para>
 
-  <para>The two files ending in <code>.key</code> are your public keys. One is the zone-signing key (ZSK), and one is the key-signing Key (KSK). We can tell which is which by looking at the actual file contents (actual keys shortened for display):
+  <para>The two files ending in <code>.key</code> are your public keys. One is
+  the zone-signing key (ZSK), and one is the key-signing Key (KSK). We can tell
+  which is which by looking at the actual file contents (actual keys shortened
+  for display):
+
    <screen># <userinput>cat Kexample.com.+008+06817.key
 ; This is a key-signing key, keyid 6817, for example.com.</userinput>
 ; Created: 20141120094612 (Thu Nov 20 17:46:12 2014)
@@ -35,28 +61,43 @@ example.com. IN DNSKEY 257 3 8 AwEAAcWDps...lM3NRn/G/R
 ; Created: 20141120094536 (Thu Nov 20 17:45:36 2014)
 ; Publish: 20141120094536 (Thu Nov 20 17:45:36 2014)
 ; Activate: 20141120094536 (Thu Nov 20 17:45:36 2014)
-example.com. IN DNSKEY 256 3 8 AwEAAcjGaU...zuu55If5</screen></para>
+example.com. IN DNSKEY 256 3 8 AwEAAcjGaU...zuu55If5</screen>
 
-  <para>The first line of each file tell us what type of key it is. Also, by looking at the actual DNSKEY record, we could tell them apart: 256 is ZSK, and 257 is KSK.</para>
+  </para>
+
+  <para>The first line of each file tell us what type of key it is. Also, by
+  looking at the actual DNSKEY record, we could tell them apart: 256 is ZSK,
+  and 257 is KSK.</para>
 
   <para>So, this is a ZSK:
    <screen># <userinput>cat Kexample.com.+008+17694.key</userinput>
 ...
-example.com. IN DNSKEY <userinput>256</userinput> 3 8 AwEAAcjGaU...zuu55If5</screen></para>
+example.com. IN DNSKEY <userinput>256</userinput> 3 8 AwEAAcjGaU...zuu55If5</screen>
+
+  </para>
 
   <para>And this is a KSK:
    <screen># <userinput>cat Kexample.com.+008+06817.key</userinput>
 ...
-example.com. IN DNSKEY <userinput>257</userinput> 3 8 AwEAAcWDps...lM3NRn/G/R</screen></para>
+example.com. IN DNSKEY <userinput>257</userinput> 3 8 AwEAAcWDps...lM3NRn/G/R</screen>
 
-  <para>The parameters we showed in the example, algorithm of RSASHA256, key length of 1024 and 2048, and the use of NSEC3 are just suggestions, you need to evaluate what values work best for your environment. To learn more about key generation, different algorithm choices, and key sizes, see <xref linkend="advanced-discussions-key-generation"/>.</para>
+  </para>
+
+  <para>The parameters we showed in the example, algorithm of RSASHA256, key
+  length of 1024 and 2048, and the use of NSEC3 are just suggestions, you need
+  to evaluate what values work best for your environment. To learn more about
+  key generation, different algorithm choices, and key sizes, see <xref
+  linkend="advanced-discussions-key-generation"/>.</para>
+
  </section>
 
 
  <!-- === Reconfigure BIND Explained === -->
  <section id="signing-reconfigure-bind-explained">
   <title>Reconfigure BIND Explained</title>
-  <para>In <xref linkend="signing-easy-start-reconfigure-bind"/>, we highlighted a few lines, let's explain what each one of them does.
+  <para>In <xref linkend="signing-easy-start-reconfigure-bind"/>, we
+  highlighted a few lines, let's explain what each one of them does.
+
    <screen>options {
     <userinput>dnssec-enable yes;</userinput>
     directory "/etc/bind";
@@ -70,7 +111,9 @@ zone "example.com" IN {
     <userinput>key-directory "keys/example.com";
     inline-signing yes;
     auto-dnssec maintain;</userinput>
-};</screen></para>
+};</screen>
+
+  </para>
 
   <!-- ====== dnssec-enable ====== -->
   <section id="signing-dnssec-enable-explained">
@@ -78,7 +121,11 @@ zone "example.com" IN {
    <screen>options {
     dnssec-enable yes;
 };</screen>
-   <para>This line enables DNSSEC support in <command>named</command>. If not set, named behaves as if it does not support DNSSEC. The default is yes. We are just explicitly declaring it again here, in case your distribution has it disabled.</para>
+   <para>This line enables DNSSEC support in <command>named</command>. If not
+   set, named behaves as if it does not support DNSSEC. The default is yes. We
+   are just explicitly declaring it again here, in case your distribution has
+   it disabled.</para>
+
   </section>
 
   <!-- ====== key-directory ====== -->
@@ -87,7 +134,12 @@ zone "example.com" IN {
    <screen>zone "example.com" IN {
     key-directory "keys/example.com";
 };</screen>
-   <para>This specifies where <command>named</command> should look for public and private DNSSEC key files. The default is the current working directory. In our example, we organized keys based on zone names, and placed all keys for <code>example.com</code> under one directory <filename>/etc/bind/keys/example.com</filename>.</para>
+   <para>This specifies where <command>named</command> should look for public
+   and private DNSSEC key files. The default is the current working directory.
+   In our example, we organized keys based on zone names, and placed all keys
+   for <code>example.com</code> under one directory
+   <filename>/etc/bind/keys/example.com</filename>.</para>
+
   </section>
  
   <!-- ====== inline-signing ====== -->
@@ -96,11 +148,22 @@ zone "example.com" IN {
    <screen>zone "example.com" IN {
     inline-signing yes;
 };</screen>
-   <para>This option is disabled by default. When enabled, BIND converts traditional (insecure) zone data to signed (secure) data automatically and transparently, using keys found in <varname>key-directory</varname>.</para>
+   <para>This option is disabled by default. When enabled, BIND converts
+   traditional (insecure) zone data to signed (secure) data automatically and
+   transparently, using keys found in <varname>key-directory</varname>.</para>
 
-   <para>This feature alleviates the burden of resigning zone data put on DNSSEC zone administrators. As the zone administrator, you can continue to manually maintain the unsigned version of the zone just like before, and BIND will automatically convert the zone into a dynamic zone, sign it on the fly, and incrementing serial number automatically for the signed version of the zone. The unsigned version of the zone is left intact.</para>
+   <para>This feature alleviates the burden of resigning zone data put on
+   DNSSEC zone administrators. As the zone administrator, you can continue to
+   manually maintain the unsigned version of the zone just like before, and
+   BIND will automatically convert the zone into a dynamic zone, sign it on the
+   fly, and incrementing serial number automatically for the signed version of
+   the zone. The unsigned version of the zone is left intact.</para>
 
-   <para>To learn more about inline signing and some examples of using it in your DNSSEC deployment strategy, please see <ulink url="https://kb.isc.org/article/AA-00626">Inline Signing in ISC BIND 9.9.0 -- Examples</ulink>.</para>
+   <para>To learn more about inline signing and some examples of using it in
+   your DNSSEC deployment strategy, please see <ulink
+   url="https://kb.isc.org/article/AA-00626">Inline Signing in ISC BIND 9.9.0
+   -- Examples</ulink>.</para>
+
   </section>
 
   <!-- ====== auto-dnssec ====== -->
@@ -109,25 +172,41 @@ zone "example.com" IN {
    <screen>zone "example.com" IN {
     auto-dnssec maintain;
 };</screen>
-   <para>With keys, comes the burden of key management. <varname>auto-dnssec</varname> provides varying levels of automatic key management. There are three possible settings:
+   <para>With keys, comes the burden of key management.
+   <varname>auto-dnssec</varname> provides varying levels of automatic key
+   management. There are three possible settings:
+
     <orderedlist>
      <!-- #1 -->
      <listitem>
-      <simpara><emphasis>off</emphasis>: this is the default, key management is done manually</simpara>
+      <simpara><emphasis>off</emphasis>: this is the default, key management is
+      done manually</simpara>
      </listitem>
 
      <!-- #2 -->
      <listitem>
-      <simpara><emphasis>allow</emphasis>: permits keys to be updated and the zone fully re-signed whenever the user issues the command rndc sign zonename.</simpara>
+      <simpara><emphasis>allow</emphasis>: permits keys to be updated and the
+      zone fully re-signed whenever the user issues the command rndc sign
+      zonename.</simpara>
      </listitem>
 
      <!-- #3 -->
      <listitem>
-      <simpara><emphasis>maintain</emphasis>: includes what "allow" has, but also automatically adjusts the zone's DNSSEC keys on schedule, according to the key's timing metadata.</simpara>
+      <simpara><emphasis>maintain</emphasis>: includes what "allow" has, but
+      also automatically adjusts the zone's DNSSEC keys on schedule, according
+      to the key's timing metadata.</simpara>
      </listitem>
-    </orderedlist></para>
+    </orderedlist>
+   </para>
 
-    <para>We have opted for the "maintain" mode in our example, which provides the most automated key management. With this option enabled, BIND will periodically check to see if new keys are available, or old keys need to be retired, and automatically add or remove the appropriate DNSKEY records from the zone. The frequency of the check can be controlled via <varname>dnssec-loadkeys-interval</varname>, default is 60 minutes (1 hour).</para>
+   <para>We have opted for the "maintain" mode in our example, which provides
+   the most automated key management. With this option enabled, BIND will
+   periodically check to see if new keys are available, or old keys need to be
+   retired, and automatically add or remove the appropriate DNSKEY records from
+   the zone. The frequency of the check can be controlled via
+   <varname>dnssec-loadkeys-interval</varname>, default is 60 minutes (1
+   hour).</para>
+
   </section>
 
   <!-- TODO: jkuo  Sat Oct 25 01:21:44 UTC 2014
@@ -137,7 +216,8 @@ zone "example.com" IN {
        2) No inline-signing (manual signing, need to discuss dnssec-signzone)
   -->
   <note>
-   <para>If you don't like all this auto-magic of inline signing and key rollovers, see the section on "Manual Management".</para>
+   <para>If you don't like all this auto-magic of inline signing and key
+   rollovers, see the section on "Manual Management".</para>
   </note>
  </section>
 
@@ -145,7 +225,10 @@ zone "example.com" IN {
  <!-- === Verification Explained === -->
  <section id="signing-verification-explained">
   <title>Verification Explained</title>
-  <para>In <xref linkend="signing-verification" /> we abbreviated the output from dig, the full output looks lie this (some keys shortened and empty lines rmoeved for display):
+  <para>In <xref linkend="signing-verification" /> we abbreviated the output
+  from dig, the full output looks lie this (some keys shortened and empty lines
+  rmoeved for display):
+
    <screen># <userinput>dig @127.0.0.1 example.com. SOA +dnssec +sigchase +trusted-key=/tmp/example.key</userinput>
 ;; RRset to chase:
 example.com.		600	IN	SOA	ns1.example.com. admin.example.com. 2014112011 1800 900 2419200 300
@@ -173,44 +256,67 @@ Launch a query to find a RRset of type DS for zone: example.com.
 ;; Ok, find a Trusted Key in the DNSKEY RRset: 6817
 ;; VERIFYING DNSKEY RRset for example.com. with DNSKEY:6817: success
 
-;; Ok this DNSKEY is a Trusted Key, DNSSEC validation is ok: SUCCESS</screen></para>
+;; Ok this DNSKEY is a Trusted Key, DNSSEC validation is ok: SUCCESS</screen>
 
+  </para>
 
   <para>First, let's look at the options we gave <code>dig</code>:
-   <screen># <userinput>dig @127.0.0.1 example.com. SOA +dnssec +sigchase +trusted-key=/tmp/example.key</userinput></screen></para>
+   <screen># <userinput>dig @127.0.0.1 example.com. SOA +dnssec +sigchase +trusted-key=/tmp/example.key</userinput></screen>
+  
+  </para>
 
-  <para>What we are doing here is send the query to the localhost (127.0.0.1), our name server, to ask for the SOA record of the zone example.com. And we are enabling the dig options for DNSSEC (<code>+dnssec</code>), chasing down the signature for verification (<code>+sigchase</code>), and use a custom trusted key (<code>+trusted-key</code>).</para>
+  <para>What we are doing here is send the query to the localhost (127.0.0.1),
+  our name server, to ask for the SOA record of the zone example.com. And we
+  are enabling the dig options for DNSSEC (<code>+dnssec</code>), chasing down
+  the signature for verification (<code>+sigchase</code>), and use a custom
+  trusted key (<code>+trusted-key</code>).</para>
 
-  <para>Now let's look at the output, the first section of the output tells us that dig will attempt to chase down the SOA (that we asked for), along with its RRSIG:
+  <para>Now let's look at the output, the first section of the output tells us
+  that dig will attempt to chase down the SOA (that we asked for), along with
+  its RRSIG:
+
    <screen>;; RRset to chase:
 example.com.		600	IN	SOA	ns1.example.com. admin.example.com. 2014112011 1800 900 2419200 300
 ;; RRSIG of the RRset to chase:
-example.com.		600	IN	RRSIG	SOA 8 2 600 20141221015357 20141121005357 17694 example.com. GtY9...7nI=</screen></para>
+example.com.		600	IN	RRSIG	SOA 8 2 600 20141221015357 20141121005357 17694 example.com. GtY9...7nI=</screen>
 
-  <para>The next section, dig is telling us that it found two DNSKEY resource records for the zone example.com, and two corresponding RRSIG:
+  </para>
+
+  <para>The next section, dig is telling us that it found two DNSKEY resource
+  records for the zone example.com, and two corresponding RRSIG:
+
    <screen>Launch a query to find a RRset of type DNSKEY for zone: example.com.
 ;; DNSKEYset that signs the RRset to chase:
 example.com.		600	IN	DNSKEY	257 3 8 AwEAAcWDps...lM3NRn/G/R
 example.com.		600	IN	DNSKEY	256 3 8 AwEAAcjGaU...zuu55If5
 ;; RRSIG of the DNSKEYset that signs the RRset to chase:
 example.com.		600	IN	RRSIG	DNSKEY 8 2 600 20141220095002 20141120085002 6817 example.com. PNgpALQQFd.../AZ7GaIyc=
-example.com.		600	IN	RRSIG	DNSKEY 8 2 600 20141220095002 20141120085002 17694 example.com. ZucwWOroMx...Cjw=</screen></para>
+example.com.		600	IN	RRSIG	DNSKEY 8 2 600 20141220095002 20141120085002 17694 example.com. ZucwWOroMx...Cjw=</screen>
 
-  <para>The third section of the output has to do with checking for DS record for example.com, and it results in a warning that there is no DS record yet. Since we had not uploaded anything to the parent zone,  this is expected.
+  </para>
+
+  <para>The third section of the output has to do with checking for DS record
+  for example.com, and it results in a warning that there is no DS record yet.
+  Since we had not uploaded anything to the parent zone,  this is expected.
+
    <screen>Launch a query to find a RRset of type DS for zone: example.com.
 ;; NO ANSWERS: no more
-;; WARNING There is no DS for the zone: example.com.</screen></para>
+;; WARNING There is no DS for the zone: example.com.</screen>
 
-  <para>The final section of the output shows dig verified the DNSKEY found to the trusted-key given. If you looked the two key ID's carefully, you'll see that these two ID's match the ZSK and KSK key pairs we generated earlier.
+  </para>
+
+  <para>The final section of the output shows dig verified the DNSKEY found to
+  the trusted-key given. If you looked the two key ID's carefully, you'll see
+  that these two ID's match the ZSK and KSK key pairs we generated earlier.
+
    <screen>;; WE HAVE MATERIAL, WE NOW DO VALIDATION
 ;; VERIFYING SOA RRset for example.com. with DNSKEY:17694: success
 ;; OK We found DNSKEY (or more) to validate the RRset
 ;; Ok, find a Trusted Key in the DNSKEY RRset: 6817
 ;; VERIFYING DNSKEY RRset for example.com. with DNSKEY:6817: success
 
-;; Ok this DNSKEY is a Trusted Key, DNSSEC validation is ok: SUCCESS</screen></para>
- </section>
- 
- <!-- === Upload to Parent Zone Explained??? === -->
+;; Ok this DNSKEY is a Trusted Key, DNSSEC validation is ok: SUCCESS</screen>
 
+  </para>
+ </section>
 </section>

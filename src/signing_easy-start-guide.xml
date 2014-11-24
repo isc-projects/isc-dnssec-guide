@@ -1,21 +1,38 @@
 <section id="easy-start-guide-for-authoritative-servers">
  <title>Easy Start Guide for Signing Authoritative Zones</title>
- <para>
- This section provides the minimum amount of information to setup a working DNSSEC-enabled authoritative name server. A DNSSEC-enabled zone (or "signed" zone) contains additional resource records that are used to verify the authenticity of its zone information.</para>
+ <para>This section provides the minimum amount of information to setup a
+ working DNSSEC-enabled authoritative name server. A DNSSEC-enabled zone (or
+ "signed" zone) contains additional resource records that are used to verify
+ the authenticity of its zone information.</para>
  
- <para>To convert a traditional (insecure) DNS zone to a secure one, we need to create various additional records (DNSKEY, RRSIG, NSEC or NSEC3), and upload verifiable information (such as DS record) to the parent zone to complete the chain of trust. For more information about DNSSEC resource records, please see <xref linkend="what-does-dnssec-add-to-dns" />.</para>
+ <para>To convert a traditional (insecure) DNS zone to a secure one, we need to
+ create various additional records (DNSKEY, RRSIG, NSEC or NSEC3), and upload
+ verifiable information (such as DS record) to the parent zone to complete the
+ chain of trust. For more information about DNSSEC resource records, please see
+ <xref linkend="what-does-dnssec-add-to-dns" />.</para>
 
+ <note>In this chapter we assume all configuration files, key files, and zone
+ files are stored in <code>/etc/bind</code>. And most of the times we show
+ examples of running various commands as the root user. This is arguably not
+ the best setup, but we don't want to distract you from what's important here:
+ learning how to sign a zone. There are many best practices for deploying a
+ more secure BIND installation, with techniques such as jailed process and
+ restricted user privileges, but we are not going to cover any of those in this
+ document. We are trusting you, a responsible DNS administrator, to take the
+ necessary precautions to secure your system.</note>
 
-
-<note>In this chapter we assume all configuration files, key files, and zone files are stored in <code>/etc/bind</code>. And most of the times we show examples of running various commands as the root user. This is arguably not the best setup, but we don't want to distract you from what's important here: learning how to sign a zone. There are many best practices for deploying a more secure BIND installation, with techniques such as jailed process and restricted user privileges, but we are not going to cover any of those in this document. We are trusting you, a responsible DNS administrator, to take the necessary precautions to secure your system.</note>
-
-
- <para>For our examples below, we will be working with the assumption that there is an existing insecure zone <code>example.com</code> that we will be converting to a secure version.</para>
+ <para>For our examples below, we will be working with the assumption that
+ there is an existing insecure zone <code>example.com</code> that we will be
+ converting to a secure version.</para>
 
  <!-- === #1 Generate Keys === -->
  <section id="signing-easy-start-generate-keys">
   <title>Generate Keys</title>
-  <para>Everything in DNSSEC centers around keys, and we will begin by generating our own keys. In our example, we are keeping all the keys for <code>example.com</code> in its own directory, <filename>/etc/bind/keys/example.com</filename>.
+  <para>Everything in DNSSEC centers around keys, and we will begin by
+  generating our own keys. In our example, we are keeping all the keys for
+  <code>example.com</code> in its own directory,
+  <filename>/etc/bind/keys/example.com</filename>.
+
    <screen># <userinput>mkdir -p /etc/bind/keys/example.com</userinput>
 # <userinput>cd /etc/bind/keys/example.com</userinput>
 # <userinput>dnssec-keygen -a RSASHA256 -b 1024 example.com</userinput>
@@ -23,17 +40,29 @@ Generating key pair...++++++ .............++++++
 Kexample.com.+008+17694
 # <userinput>dnssec-keygen -a RSASHA256 -b 2048 -f KSK example.com</userinput>
 Generating key pair........................+++ ..................................+++ 
-Kexample.com.+008+06817</screen></para>
+Kexample.com.+008+06817</screen>
 
-  <para>This generated four key files in <filename>/etc/bind/keys/example.com</filename>, and the only one we care about for now is the KSK key, <filename>Kexample.com.+008+06817.key</filename>. Remember this file name: we will need it again shortly. Make sure these files are readable by <command>named</command>.</para>
+  </para>
 
-  <para>Refer to <xref linkend="system-entropy"/> for information on how you could speed this process up.</para>
+  <para>This generated four key files in
+  <filename>/etc/bind/keys/example.com</filename>, and the only one we care
+  about for now is the KSK key,
+  <filename>Kexample.com.+008+06817.key</filename>. Remember this file name: we
+  will need it again shortly. Make sure these files are readable by
+  <command>named</command>.</para>
+
+  <para>Refer to <xref linkend="system-entropy"/> for information on how you
+  could speed this process up.</para>
+
  </section>
 
  <!-- === #2 Reconfigure BIND === -->
  <section id="signing-easy-start-reconfigure-bind">
   <title>Reconfigure BIND</title>
-  <para>Below is a very simple <filename>named.conf</filename>, in our example environment, this file is <filename>/etc/bind/named.conf</filename>. The lines you most likely need to add are in bold.
+  <para>Below is a very simple <filename>named.conf</filename>, in our example
+  environment, this file is <filename>/etc/bind/named.conf</filename>. The
+  lines you most likely need to add are in bold.
+
    <screen>options {
     <userinput>dnssec-enable yes;</userinput>
     directory "/etc/bind";
@@ -47,9 +76,13 @@ zone "example.com" IN {
     <userinput>key-directory "keys/example.com";
     inline-signing yes;
     auto-dnssec maintain;</userinput>
-};</screen></para>
+};</screen>
 
-  <para>When you are done updating the configuration file, tell <command>named</command> to reload:
+  </para>
+
+  <para>When you are done updating the configuration file, tell
+  <command>named</command> to reload:
+
    <screen># <userinput>rndc reload</userinput>
 server reload successful</screen></para>
  </section>
@@ -57,90 +90,145 @@ server reload successful</screen></para>
  <!-- === #3 Verification === -->
  <section id="signing-verification">
   <title>Verification</title>
-  <para>Your zone is signed, so before moving on to the next step of coordinating with your parent zone, let's make sure everything looks good using <command>dig</command>.</para>
+  <para>Your zone is signed, so before moving on to the next step of
+  coordinating with your parent zone, let's make sure everything looks good
+  using <command>dig</command>.</para>
 
-  <para>First of all, we need to make a copy of the key <code>Kexample.com.+008+06817.key</code>:
-   <screen># <userinput>cp /etc/bind/keys/example.com/Kexample.com.+008+06817.key /tmp/example.key</userinput></screen></para>
+  <para>First of all, we need to make a copy of the key
+  <code>Kexample.com.+008+06817.key</code>:
 
-  <para>The original key file looks like this (actual key shortened for display):
+   <screen># <userinput>cp /etc/bind/keys/example.com/Kexample.com.+008+06817.key /tmp/example.key</userinput></screen>
+  
+  </para>
+
+  <para>The original key file looks like this (actual key shortened for
+  display):
+
    <screen># <userinput>cat /etc/bind/keys/example.com/Kexample.com.+008+06817.key</userinput>
 ; This is a key-signing key, keyid 6817, for example.com.
 ; Created: 20141120094612 (Thu Nov 20 17:46:12 2014)
 ; Publish: 20141120094612 (Thu Nov 20 17:46:12 2014)
 ; Activate: 20141120094612 (Thu Nov 20 17:46:12 2014)
-example.com. IN DNSKEY 257 3 8 AwEAAcWDps...lM3NRn/G/R</screen></para>
+example.com. IN DNSKEY 257 3 8 AwEAAcWDps...lM3NRn/G/R</screen>
 
-  <para>We want edit the copy to include a TTL (any value will do), so it looks like this:
+  </para>
+
+  <para>We want edit the copy to include a TTL (any value will do), so it looks
+  like this:
+
    <screen># <userinput>cat /tmp/example.key</userinput>
 ; This is a key-signing key, keyid 6817, for example.com.
 ; Created: 20141120094612 (Thu Nov 20 17:46:12 2014)
 ; Publish: 20141120094612 (Thu Nov 20 17:46:12 2014)
 ; Activate: 20141120094612 (Thu Nov 20 17:46:12 2014)
-example.com. <userinput>3600</userinput> IN DNSKEY 257 3 8 AwEAAcWDps...lM3NRn/G/R</screen></para>
+example.com. <userinput>3600</userinput> IN DNSKEY 257 3 8 AwEAAcWDps...lM3NRn/G/R</screen>
 
-  <para>Now we can run the dig command and point it to using this key file to validate the answer it receives from the local name server, assuming we are running this command on the name server you just signed the zone on:
+  </para>
+
+  <para>Now we can run the dig command and point it to using this key file to
+  validate the answer it receives from the local name server, assuming we are
+  running this command on the name server you just signed the zone on:
+
    <screen># <userinput>dig @127.0.0.1 example.com. SOA +dnssec +sigchase +trusted-key=/tmp/example.key</userinput>
 [Lots of output snipped]
 ;; Ok, find a Trusted Key in the DNSKEY RRset: 6817
 ;; VERIFYING DNSKEY RRset for example.com. with DNSKEY:6817: success
 
-;; <userinput>Ok this DNSKEY is a Trusted Key, DNSSEC validation is ok: SUCCESS</userinput></screen></para>
+;; <userinput>Ok this DNSKEY is a Trusted Key, DNSSEC validation is ok: SUCCESS</userinput></screen>
 
-  <para>Alternatively, you could execute the same command from another computer that can reach the name server on the network, using the same key file, and you should receive the same output:
+  </para>
+
+  <para>Alternatively, you could execute the same command from another computer
+  that can reach the name server on the network, using the same key file, and
+  you should receive the same output:
+
    <screen>$ <userinput>dig @192.168.1.13 example.com. SOA +dnssec +sigchase +trusted-key=example.key</userinput>
 [Lots of output snipped]
 ;; Ok, find a Trusted Key in the DNSKEY RRset: 6817
 ;; VERIFYING DNSKEY RRset for example.com. with DNSKEY:6817: success
 
-;; <userinput>Ok this DNSKEY is a Trusted Key, DNSSEC validation is ok: SUCCESS</userinput></screen></para>
+;; <userinput>Ok this DNSKEY is a Trusted Key, DNSSEC validation is ok: SUCCESS</userinput></screen>
 
-  <para>Please see <xref linkend="signing-verification-explained" /> for the full output details from running these commands, as well as a brief explanation of what it means.</para>
+  </para>
+
+  <para>Please see <xref linkend="signing-verification-explained" /> for the
+  full output details from running these commands, as well as a brief
+  explanation of what it means.</para>
+
  </section>
 
  <!-- === #4 Upload to Parent Zone === -->
  <section id="signing-easy-start-upload-to-parent-zone">
   <title>Upload to Parent Zone</title>
-  <para>Everything is done on our name server, now we need to generate some information to be uploaded to the parent zone to complete the chain of trust. The formats and the upload methods are actually dictated by your parent zone's administrator, so contact your registrar or parent zone administrator to find out what the actual format should be, and how to deliver or upload the information to your parent zone.</para>
+  <para>Everything is done on our name server, now we need to generate some
+  information to be uploaded to the parent zone to complete the chain of trust.
+  The formats and the upload methods are actually dictated by your parent
+  zone's administrator, so contact your registrar or parent zone administrator
+  to find out what the actual format should be, and how to deliver or upload
+  the information to your parent zone.</para>
 
-  <note>Before uploading to your parent zone, verify that your newly signed zone has propagated to all of your name servers (usually zone transfers). If some of your name servers still have unsigned zone data while the parent tells the world it should be signed, validating resolvers around the world will not resolve your domain name.</note>
+  <note>Before uploading to your parent zone, verify that your newly signed
+  zone has propagated to all of your name servers (usually zone transfers). If
+  some of your name servers still have unsigned zone data while the parent
+  tells the world it should be signed, validating resolvers around the world
+  will not resolve your domain name.</note>
 
-  <para>Here are some examples of what you may upload to your parent zone, actual keys shortened for display. Again, contact your parent zone administrator(s) to find out what is the correct format for you:
+  <para>Here are some examples of what you may upload to your parent zone,
+  actual keys shortened for display. Again, contact your parent zone
+  administrator(s) to find out what is the correct format for you:
+
    <orderedlist>
     <!-- #1 DS Record -->
     <listitem>
-     <simpara>DS Record Format: <code>example.com. IN DS 6817 8 1 59194A835ACD78D25D538D5F35CA043A8F3F4446</code></simpara>
+     <simpara>DS Record Format: <code>example.com. IN DS 6817 8 1
+     59194A835ACD78D25D538D5F35CA043A8F3F4446</code></simpara>
     </listitem>
     <!-- #2 DNSKEY -->
     <listitem>
-     <simpara>DNSKEY Format: <code>example.com. 172800 IN DNSKEY 257 3 8 (AwEAAcjGaU...zuu55If5) ; key id = 06817</code></simpara>
+     <simpara>DNSKEY Format: <code>example.com. 172800 IN DNSKEY 257 3 8
+     (AwEAAcjGaU...zuu55If5) ; key id = 06817</code></simpara>
     </listitem>
     <!-- #3 trust-key -->
     <listitem>
-     <simpara>Trusted Key Format: <code>"example.com." 257 3 8 "AwEAAcjGaU...zuu55If5";</code></simpara>
+     <simpara>Trusted Key Format: <code>"example.com." 257 3 8
+     "AwEAAcjGaU...zuu55If5";</code></simpara>
     </listitem>
-   </orderedlist></para>
+   </orderedlist>
+  </para>
 
-  <para>For more details and examples on how to work with your parent zone, please see <xref linkend="working-with-parent-zone"/></para>
+  <para>For more details and examples on how to work with your parent zone,
+  please see <xref linkend="working-with-parent-zone"/></para>
+
  </section>
 
 
-<!-- TODO: jkuo  Wed Nov 19 09:06:14 UTC 2014
- Fix this section based on conversation with Evan
- Need to split into "dynamic and non-dynamic, basically say it remains the same,
- you can edit your zone file the same way you've been doing it
--->
  <!-- === So... What Now? === -->
  <section id="signing-easy-start-so-what-now">
   <title>So... What Now?</title>
-  <para>Congratulations, your zone is signed, and parent zone has accepted your upload. Your zone is now officially DNSSEC-enabled. What happens now? Well, there are a few maintenance tasks you need to do on a regular basis, which you can find in <xref linkend="signing-maintenance-tasks"/>. As for updating your zone file, you can continue to update them the same way you have been prior to signing your zone, the normal work flow of editing zone file and using the <command>rndc</command> command to reload the zone still works the same, and although you are editing the unsigned version of the zone, BIND will generate the signed version automatically.</para>
+  <para>Congratulations, your zone is signed, and parent zone has accepted your
+  upload. Your zone is now officially DNSSEC-enabled. What happens now? Well,
+  there are a few maintenance tasks you need to do on a regular basis, which
+  you can find in <xref linkend="signing-maintenance-tasks"/>. As for updating
+  your zone file, you can continue to update them the same way you have been
+  prior to signing your zone, the normal work flow of editing zone file and
+  using the <command>rndc</command> command to reload the zone still works the
+  same, and although you are editing the unsigned version of the zone, BIND
+  will generate the signed version automatically.</para>
 
-  <para>Curious as to what all these commands did to your zone file? Read on to <xref linkend="your-zone-file-before-and-after-dnssec"/> and find out.</para>
+  <para>Curious as to what all these commands did to your zone file? Read on to
+  <xref linkend="your-zone-file-before-and-after-dnssec"/> and find out.</para>
+
  </section>
 
-  <!-- === Your Zone File, Before and After DNSSEC === -->
+ <!-- === Your Zone File, Before and After DNSSEC === -->
  <section id="your-zone-file-before-and-after-dnssec">
   <title>Your Zone File, Before and After DNSSEC</title>
-  <para>In the previous section <xref linkend="easy-start-guide-for-authoritative-servers"/>, we provided the minimal amount of information to essentially convert an traditional DNS zone into a DNSSEC-enabled zone. This is what the zone looked like before we started: 
+  <para>In the previous section <xref
+  linkend="easy-start-guide-for-authoritative-servers"/>, we provided the
+  minimal amount of information to essentially convert an traditional DNS zone
+  into a DNSSEC-enabled zone. This is what the zone looked like before we
+  started: 
+
    <screen>$ <userinput>dig @192.168.1.13 example.com. AXFR +multiline +onesoa</userinput>
 
 ; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.13 example.com. AXFR +multiline +onesoa
@@ -157,9 +245,14 @@ example.com.		600 IN NS ns1.example.com.
 ftp.example.com.	600 IN A 192.168.1.200
 ns1.example.com.	600 IN A 192.168.1.1
 web.example.com.	600 IN CNAME www.example.com.
-www.example.com.	600 IN A 192.168.1.100</screen></para>
+www.example.com.	600 IN A 192.168.1.100</screen>
 
-  <para>Below shows the test zone <code>example.com</code> after we have reloaded the server configuration. As you can see, the zone grew in size, and the number of records multiplied:
+  </para>
+
+  <para>Below shows the test zone <code>example.com</code> after we have
+  reloaded the server configuration. As you can see, the zone grew in size, and
+  the number of records multiplied:
+
    <screen># <userinput>dig @192.168.1.13 example.com. AXFR +multiline +onesoa</userinput>
 
 ; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.13 example.com. AXFR +multiline +onesoa
@@ -287,10 +380,14 @@ www.example.com.	300 IN RRSIG NSEC 8 3 300 (
 				fqpFsscbz3OYgnkwYcTvGXZF9802ytiC5txli9uxUqjc
 				lGL+SDl0woYhecwJD63fTDIMszlVR/eptIL9dLc= )
 www.example.com.	300 IN NSEC example.com. A RRSIG NSEC
-www.example.com.	600 IN A 192.168.1.100</screen></para>
-  
-  
-  <para>But this is a really messy way to tell if your zone is properly setup with DNSSEC. Fortunately, there are tools to help us with that. Read on to <xref linkend="how-to-test-authoritative-server" /> to learn more.
+www.example.com.	600 IN A 192.168.1.100</screen>
+
   </para>
+  
+  
+  <para>But this is a really messy way to tell if your zone is properly setup
+  with DNSSEC. Fortunately, there are tools to help us with that. Read on to
+  <xref linkend="how-to-test-authoritative-server" /> to learn more.</para>
+
  </section>
 </section>

@@ -1,11 +1,16 @@
 <section id="how-to-test-authoritative-server">
  <title>How To Test Authoritative Zones (So You Think You Are Signed)</title>
- <para>So we've generated some keys, ran some commands, and uploaded some data to our parent zone. How do we know our zone is actually signed? Here are a few ways to check.</para>
+ <para>So we've generated some keys, ran some commands, and uploaded some data
+ to our parent zone. How do we know our zone is actually signed? Here are a few
+ ways to check.</para>
 
  <!-- === Look for Key Data in Your Zone === -->
  <section id="signing-verify-key-data">
   <title>Look for Key Data in Your Zone</title>
-  <para>One of the ways to see if your zone is signed, is to check for the presence of DNSKEY record types. In our example, we created two keys, and we expect to see both keys returned when we query for them.
+  <para>One of the ways to see if your zone is signed, is to check for the
+  presence of DNSKEY record types. In our example, we created two keys, and we
+  expect to see both keys returned when we query for them.
+
    <screen>$ <userinput>dig @192.168.1.13 example.com. DNSKEY +multiline +noall +answer</userinput>
 
 ; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.13 example.com. DNSKEY +multiline +noall +answer
@@ -26,11 +31,9 @@ example.com.		300 IN DNSKEY 257 3 8 (
 				9bsWmhYWSHJKZ66+JnTiMS0nQM69YwBF43QfDKurs5R6
 				qPUDiBlaMCzSxmlaBU6fsI1Mu/yIU8w1ewy26a42rUTU
 				rPBC3Oa/zf9VQ8kpUrMZgJ7LEAA4xmR+qwWDh6U=
-				) ; KSK; alg = RSASHA256; key id = 28267</screen></para>
-
- <!-- TODO: jkuo Thu Oct 23 08:43:46 UTC 2014
-      Reference ZSK and KSK section here
- -->
+				) ; KSK; alg = RSASHA256; key id = 28267</screen>
+                
+  </para>
  </section>
 
 
@@ -38,7 +41,12 @@ example.com.		300 IN DNSKEY 257 3 8 (
  <section id="signing-verify-signature">
   <title>Look for Signatures in Your Zone</title>
 
-  <para>Another way to see if your zone data is signed is to check for the presence of signature. With DNSSEC, every record<footnote><para>Well, almost every record. NS records for delegations are not signed and will not have RRSIG records like everyone else.</para></footnote> now comes with at least one corresponding signature known as RRSIG. 
+  <para>Another way to see if your zone data is signed is to check for the
+  presence of signature. With DNSSEC, every record<footnote><para>Well, almost
+  every record. NS records for delegations are not signed and will not have
+  RRSIG records like everyone else.</para></footnote> now comes with at least
+  one corresponding signature known as RRSIG. 
+
    <screen>$ <userinput>dig @192.168.1.13 example.com. SOA +dnssec +multiline</userinput>
 
 ; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.13 example.com. SOA +dnssec +multiline
@@ -67,30 +75,57 @@ example.com.		300 IN RRSIG SOA 8 2 300 (
 				NqPGNLkUs40Lg/qq7Fv+bgyCwVB4s9PsHQOK6p9ZWWk3
 				36z2Qz2WjM+Q19SlVBAPux9jijvcRcjGb6KREuxER9uX
 				wdVeiGx9a4X+PaO3qTqdkiXuGS2XkK1kBm1CgwhVHTYV
-				/nxVPrckU4/mpeUoFVjMnT49JkVJmgck63esPEU= )</screen></para>
+				/nxVPrckU4/mpeUoFVjMnT49JkVJmgck63esPEU= )</screen>
+  
+  </para>
 
-  <para>Notice again that the serial number was automatically incremented from the old, unsigned version. Named keeps track of the serial number of the signed version of the zone independently of the unsigned version.  If the unsigned zone is updated with a new serial number that's higher than the one in the signed copy, then the signed copy will be increased to match it, but otherwise the two are kept separate.</para>
-
-
+  <para>Notice again that the serial number was automatically incremented from
+  the old, unsigned version. Named keeps track of the serial number of the
+  signed version of the zone independently of the unsigned version.  If the
+  unsigned zone is updated with a new serial number that's higher than the one
+  in the signed copy, then the signed copy will be increased to match it, but
+  otherwise the two are kept separate.</para>
 
  </section>
+
 
  <!-- === Examine the Zone File === -->
  <section id="signing-verify-zone-file">
   <title>Examine the Zone File</title>
-  <para>Our original zone file <filename>example.com.db</filename> remains untouched, named has generated 3 additional files automatically for us (shown below).  The signed DNS data is stored in <filename>example.com.db.signed</filename> and in the associated journal file.
+  <para>Our original zone file <filename>example.com.db</filename> remains
+  untouched, named has generated 3 additional files automatically for us (shown
+  below).  The signed DNS data is stored in
+  <filename>example.com.db.signed</filename> and in the associated journal
+  file.
+
    <screen># <userinput>cd /etc/bind/db</userinput>
 # <userinput>ls</userinput>
-example.com.db	example.com.db.jbk  example.com.db.signed  example.com.db.signed.jnl</screen></para>
-  <para>These are stored in raw (binary) format for faster loading. You could reveal the human-readable version by using <command>named-compilezone</command>:
+example.com.db	example.com.db.jbk  example.com.db.signed  example.com.db.signed.jnl</screen>
+
+  </para>
+
+  <para>These are stored in raw (binary) format for faster loading. You could
+  reveal the human-readable version by using
+  <command>named-compilezone</command>:
+
    <screen># <userinput>cd /etc/bind/db</userinput>
-# named-compilezone -D -f raw -o - example.com example.com.db.signed</screen></para>
+# named-compilezone -D -f raw -o - example.com example.com.db.signed</screen>
+   
+  </para>
  </section>
 
  <!-- === Check the Parent === -->
  <section id="signing-verify-check-parent">
   <title>Check the Parent</title>
-  <para>Although this is not strictly related to whether or not your zone is signed, but a critical part of DNSSEC  is the trust relationship between the parent and child. Just because we, the child, have all the correct records in our zone doesn't mean it can be fully validated by a validating resolver, unless our parent's data agrees with us. To check if our upload to the parent is successful, ask the parent name server for the DS record of our zone, and you should get back the information you uploaded to the parent in <xref linkend="signing-easy-start-upload-to-parent-zone" />:
+  <para>Although this is not strictly related to whether or not your zone is
+  signed, but a critical part of DNSSEC  is the trust relationship between the
+  parent and child. Just because we, the child, have all the correct records in
+  our zone doesn't mean it can be fully validated by a validating resolver,
+  unless our parent's data agrees with us. To check if our upload to the parent
+  is successful, ask the parent name server for the DS record of our zone, and
+  you should get back the information you uploaded to the parent in <xref
+  linkend="signing-easy-start-upload-to-parent-zone" />:
+
    <screen>$ <userinput>dig example.com. DS</userinput>
 
 ; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> example.com. DS
@@ -106,9 +141,13 @@ example.com.db	example.com.db.jbk  example.com.db.signed  example.com.db.signed.
 
 ;; ANSWER SECTION:
 example.com.  61179	IN	DS	28267 8 1 66D47CE4B4F551BE5EDA43AC5F3109E8C98E2FAE
-example.com.  61179	IN	DS	28267 8 2 71D9335416B7132519190A95685E18CBF478DCF4CA98867062777938F8FEAB89</screen></para>
+example.com.  61179	IN	DS	28267 8 2 71D9335416B7132519190A95685E18CBF478DCF4CA98867062777938F8FEAB89</screen>
+
+  </para>
  </section>
 
  <!-- === Verify using External Tools === -->
- <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="signing_how-to-verify-external-tools.xml" />
+ <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="signing_how-to-verify-external-tools.xml" />
+
 </section>
