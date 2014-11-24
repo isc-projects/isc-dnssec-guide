@@ -66,7 +66,7 @@ Just because we employed one-way hash functions does not mean there's no way for
  <!-- === NSEC3PARAM === -->
  <section id="advanced-discussions-nsec3param">
   <title>NSEC3PARAM</title>
-  <para>In <xref linkened="signing-using-nsec3" />, our example used four parameters: 1, 0, 10, and 1234567890ABCDEF, in the order they appeared. It looked like this:
+  <para>In <xref linkend="signing-using-nsec3" />, our example used four parameters: 1, 0, 10, and 1234567890ABCDEF, in the order they appeared. It looked like this:
    <screen># <userinput>rndc signing -nsec3param 1 0 10 1234567890abcdef example.com</userinput></screen></para>
 
   <para>1 represents the algorithm, 0 represents the opt-out flag, 10 represents the number of iterations, and 1234567890abcedf is the salt. Let's look at how each one can be configured:
@@ -74,9 +74,9 @@ Just because we employed one-way hash functions does not mean there's no way for
     <listitem>
      <simpara><emphasis>Algorithm</emphasis>: Not much of a choice here, the only defined value currently is 1 for SHA-1.</simpara></listitem>
     <listitem>
-     <simpara><emphasis>Opt-out</emphasis>: Set this to 1 if you want to do NSEC3 opt-out, which we will discuss in <xref linkened="advanced-discussions-nsec3-optout" />.</simpara></listitem>
+     <simpara><emphasis>Opt-out</emphasis>: Set this to 1 if you want to do NSEC3 opt-out, which we will discuss in <xref linkend="advanced-discussions-nsec3-optout" />.</simpara></listitem>
     <listitem>
-     <simpara><emphasis>Iterations</emphasis>: iterations defines the number of additional times to apply the algorithm when generating an NSEC3 hash. More iterations yields more secure results, but consumes more resources for both authoritative server sand validating resolvers. In the regard, we have similar considerations as we've seen in <xref linkened="key-sizes" /> of security versus resources.</simpara></listitem>
+     <simpara><emphasis>Iterations</emphasis>: iterations defines the number of additional times to apply the algorithm when generating an NSEC3 hash. More iterations yields more secure results, but consumes more resources for both authoritative server sand validating resolvers. In the regard, we have similar considerations as we've seen in <xref linkend="key-sizes" /> of security versus resources.</simpara></listitem>
     <listitem>
      <simpara><emphasis>Salt</emphasis>: The salt is a string of data expressed in hexadecimal, or a hyphen (‘-’) if no salt is to be used. We will learn more about salt in <xref linkend="advanced-discussions-nsec3-salt" />.</simpara></listitem>
    </itemizedlist></para>
