@@ -1,11 +1,28 @@
 <section id="how-does-dnssec-change-dns-lookup">
  <title>How Does DNSSEC Change DNS Lookup?</title>
 
- <para>Traditional (insecure) DNS lookup is simple: a recursive name server receives a query from a client to lookup the name <code>www.isc.org</code>. The recursive name server tracks down the authoritative name server(s) responsible, sends the query to one of the authoritative name servers, and the waits for the authoritative name server to respond with the answer.</para>
+ <para>Traditional (insecure) DNS lookup is simple: a recursive name server
+ receives a query from a client to lookup the name <code>www.isc.org</code>.
+ The recursive name server tracks down the authoritative name server(s)
+ responsible, sends the query to one of the authoritative name servers, and the
+ waits for the authoritative name server to respond with the answer.</para>
 
- <para>With DNSSEC validation enabled, recursive name servers (validating resolver) will ask for additional resource records in its query, hoping the remote authoritative name servers will respond with more than just the answer to the query, but some proof to go along with the answer as well. If DNSSEC responses are received, the validating resolver will perform cryptographic computation verify the authenticity (origin of the data) and integrity (data was not altered during transit) of the answers. It will repeat this process, tracing the keys all the way up the DNS delegation chain, to the zone's parent, and its parent, and its parent, all the way until the validating resolver reaches a key that it trusts. In the ideal, fully deployed world of DNSSEC, all validating resolvers only need to trust one key: the root key.</para>
+ <para>With DNSSEC validation enabled, recursive name servers (validating
+ resolver) will ask for additional resource records in its query, hoping the
+ remote authoritative name servers will respond with more than just the answer
+ to the query, but some proof to go along with the answer as well. If DNSSEC
+ responses are received, the validating resolver will perform cryptographic
+ computation verify the authenticity (origin of the data) and integrity (data
+ was not altered during transit) of the answers. It will repeat this process,
+ tracing the keys all the way up the DNS delegation chain, to the zone's
+ parent, and its parent, and its parent, all the way until the validating
+ resolver reaches a key that it trusts. In the ideal, fully deployed world of
+ DNSSEC, all validating resolvers only need to trust one key: the root
+ key.</para>
 
- <para>The following example shows the DNSSEC validating process of looking up the name <code>www.isc.org</code> at a very high level:</para>
+ <para>The following example shows the DNSSEC validating process of looking up
+ the name <code>www.isc.org</code> at a very high level:</para>
+
  <para>
   <figure>
    <title>DNSSEC Validation 12 Steps</title>
@@ -19,70 +36,137 @@
   <orderedlist>
    <!-- #1 -->
    <listitem>
-    <simpara>Upon receiving a DNS query from a client to resolve <code>www.isc.org</code>, the validating resolver follows standard DNS protocol to track down the name server for <code>isc.org</code>, sends it a DNS query to ask for the A record of <code>www.isc.org</code>. But since this is a DNSSEC-enabled resolver, the outgoing query has a different bit set indicating it wants DNSSEC answers, hoping the name server who receives it speaks DNSSEC and can honor this secure request.</simpara>
+    <simpara>Upon receiving a DNS query from a client to resolve
+    <code>www.isc.org</code>, the validating resolver follows standard DNS
+    protocol to track down the name server for <code>isc.org</code>, sends it a
+    DNS query to ask for the A record of <code>www.isc.org</code>. But since
+    this is a DNSSEC-enabled resolver, the outgoing query has a different bit
+    set indicating it wants DNSSEC answers, hoping the name server who receives
+    it speaks DNSSEC and can honor this secure request.</simpara>
    </listitem>
 
    <!-- #2 -->
    <listitem>
-    <simpara><code>isc.org</code> name server is DNSSEC-enabled, and responds with the answer (in this case, an A record), and with a digital signature for verification purpose.</simpara>
+    <simpara><code>isc.org</code> name server is DNSSEC-enabled, and responds
+    with the answer (in this case, an A record), and with a digital signature
+    for verification purpose.</simpara>
    </listitem>
 
    <!-- #3 -->
    <listitem>
-    <simpara>Validating resolver needs to be able to verify the digital signature, and to do so it requires cryptographic keys. So it asks the <code>isc.org</code> name server for those keys.</simpara>
+    <simpara>Validating resolver needs to be able to verify the digital
+    signature, and to do so it requires cryptographic keys. So it asks the
+    <code>isc.org</code> name server for those keys.</simpara>
    </listitem>
 
    <!-- #4 -->
    <listitem>
-    <simpara><code>isc.org</code> name server responds with the cryptographic keys used to generate the digital signature that was sent in #2. At this point, the validating resolver can use this information to verify the answers received in #2.</simpara>
+    <simpara><code>isc.org</code> name server responds with the cryptographic
+    keys used to generate the digital signature that was sent in #2. At this
+    point, the validating resolver can use this information to verify the
+    answers received in #2.</simpara>
 
-    <simpara>Let's take a quick break here and look at what we've got so far... how could we trust this answer? If a clever attacker had taken over the <code>isc.org</code> name server(s), or course she would send matching keys and signatures. We need to ask someone else to have confidence that we are really talking to the real <code>isc.org</code> name server. This is a critical part of DNSSEC: at some point, the DNS administrators at <code>isc.org</code> had uploaded some cryptographic information to its parent, <code>.org</code>, maybe it was a secure web submit form, maybe it was through an email exchange, or perhaps it was done in person. No matter the case, at some point, some verifiable information about the child (<code>isc.org</code>) was sent to the parent (<code>.org</code>), for safekeeping.</simpara>
+    <simpara>Let's take a quick break here and look at what we've got so far...
+    how could we trust this answer? If a clever attacker had taken over the
+    <code>isc.org</code> name server(s), or course she would send matching keys
+    and signatures. We need to ask someone else to have confidence that we are
+    really talking to the real <code>isc.org</code> name server. This is a
+    critical part of DNSSEC: at some point, the DNS administrators at
+    <code>isc.org</code> had uploaded some cryptographic information to its
+    parent, <code>.org</code>, maybe it was a secure web submit form, maybe it
+    was through an email exchange, or perhaps it was done in person. No matter
+    the case, at some point, some verifiable information about the child
+    (<code>isc.org</code>) was sent to the parent (<code>.org</code>), for
+    safekeeping.</simpara>
    </listitem>
 
    <!-- #5 -->
    <listitem>
-    <simpara>Validating resolver asks the parent (<code>.org</code>) for the verifiable information it keeps on its child, <code>isc.org</code>.</simpara>
+    <simpara>Validating resolver asks the parent (<code>.org</code>) for the
+    verifiable information it keeps on its child,
+    <code>isc.org</code>.</simpara>
    </listitem>
 
    <!-- #6 -->
    <listitem>
-    <simpara>The verifiable information is sent from the <code>.org</code> server. At this point, validating resolver compares this to the answer it received in #4, and the two of them should match, proving the authenticity of <code>isc.org</code>.</simpara>
+    <simpara>The verifiable information is sent from the <code>.org</code>
+    server. At this point, validating resolver compares this to the answer it
+    received in #4, and the two of them should match, proving the authenticity
+    of <code>isc.org</code>.</simpara>
 
-    <simpara>We need to take another quick break here and examine this process. You might be thinking to yourself, well, what if the clever attacker that took over <code>isc.org</code> also compromised the <code>.org</code> servers? Of course all this information will match! That's why we will turn our attention now to the <code>.org</code> servers, interrogate it for its cryptographic keys, and move on one level up to <code>.org</code>'s parent, root.</simpara>
+
+    <simpara>We need to take another quick break here and examine this process.
+    You might be thinking to yourself, well, what if the clever attacker that
+    took over <code>isc.org</code> also compromised the <code>.org</code>
+    servers? Of course all this information will match! That's why we will turn
+    our attention now to the <code>.org</code> servers, interrogate it for its
+    cryptographic keys, and move on one level up to <code>.org</code>'s parent,
+    root.</simpara>
    </listitem>
 
    <!-- #7 -->
    <listitem>
-    <simpara>Validating resolver asks <code>.org</code> authoritative name servers for its cryptographic keys, for the purpose of verifying the answers received in #6.</simpara>
+    <simpara>Validating resolver asks <code>.org</code> authoritative name
+    servers for its cryptographic keys, for the purpose of verifying the
+    answers received in #6.</simpara>
    </listitem>
 
    <!-- #8 -->
    <listitem>
-    <simpara><code>.org</code> name server responds with the answer (in this case, keys). At this point, validating resolver can verify the answers received in #6.</simpara>
+    <simpara><code>.org</code> name server responds with the answer (in this
+    case, keys). At this point, validating resolver can verify the answers
+    received in #6.</simpara>
    </listitem>
 
    <!-- #9 -->
    <listitem>
-    <simpara>Validating resolver asks root (<code>.org</code>'s parent) for verifiable information it keeps on its child, <code>.org</code>.</simpara>
+    <simpara>Validating resolver asks root (<code>.org</code>'s parent) for
+    verifiable information it keeps on its child, <code>.org</code>.</simpara>
    </listitem>
 
    <!-- #10 -->
    <listitem>
-    <simpara>Root name server sends back the verifiable information it keeps on <code>.org</code>. Validating resolver now takes this information and use it to verify the answers received in #8.</simpara>
+    <simpara>Root name server sends back the verifiable information it keeps on
+    <code>.org</code>. Validating resolver now takes this information and use
+    it to verify the answers received in #8.</simpara>
 
-    <simpara>So up to this point, both <code>isc.org</code> and <code>.org</code> check out. But what about root? What if this attacker is really clever and somehow tricked us into thinking she's the root name server? Of course she would send us all matching information! So we repeat the interrogation process and ask for the keys from the root name server.</simpara>
+    <simpara>So up to this point, both <code>isc.org</code> and
+    <code>.org</code> check out. But what about root? What if this attacker is
+    really clever and somehow tricked us into thinking she's the root name
+    server? Of course she would send us all matching information! So we repeat
+    the interrogation process and ask for the keys from the root name
+    server.</simpara>
    </listitem>
 
    <!-- #11 -->
    <listitem>
-    <simpara>Validating resolver asks root name server for its cryptographic keys in order to verify the answer(s) received in #10.</simpara>
+    <simpara>Validating resolver asks root name server for its cryptographic
+    keys in order to verify the answer(s) received in #10.</simpara>
    </listitem>
 
    <!-- #12 -->
    <listitem>
-    <simpara>Root name server sends keys, at this point, validating resolver can verify the answer(s) received in #10.</simpara>
-    <para  id="chain-of-trust"  xreflabel="Chain of Trust">
-    But what about the root server itself? Who do we go to verify root's keys? There's no parent zone for root. In security, you have to trust someone, and in the perfectly protected world of DNSSEC (we'll talk about the current imperfect state later and ways to work around it), each validating resolver would only have to trust one entity, that is the root name server. The validating resolver would already have the root key on file (and we'll talk about later how we got the root key file). So after answers in #12 are received, validating resolver takes the answer received and compare it to the key it already has on file, and these two should match.  If they do, it means we can trust the answer from root, thus we can trust <code>.org</code>, and thus we can trust <code>isc.org</code>. This is known as "chain of trust" in DNSSEC.</para></listitem></orderedlist></para>
+    <simpara>Root name server sends keys, at this point, validating resolver
+    can verify the answer(s) received in #10.</simpara>
 
- <para>We will revisit this 12-step process again later in <xref linkend="how-does-dnssec-change-dns-lookup-revisited" /> more technical details.</para>
-</section>
+    <para  id="chain-of-trust"  xreflabel="Chain of Trust">But what about the
+    root server itself? Who do we go to verify root's keys? There's no parent
+    zone for root. In security, you have to trust someone, and in the perfectly
+    protected world of DNSSEC (we'll talk about the current imperfect state
+    later and ways to work around it), each validating resolver would only have
+    to trust one entity, that is the root name server. The validating resolver
+    would already have the root key on file (and we'll talk about later how we
+    got the root key file). So after answers in #12 are received, validating
+    resolver takes the answer received and compare it to the key it already has
+    on file, and these two should match.  If they do, it means we can trust the
+    answer from root, thus we can trust <code>.org</code>, and thus we can
+    trust <code>isc.org</code>. This is known as "chain of trust" in
+    DNSSEC.</para>
+
+   </listitem>
+  </orderedlist></para>
+
+  <para>We will revisit this 12-step process again later in <xref
+  linkend="how-does-dnssec-change-dns-lookup-revisited" /> more technical
+  details.</para>
+ </section>
