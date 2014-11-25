@@ -53,8 +53,8 @@
     publish SSL certificates in DNS, or PGP keys for fully automatic
     cross-platform email encryption, or SSH fingerprints... People are still
     coming up with new features, but this all relies on a trust-worthy DNS
-    infrastructure. To take a peek at these next generation DNS features, take
-    a look at <xref linkend="introduction-to-dane" /></simpara>
+    infrastructure. To take a peek at these next generation DNS features, check
+    out <xref linkend="introduction-to-dane" />.</simpara>
    </listitem>
   </orderedlist>
  </para>
