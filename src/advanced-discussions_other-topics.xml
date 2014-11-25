@@ -94,5 +94,44 @@
  <!-- === Intro to DANE === -->
  <section id="introduction-to-dane">
   <title>Introduction to DANE</title>
+
+  <para>With your DNS infrastructure secured, a whole new set of
+  possibilities and features become available to you. One of these new
+  features is the DNS-Based Authentication of Named Entities, or DANE,
+  which as of this writing, introduces a new record type TLSA. In short,
+  it allows us to store more generic encryption keys or hashes in DNS for
+  wide distribution.</para>
+
+  <para>So? You might think to yourself. We already have DNSKEY. True, but
+  DNSKEY is not a generic record type, it is specifically only used in the
+  context to secure DNS(SEC). The new record type TLSA can be used to
+  store generic Transport Layer Security (TLS) objects, such as X.509
+  certificates. This object can be then be used by applications to do,
+  well, a lot of things. Below is a list of features currently being
+  developed and tested by the DANE community:
+
+   <itemizedlist>
+    <listitem>
+     <simpara>Use DANE as a verification mechanism to verify SSL
+     certificates received over HTTPS for added security. You can see a
+     live demonstration here: <ulink url="http://dane.verisignlabs.com/"
+     />.</simpara>
+    </listitem>
+    <listitem>
+     <simpara>Store self-signed X.509 certificates, bypass having to pay a
+     third party (such as a Certificate Authority) to sign the
+     certificates.</simpara>
+    </listitem>
+    <listitem>
+     <simpara>Integrate with Mail Transfer Agents (MTA) to provide seamless
+     email encryption.</simpara>
+    </listitem>
+   </itemizedlist>
+  </para>
+
+  <para>DANE is an exciting area for DNS administrators, if you would like
+  to learn more about the standards being proposed or new features being
+  discussed, check out the DANE working group:  <ulink
+  url="https://datatracker.ietf.org/wg/dane/charter/" />.</para>
  </section>
 </section>
