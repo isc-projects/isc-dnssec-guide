@@ -24,9 +24,6 @@
   <xref linkend="signing-maintenance-tasks" />, we described how to roll ZSK
   every year using key pre-publication (described below), and how to roll KSK
   every five years using double DS (also described below).</para>
-  
-  <note>This section is pretty much just taken from here:
-  https://tools.ietf.org/html/draft-ietf-dnsop-dnssec-key-timing-06</note>
 
   <!-- ====== ZSK Rollover ====== -->
   <section id="zsk-rollover">
