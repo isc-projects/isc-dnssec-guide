@@ -1,73 +1,121 @@
 <section id="trust-anchors">
  <title>Trust Anchors</title>
- <para>A trust anchor is a key that is placed into a validating resolver so that the validator can verify the results for a given request back to a known or trusted public key (the trust anchor). A validating resolver must have at least one trust anchor installed in order to perform DNSSEC validation.</para>
+ <para>A trust anchor is a key that is placed into a validating resolver so
+ that the validator can verify the results for a given request back to a known
+ or trusted public key (the trust anchor). A validating resolver must have at
+ least one trust anchor installed in order to perform DNSSEC validation.</para>
 
 
  <!-- ====== How Trust Anchors are Used ====== -->
  <section id="how-trust-anchors-are-used">
   <title>How Trust Anchors are Used</title>
-  <para>In the section <xref linkend="how-does-dnssec-change-dns-lookup-revisited"/>, we walked through the DNSSEC lookup process (12 steps), and at the end of the 12 steps, a critical comparison happens: the key received from the remote server, and the key we have on file are compared to see if we trust it. The key we have on file is called a trust anchor, sometimes also known as trust key, trust point, or secure entry point.</para>
+  <para>In the section <xref
+  linkend="how-does-dnssec-change-dns-lookup-revisited"/>, we walked through
+  the DNSSEC lookup process (12 steps), and at the end of the 12 steps, a
+  critical comparison happens: the key received from the remote server, and the
+  key we have on file are compared to see if we trust it. The key we have on
+  file is called a trust anchor, sometimes also known as trust key, trust
+  point, or secure entry point.</para>
 
-  <para>The 12-step lookup process describes the DNSSEC lookup in the ideal world where every single domain name is signed and properly delegated, each validating resolver only needs to have one trust anchor, and that is the root's public key. But there is no restriction that the validating resolver must only have one trust anchor. In fact, in the early stages of DNSSEC adoption, it is not unusual for a validating resolver to have more than one trust anchor.</para>
+  <para>The 12-step lookup process describes the DNSSEC lookup in the ideal
+  world where every single domain name is signed and properly delegated, each
+  validating resolver only needs to have one trust anchor, and that is the
+  root's public key. But there is no restriction that the validating resolver
+  must only have one trust anchor. In fact, in the early stages of DNSSEC
+  adoption, it is not unusual for a validating resolver to have more than one
+  trust anchor.</para>
 
-  <para>For instance, before the root zone was signed (prior to the year 2010), some validating resolvers that wish to validate domain names in the <code>.gov</code> zone needed to obtain and install the key for <code>.gov</code>. A sample lookup process for <code>www.fbi.gov</code> would thus be only 8 steps rather than 12 steps that look like this:</para>
+  <para>For instance, before the root zone was signed (prior to the year 2010),
+  some validating resolvers that wish to validate domain names in the
+  <code>.gov</code> zone needed to obtain and install the key for
+  <code>.gov</code>. A sample lookup process for <code>www.fbi.gov</code> would
+  thus be only 8 steps rather than 12 steps that look like this:</para>
 
   <para>
    <figure>
     <title>DNSSEC Validation with .gov Trust Anchor</title>
     <mediaobject>
      <imageobject>
-      <imagedata fileref="../img/dnssec-8-steps.png" width="100%" scalefit="1"/>
+      <imagedata fileref="../img/dnssec-8-steps.png" width="80%" scalefit="1"/>
      </imageobject>
     </mediaobject>
    </figure>
+
    <orderedlist>
+
     <!-- #1 -->
     <listitem>
-     <simpara>Validating resolver queries <code>fbi.gov</code> name server for the A record of <code>www.fbi.gov</code>.</simpara>
+     <simpara>Validating resolver queries <code>fbi.gov</code> name server for
+     the A record of <code>www.fbi.gov</code>.</simpara>
     </listitem>
+
     <!-- #2 -->
     <listitem>
      <simpara>FBI's name server responds with answer and RRSIG.</simpara>
     </listitem>
+
     <!-- #3 -->
     <listitem>
-     <simpara>Validating resolver queries FBI's name server for DNSKEY.</simpara>
+     <simpara>Validating resolver queries FBI's name server for
+     DNSKEY.</simpara>
     </listitem>
+
     <!-- #4 -->
     <listitem>
      <simpara>FBI's name server responds with DNSKEY and RRSIG.</simpara>
     </listitem>
+
     <!-- #5 -->
     <listitem>
-     <simpara>Validating resolver queries <code>.gov</code> name server for DS record of <code>fbi.gov</code>.</simpara>
+     <simpara>Validating resolver queries <code>.gov</code> name server for DS
+     record of <code>fbi.gov</code>.</simpara>
     </listitem>
+
     <!-- #6 -->
     <listitem>
-     <simpara><code>.gov</code> name server responds with DS record and RRSIG for <code>fbi.gov</code>.</simpara>
+     <simpara><code>.gov</code> name server responds with DS record and RRSIG
+     for <code>fbi.gov</code>.</simpara>
     </listitem>
+    
     <!-- #7 -->
     <listitem>
-     <simpara>Validating resolver queries <code>.gov</code> name server for DNSKEY.</simpara>
+     <simpara>Validating resolver queries <code>.gov</code> name server for
+     DNSKEY.</simpara>
     </listitem>
+    
     <!-- #8 -->
     <listitem>
-     <simpara><code>.gov</code> name server responds with DNSKEY and RRSIG.</simpara>
+     <simpara><code>.gov</code> name server responds with DNSKEY and
+     RRSIG.</simpara>
     </listitem>
-   </orderedlist></para> 
+   </orderedlist>
+  </para> 
 
-  <para>This all looks very similar, except it's shorter than the 12-steps that we saw earlier. Once the validating resolver receives the DNSKEY file in #8, it recognizes that this is the manually configured trusted key (trust anchor), and never goes to the root name servers to ask for the DS record for <code>.gov</code>, or ask the root name servers for its DNSKEY.</para>
+  <para>This all looks very similar, except it's shorter than the 12-steps that
+  we saw earlier. Once the validating resolver receives the DNSKEY file in #8,
+  it recognizes that this is the manually configured trusted key (trust
+  anchor), and never goes to the root name servers to ask for the DS record for
+  <code>.gov</code>, or ask the root name servers for its DNSKEY.</para>
 
-  <para>In fact, whenever the validating resolver receives a DNSKEY, it checks to see if this is a configured trusted key, to decide whether or not it needs to continue chasing down the validation chain.</para>
+  <para>In fact, whenever the validating resolver receives a DNSKEY, it checks
+  to see if this is a configured trusted key, to decide whether or not it needs
+  to continue chasing down the validation chain.</para>
  </section>
 
 
  <!-- ====== Trust Anchors and Managed Keys ====== -->
  <section id="trusted-keys-and-managed-keys">
   <title>Trusted Keys and Managed Keys</title>
-  <para>So we have at least one key configured, and it is known as a trust anchor. How did it get here, and how do we maintain it?</para>
+  <para>So we have at least one key configured, and it is known as a trust
+  anchor. How did it get here, and how do we maintain it?</para>
 
-  <para>If you followed the recommendation in <xref linkend="easy-start-guide-for-recursive-servers"/>, by setting <varname>dnssec-validation</varname> to <replaceable>auto</replaceable>, then there is nothing you need to do. BIND already includes a default key (in the file <filename>bind.keys</filename>), that will automatically update itself. It looks something like this:
+  <para>If you followed the recommendation in <xref
+  linkend="easy-start-guide-for-recursive-servers"/>, by setting
+  <varname>dnssec-validation</varname> to <replaceable>auto</replaceable>, then
+  there is nothing you need to do. BIND already includes a default key (in the
+  file <filename>bind.keys</filename>), that will automatically update itself.
+  It looks something like this:
+
    <screen>managed-keys {
     . initial-key 257 3 8 "AwEAAagAIKlVZrpC6Ia7gEzahOR+9W29euxhJhVVLOyQbSEW0O8gcCjF
     FVQUTf6v58fLjwBd0YI0EzrAcQqBGCzh/RStIoO8g0NfnfL2MTJRkxoX
@@ -76,14 +124,24 @@
     W5hOA2hzCTMjJPJ8LbqF6dsV6DoBQzgul0sGIcGOYl7OyQdXfZ57relS
     Qageu+ipAdTTJ25AsRTAoub8ONGcLmqrAmRLKBP1dfwhYB4N7knNnulq
     QxA+Uk1ihz0=";
-};</screen></para>
+};</screen>
 
-  <para>You could, of course, decide to manage this key on your own by hand. First, you'll need to make sure that your <varname>dnssec-validation</varname> is set to <replaceable>yes</replaceable> rather than <replaceable>auto</replaceable>:
+  </para>
+
+  <para>You could, of course, decide to manage this key on your own by hand.
+  First, you'll need to make sure that your
+  <varname>dnssec-validation</varname> is set to <replaceable>yes</replaceable>
+  rather than <replaceable>auto</replaceable>:
+
    <screen>options {
     dnssec-validation yes;
 };</screen></para>
 
-  <para>Then, download the root key manually from a trustworthy source, such as <ulink url="https://www.isc.org/bind-keys"/>. Finally, take the root key you manually downloaded, and put it into a <varname>trusted-keys</varname> statement as shown below:
+  <para>Then, download the root key manually from a trustworthy source, such as
+  <ulink url="https://www.isc.org/bind-keys"/>. Finally, take the root key you
+  manually downloaded, and put it into a <varname>trusted-keys</varname>
+  statement as shown below:
+
    <screen>trusted-keys {
     . 257 3 8 "AwEAAagAIKlVZrpC6Ia7gEzahOR+9W29euxhJhVVLOyQbSEW0O8gcCjF
     FVQUTf6v58fLjwBd0YI0EzrAcQqBGCzh/RStIoO8g0NfnfL2MTJRkxoX
@@ -92,9 +150,16 @@
     W5hOA2hzCTMjJPJ8LbqF6dsV6DoBQzgul0sGIcGOYl7OyQdXfZ57relS
     Qageu+ipAdTTJ25AsRTAoub8ONGcLmqrAmRLKBP1dfwhYB4N7knNnulq
     QxA+Uk1ihz0=";
-};</screen></para>
+};</screen>
 
-  <para>Looking back at the example in <xref linkend="how-trust-anchors-are-used"/>, if you wanted to explicitly trust <code>.gov</code> and only validate domain names under <code>.gov</code>, your <varname>trusted-keys</varname> statement would look something like this:
+  </para>
+
+  <para>Looking back at the example in <xref
+  linkend="how-trust-anchors-are-used"/>, if you wanted to explicitly trust
+  <code>.gov</code> and only validate domain names under <code>.gov</code>,
+  your <varname>trusted-keys</varname> statement would look something like
+  this:
+
    <screen>trusted-keys {
     gov. 257 3 8 "AQO8daaz7B+yshOfL60rytKd9aOSujgponEw3fwBMEC3
     /+e9XzHw2k+VKnbJTZ+QaVtpfUd1q9HKZIv/ck83Gl5T
@@ -104,10 +169,18 @@
     ihOugIZHFX6Jk7NLiW2wlqfq9qhV4zj7TiBiJY0mCc4z
     HN8/aq2VKDHp2Na7mWzvKyTy+SYQkBQ/08LbPwj9YMc+
     uCzKL6sU/ObHv17EFhD8aPDftTHZvV9L+OZr";
-};</screen></para>
+};</screen>
+
+  </para>
 
   <note>
-  <simpara>Remember, if you choose to manage the keys on your own, whenever the key changes, the configuration needs to be updated manually. Failing to do so will result in breaking nearly all DNS queries for the sub domain of the key. So if you are manually managing <code>.gov</code>, all domain names in the <code>.gov</code> space may become unresolvable; if you are manually managing the root key, you could break all DNS requests made to your recursive name server if the root key is incorrect.</simpara>
+  <simpara>Remember, if you choose to manage the keys on your own, whenever the
+  key changes, the configuration needs to be updated manually. Failing to do so
+  will result in breaking nearly all DNS queries for the sub domain of the key.
+  So if you are manually managing <code>.gov</code>, all domain names in the
+  <code>.gov</code> space may become unresolvable; if you are manually managing
+  the root key, you could break all DNS requests made to your recursive name
+  server if the root key is incorrect.</simpara>
   </note>
  </section>
 </section>
