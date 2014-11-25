@@ -155,14 +155,14 @@ zone "example.com" IN {
    <para>This feature alleviates the burden of resigning zone data put on
    DNSSEC zone administrators. As the zone administrator, you can continue to
    manually maintain the unsigned version of the zone just like before, and
-   BIND will automatically convert the zone into a dynamic zone, sign it on the
-   fly, and incrementing serial number automatically for the signed version of
-   the zone. The unsigned version of the zone is left intact.</para>
+   <command>named</command> automatically creates an internal copy of the
+   zone, signs it on the fly, and increments the serial number for the
+   signed zone. The unsigned version of the zone is left intact.</para>
 
-   <para>To learn more about inline signing and some examples of using it in
-   your DNSSEC deployment strategy, please see <ulink
-   url="https://kb.isc.org/article/AA-00626">Inline Signing in ISC BIND 9.9.0
-   -- Examples</ulink>.</para>
+   <para>Inline signing can also be used as a strategy to aid DNSSEC
+   deployment in the case where the master zone cannot be easily modified
+   To learn more about inline signing, please see <xref
+   linkend="dnssec-and-inline-signing" />.</para>
 
   </section>
 
