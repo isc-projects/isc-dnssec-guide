@@ -26,8 +26,8 @@
   every five years using double DS (also described below).</para>
 
   <!-- ====== ZSK Rollover ====== -->
-  <section id="zsk-rollover">
-   <title>ZSK Rollover</title>
+  <section id="zsk-rollover-methods">
+   <title>ZSK Rollover Methods</title>
    <para>Generally speaking, ZSK is smaller in size (compared to KSK) for
    performance, but smaller keys take less time to break, thus ZSK should be
    changed, or rolled, more frequently. ZSK can be rolled in one of the
@@ -64,8 +64,10 @@
    </para>
   </section>
 
-  <section id="ksk-rolloever">
-   <title>KSK Rollover</title>
+
+  <!-- ====== KSK Rollover ====== -->
+  <section id="ksk-rolloever-methods">
+   <title>KSK Rollover Methods</title>
    <para>Rolling KSK requires interaction with the parent zone, so
    operationally this may be more complex than rolling ZSK. There are three
    methods of rolling KSK:
