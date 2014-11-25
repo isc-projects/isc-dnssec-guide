@@ -217,7 +217,8 @@ zone "example.com" IN {
   -->
   <note>
    <para>If you don't like all this auto-magic of inline signing and key
-   rollovers, see the section on "Manual Management".</para>
+   rollovers, see the section on <xref
+   linkend="advanced-discussions-manual-key-management-and-signing" />.</para>
   </note>
  </section>
 
