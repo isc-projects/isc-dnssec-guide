@@ -4,6 +4,7 @@
  <!-- === DNSSEC and Dynamic Updates === -->
  <section id="dnssec-and-dynamic-updates">
   <title>DNSSEC and Dynamic Updates</title>
+
   <para>Dynamic DNS (DDNS) actually is independent of DNSSEC. DDNS provides a
   mechanism other than editing the zone file or zone database, to edit DNS
   data. Most clients and DNS servers have the capability to handle dynamic
@@ -37,6 +38,47 @@
  <!-- === DNSSEC and Inline Signing === -->
  <section id="dnssec-and-inline-signing">
   <title>DNSSEC and Inline Signing</title>
+
+  <para>ISC introduces the "inline-signing" option with the release of BIND
+  9.9, which allows <command>named</command> to sign zones completely
+  transparently. <command>named</command> does this by automatically creating
+  an internal version of the zone that is signed on the fly, and only the
+  signed version of the zone is presented to queries. The unsigned version of
+  the zone file is untouched on the file system, but not served.</para>
+
+  <para>This features simplifies DNSSEC deployment, below are two common
+  scenarios of how this feature can be used:
+
+   <orderedlist>
+    <listitem>
+     <simpara><emphasis>You administer the master server, with zone
+     transfers to other slave servers</emphasis>: This is what most
+     examples in this guide describes, you have control over the master
+     server, you you can follow the instruction in <xref
+     linkend="easy-start-guide-for-authoritative-servers" /> to generate
+     key pairs and modify <command>named.conf</command>. A signed version
+     of the zone is either generated on the fly by inline-signing, and
+     zone transfers will take care of synchronizing the signed zone data
+     to all slave name servers.</simpara>
+    </listitem> 
+
+    <listitem>
+     <simpara><emphasis>You cannot easily modify the master sever
+     configuration, but still would like all slave servers to get DNSSEC
+     zones</emphasis>: you can setup a "middle box" that all slave name
+     servers transfer data from, and your middle box gets its zone from
+     the master server. You do not need to modify the master name server
+     configuration at all, on the middle box, set it up to have inline
+     signing enabled, whenever your middle box receives zone transfer
+     (unsigned) from the master server, a signed version is generated on
+     the fly, and this is the version that will be transferred out to the
+     other slave name servers.</simpara>
+    </listitem>
+   </orderedlist>
+  </para>
+
+  <para>For more details and configuration examples on Inline Signing,
+  please see <ulink url="https://kb.isc.org/article/AA-00626" />.</para>
  </section>
 
  <!-- === DNSSEC Look-aside Validation === -->
