@@ -81,15 +81,70 @@
   please see <ulink url="https://kb.isc.org/article/AA-00626" />.</para>
  </section>
 
+
  <!-- === DNSSEC Look-aside Validation === -->
  <section id="dlv">
   <title>DNSSEC Look-aside Validation (DLV)</title>
  </section>
 
+
  <!-- === DNSSEC on Private Networks === -->
  <section id="dnssec-on-private-networks">
   <title>DNSSEC on Private Networks</title>
+
+  <para>Before we discuss DNSSEC on private networks, let's clarify what
+  we mean by private networks. In this section, private networks really
+  refers to a private or internal DNS view. Most DNS products offer the
+  ability to have different version of DNS answers, depending on the
+  origin of the query. This feature is often called DNS views or split
+  DNS, and is most commonly implemented as an "internal" versus an
+  "external" setup.</para>
+
+  <para>For instance, your organization may have a version of
+  <code>example.com</code> that is offered to the world, and its names
+  most likely resolves to publicly reachable IP addresses. You may also
+  have an internal version of <code>example.com</code> that is only
+  accessible when you are on the company's private networks or via a VPN
+  connection. These private networks typical fall under 10.0.0.0/8,
+  172.16.0.0.0/12, or 192.168.0.0.0/16 for IPv4.</para>
+
+  <para>So what if you want to offer DNSSEC for your internal version of
+  <code>example.com</code>? This is actually a more involving question,
+  and we can only cover this topic briefly in this document.</para>
+
+  <para>Deploying DNSSEC in this context is possible, but what you not
+  gain much by doing so. Because by definition, these private networks are
+  trusted, thus there should be no need to worry about someone hijacking
+  your DNS traffic. This is commonly known as the "last mile" in DNS
+  delivery. However, if you still wish to deploy DNSSEC on your private
+  networks, here are two scenarios to consider:</para>
+
+  <para>If you are running your validating resolver on the same machine as
+  the internal authoritative server, the answers returned to your clients
+  will not be validated at all. This is because the answer is coming
+  directly from the authoritative server, thus the Authoritative Answer
+  (<code>aa</code>) bit is set, and by definition, it is not validated.
+  What this means is, to a regular client making the query, the secure
+  authoritative answer looks exactly the same as the insecure
+  authoritative answer.</para>
+
+  <para>If you are running the validating resolver and the internal
+  authoritative server on separate machines (or separate instances), it is
+  possible to actually validate answers, provided that you have installed
+  the trust anchor(s) necessary for your internal zones. If no trust
+  anchors are installed, your validating resolver will go out to root, and
+  attempt to validate internal answers against external authorities (and
+  fail). In this setup, the client gets back the Authenticated Data
+  (<code>ad</code>) bit when querying against the validating
+  resolver.</para>
+
+  <para>The bottom line is, if you are worried about the last mile
+  security, it is not a problem DNSSEC addresses. You might want to
+  consider a different technology other than DNSSEC, such as DNSCrypt
+  (<ulink url="https://www.opendns.com/about/innovations/dnscrypt/" />).</para>
+
  </section>
+
 
  <!-- === Intro to DANE === -->
  <section id="introduction-to-dane">
