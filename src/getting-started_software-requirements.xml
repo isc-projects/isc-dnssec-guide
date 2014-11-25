@@ -5,9 +5,10 @@
  <!-- =====  BIND Version ====== -->
  <section id="bind-version">
   <title>BIND Version</title>
-  <para>Some of the features used in this guide require BIND 9.9 or newer. To
-  check the version of <command>named</command> you have installed, used the
-  <option>-v</option> switch as shown below:
+  <para>The configuration examples given in this document requires BIND
+  version <emphasis>9.9</emphasis> or newer. To check the version of
+  <command>named</command> you have installed, use the <option>-v</option>
+  switch as shown below:
 
    <screen># <userinput>named -v</userinput>
 BIND 9.10.1</screen>
