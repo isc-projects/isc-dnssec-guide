@@ -122,10 +122,113 @@
  </section>
 
 
- <!-- === Key Management and Meta Data === -->
+ <!-- === Key Management and Metadata === -->
  <!-- TODO -->
- <section id="keymanagement-and-meta-data">
-  <title>Key Management and Meta Data</title>
+ <section id="keymanagement-and-metadata">
+  <title>Key Management and Metadata</title>
+
+  <para>In <xref linkend="signing-auto-dnssec-explained" />, we alluded to
+  that <varname>auto-dnssec</varname> is doing a lot of automation for us
+  so we don't have to, and we've also alluded to something called the key
+  timing metadata. In fact, if you looked at your key file, it likely
+  already has a section near the top that looks like this:</para>
+  
+<screen>; Publish: 20141120094612 (Thu Nov 20 17:46:12 2014)
+; Activate: 20141120094612 (Thu Nov 20 17:46:12 2014)</screen>
+
+  <para>These are only two of the five metadata fields of a key. Below is
+  a complete list of each of the metadata fields, and how it affects your
+  key's behavior:
+
+   <orderedlist>
+    <listitem>
+     <simpara><emphasis>Publish</emphasis>: Sets the date on which a key is
+     to be published to the zone. After that date, the key will be included
+     in the zone but will not be used to sign it (yet). This is notifying
+     validating resolvers that we are about to introduce a new key. By
+     default, if not specified during creation time, this is set to the
+     current time, meaning the key will be published as soon as
+     <command>named</command> picks it up.</simpara>
+    </listitem>
+    <listitem>
+     <simpara><emphasis>Activate</emphasis>: Sets the date on which the key
+     is to be activated. After that date, the key will be included in the
+     zone and used to sign it. By default, if not specified during creation
+     time, this is set to the current time, meaning the key will be used to
+     sign data as soon as <command>named</command> picks it up.</simpara>
+    </listitem>
+    <listitem>
+     <simpara><emphasis>Revoke:</emphasis> Sets the date on which the key
+     is to be revoked. After that date, the key will be flagged as revoked.
+     It will be included in the zone and will be used to sign it. This is
+     used to notify validating resolvers that this key is about to be
+     removed or retired from the zone.</simpara>
+    </listitem>
+    <listitem>
+     <simpara><emphasis>Inactive</emphasis>: Sets the date on which the key
+     is to become inactive. After that date, the key will still be included
+     in the zone, but it will not be used to sign it. This sets the
+     "expiration" or "retire" date for a key.</simpara>
+    </listitem>
+    <listitem>
+     <simpara><emphasis>Delete</emphasis>: Sets the date on which the key
+     is to be deleted. After that date, the key will no longer be included
+     in the zone, but it continues to exist on the file system or key
+     repository.</simpara>
+    </listitem>
+   </orderedlist>
+  </para>
+
+  <para>You can set these metadata fields on a key pair as you've seen in
+  <xref linkend="maintenance-tasks-zsk-rollover" /> using commands such as
+  <command>dnssec-keygen</command> or
+  <command>dnssec-settime</command>.</para>
+
+   <table>
+    <title>Key Metadata Comparison</title>
+    <tgroup cols='4' align='left' colsep='0' rowsep='0'>
+     <thead>
+      <row>
+       <entry>Metadata</entry>
+       <entry>Included in Zone File?</entry>
+       <entry>Used to Sign Data?</entry>
+       <entry>Purpose</entry>
+      </row>
+     </thead>
+     <tbody>
+      <row>
+       <entry>Publish</entry>
+       <entry>Yes</entry>
+       <entry>No</entry>
+       <entry>Introducing a key soon to be active</entry>
+      </row>
+      <row>
+       <entry>Activate</entry>
+       <entry>Yes</entry>
+       <entry>Yes</entry>
+       <entry>Activation date for new key</entry>  
+      </row>
+      <row>
+       <entry>Revoke</entry>
+       <entry>Yes</entry>
+       <entry>Yes</entry>
+       <entry>Notifying a key soon to be retired</entry>
+      </row>
+      <row>
+       <entry>Inactive</entry>
+       <entry>Yes</entry>
+       <entry>No</entry>
+       <entry>Inactivate or retire a key</entry>
+      </row>
+      <row>
+       <entry>Delete</entry>
+       <entry>No</entry>
+       <entry>No</entry>
+       <entry>Deletion or removal of key from zone</entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </table>
 
   <section id="advanced-discussions-manual-key-management-and-signing">
    <title>Manual Key Management and Signing</title>
