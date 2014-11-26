@@ -186,8 +186,8 @@ zone "example.com" IN {
      <!-- #2 -->
      <listitem>
       <simpara><emphasis>allow</emphasis>: permits keys to be updated and the
-      zone fully re-signed whenever the user issues the command rndc sign
-      zonename.</simpara>
+      zone fully re-signed whenever the user issues the command <command>rndc
+      sign [zonename]</command>.</simpara>
      </listitem>
 
      <!-- #3 -->
@@ -216,9 +216,10 @@ zone "example.com" IN {
        2) No inline-signing (manual signing, need to discuss dnssec-signzone)
   -->
   <note>
-   <para>If you don't like all this auto-magic of inline signing and key
-   rollovers, see the section on <xref
-   linkend="advanced-discussions-manual-key-management-and-signing" />.</para>
+   <para><command>auto-dnssec</command> is a feature to automate many of the
+   key management tasks, which we discuss in more detail in <xref
+   linkend="advanced-discussions-manual-key-management-and-signing" />, to
+   cover topics such as manual signing and key timing metadata.</para>
   </note>
  </section>
 
