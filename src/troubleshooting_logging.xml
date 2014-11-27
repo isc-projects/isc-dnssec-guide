@@ -1,7 +1,10 @@
 <section id="troubleshooting-logging">
  <title>Logging</title>
- <para>With DNSSEC validation enabled, if a DNS response is not fully validated, it will result in a generic SERVFAIL message, as shown below.
-  <screen>$ <userinput>dig @192.168.1.11 www.isc.org. A</userinput>
+ <para>With DNSSEC validation enabled, if a DNS response is not fully
+ validated, it will result in a generic SERVFAIL message, as shown
+ below.</para>
+
+ <screen>$ <userinput>dig @192.168.1.11 www.isc.org. A</userinput>
 ; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.11 www.isc.org. A
 ; (1 server found)
 ;; global options: +cmd
@@ -18,49 +21,76 @@
 ;; SERVER: 192.168.1.11#53(192.168.1.11)
 ;; WHEN: Thu Oct 16 20:28:20 CST 2014
 ;; MSG SIZE  rcvd: 40</screen>
- </para>
 
- <para>With <command>delv</command>, a "resolution failed" message is output instead:
-  <screen>$ <userinput>delv @192.168.1.11 www.isc.org. A +rtrace</userinput>
+ <para>With <command>delv</command>, a "resolution failed" message is
+ output instead:</para>
+
+ <screen>$ <userinput>delv @192.168.1.11 www.isc.org. A +rtrace</userinput>
 ;; fetch: www.isc.org/A
-;; <userinput>resolution failed: failure</userinput></screen></para>
+;; <userinput>resolution failed: failure</userinput></screen>
  
- <para>Read on to learn more about basic troubleshooting tips for validating resolvers.</para>
+ <para>Read on to learn more about basic troubleshooting tips for
+ validating resolvers.</para>
 
 
  <!-- ====== Syslog and Query-Error ====== -->
  <section id="troubleshooting-logging-syslog">
-  <title>Syslog</title>
+  <title>Syslog and Query-Error</title>
+  <para>DNSSEC validation error messages by default will show up in syslog
+  as a Query-Error. It will have the string "error" at the start of the
+  message. Here is an example of what it may look like:</para>
+
+  <screen>error (insecurity proof failed) resolving './NS/IN': 192.168.1.13#53</screen>
+
+  <para>Usually, this level of error logging should suffice for most. If
+  you would like to get more detailed information about why DNSSEC
+  validation failed, read on to <xref
+  linkend="troubleshooting-logging-debug" /> to learn more.</para>
+
  </section>
 
  <!-- ====== BIND DNSSEC Debug Logging ====== -->
  <section id="troubleshooting-logging-debug">
   <title>BIND DNSSEC Debug Logging</title>
-  <para>A word of caution: before you enable debug logging, be aware that this may dramatically increase the load on your name servers.</para>
+  <para>A word of caution: before you enable debug logging, be aware that
+  this may dramatically increase the load on your name servers.</para>
 
-  <para>With that said, sometimes it may become necessary to enable BIND debug logging to see more details of how DNSSEC is validating (or not). DNSSEC-related messages are not recorded in syslog by default, even if query log is enabled, only DNSSEC errors will show up in syslog. Enabling debug logging is not recommended for production servers, as it increases load on the server.</para>
+  <para>With that said, sometimes it may become necessary to enable BIND
+  debug logging to see more details of how DNSSEC is validating (or not).
+  DNSSEC-related messages are not recorded in syslog by default, even if
+  query log is enabled, only DNSSEC errors will show up in syslog.
+  Enabling debug logging is not recommended for production servers, as it
+  increases load on the server.</para>
 
-  <para>The example below shows how to enable debug level 3 (to see full DNSSEC validation messages) in BIND9 and have it sent to syslog:
-   <screen>logging {
+  <para>The example below shows how to enable debug level 3 (to see full
+  DNSSEC validation messages) in BIND9 and have it sent to syslog:</para>
+
+  <screen>logging {
    channel dnssec_log {
         syslog daemon;
         severity debug 3;
         print-category yes;
     };
     category dnssec { dnssec_log; };
-};</screen></para>
+};</screen>
 
-  <para>The example below shows how to log DNSSEC messages to its own file:
-   <screen>logging {
+  <para>The example below shows how to log DNSSEC messages to its own
+  file:</para>
+
+  <screen>logging {
    channel dnssec_log {
         file "/var/log/dnssec.log";
         severity debug 3;
     };
     category dnssec { dnssec_log; };
-};</screen></para>
+};</screen>
 
-  <para>After restarting BIND, a large number of log messages will appear in syslog. The example below shows the log messages as a result of successfully looking up and validating the domain name www.isc.org.
-<screen>validating @0xb8012d88: . NS: starting
+  <para>After restarting BIND, a large number of log messages will appear
+  in syslog. The example below shows the log messages as a result of
+  successfully looking up and validating the domain name
+  <code>www.isc.org</code>.</para>
+
+  <screen>validating @0xb8012d88: . NS: starting
 validating @0xb8012d88: . NS: attempting positive response validation
 validating @0xb805a9b0: . DNSKEY: starting
 validating @0xb805a9b0: . DNSKEY: attempting positive response validation
@@ -106,7 +136,9 @@ validating @0xb805a9b0: isc.org DNSKEY: dsset with trust 8
 validating @0xb805a9b0: isc.org DNSKEY: verify rdataset (keyid=12892): success
 validating @0xb805a9b0: isc.org DNSKEY: marking as secure (DS)
 validator @0xb805a9b0: dns_validator_destroy
-validating @0xb8012d88: www.isc.org A: in fetch_callback_validator</screen></para>
+validating @0xb8012d88: www.isc.org A: in fetch_callback_validator</screen>
+
  </section>
+
  <!-- ======= include a section here for logs seen when packets go unanaswered? ====== -->
 </section>
