@@ -85,6 +85,43 @@
  <!-- === DNSSEC Look-aside Validation === -->
  <section id="dlv">
   <title>DNSSEC Look-aside Validation (DLV)</title>
+
+  <warning>
+   <para>ISC plans to discontinue the DLV service in the near future, as
+   DNSSEC deployment is nearing a more mature stage where most top level
+   domains are signed and more and more registrars are DNSSEC-ready. If
+   you are currently relying on DLV service provided by ISC, be aware that
+   the service will be discontinued in the near future.</para>
+  </warning>
+
+  <para>First of all, if you are running older versions of BIND9 on your
+  validating resolver, specifically, older than 9.4.3-P2, 9.5.1-P2, or
+  9.6.1, <varname>dnssec-lookaside</varname> is not supported.</para>
+  
+  <para>So what is it? DNSSEC Look-aside Validation (DLV) is an extension
+  to the DNSSEC protocol. It is designed to assist in early DNSSEC
+  adoption by simplifying the configuration of recursive servers and
+  lessen the burden of key management for the administrators. Without DLV,
+  in the absence of a fully signed path from root to a zone,
+  administrators wishing to enable DNSSEC validation would have to
+  configure and maintain multiple trust anchors or managed keys in their
+  configuration.</para>
+
+  <para>DLV removes the need for manual key management by identifying a
+  trusted repository through which those keys can be securely retrieved by
+  the validating resolver when it needs them. Basically, someone else (in
+  this case, ISC) is performing the tedious task of trust anchor
+  management, and your validating resolver just needs to trust that
+  someone else (in this case, ISC) is doing a good job maintaining these
+  trust anchors for you.</para>
+
+  <para>To enable DLV on your validating resolver, place this line in your
+  configuration file and reload <command>named</command>:
+
+   <screen>dnssec-lookaside auto;</screen>
+
+  </para>
+
  </section>
 
 
