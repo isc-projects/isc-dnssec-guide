@@ -40,7 +40,7 @@
    </listitem>
 
    <listitem>
-    <simpara><emphasis>Not many people are using it today</emphasis>: while
+    <simpara><emphasis>Not enough people are using it today</emphasis>: while
     it's estimated as of late 2014, that somewhere between 10% to 15% of the
     DNS traffic is validating, that doesn't mean that many of the DNS zones are
     actually signed. What this means is, if you signed your company's zone
@@ -49,8 +49,24 @@
     signed, if you enabled DNSSEC validation today, it's not likely to buy you
     or your users a whole lot more protection, until these popular domains
     names decide to sign their zones.</simpara>
-
    </listitem>
   </orderedlist>
+ 
  </para>
+
+ <para>The last point may have more impact than you realize. Consider
+ this: HTTP and HTTPS traffic make up majority of the web. While you may
+ have secured your DNS infrastructure through DNSSEC, if your web hosting
+ is outsourced to a third party that does not yet support DNSSEC in their
+ own domain, or if your web page loads contents and components from
+ insecure domains, the end users may experience validation problems when
+ trying to access your web page. For example, although I may have signed
+ the zone <code>isc.org</code>, but my web address
+ <code>www.isc.org</code> is actually a CNAME to
+ <code>96d719dc5612761de516fc.random-cloud-provider.com</code>. As long
+ as <code>random-cloud-provider.com</code> remains an insecure DNS zone,
+ users cannot fully validate everything when they visit my web page,
+ although he name will still resolve through the traditional insecure
+ DNS.</para>
+
 </section>
