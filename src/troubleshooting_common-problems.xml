@@ -179,4 +179,57 @@ validating @0xb8b18a38: <userinput>. DNSKEY: unable to find a DNSKEY which verif
 validating @0xb8b18a38: . DNSKEY: please check the 'trusted-keys' for '.' in named.conf.</screen>
 
  </section>
+
+
+
+ <!-- ====== Unable to Load Keys ====== -->
+ <section id="troubleshooting-unable-to-load-keys">
+  <title>Unable to Load Keys</title>
+  <para>This is a simple yet common issue. If the keys files were present
+  but not readable by <command>named</command>, the syslog messages are
+  clear, as shown below:</para>
+
+  <screen>named[32447]: zone example.com/IN (signed): reconfiguring zone keys
+named[32447]: dns_dnssec_findmatchingkeys: error reading key file Kexample.com.+008+06817.private: permission denied
+named[32447]: dns_dnssec_findmatchingkeys: error reading key file Kexample.com.+008+17694.private: permission denied
+named[32447]: zone example.com/IN (signed): next key event: 27-Nov-2014 20:04:36.521</screen>
+
+  <para>However, if no keys are found, the error is not as obvious. Below
+  shows the syslog messages after executing <command>rndc
+  reload</command>, with the key files missing from the key
+  directory:</para>
+
+  <screen>named[32516]: received control channel command 'reload'
+named[32516]: loading configuration from '/etc/bind/named.conf'
+named[32516]: reading built-in trusted keys from file '/etc/bind/bind.keys'
+named[32516]: using default UDP/IPv4 port range: [1024, 65535]
+named[32516]: using default UDP/IPv6 port range: [1024, 65535]
+named[32516]: sizing zone task pool based on 6 zones
+named[32516]: the working directory is not writable
+named[32516]: reloading configuration succeeded
+named[32516]: reloading zones succeeded
+named[32516]: all zones loaded
+named[32516]: running
+named[32516]: zone example.com/IN (signed): reconfiguring zone keys
+named[32516]: zone example.com/IN (signed): next key event: 27-Nov-2014 20:07:09.292</screen>
+
+  <para>This happens to look exactly the same as if the keys were present
+  and readable, and <command>named</command> loaded the keys and signed
+  the zone. It will even generate the internal (raw) files:</para>
+
+  <screen># cd /etc/bind/db
+# ls
+example.com.db	example.com.db.jbk  example.com.db.signed</screen>
+
+  <para>If <command>named</command> really loaded the keys and signed the
+  zone, you should see the following files:</para>
+
+  <screen># cd /etc/bind/db
+# ls
+example.com.db	example.com.db.jbk  example.com.db.signed  example.com.db.signed.jnl</screen>
+
+  <para>So, unless you see the <code>*.signed.jnl</code> file, your zone
+  has not been signed.</para>
+
+ </section>
 </section>
