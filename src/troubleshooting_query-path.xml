@@ -1,7 +1,20 @@
 <section id="troubleshooting-query-path">
  <title>Query Path</title>
- <para>The first step to your DNS or DNSSEC troubleshooting should be to determine the query path. This is not a DNSSEC-specific troubleshooting technique. Whenever you are working with a DNS-related issue, it is always a good idea to determine the exact query path to identify the origin of the problem.</para>
- <para>End clients such as laptop computers or mobile phones are configured to talk to a recursive name server, and the recursive name server may in turn forward on to more recursive name servers, before arriving at the authoritative name server. The giveaway is the presence of the Authoritative Answer (<code>aa</code>) flag: when present, we know we are talking to the authoritative server; when missing, we are talking to the recursive server. The example below show answer without the Authoritative Answer flag:
+ <para>The first step to your DNS or DNSSEC troubleshooting should be to
+ determine the query path. This is not a DNSSEC-specific troubleshooting
+ technique. Whenever you are working with a DNS-related issue, it is
+ always a good idea to determine the exact query path to identify the
+ origin of the problem.</para>
+
+ <para>End clients, such as laptop computers or mobile phones, are
+ configured to talk to a recursive name server, and the recursive name
+ server may in turn forward on to more recursive name servers, before
+ arriving at the authoritative name server. The giveaway is the presence
+ of the Authoritative Answer (<code>aa</code>) flag: when present, we know
+ we are talking to the authoritative server; when missing, we are talking
+ to the recursive server. The example below show answer without the
+ Authoritative Answer flag:
+
   <screen>$ <userinput>dig www.example.com. A</userinput>
 
 ; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> www.example.com. A
@@ -21,11 +34,20 @@ www.example.com.	600	IN	A	192.168.1.100
 ;; Query time: 21 msec
 ;; SERVER: 192.168.1.7#53(192.168.1.7)
 ;; WHEN: Mon Nov 03 19:54:37 CST 2014
-;; MSG SIZE  rcvd: 60</screen></para>
+;; MSG SIZE  rcvd: 60</screen>
 
- <para>Not only do we not see the <code>aa</code> flag, we see the presence of an <code>ra</code> flag, which represents Recursion Available. This indicates that the server we are talking to is a recursive name server. And although we were able to get an answer for <code>www.example.com</code>, the answer came from somewhere else.</para>
+ </para>
+
+ <para>Not only do we not see the <code>aa</code> flag, we see the
+ presence of an <code>ra</code> flag, which represents Recursion
+ Available. This indicates that the server we are talking to (192.168.1.7
+ in this example) is a recursive name server. And although we were able to
+ get an answer for <code>www.example.com</code>, the answer came from
+ somewhere else.</para>
  
- <para>The example below shows when we query the authoritative server directly and see the presence of the <code>aa</code> flag:
+ <para>The example below shows when we query the authoritative server
+ directly and see the presence of the <code>aa</code> flag:
+
   <screen>$ <userinput>dig @192.168.1.13 www.example.com. A</userinput>
 
 ; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.13 www.example.com. A
@@ -35,7 +57,17 @@ www.example.com.	600	IN	A	192.168.1.100
 ;; ->>HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 35962
 ;; flags: qr <userinput>aa</userinput> rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
 ;; WARNING: recursion requested but not available
-...</screen></para>
+...</screen>
 
- <para>The presence of the <code>aa</code> flag tells us that we are now talking to the authoritative name server for <code>example.com</code>, and this is not a cached answer it obtained from some other name server, it served this answer to us right from its own database. In fact, if you look closely, the <code>ra</code> flag is not present, which means this name server is not configured to perform recursion (at least not for this client), so it could not have queried another name server to get cached results anyway.</para>
+ </para>
+
+ <para>The presence of the <code>aa</code> flag tells us that we are now
+ talking to the authoritative name server for <code>example.com</code>,
+ and this is not a cached answer it obtained from some other name server,
+ it served this answer to us right from its own database. In fact, if you
+ look closely, the <code>ra</code> flag is not present, which means this
+ name server is not configured to perform recursion (at least not for this
+ client), so it could not have queried another name server to get cached
+ results anyway.</para>
+
 </section>
