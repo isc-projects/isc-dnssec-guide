@@ -4,34 +4,33 @@
 <!ENTITY mdash  "&#x2014;" >
 ]>
 
-  <chapter id="troubleshooting">
-   <title>Basic Troubleshooting</title>
+<chapter id="troubleshooting">
+ <title>Basic Troubleshooting</title>
    
+ <!-- Introduction to Troubleshooting -->
+ <para>In this chapter, we are going to cover some basic
+ troubleshooting techniques, common DNSSEC symptoms, and their
+ solutions and causes. This is not a comprehensive "how to troubleshoot
+ any DNS or DNSSEC problem" guide, because that in and of itself could
+ easily be an entire book.</para>
 
-   <!-- TODO jkuo Tue Oct 28 14:12:08 UTC 2014
-        We'll come back and break this down later, for now, just
-        take in the whole section from Recursive Server, the goal
-        here is not to distinguish so much between recursive and
-        authoritative, but focus on "this is the symptom" and
-        "these are the possible causes"
-   -->
+ <!-- Query Path -->
+ <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="troubleshooting_query-path.xml" />
 
-   <note>
-    <para>Reviewers: This new chapter combines troubleshooting techniques from both recursive and authoritative sections, and needs a re-write so it's more symptom-based. Also awaiting feedback on top-3 most commonly seen problems. It is currently under heavy construction.</para>
-   </note>
+ <!-- Logging -->
+ <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="troubleshooting_logging.xml" />
 
-    <!-- Introduction to Troubleshooting -->
-    <para>In this chapter, we are going to cover some basic troubleshooting techniques, common DNSSEC symptoms, and their solutions and causes. This is not a comprehensive "how to troubleshoot any DNS or DNSSEC problem" guide, because that in and of itself could easily be an entire book.</para>
+ <!-- Common Problems -->
+ <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="troubleshooting_common-problems.xml" />
 
-    <!-- Query Path -->
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="troubleshooting_query-path.xml" />
+ <!-- NSEC3 -->
+ <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="troubleshooting_nsec3.xml" />
 
-    <!-- Logging -->
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="troubleshooting_logging.xml" />
-
-    <!-- Common Problems -->
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="troubleshooting_common-problems.xml" />
-
-    <!-- Examples -->
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="troubleshooting_examples.xml" />
-  </chapter>
+ <!-- Examples -->
+ <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="troubleshooting_examples.xml" />
+</chapter>
