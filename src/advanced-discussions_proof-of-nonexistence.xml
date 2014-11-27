@@ -28,7 +28,7 @@
  that I am not lying, here's the signature: 'deaf coffee beef'". And this
  answer is verifiable, since the magic signature ("deaf coffee beef" ) can be
  validated <footnote><para>Actually it cannot be verified, read <xref
- linkend="how-are-answers-verified" /> to learn why this would not
+ linkend="how-are-answers-verified" /> to review why this would not
  work.</para></footnote>. Now the attacker has successfully fooled the caller
  into thinking that Susan doesn't work at our company, and might even be able
  to convince all callers that no one works at this company (no names
