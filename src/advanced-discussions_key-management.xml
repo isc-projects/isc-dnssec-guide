@@ -232,24 +232,47 @@
 
   <section id="advanced-discussions-manual-key-management-and-signing">
    <title>Manual Key Management and Signing</title>
+
+
+
   </section>
  </section>
 
 
- <!-- TODO -->
  <!-- === How Long Do I Wait Before Deleting Old Data? === -->
  <section id="how-long-before-deleting-old-data">
   <title>How Long Do I Wait Before Deleting Old Data?</title>
-  <para>
-  That depends on which approach you chose to perform your key rollover as
-  described in <xref linkend="key-rollovers"/>. The goal here is to not
-  "orphan" anyone out there who may be getting a cached answer, and the
-  information to verify that cached answer doesn't exist. For example, if you
-  chose to pre-publish your ZSK, but did not wait long enough before removing
-  the old ZSK, you're running with the risk that there may be users out there
-  receiving the old RRSIG out of cache, but when they are unable to verify the
-  cached old RRSIG because the old ZSK has already been removed. To these
-  users, the domain names would fail validation, until the cached entries
-  expire.</para>
+
+  <para>If you have followed the examples described in <xref
+  linkend="easy-start-guide-for-authoritative-servers" /> and <xref
+  linkend="signing-maintenance-tasks" />, old keys and old signatures are
+  automatically removed from the zone.</para>
+
+  <para>However, it is still good to discuss why bother waiting a period
+  of time before removing any old data, be it DNSKEY or RRSIG. The goal
+  here is to not "orphan" anyone out there who may be getting a cached
+  answer, and the information to verify that cached answer doesn't exist
+  anymore. For example, if you chose to pre-publish your ZSK, but did not
+  wait long enough before removing the old ZSK, you're running with the
+  risk that there may be users out there receiving the old RRSIG out of
+  cache, but they are unable to verify the cached old RRSIG because the
+  old ZSK has already been removed. To these users, the domain names would
+  fail validation, until the cached RRSIG entries expire, and their
+  validating resolver retrieves the new RRSIG signed by the new
+  ZSK.</para>
+
+  <para>In <xref linkend="signing-maintenance-tasks" />, we recommended
+  using a very generic and easy to remember 30 days as the amount of time
+  to wait, partly because 30 days is also the default validity time for
+  RRSIG. If you decide to manage your own zone signing and record
+  removing, you should wait at least the duration of your old record's TTL
+  before attempting to removing it from the zone. It is probably better to
+  err on the safe side and leave the old data in the zone a little
+  longer.</para>
+
+  <para>For (far) more considerations on key timing, check out <ulink
+  url="https://tools.ietf.org/html/draft-morris-dnsop-dnssec-key-timing"
+  />.</para>
+
  </section>
 </section>
