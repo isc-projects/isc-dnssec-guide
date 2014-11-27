@@ -167,6 +167,17 @@ example.com. <userinput>3600</userinput> IN DNSKEY 257 3 8 AwEAAcWDps...lM3NRn/G
   to find out what the actual format should be, and how to deliver or upload
   the information to your parent zone.</para>
 
+  <para>What about your zone between the time you signed it and the time
+  your parent zone accepts the upload? Well, to the rest of the world,
+  your zone still appears to be insecure. That is because when a
+  validating resolver attempts to validate your domain name, it will
+  eventually come across your parent zone, and your parent zone will
+  indicate that you are not yet signed (as far as it knows). The
+  validating resolver will then give up attempting to validate your domain
+  name, and fall back to the insecure DNS. Basically, before you complete
+  this final step with your parent zone, your zone is still
+  insecure.</para>
+
   <note>Before uploading to your parent zone, verify that your newly signed
   zone has propagated to all of your name servers (usually zone transfers). If
   some of your name servers still have unsigned zone data while the parent
