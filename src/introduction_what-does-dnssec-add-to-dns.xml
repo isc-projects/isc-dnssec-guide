@@ -1,14 +1,18 @@
 <section id="what-does-dnssec-add-to-dns">
  <title>What does DNSSEC Add to DNS?</title>
 
- <!-- TODO: 
-  Before talking about what is added to DNSSEC, do a very fast review of the
-  use of public key cryptography for non-crypto geeks, and the use of digital
-  signatures. Talk a little bit about key pairs, ZSK, and KSK, how keys are
-  generated or obtained, but defer most of this to later sections. Talk at very
-  high level of the "added" task of uploading DS records to parent, since this
-  is a new concept for most zone administrators.
- -->
+ <note>
+  <title>Primer on Public Key Cryptography</title>
+  <para>Public Key Cryptography works on the concept of a pair of keys,
+  one is made available to the world publicly, and one is kept in secrecy
+  privately. Not surprisingly, they are known as public key and private
+  key. If you are not familiar with the concept, think of it as a cleverly
+  designed lock, where one key locks, and one key unlocks. In DNSSEC, we
+  give out the unlocking public key to the rest of the world, while
+  keeping the locking key private. To learn how this is used to secure DNS
+  messages, take a look at <xref linkend="how-are-answers-verified" />.
+  </para>
+ </note>
 
  <para>DNSSEC introduces six new resource record types:
   <itemizedlist>
