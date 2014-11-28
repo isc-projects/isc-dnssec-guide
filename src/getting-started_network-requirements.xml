@@ -2,8 +2,9 @@
 <section id="network-requirements">
  <title>Network Requirements</title>
  <para>From a network perspective, DNS and DNSSEC packets are very similar,
- DNSSEC responses just look bigger. You should test for the following two
- items, to make sure your network is ready for DNSSEC:
+ DNSSEC packets are just bigger, which means DNS is more likely to use TCP. You
+ should test for the following two items, to make sure your network is ready
+ for DNSSEC:
 
   <orderedlist>
    <listitem>
