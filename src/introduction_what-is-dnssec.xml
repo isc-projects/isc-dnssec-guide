@@ -37,7 +37,8 @@
    </listitem>
   </itemizedlist></para>
 
- <para>In this guide, we will dive into details of how DNSSEC works, how to
- configure a validating resolver, how to sign DNS zone data, and other
- operational tasks.</para>
+ <para>In this guide, we will look at how DNSSEC works, how to configure a
+ validating resolver, how to sign DNS zone data, and other operational
+ tasks.</para>
+
 </section>

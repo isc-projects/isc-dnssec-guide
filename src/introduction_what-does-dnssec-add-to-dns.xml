@@ -34,7 +34,8 @@
  </para>
 
  <para>This guide will not dissect into the anatomy of each resource record
- type in detail, below is a short introduction on each of the new record types:
+ type, the details are left for the readers to research and explore. Below is a
+ short introduction on each of the new record types:
 
   <itemizedlist>
    <listitem>
@@ -51,8 +52,10 @@
     cryptography for data authenticity and integrity. There are several keys
     used in DNSSEC, some private, some public. The public keys are published to
     the world as part of the zone data, and they are stored in the DNSKEY
-    record type. Please see <xref linkend="signing-generate-keys-explained" />
-    to learn more.</simpara>
+    record type. In general, there are two categories of keys used in DNSSEC,
+    Zone Signing Key (ZSK) is used to protect all zone data, and Key Signing
+    Key (KSK) is used to protect other keys. We will talk about keys in <xref
+    linkend="signing-generate-keys-explained" />.</simpara>
    </listitem>
 
    <listitem>
