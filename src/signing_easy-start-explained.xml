@@ -99,7 +99,7 @@ example.com. IN DNSKEY <userinput>257</userinput> 3 8 AwEAAcWDps...lM3NRn/G/R</s
   highlighted a few lines, let's explain what each one of them does.
 
    <screen>options {
-    <userinput>dnssec-enable yes;</userinput>
+    dnssec-enable yes;
     directory "/etc/bind";
     recursion no;
     minimal-responses yes;
