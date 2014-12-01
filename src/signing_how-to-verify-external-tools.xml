@@ -38,7 +38,7 @@
    <title>Verisign DNSSEC Debugger</title>
    <mediaobject>
     <imageobject>
-     <imagedata fileref="../img/verisign-dnssec-debugger-example.png" />
+     <imagedata fileref="../img/verisign-dnssec-debugger-example.png" scalefit="1"/>
     </imageobject>
    </mediaobject>
   </figure>
@@ -55,7 +55,7 @@
    <title>DNSViz</title>
    <mediaobject>
     <imageobject>
-     <imagedata fileref="../img/dnsviz-example-small.png" />
+     <imagedata fileref="../img/dnsviz-example-small.png" width="80%" scalefit="1"/>
     </imageobject>
    </mediaobject>
   </figure>
@@ -72,7 +72,7 @@
    <title>Sec Spider</title>
    <mediaobject>
     <imageobject>
-     <imagedata fileref="../img/secspider-example-small.png" />
+     <imagedata fileref="../img/secspider-example-small.png" scalefit="1"/>
     </imageobject>
    </mediaobject>
   </figure>

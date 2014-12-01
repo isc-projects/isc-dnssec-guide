@@ -34,7 +34,15 @@
   url="http://dnssectest.sidnlabs.nl/" /> in your web browser will show the
   following before (left) and after (right) DNSSEC validation is enabled:</para>
 
-  <simpara><imagedata fileref="../img/dnssec-test.png" /></simpara>
+
+   <figure>
+    <title>DNSSEC Web-based Tests</title>
+    <mediaobject>
+     <imageobject>
+      <imagedata fileref="../img/dnssec-test.png" width="80%" scalefit="1"/>
+     </imageobject>
+    </mediaobject>
+   </figure>
 
  </section>
 
