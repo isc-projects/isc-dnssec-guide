@@ -227,13 +227,13 @@ example.com. <userinput>3600</userinput> IN DNSKEY 257 3 8 AwEAAcWDps...lM3NRn/G
   will generate the signed version automatically.</para>
 
   <para>Curious as to what all these commands did to your zone file? Read on to
-  <xref linkend="your-zone-file-before-and-after-dnssec"/> and find out.</para>
+  <xref linkend="your-zone-before-and-after-dnssec"/> and find out.</para>
 
  </section>
 
- <!-- === Your Zone File, Before and After DNSSEC === -->
- <section id="your-zone-file-before-and-after-dnssec">
-  <title>Your Zone File, Before and After DNSSEC</title>
+ <!-- === Your Zone, Before and After DNSSEC === -->
+ <section id="your-zone-before-and-after-dnssec">
+  <title>Your Zone, Before and After DNSSEC</title>
   <para>In the previous section <xref
   linkend="easy-start-guide-for-authoritative-servers"/>, we provided the
   minimal amount of information to essentially convert an traditional DNS zone

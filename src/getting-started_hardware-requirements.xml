@@ -62,7 +62,7 @@
     <listitem>
      <simpara><emphasis>System storage</emphasis>: A signed zone is definitely
      larger than an unsigned zone. How much larger? See <xref
-     linkend="your-zone-file-before-and-after-dnssec" /> for a comparison
+     linkend="your-zone-before-and-after-dnssec" /> for a comparison
      example. Roughly speaking, you could expect your zone file to grow at
      least three times as large, usually more.</simpara>
     </listitem>
