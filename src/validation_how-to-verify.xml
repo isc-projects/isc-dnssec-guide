@@ -19,10 +19,10 @@
   to see if it is in fact validating answers DNS responses.
    <itemizedlist>
     <listitem>
-     <ulink url="http://test.dnssec-or-not.com/" />
+     <ulink url="http://dnssectest.sidnlabs.nl/" />
     </listitem>
     <listitem>
-     <ulink url="http://dnssectest.sidnlabs.nl/" />
+     <ulink url="http://test.dnssec-or-not.com/" />
     </listitem>
     <listitem>
      <ulink url="http://dnssec.vs.uni-due.de/" />
@@ -31,16 +31,11 @@
   </para>
 
   <para>For example, opening the URL <ulink
-  url="http://test.dnssec-or-not.com/" /> in your web browser will show the
-  following before DNSSEC validation is enabled:</para>
+  url="http://dnssectest.sidnlabs.nl/" /> in your web browser will show the
+  following before (left) and after (right) DNSSEC validation is enabled:</para>
 
-  <simpara><imagedata fileref="../img/dnssec-or-not-NO.png" /></simpara>
+  <simpara><imagedata fileref="../img/dnssec-test.png" /></simpara>
 
-  <para>After DNSSEC validation is enabled, loading the URL <ulink
-  url="http://test.dnssec-or-not.com/" /> in a web browser shows the
-  following:</para>
-
-  <simpara><imagedata fileref="../img/dnssec-or-not-YES.png" /></simpara>
  </section>
 
 
