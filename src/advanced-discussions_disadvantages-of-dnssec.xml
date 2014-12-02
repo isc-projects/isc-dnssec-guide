@@ -32,6 +32,17 @@
    </listitem>
 
    <listitem>
+    <simpara><emphasis>Increased fragility</emphasis>: The increased complexity
+    means more opportunities for things to go wrong. In the absence of DNSSEC,
+    DNS was essentially "add something to the zone and forget".  With DNSSEC,
+    each new component - re-signing, key rollover, interaction with parent
+    zone, key management - adds more scope for error. It is entirely possible
+    that the failure to validate a name is down to errors on the part of one or
+    more zone operators rather than the result of a deliberate attack on the
+    DNS.</simpara>
+   </listitem>
+
+   <listitem>
     <simpara><emphasis>New maintenance tasks</emphasis>: Even if your new
     secure DNS infrastructure runs without any hiccups or security breaches, it
     still requires regular attention, from re-signing to key rollovers. While
@@ -59,7 +70,6 @@
     names decide to sign their zones.</simpara>
    </listitem>
   </orderedlist>
- 
  </para>
 
  <para>The last point may have more impact than you realize. Consider
