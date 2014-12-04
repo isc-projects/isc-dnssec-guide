@@ -1,0 +1,22 @@
+<section id="recipes-inline-signing">
+ <title>Inline Signing Recipes</title>
+ 
+    <figure>
+    <title>Inline Signing Scenario #1</title>
+    <mediaobject>
+     <imageobject>
+      <imagedata fileref="../img/dnssec-inline-signing-1.png" width="80%" scalefit="1"/>
+     </imageobject>
+    </mediaobject>
+   </figure>
+
+
+      <figure>
+    <title>Inline Signing Scenario #2</title>
+    <mediaobject>
+     <imageobject>
+      <imagedata fileref="../img/dnssec-inline-signing-2.png" width="100%" scalefit="1"/>
+     </imageobject>
+    </mediaobject>
+   </figure>
+</section>

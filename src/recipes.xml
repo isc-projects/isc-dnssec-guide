@@ -6,6 +6,9 @@
 
 <chapter id="recipes">
  <title>Recipes</title>
+ <!-- Inline Signing -->
+ <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="recipes_inline-signing.xml" />
 
  <!-- Rollovers -->
  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
