@@ -84,6 +84,10 @@
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
   href="appendices.xml" />
 
+  <!-- Acknowledgements -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+  href="acknowledgements.xml" />
+
 
 <!--
   TODO: jkuo Thu Oct 30 11:01:18 UTC 2014
