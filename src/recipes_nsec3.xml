@@ -16,6 +16,18 @@
   <screen>Oct 21 13:47:21 received control channel command 'signing -nsec3param 1 0 10 1234567890abcdef example.com'
 Oct 21 13:47:21 zone example.com/IN (signed): zone_addnsec3chain(1,CREATE,10,1234567890ABCDEF)</screen>
 
+  <para>You can also verify that this worked by querying for a name you know
+  that does not exist, and check for the presence of the NSEC3 record, such as
+  this:</para>
+
+  <screen>$ <userinput>dig @192.168.1.13 thereisnowaythisexists.example.com. A +dnssec +multiline</userinput>
+
+...
+TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com. 300 IN <userinput>NSEC3</userinput> 1 0 10 1234567890ABCDEF (
+				TQ9QBEGA6CROHEOC8KIH1A2C06IVQ5ER
+				NS SOA RRSIG DNSKEY NSEC3PARAM )
+...</screen>
+
   <para>Our example used four parameters: 1, 0, 10, and 1234567890ABCDEF, in
   the order they appeared. 1 represents the algorithm, 0 represents the opt-out
   flag, 10 represents the number of iterations, and 1234567890abcedf is the
