@@ -10,4 +10,9 @@
  <!-- Rollovers -->
  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="recipes_rollovers.xml" />
+
+ <!-- NSEC3 -->
+ <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="recipes_nsec3.xml" />
+
 </chapter>
