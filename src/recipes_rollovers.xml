@@ -1,0 +1,136 @@
+<section id="recipes-rollovers">
+ <title>Rollover Recipes</title>
+
+ <section id="recipes-zsk-rollover">
+  <title>ZSK Rollover</title>
+  <para>This recipe covers how to perform a ZSK rollover, some of which is
+  already described in <xref linkend="maintenance-tasks-zsk-rollover" />.
+  </para>
+
+  <para>Assuming you are rolling over ZSK every year on January 1st, you
+  should perform the following commands at least 30 days in advance. For
+  our example, to prepare for new keys for the year 2015, we execute the
+  following commands on December 1st, 2014:</para>
+
+  <screen># <userinput>cd /etc/bind/keys/example.com/</userinput>
+# <userinput>dnssec-settime -I 20150101 -D 20150201 Kexample.com.+008+17694</userinput>
+./Kexample.com.+008+17694.key
+./Kexample.com.+008+17694.private
+# <userinput>dnssec-keygen -S Kexample.com.+008+17694</userinput>
+Generating key pair..++++++ ...........++++++ 
+Kexample.com.+008+<userinput>51623</userinput></screen>
+
+  <para>The first command <command>dnssec-settime</command> sets an
+  inactive (-I) date of January 1st, 2015, and a deletion (-D) date of
+  February 1st, 2015 for the ZSK (Kexample.com.+008+17694). Then the second
+  command <command>dnssec-keygen</command> creates a successor key, using
+  the exact same parameters (algorithms, key sizes, etc.) as the previous
+  ZSK. The new key pair created in our example is Kexample.com.+008+51623.
+  </para>
+
+  <para>Don't forget to make sure the successor keys are readable by
+  <command>named</command>.</para>
+
+  <para>If you have followed the examples in this guide and used
+  <varname>auto-dnssec maintain</varname> and <varname>inline-signing
+  auto</varname>, then <command>named</command> will take care of the
+  addition and removal of records. Below is a sample timeline summary of
+  what tasks should be performed on which day if you were to perform these
+  tasks manually:</para>
+
+  <orderedlist>
+   <listitem>
+    <simpara>December 1st, 2014</simpara>
+    <itemizedlist>
+     <listitem>
+      <simpara>Generate new ZSK (51623)</simpara>
+     </listitem>
+     <listitem>
+      <simpara>Add DNSKEY for new ZSK (51623) to zone</simpara>
+     </listitem>
+    </itemizedlist>
+   </listitem>
+
+   <listitem>
+    <simpara>January 1st, 2015</simpara>
+    <itemizedlist>
+     <listitem>
+      <simpara>Use existing KSK to sign new ZSK (51623), this generates
+      RRSIG</simpara>
+     </listitem>
+     <listitem>
+      <simpara>Add RRSIG for new key (51623) to the zone</simpara>
+     </listitem>
+     <listitem>
+      <simpara>Remove RRSIG for old key (17694) from zone</simpara>
+     </listitem>
+    </itemizedlist>
+   </listitem>
+
+   <listitem>
+    <simpara>February 1st, 2015</simpara>
+    <itemizedlist>
+     <listitem>
+      <simpara>Remove old key (17694) DNSKEY RRset from zone</simpara>
+     </listitem>
+    </itemizedlist>
+   </listitem>
+  </orderedlist>
+
+  <para>You can see in syslog the messages informing you when the next key
+  checking event is, and it looks like this:</para>
+
+  <screen>zone example.com/IN (signed): next key event: 01-Dec-2014 00:13:05.385</screen>
+
+  <para>And you can check the publish date of the key by looking at the key
+  file:</para>
+
+  <screen># <userinput>cd /etc/bind/keys/example.com</userinput>
+# cat Kexample.com.+008+51623.key 
+; This is a zone-signing key, keyid 11623, for example.com.
+; Created: 20141130160024 (Mon Dec  1 00:00:24 2014)
+; <userinput>Publish: 20141202000000 (Tue Dec  2 08:00:00 2014)</userinput>
+; Activate: 20150101000000 (Thu Jan  1 08:00:00 2015)
+...</screen>
+
+  <para>On the morning of December 2nd, you will notice that your zone has
+  gained a new DNSKEY record, but no corresponding RRSIG yet. Below is the
+  abbreviated output with shortened ZSK and RRSIG.</para>
+
+  <screen>$ <userinput>dig @192.168.1.13 example.com. DNSKEY +dnssec +multiline</userinput>
+
+...
+;; ANSWER SECTION:
+example.com.		600 IN DNSKEY 257 3 8 (
+				AwEAAcWDps...lM3NRn/G/R
+				) ; KSK; alg = RSASHA256; key id = 6817
+<userinput>example.com.		600 IN DNSKEY 256 3 8 (
+				AwEAAbi6Vo...qBW5+iAqNz
+				) ; ZSK; alg = RSASHA256; key id = 51623</userinput>
+example.com.		600 IN DNSKEY 256 3 8 (
+				AwEAAcjGaU...0rzuu55If5
+				) ; ZSK; alg = RSASHA256; key id = 17694
+example.com.		600 IN RRSIG DNSKEY 8 2 600 (
+				20150101000000 20141201230000 6817 example.com.
+				LAiaJM26T7...FU9syh/TQ= )
+example.com.		600 IN RRSIG DNSKEY 8 2 600 (
+				20150101000000 20141201230000 17694 example.com.
+				HK4EBbbOpj...n5V6nvAkI= )
+...</screen>
+
+  <para>Notice we have 3 DNSKEY, but only 2 RRSIG. The RRSIG for the new ZSK
+  (51623) will be generated on January 1st, 2015, as the RRSIG for the old ZSK
+  (17694) will be removed from the zone. That is also when the new key (51623)
+  will start signing other records in the zone. The old ZSK DNSKEY (17694) will
+  stay in the zone until February 1st, 2015.</para>
+
+  <para>For more information on key management (such as what inactive date is,
+  and why 30 days for example), please see <xref
+  linkend="advanced-discussions-key-management" />.</para>
+
+ </section>
+
+ <section id="recipes-ksk-rollover">
+  <title>KSK Rollover</title>
+ </section>
+</section>
