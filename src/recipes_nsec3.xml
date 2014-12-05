@@ -111,6 +111,7 @@ TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com. 300 IN <userinput>NSEC3 1 0 10 FED
 ...</screen>
 
   <note>
+   <title>Pseudo-Random Salt</title>
    <para>You can use a pseudo-random source to create the salt for you. Here is
    an example on Linux to create a 16-character hex string:</para>
 
