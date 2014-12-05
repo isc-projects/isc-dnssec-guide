@@ -78,6 +78,7 @@ ns1.example.com.	300 IN NSEC web.example.com. A RRSIG NSEC
   
  </section>
 
+
  <!-- === Changing NSEC3 Salt === -->
  <section id="recipes-nsec3-salt">
   <title>Changing NSEC3 Salt</title>
@@ -118,5 +119,11 @@ TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com. 300 IN <userinput>NSEC3 1 0 10 FED
    <screen># rndc signing -nsec3param 1 0 10 $(head -c 300 /dev/random | sha1sum | cut -b 1-16) example.com</screen>
   </note>
 
+ </section>
+
+
+ <!-- === NSEC3 Optout === -->
+ <section id="recipes-nsec3-optout">
+  <title>NSEC3 Optout</title>
  </section>
 </section>

@@ -234,15 +234,12 @@ salt as described in <xref linkend="advanced-discussions-nsec3-salt"/>.</note>
   opt-out, instead of signing 50,000 sets of delegations indiscriminately, you
   will only sign 5 sets of delegations.</para>
 
-  <para>But for most DNS administrators, the decision whether or not to use
-  NSEC3 opt-out is probably not relevant.</para>
+  <para>But for most DNS administrators who do not manage a large number of
+  delegations, the decision whether or not to use NSEC3 opt-out is probably not
+  relevant.</para>
 
-  <para>If you decide to use opt-out, the command to enable it is very similar
-  to the one we ran in <xref linkend="signing-using-nsec3" /> we are just
-  changing the opt-out bit from 0 to 1:
-   <screen># rndc signing -nsec3param 1 <userinput>1</userinput> 10 1234567890abcdef example.com</screen>
-  
-  </para>
+  <pra>To learn more about how to configure NSEC3 opt-out, please see <xref
+  linkend="recipes-nsec3-optout" />.</para>
  </section>
 
  <!-- === NSEC3 Salt === -->
