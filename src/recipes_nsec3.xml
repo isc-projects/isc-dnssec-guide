@@ -125,5 +125,136 @@ TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com. 300 IN <userinput>NSEC3 1 0 10 FED
  <!-- === NSEC3 Optout === -->
  <section id="recipes-nsec3-optout">
   <title>NSEC3 Optout</title>
+
+  <para>This recipe discusses how to enable and disable NSEC3 opt-out, and show
+  the results of each action. As discussed in <xref
+  linkend="advanced-discussions-nsec3-optout" />, NSEC3 opt-out is a feature
+  that can help conserve resources on parent zones that have many delegations
+  that have yet been signed.</para>
+
+  <para>Before starting, for this recipe we will assume the zone example.com
+  has the following 4 entries (for this example, it is not relevant what record
+  types these entries are):</para>
+
+  <itemizedlist>
+   <listitem><simpara>ns1.example.com</simpara></listitem>
+   <listitem><simpara>ftp.example.com</simpara></listitem>
+   <listitem><simpara>www.example.com</simpara></listitem>
+   <listitem><simpara>web.example.com</simpara></listitem>
+  </itemizedlist>
+
+  <para>And the zone example.com has 5 delegations to 5 sub domains, only one
+  of which is signed and has a valid DS RRset:</para>
+
+  <itemizedlist>
+   <listitem><simpara>aaa.example.com, not signed</simpara></listitem>
+   <listitem><simpara>bbb.example.com, signed</simpara></listitem>
+   <listitem><simpara>ccc.example.com, not signed</simpara></listitem>
+   <listitem><simpara>ddd.example.com, not signed</simpara></listitem>
+   <listitem><simpara>eee.example.com, not signed</simpara></listitem>
+  </itemizedlist>
+
+  <para>Before enabling NSEC3 opt-out, the zone example.com contains ten NSEC3
+  records, below is the list with plain text name before the actual NSEC3
+  record:</para>
+
+  <itemizedlist>
+   <listitem>
+    <simpara><emphasis>aaa.example.com</emphasis>:
+    9NE0VJGTRTMJOS171EC3EDL6I6GT4P1Q.example.com.</simpara>
+   </listitem>
+   <listitem>
+    <simpara><emphasis>bbb.example.com</emphasis>:
+    AESO0NT3N44OOSDQS3PSL0HACHUE1O0U.example.com.</simpara>
+   </listitem>
+   <listitem>
+    <simpara><emphasis>ccc.example.com</emphasis>:
+    SF3J3VR29LDDO3ONT1PM6HAPHV372F37.example.com.</simpara>
+   </listitem>
+   <listitem>
+    <simpara><emphasis>ddd.example.com</emphasis>:
+    TQ9QBEGA6CROHEOC8KIH1A2C06IVQ5ER.example.com.</simpara>
+   </listitem>
+   <listitem>
+    <simpara><emphasis>eee.example.com</emphasis>:
+    L16L08NEH48IFQIEIPS1HNRMQ523MJ8G.example.com.</simpara>
+   </listitem>
+   <listitem>
+    <simpara><emphasis>ftp.example.com</emphasis>:
+    JKMAVHL8V7EMCL8JHIEN8KBOAB0MGUK2.example.com.</simpara>
+   </listitem>
+   <listitem>
+    <simpara><emphasis>ns1.example.com</emphasis>:
+    FSK5TK9964BNE7BPHN0QMMD68IUDKT8I.example.com.</simpara>
+   </listitem>
+   <listitem>
+    <simpara><emphasis>web.example.com</emphasis>:
+    D65CIIG0GTRKQ26Q774DVMRCNHQO6F81.example.com.</simpara>
+   </listitem>
+   <listitem>
+    <simpara><emphasis>www.example.com</emphasis>:
+    NTQ0CQEJHM0S17POMCUSLG5IOQQEDTBJ.example.com.</simpara>
+   </listitem>
+   <listitem>
+    <simpara><emphasis>example.com</emphasis>:
+    TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com.</simpara>
+   </listitem>
+  </itemizedlist>
+
+  <para>We can enable NSEC3 opt-out with this command, changing the opt-out bit
+  from 0 to 1 (see <xref linkend="advanced-discussions-nsec3param" /> to review
+  what each parameter is):</para>
+
+  <screen># rndc signing -nsec3param 1 <userinput>1</userinput> 10 1234567890abcdef example.com</screen>
+
+  <para>After NSEC3 opt-out is enabled, the number of NSEC3 records is reduced,
+  notice only the signed delegated zone bbb.example.com has a NSEC3 record. The
+  unsigned delegations have did not take up precious resources:</para>
+
+
+ <itemizedlist>
+   <listitem>
+    <simpara><emphasis>bbb.example.com</emphasis>:
+    AESO0NT3N44OOSDQS3PSL0HACHUE1O0U.example.com.</simpara>
+   </listitem>
+   <listitem>
+    <simpara><emphasis>ftp.example.com</emphasis>:
+    JKMAVHL8V7EMCL8JHIEN8KBOAB0MGUK2.example.com.</simpara>
+   </listitem>
+   <listitem>
+    <simpara><emphasis>ns1.example.com</emphasis>:
+    FSK5TK9964BNE7BPHN0QMMD68IUDKT8I.example.com.</simpara>
+   </listitem>
+   <listitem>
+    <simpara><emphasis>web.example.com</emphasis>:
+    D65CIIG0GTRKQ26Q774DVMRCNHQO6F81.example.com.</simpara>
+   </listitem>
+   <listitem>
+    <simpara><emphasis>www.example.com</emphasis>:
+    NTQ0CQEJHM0S17POMCUSLG5IOQQEDTBJ.example.com.</simpara>
+   </listitem>
+   <listitem>
+    <simpara><emphasis>example.com</emphasis>:
+    TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com.</simpara>
+   </listitem>
+  </itemizedlist>
+
+  <para>To undo NSEC3 opt-out, run the same <command>rndc</command> command
+  with the opt-out bit set to 0:</para>
+
+  <screen># rndc signing -nsec3param 1 <userinput>0</userinput> 10 1234567890abcdef example.com</screen>
+
+  <note>
+   <title>nsec3hash</title>
+   <para>NSEC3 hashes the plain text domain name, and we can compute our own
+   hashes using the tool <command>nsec3hash</command>. For example, to compute
+   the hashed name for "www.example.com" using the parameters we listed above,
+   we would execute the command like this:</para>
+
+   <screen># <userinput>nsec3hash 1234567890ABCDEF 1 10 www.example.com.</userinput>
+NTQ0CQEJHM0S17POMCUSLG5IOQQEDTBJ (salt=1234567890ABCDEF, hash=1, iterations=10)</screen>
+
+  </note>
+
  </section>
 </section>
