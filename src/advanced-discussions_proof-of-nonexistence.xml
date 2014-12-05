@@ -238,7 +238,7 @@ salt as described in <xref linkend="advanced-discussions-nsec3-salt"/>.</note>
   delegations, the decision whether or not to use NSEC3 opt-out is probably not
   relevant.</para>
 
-  <pra>To learn more about how to configure NSEC3 opt-out, please see <xref
+  <para>To learn more about how to configure NSEC3 opt-out, please see <xref
   linkend="recipes-nsec3-optout" />.</para>
  </section>
 
