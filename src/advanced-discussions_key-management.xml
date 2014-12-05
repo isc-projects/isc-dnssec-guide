@@ -328,4 +328,44 @@ Runtime in seconds:                      0.055</screen>
   />.</para>
 
  </section>
+
+
+ <!-- === Emergency Key Rollovers === -->
+ <section id="advanced-discussions-emergency-rollovers">
+  <title>Emergency Key Rollovers</title>
+
+  <para>Keys are generally rolled at a regular schedule (that is, if you choose
+  to roll them at all). But sometimes, you may have to rollover keys
+  out-of-schedule due to a security incident. The aim of an emergency rollover
+  is re-sign the zone with a new key as soon as possible, because when a key is
+  suspected of being compromised, the malicious attacker (or anyone who has
+  access to the key) could impersonate you, and trick other validating
+  resolvers into believing that they are receiving authentic, validated
+  answers.</para>
+
+  <para>During an emergency rollover, you would follow the same operational
+  procedures as described in <xref linkend="recipes-rollovers" />, with the
+  added task of reducing the TTL of current active (possibly compromised)
+  DNSKEY RRset, in attempt to phase out the compromised key faster before the
+  new key takes effect. The time frame should be significantly reduced from the
+  30-days-apart example, since you probably don't want to wait up to 60 days
+  for the compromised key to be removed from your zone.</para>
+
+  <para>Another method is to always carry a spare key with you at all times.
+  You could always have a second key (pre)published (and hopefully this one was
+  not compromised the same time as the first key), so if the active key is
+  compromised, you could save yourself some time to immediately activate the
+  spare key, and all the validating resolvers should already have this spare
+  key cached, thus saving you some time.</para>
+
+  <para>With KSK emergency rollover, you would have to also consider factors
+  related to your patent zone, such as how quickly they can remove the old DS
+  record and published the new ones.</para>
+
+  <para>As usual, there is a lot more to consider when it comes to emergency
+  key rollovers. For more in-depth considerations, please check out <ulink
+  url="https://tools.ietf.org/html/draft-ietf-dnsop-dnssec-key-timing-06"
+  />.</para>
+
+ </section>
 </section>
