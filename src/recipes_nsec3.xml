@@ -77,4 +77,45 @@ ns1.example.com.	300 IN NSEC web.example.com. A RRSIG NSEC
 ...</screen>
   
  </section>
+
+ <!-- === Changing NSEC3 Salt === -->
+ <section id="recipes-nsec3-salt">
+  <title>Changing NSEC3 Salt</title>
+
+  <para>In <xref linkend="advanced-discussions-nsec3-salt" />, we've discussed
+  the reasons why you may want to change your salt once in a while for better
+  privacy. In this recipe, we will look at what command to execute to actually
+  change the salt, and how to verify that it has been changed.</para>
+
+  <para>To change your NSEC3 salt, you may run the rndc signing command like
+  this:</para>
+
+  <screen># <userinput>rndc signing -nsec3param 1 1 10 fedcba0987654321 example.com</userinput></screen>
+  
+  <para>You should see the following messages in syslog, assuming your old salt
+  was "1234567890abcdef":</para>
+
+  <screen>named[15848]: zone example.com/IN: zone_addnsec3chain(1,REMOVE,10,1234567890ABCDEF)
+named[15848]: zone example.com/IN: zone_addnsec3chain(1,CREATE|OPTOUT,10,FEDCBA0987654321)</screen>
+
+  <para>You can of course, try to query the name server (192.168.1.13 in our
+  example) for a name that does not exist, and check the NSEC3 record
+  returned:</para>
+
+  <screen>$ <userinput>dig @192.168.1.13 thereisnowaythisexists.example.com. A +dnssec +multiline</userinput>
+
+...
+TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com. 300 IN <userinput>NSEC3 1 0 10 FEDCBA0987654321</userinput> (
+				TQ9QBEGA6CROHEOC8KIH1A2C06IVQ5ER
+				NS SOA RRSIG DNSKEY NSEC3PARAM )
+...</screen>
+
+  <note>
+   <para>You can use a pseudo-random source to create the salt for you. Here is
+   an example on Linux to create a 16-character hex string:</para>
+
+   <screen># rndc signing -nsec3param 1 0 10 $(head -c 300 /dev/random | sha1sum | cut -b 1-16) example.com</screen>
+  </note>
+
+ </section>
 </section>

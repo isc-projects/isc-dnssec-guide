@@ -264,19 +264,8 @@ salt as described in <xref linkend="advanced-discussions-nsec3-salt"/>.</note>
   zone data programmatically. How often you want to change your NSEC3 salt is
   up to you.</para>
 
-  <para>To change your NSEC3 salt, you may run the rndc signing command like
-  this:
-   <screen># <userinput>rndc signing -nsec3param 1 1 10 fedcba0987654321 example.com</userinput></screen>
-  
-  </para>
-
-   <note>
-    <para>You can use a pseudo-random source to create the salt for you. Here
-    is an example on Linux to create a 16-character hex string:
-     <screen># <userinput>rndc signing -nsec3param 1 0 10 $(head -c 300 /dev/random | sha1sum | cut -b 1-16) example.com</userinput></screen>
-    </para>
-   </note>
- </section>
+  <para>To learn more about what steps to take to change NSEC3, please see
+  <xref linkend="recipes-nsec3-salt" />.</para> </section>
 </section>
 
  <!-- === NSEC or NSEC3 === -->
