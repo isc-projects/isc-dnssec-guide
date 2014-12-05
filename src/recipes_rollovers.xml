@@ -1,11 +1,12 @@
 <section id="recipes-rollovers">
  <title>Rollover Recipes</title>
 
+ <!-- === ZSK Rollover === -->
  <section id="recipes-zsk-rollover">
   <title>ZSK Rollover</title>
-  <para>This recipe covers how to perform a ZSK rollover, some of which is
-  already described in <xref linkend="maintenance-tasks-zsk-rollover" />.
-  </para>
+  <para>This recipe covers how to perform a ZSK rollover using what is known as
+  the Pre-Publication Method, some of which is already described in <xref
+  linkend="maintenance-tasks-zsk-rollover" />. </para>
 
   <para>Assuming you are rolling over ZSK every year on January 1st, you
   should perform the following commands at least 30 days in advance. For
@@ -130,6 +131,8 @@ example.com.		600 IN RRSIG DNSKEY 8 2 600 (
 
  </section>
 
+
+ <!-- === KSK Rollover === -->
  <section id="recipes-ksk-rollover">
   <title>KSK Rollover</title>
  </section>
