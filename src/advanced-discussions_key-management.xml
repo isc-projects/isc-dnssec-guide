@@ -25,6 +25,16 @@
   every year using key pre-publication (described below), and how to roll KSK
   every five years using double DS (also described below).</para>
 
+  <para>Generally speaking, ZSK should be rolled more frequently than KSK. In
+  <xref linkend="signing-maintenance-tasks" />, we described at a very high
+  level how to roll ZSK every year using key pre-publication (described below),
+  and how to roll KSK every five years using double DS (also described below).
+  Here, we show some other methods of rolling keys. To see examples of key
+  rolling, please refer to <xref linkend="recipes-rollovers" />. For (far)
+  deeper discussions and considerations on the topic of key rolling, check out
+  <ulink url="https://tools.ietf.org/html/draft-morris-dnsop-dnssec-key-timing"
+  />.</para>
+
   <!-- ====== ZSK Rollover ====== -->
   <section id="zsk-rollover-methods">
    <title>ZSK Rollover Methods</title>
@@ -322,10 +332,6 @@ Runtime in seconds:                      0.055</screen>
   before attempting to removing it from the zone. It is probably better to
   err on the safe side and leave the old data in the zone a little
   longer.</para>
-
-  <para>For (far) more considerations on key timing, check out <ulink
-  url="https://tools.ietf.org/html/draft-morris-dnsop-dnssec-key-timing"
-  />.</para>
 
  </section>
 
