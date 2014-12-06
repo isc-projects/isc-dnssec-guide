@@ -3,7 +3,7 @@
 
  <!-- === ZSK Rollover === -->
  <section id="recipes-zsk-rollover">
-  <title>ZSK Rollover</title>
+  <title>ZSK Rollover Recipe</title>
   <para>This recipe covers how to perform a ZSK rollover using what is known as
   the Pre-Publication Method, some of which is already described in <xref
   linkend="maintenance-tasks-zsk-rollover" />. </para>
@@ -134,6 +134,6 @@ example.com.		600 IN RRSIG DNSKEY 8 2 600 (
 
  <!-- === KSK Rollover === -->
  <section id="recipes-ksk-rollover">
-  <title>KSK Rollover</title>
+  <title>KSK Rollover Recipe</title>
  </section>
 </section>
