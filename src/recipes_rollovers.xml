@@ -61,7 +61,7 @@
   <section id="one-month-before-zsk-rollover">
    <title>One Month Before ZSK Rollover</title>
 
-   <para>On December 1st, 2014, a month before the planned rollover, we will
+   <para>On December 1st, 2014, a month before the planned rollover, you should 
    change the parameters on the current key (17694) to become inactive on
    January 1st, 2015, and be deleted from the zone on February 1st, 2015, as
    well as generate a successor key (51623):</para>
