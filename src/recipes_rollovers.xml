@@ -412,10 +412,55 @@ example.com.   300 IN RRSIG DNSKEY 7 2 300 (
    interface to add a new DS record.</para>
   
    <figure>
-    <title>Upload DS Record #1</title>
+    <title>Upload DS Record Step #1</title>
     <mediaobject>
      <imageobject>
-      <imagedata fileref="../img/upload-ds-record-1.png" width="80%" scalefit="1"/>
+      <imagedata fileref="../img/add-ds-1.png" width="70%" scalefit="1"/>
+     </imageobject>
+    </mediaobject>
+   </figure>
+
+   <figure>
+    <title>Upload DS Record Step #2</title>
+    <mediaobject>
+     <imageobject>
+      <imagedata fileref="../img/add-ds-2.png" width="35%" scalefit="1" />
+     </imageobject>
+    </mediaobject>
+   </figure>
+
+   <figure>
+    <title>Upload DS Record Step #3</title>
+    <mediaobject>
+     <imageobject>
+      <imagedata fileref="../img/add-ds-3.png" width="70%" scalefit="1" />
+     </imageobject>
+    </mediaobject>
+   </figure>
+
+   <figure>
+    <title>Upload DS Record Step #4</title>
+    <mediaobject>
+     <imageobject>
+      <imagedata fileref="../img/add-ds-4.png" width="60%" scalefit="1" />
+     </imageobject>
+    </mediaobject>
+   </figure>
+
+   <figure>
+    <title>Upload DS Record Step #5</title>
+    <mediaobject>
+     <imageobject>
+      <imagedata fileref="../img/add-ds-5.png" width="60%" scalefit="1" />
+     </imageobject>
+    </mediaobject>
+   </figure>
+
+   <figure>
+    <title>Upload DS Record Step #6</title>
+    <mediaobject>
+     <imageobject>
+      <imagedata fileref="../img/add-ds-6.png" width="60%" scalefit="1" />
      </imageobject>
     </mediaobject>
    </figure>
@@ -498,11 +543,29 @@ example.com.	300 IN RRSIG DNSKEY 7 2 300 (
 
    <para>Now, we can remove the old DS record for key 24828.</para>
 
-   <figure>
-    <title>Remove DS Record #1</title>
+  <figure>
+    <title>Remove DS Record Step #1</title>
     <mediaobject>
      <imageobject>
-      <imagedata fileref="../img/remove-ds-record-1.png" width="80%" scalefit="1"/>
+      <imagedata fileref="../img/remove-ds-1.png" width="35%" scalefit="1"/>
+     </imageobject>
+    </mediaobject>
+   </figure>
+
+   <figure>
+    <title>Remove DS Record Step #2</title>
+    <mediaobject>
+     <imageobject>
+      <imagedata fileref="../img/remove-ds-2.png" width="70%" scalefit="1" />
+     </imageobject>
+    </mediaobject>
+   </figure>
+
+   <figure>
+    <title>Remove DS Record Step #3</title>
+    <mediaobject>
+     <imageobject>
+      <imagedata fileref="../img/remove-ds-3.png" width="70%" scalefit="1" />
      </imageobject>
     </mediaobject>
    </figure>
