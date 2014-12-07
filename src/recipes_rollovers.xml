@@ -410,60 +410,90 @@ example.com.   300 IN RRSIG DNSKEY 7 2 300 (
    until the next day after you have verified that the new DNSKEY record is
    added to the zone. Below are the screenshots from using GoDaddy's web-based
    interface to add a new DS record.</para>
-  
-   <figure>
-    <title>Upload DS Record Step #1</title>
-    <mediaobject>
-     <imageobject>
-      <imagedata fileref="../img/add-ds-1.png" width="70%" scalefit="1"/>
-     </imageobject>
-    </mediaobject>
-   </figure>
+ 
+   <orderedlist>
+    <!-- #1 -->
+    <listitem> 
+     <simpara>After logging in, click the green "Launch" button next to the
+     domain name you want to manage.</simpara>
+     <figure>
+      <title>Upload DS Record Step #1</title>
+      <mediaobject>
+       <imageobject>
+        <imagedata fileref="../img/add-ds-1.png" width="70%" scalefit="1"/>
+       </imageobject>
+      </mediaobject>
+     </figure>
+    </listitem>
 
-   <figure>
-    <title>Upload DS Record Step #2</title>
-    <mediaobject>
-     <imageobject>
-      <imagedata fileref="../img/add-ds-2.png" width="35%" scalefit="1" />
-     </imageobject>
-    </mediaobject>
-   </figure>
+    <!-- #2 -->
+    <listitem>
+     <simpara>Scroll down to the "DS Records" section and click
+     Manage.</simpara>
+     <figure>
+      <title>Upload DS Record Step #2</title>
+      <mediaobject>
+       <imageobject>
+        <imagedata fileref="../img/add-ds-2.png" width="40%" scalefit="1" />
+       </imageobject>
+      </mediaobject>
+     </figure>
+    </listitem>
 
-   <figure>
-    <title>Upload DS Record Step #3</title>
-    <mediaobject>
-     <imageobject>
-      <imagedata fileref="../img/add-ds-3.png" width="70%" scalefit="1" />
-     </imageobject>
-    </mediaobject>
-   </figure>
+    <!-- #3 -->
+    <listitem>
+     <simpara>A dialog appears, displaying the current key (24828). Click "Add
+     DS Record".</simpara>
+     <figure>
+      <title>Upload DS Record Step #3</title>
+      <mediaobject>
+       <imageobject>
+        <imagedata fileref="../img/add-ds-3.png" width="80%" scalefit="1" />
+       </imageobject>
+      </mediaobject>
+     </figure>
+    </listitem>
 
-   <figure>
-    <title>Upload DS Record Step #4</title>
-    <mediaobject>
-     <imageobject>
-      <imagedata fileref="../img/add-ds-4.png" width="60%" scalefit="1" />
-     </imageobject>
-    </mediaobject>
-   </figure>
+    <!-- #4 -->
+    <listitem>
+     <simpara>Enter the Key ID, algorithm, disgest type, and the digest, then
+     click "Next".</simpara>
+     <figure>
+      <title>Upload DS Record Step #4</title>
+      <mediaobject>
+       <imageobject>
+        <imagedata fileref="../img/add-ds-4.png" width="80%" scalefit="1" />
+       </imageobject>
+      </mediaobject>
+     </figure>
+    </listitem>
 
-   <figure>
-    <title>Upload DS Record Step #5</title>
-    <mediaobject>
-     <imageobject>
-      <imagedata fileref="../img/add-ds-5.png" width="60%" scalefit="1" />
-     </imageobject>
-    </mediaobject>
-   </figure>
+    <!-- #5 -->
+    <listitem>
+     <simpara>Address any errors and click "Finish".</simpara>
+     <figure>
+      <title>Upload DS Record Step #5</title>
+      <mediaobject>
+       <imageobject>
+        <imagedata fileref="../img/add-ds-5.png" width="80%" scalefit="1" />
+       </imageobject>
+      </mediaobject>
+     </figure>
+    </listitem>
 
-   <figure>
-    <title>Upload DS Record Step #6</title>
-    <mediaobject>
-     <imageobject>
-      <imagedata fileref="../img/add-ds-6.png" width="60%" scalefit="1" />
-     </imageobject>
-    </mediaobject>
-   </figure>
+    <!-- #6 -->
+    <listitem>
+     <simpara>Both DS records are shown. Click "Save".</simpara>
+     <figure>
+      <title>Upload DS Record Step #6</title>
+      <mediaobject>
+       <imageobject>
+        <imagedata fileref="../img/add-ds-6.png" width="80%" scalefit="1" />
+       </imageobject>
+      </mediaobject>
+     </figure>
+    </listitem>
+   </orderedlist>
 
    <para>Finally, let's verify that the registrar has published the new DS
    record. This may take anywhere from a few minutes to a few days, depending
@@ -543,32 +573,52 @@ example.com.	300 IN RRSIG DNSKEY 7 2 300 (
 
    <para>Now, we can remove the old DS record for key 24828.</para>
 
-  <figure>
-    <title>Remove DS Record Step #1</title>
-    <mediaobject>
-     <imageobject>
-      <imagedata fileref="../img/remove-ds-1.png" width="35%" scalefit="1"/>
-     </imageobject>
-    </mediaobject>
-   </figure>
+   <orderedlist>
+    <!-- #1 -->
+    <listitem>
+     <simpara>After logging in and launched the domain, scroll down to the "DS
+     Records" section and click Manage.</simpara>
 
-   <figure>
-    <title>Remove DS Record Step #2</title>
-    <mediaobject>
-     <imageobject>
-      <imagedata fileref="../img/remove-ds-2.png" width="70%" scalefit="1" />
-     </imageobject>
-    </mediaobject>
-   </figure>
+     <figure>
+      <title>Remove DS Record Step #1</title>
+      <mediaobject>
+       <imageobject>
+        <imagedata fileref="../img/remove-ds-1.png" width="40%" scalefit="1"/>
+       </imageobject>
+      </mediaobject>
+     </figure>
+    </listitem>
 
-   <figure>
-    <title>Remove DS Record Step #3</title>
-    <mediaobject>
-     <imageobject>
-      <imagedata fileref="../img/remove-ds-3.png" width="70%" scalefit="1" />
-     </imageobject>
-    </mediaobject>
-   </figure>
+    <!-- #2 -->
+    <listitem>
+     <simpara>A dialog appears, displaying both keys (24828 and 23550). Use the
+     far right hand X button to remove the key 24828.</simpara>
+
+     <figure>
+      <title>Remove DS Record Step #2</title>
+      <mediaobject>
+       <imageobject>
+        <imagedata fileref="../img/remove-ds-2.png" width="80%" scalefit="1" />
+       </imageobject>
+      </mediaobject>
+     </figure>
+    </listitem>
+
+    <!-- #3 -->
+    <listitem>
+     <simpara>Key 24828 now appears crossed out, click "Save" to complete the
+     removal.</simpara>
+
+     <figure>
+      <title>Remove DS Record Step #3</title>
+      <mediaobject>
+       <imageobject>
+        <imagedata fileref="../img/remove-ds-3.png" width="80%" scalefit="1" />
+       </imageobject>
+      </mediaobject>
+     </figure>
+    </listitem>
+   </orderedlist>
 
    <para>Congratulations, the KSK rollover is complete!</para>
   </section>
