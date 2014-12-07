@@ -108,7 +108,7 @@ Kexample.com.+008+<userinput>51623</userinput></screen>
 
    <para>Since the publish date is set to the morning of December 2nd, the next
    morning you will notice that your zone has gained a new DNSKEY record, but no
-   corresponding RRSIG yet. Below is the abbreviated output with shortened ZSK
+   corresponding RRSIG yet. Below is the abbreviated output with shortened DNSKEY
    and RRSIG when querying the authoritative name server, 192.168.1.13:</para>
 
    <screen>$ <userinput>dig @192.168.1.13 example.com. DNSKEY +dnssec +multiline</userinput>
