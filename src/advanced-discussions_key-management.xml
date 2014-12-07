@@ -76,7 +76,7 @@
 
 
   <!-- ====== KSK Rollover ====== -->
-  <section id="ksk-rolloever-methods">
+  <section id="ksk-rollover-methods">
    <title>KSK Rollover Methods</title>
    <para>Rolling KSK requires interaction with the parent zone, so
    operationally this may be more complex than rolling ZSK. There are three
