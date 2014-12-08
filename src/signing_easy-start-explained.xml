@@ -209,116 +209,11 @@ zone "example.com" IN {
 
   </section>
 
-  <!-- TODO: jkuo  Sat Oct 25 01:21:44 UTC 2014
-       Need to write a section on manually management in the Advanced Discussion section
-       that covers these two areas:
-       1) No auto-dnssec (no key management)
-       2) No inline-signing (manual signing, need to discuss dnssec-signzone)
-  -->
   <note>
    <para><command>auto-dnssec</command> is a feature to automate many of the
    key management tasks, which we discuss in more detail in <xref
    linkend="advanced-discussions-manual-key-management-and-signing" />, to
    cover topics such as manual signing and key timing metadata.</para>
   </note>
- </section>
-
-
- <!-- === Verification Explained === -->
- <section id="signing-verification-explained">
-  <title>Verification Explained</title>
-  <para>In <xref linkend="signing-verification" /> we abbreviated the output
-  from dig, the full output looks lie this (some keys shortened and empty lines
-  rmoeved for display):
-
-   <screen># <userinput>dig @127.0.0.1 example.com. SOA +dnssec +sigchase +trusted-key=/tmp/example.key</userinput>
-;; RRset to chase:
-example.com.		600	IN	SOA	ns1.example.com. admin.example.com. 2014112011 1800 900 2419200 300
-;; RRSIG of the RRset to chase:
-example.com.		600	IN	RRSIG	SOA 8 2 600 20141221015357 20141121005357 17694 example.com. GtY9...7nI=
-
-
-Launch a query to find a RRset of type DNSKEY for zone: example.com.
-;; DNSKEYset that signs the RRset to chase:
-example.com.		600	IN	DNSKEY	257 3 8 AwEAAcWDps...lM3NRn/G/R
-example.com.		600	IN	DNSKEY	256 3 8 AwEAAcjGaU...zuu55If5
-;; RRSIG of the DNSKEYset that signs the RRset to chase:
-example.com.		600	IN	RRSIG	DNSKEY 8 2 600 20141220095002 20141120085002 6817 example.com. PNgpALQQFd.../AZ7GaIyc=
-example.com.		600	IN	RRSIG	DNSKEY 8 2 600 20141220095002 20141120085002 17694 example.com. ZucwWOroMx...Cjw=
-
-
-Launch a query to find a RRset of type DS for zone: example.com.
-;; NO ANSWERS: no more
-;; WARNING There is no DS for the zone: example.com.
-
-
-;; WE HAVE MATERIAL, WE NOW DO VALIDATION
-;; VERIFYING SOA RRset for example.com. with DNSKEY:17694: success
-;; OK We found DNSKEY (or more) to validate the RRset
-;; Ok, find a Trusted Key in the DNSKEY RRset: 6817
-;; VERIFYING DNSKEY RRset for example.com. with DNSKEY:6817: success
-
-;; Ok this DNSKEY is a Trusted Key, DNSSEC validation is ok: SUCCESS</screen>
-
-  </para>
-
-  <para>First, let's look at the options we gave <code>dig</code>:
-   <screen># <userinput>dig @127.0.0.1 example.com. SOA +dnssec +sigchase +trusted-key=/tmp/example.key</userinput></screen>
-  
-  </para>
-
-  <para>What we are doing here is send the query to the localhost (127.0.0.1),
-  our name server, to ask for the SOA record of the zone example.com. And we
-  are enabling the dig options for DNSSEC (<code>+dnssec</code>), chasing down
-  the signature for verification (<code>+sigchase</code>), and use a custom
-  trusted key (<code>+trusted-key</code>).</para>
-
-  <para>Now let's look at the output, the first section of the output tells us
-  that dig will attempt to chase down the SOA (that we asked for), along with
-  its RRSIG:
-
-   <screen>;; RRset to chase:
-example.com.		600	IN	SOA	ns1.example.com. admin.example.com. 2014112011 1800 900 2419200 300
-;; RRSIG of the RRset to chase:
-example.com.		600	IN	RRSIG	SOA 8 2 600 20141221015357 20141121005357 17694 example.com. GtY9...7nI=</screen>
-
-  </para>
-
-  <para>The next section, dig is telling us that it found two DNSKEY resource
-  records for the zone example.com, and two corresponding RRSIG:
-
-   <screen>Launch a query to find a RRset of type DNSKEY for zone: example.com.
-;; DNSKEYset that signs the RRset to chase:
-example.com.		600	IN	DNSKEY	257 3 8 AwEAAcWDps...lM3NRn/G/R
-example.com.		600	IN	DNSKEY	256 3 8 AwEAAcjGaU...zuu55If5
-;; RRSIG of the DNSKEYset that signs the RRset to chase:
-example.com.		600	IN	RRSIG	DNSKEY 8 2 600 20141220095002 20141120085002 6817 example.com. PNgpALQQFd.../AZ7GaIyc=
-example.com.		600	IN	RRSIG	DNSKEY 8 2 600 20141220095002 20141120085002 17694 example.com. ZucwWOroMx...Cjw=</screen>
-
-  </para>
-
-  <para>The third section of the output has to do with checking for DS record
-  for example.com, and it results in a warning that there is no DS record yet.
-  Since we had not uploaded anything to the parent zone,  this is expected.
-
-   <screen>Launch a query to find a RRset of type DS for zone: example.com.
-;; NO ANSWERS: no more
-;; WARNING There is no DS for the zone: example.com.</screen>
-
-  </para>
-
-  <para>The final section of the output shows dig verified the DNSKEY found to
-  the trusted-key given. If you looked the two key ID's carefully, you'll see
-  that these two ID's match the ZSK and KSK key pairs we generated earlier.
-
-   <screen>;; WE HAVE MATERIAL, WE NOW DO VALIDATION
-;; VERIFYING SOA RRset for example.com. with DNSKEY:17694: success
-;; OK We found DNSKEY (or more) to validate the RRset
-;; Ok, find a Trusted Key in the DNSKEY RRset: 6817
-;; VERIFYING DNSKEY RRset for example.com. with DNSKEY:6817: success
-
-;; Ok this DNSKEY is a Trusted Key, DNSSEC validation is ok: SUCCESS</screen>
-
-  </para>
  </section>
 </section>
