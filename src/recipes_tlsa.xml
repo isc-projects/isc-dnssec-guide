@@ -1,0 +1,144 @@
+<section id="recipes-tlsa">
+ <title>Self-signed Certificate Recipe</title>
+
+ <para>This recipe describes how to configure DNS(SEC) to include a TLSA record
+ that acts as a different channel to provide verification for a self-signed
+ x509 (SSL) certificate.</para>
+
+ <note>
+  <para>TLSA is still in its infancy, one of the road blocks that exists as of
+  late 2014 is the lack of application support in web browsers and mail
+  applications. As these applications add support for TLSA, steps described in
+  this recipe will become more relevant and practical. Today (as of late 2014),
+  unfortunately, most application lack native support and will likely result in
+  some kind of error message or warning even if you have deployed TLSA
+  correctly.</para>
+ </note>
+
+ <para>For this recipe, we are assuming that you already have a working web
+ server configured with a self-signed x509 certificate. Although the steps
+ described below works for self-signed certificates, it can also be used for
+ "real" certificates that were signed by a Certificate Authority (usually a
+ service you pay for). This is one of several possible uses of DNS-Based
+ Authentication of Named Entities, or DANE (we briefly talked about DANE in
+ <xref linkend="introduction-to-dane" />). </para>
+
+ <para>First, let's take a look at the certificate used by you web
+ server:</para>
+
+ <screen># <userinput>cat server.crt</userinput>
+-----BEGIN CERTIFICATE-----
+MIICVTCCAb4CCQChk/gPoAqkWjANBgkqhkiG9w0BAQsFADBvMQswCQYDVQQGEwJV
+UzELMAkGA1UECAwCQ0ExFjAUBgNVBAcMDVNhbiBGcmFuY2lzY28xITAfBgNVBAoM
+GEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDEYMBYGA1UEAwwPd3d3LmV4YW1wbGUu
+Y29tMB4XDTE0MTIwODA2MDMxNFoXDTI0MTIwNTA2MDMxNFowbzELMAkGA1UEBhMC
+VVMxCzAJBgNVBAgMAkNBMRYwFAYDVQQHDA1TYW4gRnJhbmNpc2NvMSEwHwYDVQQK
+DBhJbnRlcm5ldCBXaWRnaXRzIFB0eSBMdGQxGDAWBgNVBAMMD3d3dy5leGFtcGxl
+LmNvbTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAzovVMAexPZHg8MaL2xfE
+IfwPKxCdcCzF2eEvl3euIk2esQ0r3GE+xEVqf/lggCC0OH0q6TXs+6XFYvc4+O/m
+LEh6DFnfn8Kz3T0d6mG2l8YuhhkLLrwugvvaAcHqMoVeZRPqFLhlfaUsoGxb+CPs
+3B8xYFisUqNJp6Tr26MhSVECAwEAATANBgkqhkiG9w0BAQsFAAOBgQC7lQbdSkaM
+x8B6RIs+PMOZ14RlA1UcPNUPPAK0vK23/ie1SfxSHIw6PlOba+ZQZusrDRYooR3B
+viM+cUnhD5UvhU4bn3ZP0cp+WNsimycf/gdfkAe47Em1oVNZP6abUgqMPStongIB
+7uonP6j74A/BTF5kdUsaDPoDfvGnCjZMsQ==
+-----END CERTIFICATE-----</screen>
+
+ <para>Next, use <command>openssl</command> to generate a SHA-256 fingerprint
+ of this certificate, this is what you will list in DNS as a TLSA record. Also,
+ you need to remove all the colons, hence the added <command>see</command> at
+ the end to filter out all ":" characters:</para>
+
+ <screen># <userinput>openssl x509 -noout -fingerprint -sha256 &lt; server.crt | sed 's/://g'</userinput>
+SHA256 Fingerprint=294874DA378148CDD1B9C57D2E891E8C294D2958F0BCA7400A0D6D6F50C4A3BB</screen>
+
+ <para>Now you can insert the TLSA record by editing the zone file the old
+ fashioned way, or if your DNS server is allowing dynamic updates, you could
+ use <command>nsupdate</command> like this to inject the TLSA record:</para>
+
+ <screen># <userinput>nsupdate</userinput>
+> server localhost
+> update add _443._tcp.www.example.com. 3600 IN TLSA 3 0 1 294874DA378148CDD1B9C57D2E891E8C294D2958F0BCA7400A0D6D6F50C4A3BB
+> send
+> quit</screen>
+
+ <para>Let's talks briefly about the record you just added. The name is a
+ specifically formed "_443._tcp.www.example.com", which specifies the usage of
+ TCP port 443, for the name "www.example.com". It is followed by 3 parameters,
+ each representing usage, selector, and matching type. For this recipe, we will
+ not dissect into all the possible combinations of these parameters, the
+ example listed here are 3, 0, and 1, which represent:</para>
+
+ <itemizedlist>
+  <listitem>
+   <simpara>Usage: 3 = self-signed certificate</simpara>
+  </listitem>
+  <listitem>
+   <simpara>Selector 0 = full certificate is included</simpara>
+  </listitem>
+  <listitem>
+   <simpara>Matching Type 1 = SHA-256</simpara>
+  </listitem>
+ </itemizedlist>
+
+ <para>If you are interested in learning (a lot) more about TLSA record type,
+ check out <ulink
+ url="http://www.ietf.org/mail-archive/web/dane/current/pdfk2DbQF0Oxs.pdf" />.
+ </para>
+
+ <para>Assuming you have successfully added the new TLSA record, now you can
+ query for it:</para>
+
+ <screen>$ <userinput>dig _443._tcp.www.example.com. TLSA</userinput>
+
+...
+;; ANSWER SECTION:
+_443._tcp.www.example.com.	3600 IN	TLSA	3 0 1 294874DA378148CDD1B9C57D2E891E8C294D2958F0BCA7400A0D6D6F 50C4A3BB
+...</screen>
+
+ <para>Great! But that's only half of the equation. We still need to make your
+ web browser utilize this new information. For this recipe, we are showing you
+ results of using Firefox with a plugin named DNSSEC TLSA Validator from <ulink
+ url="https://www.dnssec-validator.cz" />. </para>
+
+ <para>Once the plugin is installed, activated, and Firefox restarted, when you
+ visit the URL https://www.example.com, your browser will prompt you for a
+ warning, because this is a self-signed certificate:</para>
+
+ <figure>
+  <title>Browser Certificate Warning</title>
+  <mediaobject>
+   <imageobject>
+    <imagedata fileref="../img/tlsa-1.png" width="60%" scalefit="1"/>
+   </imageobject>
+  </mediaobject>
+ </figure>
+
+ <para>If you choose to examine the certificate further, you will see the web
+ server is presenting the same SHA-256 fingerprint that we have listed in our
+ TLSA record:</para>
+
+ <figure>
+  <title>Certificate Fingerprint</title>
+  <mediaobject>
+   <imageobject>
+    <imagedata fileref="../img/tlsa-2.png" width="60%" scalefit="1"/>
+   </imageobject>
+  </mediaobject>
+ </figure>
+
+ <para>Although the certificate is not trusted by the browser itself (if you
+ want to you'll have to install a custom CA root or make the browser trust the
+ certificate individually), the plugin shows that it was able to verify the
+ information it received via HTTPS (port 443), and that it matches the
+ information it received via TLSA lookup over port 53.</para>
+
+ <figure>
+  <title>DNSSEC TLSA Validator</title>
+  <mediaobject>
+   <imageobject>
+    <imagedata fileref="../img/tlsa-3.png" width="60%" scalefit="1"/>
+   </imageobject>
+  </mediaobject>
+ </figure>
+ 
+</section>
