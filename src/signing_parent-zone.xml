@@ -99,37 +99,33 @@ example.com. IN DNSKEY <userinput>257</userinput> 3 8 AwEAAcWDps...lM3NRn/G/R</s
   <title>Trusted Key Format</title>
   <para>This format is very similar to the DNSKEY format, the differences are
   mostly cosmetic. Below is an example of <varname>trusted-keys</varname>
-  format (again, actual key shortened for display):
+  format (again, actual key shortened for display):</para>
 
-   <screen>"example.com." 257 3 8 "AwEAAbGOPf...9AX2QHMY8=";</screen>
+  <screen>"example.com." 257 3 8 "AwEAAbGOPf...9AX2QHMY8=";</screen>
 
-  </para>
  </section>
 
 
  <!-- === What if My Parent Zone Doesn't Support DNSSEC? === -->
  <section id="parent-no-dnssec-support">
   <title>What if My Parent Zone Doesn't Support DNSSEC?</title>
-  <para>Well, first of all, you should have used <xref
-  linkend="signing-deployment-checklist" /> included in the appendix before you
-  went ahead and did all this work. Without a parent zone to vouch for you,
-  none of your new shiny DNSSEC records will yield to much significance when it
-  comes to validation. Your zone will still be resolvable without cooperation
-  from your parent zone.</para>
+  <para>Without a parent zone to vouch for you, none of your new shiny DNSSEC
+  records will yield to much significance when it comes to validation. Your
+  zone will still be resolvable without cooperation from your parent
+  zone.</para>
 
   <para>But not all hope is lost. Assuming you want everyone on the Internet to
   be able to validate your DNS data, you should do both of the followings:
-
-   <orderedlist>
-    <listitem>
-     <simpara>Contact your registrar and ask for DNSSEC support.</simpara>
-    </listitem>
-    <listitem>
-     <simpara>Look into using <xref linkend="dlv"/>.</simpara>
-    </listitem>
-   </orderedlist>
-  
   </para>
+
+  <orderedlist>
+   <listitem>
+    <simpara>Contact your registrar and ask for DNSSEC support.</simpara>
+   </listitem>
+   <listitem>
+    <simpara>Look into using <xref linkend="dlv"/>.</simpara>
+   </listitem>
+  </orderedlist>
 
   <para>The long term solution is still to have your parent zone work with you.
   If your registrar does not support DNSSEC, maybe it's time to switch to one

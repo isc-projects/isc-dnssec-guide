@@ -80,9 +80,9 @@
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
   href="recipes.xml" />
 
-  <!-- Appendix -->
+  <!-- Chapter 8: Commonly Asked Questions -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
-  href="appendices.xml" />
+  href="commonly-asked-questions.xml" />
 
   <!-- Acknowledgements -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"

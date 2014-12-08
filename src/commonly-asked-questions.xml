@@ -1,5 +1,5 @@
 <!-- === Commonly Asked Questions about DNSSEC === -->
-<section id="commonly-asked-questions-about-dnssec">
+<chapter id="commonly-asked-questions-about-dnssec">
  <title>Commonly Asked Questions about DNSSEC</title>
  <para>No questions are too stupid to ask, below is a collection of such questions and answers.</para>
 
@@ -164,5 +164,5 @@
    key storage options and considerations.</para></answer>
   </qandaentry>
  </qandaset>
-</section>
+</chapter>
 
