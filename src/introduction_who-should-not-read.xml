@@ -3,7 +3,7 @@
 
  <para>If you are already operating a DNSSEC-signed zone, you may not learn
  much from the first half of the document, and you may want to start with <xref
- linkend="dnssec-advanced-discussions" />; If you want to lear If you want to
+ linkend="dnssec-advanced-discussions" />; If you want to
  learn about details of the protocol extension, such as data fields and flags
  about the new record types, this document can help you get started, but it
  won't include all the technical details; If you are experienced in DNSSEC, you

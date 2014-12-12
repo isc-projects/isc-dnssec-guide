@@ -32,7 +32,10 @@
     of the widely used compliance standards, PCI DSS for the payment card
     industry, has been rumored to list DNSSEC as a requirement or
     recommendation, as part of its on-going efforts to enhance security for
-    online payment transactions.</simpara>
+    online payment transactions.
+<!-- TODO: find source for the PCI DSS "rumor" and make this more precise. -->
+    ICANN also requires that all new top-level domains support DNSSEC.</simpara>
+<!-- CITE: http://www.internetsociety.org/deploy360/blog/2013/09/icanns-2013-raa-requires-domain-name-registrars-to-support-dnssec-ipv6A -->
    </listitem>
 
    <listitem>

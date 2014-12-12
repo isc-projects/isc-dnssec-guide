@@ -21,7 +21,7 @@
   than others. Check to see if your organization requires stronger
   cryptographic keys be generated and stored, or how often keys need to be
   rotated. The examples presented in this document are not intended for high
-  valued zones. We cover some of these security considerations in <xref
+  value zones. We cover some of these security considerations in <xref
   linkend="dnssec-advanced-discussions" />.</para>
 
  </section>

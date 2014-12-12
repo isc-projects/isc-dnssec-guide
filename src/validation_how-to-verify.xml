@@ -11,12 +11,14 @@
  <section id="using-web-based-tests-to-verify">
   <title>Using Web-based Tools to Verify</title>
   <para>For most people, the simplest way to check if the recursive name server
-  is indeed validating DNS queries, is to use one of the many web-based tools
-  that often employ JavaScript.</para>
+  is indeed validating DNS queries, is to use one of the many web-based
+  tools.</para>
 
   <para>Configure your client computer to use the newly reconfigured recursive
-  server for DNS resolution, then you can use any one of these web-based tests
-  to see if it is in fact validating answers DNS responses.
+  server for DNS resolution, and then you can use any one of these
+  web-based tests to see if it is in fact validating answers DNS
+  responses.
+
    <itemizedlist>
     <listitem>
      <ulink url="http://dnssectest.sidnlabs.nl/" />
@@ -50,9 +52,10 @@
  <!-- ====== Using dig to Verify ===== -->
  <section id="using-dig-to-verify">
   <title>Using dig to Verify</title>
-  <para>If you don't trust the JavaScript magic that the web-based tools rely
-  on, you can take matters into your own hands and use a command line DNS tool
-  to check your validating resolver yourself.</para>
+  <para>The web-based tools often employ JavaScript.  If you don't
+  trust the JavaScript magic that the web-based tools rely on, you
+  can take matters into your own hands and use a command line DNS
+  tool to check your validating resolver yourself.</para>
 
   <para>While nslookup is popular, partly because it comes pre-installed on
   most systems, it is not DNSSEC-aware. The Domain Information Groper

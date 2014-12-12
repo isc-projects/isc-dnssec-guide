@@ -64,7 +64,9 @@
   automatically keep the keys up-to-date without intervention from the DNS
   administrator.</para>
   
-  <para>To learn more about trust anchors, please refer to <xref
+  <para>We recommend <replaceable>auto</replaceable> unless you
+  have a good reason for requiring a manual trust anchor. To learn
+  more about trust anchors, please refer to <xref
   linkend="trusted-keys-and-managed-keys"/>.</para>
 
   <note>
@@ -173,11 +175,10 @@
    </listitem>
   </orderedlist></para>
 
-  <para>Just like in <xref linkend="how-does-dnssec-change-dns-lookup"/>, after
-  step #12, the validating resolver takes the DNSKEY received and compares to
-  the key or keys it has configured, to decide whether or not the received key
-  can be trusted. We will talk about these locally configured keys, or trust
-  anchors, in <xref linkend="trust-anchors"/>.</para>
+  <para>After step #12, the validating resolver takes the DNSKEY received and
+  compares to the key or keys it has configured, to decide whether or not the
+  received key can be trusted. We will talk about these locally configured
+  keys, or trust anchors, in <xref linkend="trust-anchors"/>.</para>
 
   <para>As you can see here, with DNSSEC, every response includes not just the
   answer, but a digital signature (RRSIG) as well. This is so the validating

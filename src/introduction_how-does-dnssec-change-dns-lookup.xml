@@ -4,7 +4,7 @@
  <para>Traditional (insecure) DNS lookup is simple: a recursive name server
  receives a query from a client to lookup the name <code>www.isc.org</code>.
  The recursive name server tracks down the authoritative name server(s)
- responsible, sends the query to one of the authoritative name servers, and the
+ responsible, sends the query to one of the authoritative name servers, and
  waits for the authoritative name server to respond with the answer.</para>
 
  <para>With DNSSEC validation enabled, recursive name servers (validating
@@ -12,7 +12,7 @@
  remote authoritative name servers will respond with more than just the answer
  to the query, but some proof to go along with the answer as well. If DNSSEC
  responses are received, the validating resolver will perform cryptographic
- computation verify the authenticity (origin of the data) and integrity (data
+ computation to verify the authenticity (origin of the data) and integrity (data
  was not altered during transit) of the answers. It will repeat this process,
  tracing the keys all the way up the DNS delegation chain, to the zone's
  parent, and its parent, and its parent, all the way until the validating
@@ -54,7 +54,7 @@
 
    <!-- #3 -->
    <listitem>
-    <simpara>Validating resolver needs to be able to verify the digital
+    <simpara>The validating resolver needs to be able to verify the digital
     signature, and to do so it requires cryptographic keys. So it asks the
     <code>isc.org</code> name server for those keys.</simpara>
    </listitem>
@@ -82,7 +82,7 @@
 
    <!-- #5 -->
    <listitem>
-    <simpara>Validating resolver asks the parent (<code>.org</code>) for the
+    <simpara>The validating resolver asks the parent (<code>.org</code>) for the
     verifiable information it keeps on its child,
     <code>isc.org</code>.</simpara>
    </listitem>
@@ -95,7 +95,7 @@
     of <code>isc.org</code>.</simpara>
 
 
-    <simpara>We need to take another quick break here and examine this process.
+    <simpara>Let's examine this process.
     You might be thinking to yourself, well, what if the clever attacker that
     took over <code>isc.org</code> also compromised the <code>.org</code>
     servers? Of course all this information will match! That's why we will turn
@@ -106,7 +106,7 @@
 
    <!-- #7 -->
    <listitem>
-    <simpara>Validating resolver asks <code>.org</code> authoritative name
+    <simpara>The validating resolver asks <code>.org</code> authoritative name
     servers for its cryptographic keys, for the purpose of verifying the
     answers received in #6.</simpara>
    </listitem>
@@ -120,15 +120,16 @@
 
    <!-- #9 -->
    <listitem>
-    <simpara>Validating resolver asks root (<code>.org</code>'s parent) for
+    <simpara>The validating resolver asks root (<code>.org</code>'s parent) for
     verifiable information it keeps on its child, <code>.org</code>.</simpara>
    </listitem>
 
    <!-- #10 -->
    <listitem>
     <simpara>Root name server sends back the verifiable information it keeps on
-    <code>.org</code>. Validating resolver now takes this information and use
-    it to verify the answers received in #8.</simpara>
+    <code>.org</code>. The validating resolver now takes this
+    information and uses it to verify the answers received in
+    #8.</simpara>
 
     <simpara>So up to this point, both <code>isc.org</code> and
     <code>.org</code> check out. But what about root? What if this attacker is

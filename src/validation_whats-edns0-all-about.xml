@@ -15,7 +15,7 @@
   <para>This is important for DNSSEC, since DNSSEC responses are larger
   than traditional DNS. If DNS servers and network environment cannot
   support large multiple UDP packets, it will cause retransmission over
-  TCP, or the larger UDP responses are discarded. Users will likely
+  TCP, or the larger UDP responses will be discarded. Users will likely
   experience slow DNS resolution or unable to resolve certain names at
   all.</para>
 
