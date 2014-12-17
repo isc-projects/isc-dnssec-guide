@@ -74,9 +74,9 @@
 Generating key pair..++++++ ...........++++++ 
 Kexample.com.+008+<userinput>51623</userinput></screen>
 
-   <para>The first command gets us into the key directory <filename>
-   /etc/bind/keys/example.com/ </filename>, where keys for <code> example.com
-   </code> are stored.</para>
+   <para>The first command gets us into the key directory
+   <filename>/etc/bind/keys/example.com/</filename>, where keys
+   for <code>example.com</code> are stored.</para>
 
    <para>The second <command>dnssec-settime</command> sets an inactive (-I) date
    of January 1st, 2015, and a deletion (-D) date of February 1st, 2015 for the
