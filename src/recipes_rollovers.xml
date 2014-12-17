@@ -331,13 +331,13 @@ example.com. IN DS 24828 7 1 D4A33E8DD550A9567B4C4971A34AD6C4B80A6AD3</screen>
    record based on the new key 23550:</para>
 
    <screen># <userinput>cd /etc/bind/keys/example.com/</userinput>
-# <userinput>cdnssec-settime -I 20150101 -D 20150201 Kexample.com.+007+24828</userinput>
+# <userinput>dnssec-settime -I 20150101 -D 20150201 Kexample.com.+007+24828</userinput>
 ./Kexample.com.+007+24848.key
 ./Kexample.com.+007+24848.private
-# <userinput>cdnssec-keygen -S Kexample.com.+007+24848</userinput>
+# <userinput>dnssec-keygen -S Kexample.com.+007+24848</userinput>
 Generating key pair.......................................................................................++ ...................................++ 
 Kexample.com.+007+23550
-# <userinput>cdnssec-dsfromkey -a SHA-1 Kexample.com.+007+23550.key</userinput>
+# <userinput>dnssec-dsfromkey -a SHA-1 Kexample.com.+007+23550.key</userinput>
 example.com. IN DS 23550 7 1 54FCF030AA1C79C0088FDEC1BD1C37DAA2E70DFB</screen>
 
 
