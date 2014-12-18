@@ -16,7 +16,7 @@
 
    <listitem>
     <simpara><emphasis>Large UDP packets</emphasis>: Some network gears such as
-    firewall may make assumptions about the size of DNS UDP packets and reject
+    firewalls may make assumptions about the size of DNS UDP packets and reject
     DNS traffic that appears too big. See <xref
     linkend="whats-edns0-all-about"/> for more details.</simpara>
    </listitem>
