@@ -1,5 +1,5 @@
 <section id="recipes-nsec3">
- <title>NSEC, NSEC3, and Unsiging</title>
+ <title>NSEC, NSEC3, and Unsigning</title>
 
  <!-- === NSEC to NSEC3 === -->
  <section id="recipes-nsec-to-nsec3">
@@ -207,8 +207,8 @@ TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com. 300 IN <userinput>NSEC3 1 0 10 FED
 
   <screen># rndc signing -nsec3param 1 <userinput>1</userinput> 10 1234567890abcdef example.com</screen>
 
-  <para>After NSEC3 opt-out is enabled, the number of NSEC3 records is reduced,
-  notice only the signed delegated zone bbb.example.com has a NSEC3 record. The
+  <para>After NSEC3 opt-out is enabled, the number of NSEC3 records is reduced.
+  Notice only the signed delegated zone bbb.example.com has a NSEC3 record. The
   unsigned delegations have did not take up precious resources:</para>
 
 
@@ -320,7 +320,7 @@ NTQ0CQEJHM0S17POMCUSLG5IOQQEDTBJ (salt=1234567890ABCDEF, hash=1, iterations=10)<
 
    <!-- #4 -->
    <listitem>
-    <simpara>#4 Click Save</simpara>
+    <simpara>Click Save</simpara>
     <figure>
      <title>Revert to Unsigned Step #4</title>
      <mediaobject>
@@ -343,9 +343,9 @@ NTQ0CQEJHM0S17POMCUSLG5IOQQEDTBJ (salt=1234567890ABCDEF, hash=1, iterations=10)<
   <screen>zone "example.com" IN {
     type master;
     file "db/example.com.db";
-    <userinput>key-directory "keys/example.com";
-    inline-signing yes;
-    auto-dnssec maintain;</userinput>
+    <userinput>key-directory "keys/example.com";</userinput>
+    <userinput>inline-signing yes;</userinput>
+    <userinput>auto-dnssec maintain;</userinput>
     allow-transfer { any; };
 };</screen>
 

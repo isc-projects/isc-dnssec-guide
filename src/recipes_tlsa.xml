@@ -6,11 +6,11 @@
  x509 (SSL) certificate.</para>
 
  <note>
-  <para>TLSA is still in its infancy, one of the road blocks that exists as of
+  <para>TLSA is still in its infancy. One of the road blocks that exists as of
   late 2014 is the lack of application support in web browsers and mail
   applications. As these applications add support for TLSA, steps described in
   this recipe will become more relevant and practical. Today (as of late 2014),
-  unfortunately, most application lack native support and will likely result in
+  unfortunately, most applications lack native support and will likely result in
   some kind of error message or warning even if you have deployed TLSA
   correctly.</para>
  </note>
@@ -45,7 +45,7 @@ viM+cUnhD5UvhU4bn3ZP0cp+WNsimycf/gdfkAe47Em1oVNZP6abUgqMPStongIB
 
  <para>Next, use <command>openssl</command> to generate a SHA-256 fingerprint
  of this certificate, this is what you will list in DNS as a TLSA record. Also,
- you need to remove all the colons, hence the added <command>see</command> at
+ you need to remove all the colons, hence the added <command>sed</command> at
  the end to filter out all ":" characters:</para>
 
  <screen># <userinput>openssl x509 -noout -fingerprint -sha256 &lt; server.crt | sed 's/://g'</userinput>
@@ -63,10 +63,10 @@ SHA256 Fingerprint=294874DA378148CDD1B9C57D2E891E8C294D2958F0BCA7400A0D6D6F50C4A
 
  <para>Let's talks briefly about the record you just added. The name is a
  specifically formed "_443._tcp.www.example.com", which specifies the usage of
- TCP port 443, for the name "www.example.com". It is followed by 3 parameters,
+ TCP port 443, for the name "www.example.com". It is followed by three parameters,
  each representing usage, selector, and matching type. For this recipe, we will
- not dissect into all the possible combinations of these parameters, the
- example listed here are 3, 0, and 1, which represent:</para>
+ not dissect into all the possible combinations of these parameters. The
+ examples listed here are 3, 0, and 1, which represent:</para>
 
  <itemizedlist>
   <listitem>
@@ -80,7 +80,7 @@ SHA256 Fingerprint=294874DA378148CDD1B9C57D2E891E8C294D2958F0BCA7400A0D6D6F50C4A
   </listitem>
  </itemizedlist>
 
- <para>If you are interested in learning (a lot) more about TLSA record type,
+ <para>If you are interested in learning (a lot) more about the TLSA record type,
  check out <ulink
  url="http://www.ietf.org/mail-archive/web/dane/current/pdfk2DbQF0Oxs.pdf" />.
  </para>
@@ -130,7 +130,7 @@ _443._tcp.www.example.com.	3600 IN	TLSA	3 0 1 294874DA378148CDD1B9C57D2E891E8C29
  want to you'll have to install a custom CA root or make the browser trust the
  certificate individually), the plugin shows that it was able to verify the
  information it received via HTTPS (port 443), and that it matches the
- information it received via TLSA lookup over port 53.</para>
+ information it received via TLSA lookup over DNS (port 53).</para>
 
  <figure>
   <title>DNSSEC TLSA Validator</title>

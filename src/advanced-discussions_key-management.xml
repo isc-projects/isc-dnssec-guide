@@ -365,7 +365,7 @@ Runtime in seconds:                      0.055</screen>
   key cached, thus saving you some time.</para>
 
   <para>With KSK emergency rollover, you would have to also consider factors
-  related to your patent zone, such as how quickly they can remove the old DS
+  related to your parent zone, such as how quickly they can remove the old DS
   record and published the new ones.</para>
 
   <para>As usual, there is a lot more to consider when it comes to emergency
