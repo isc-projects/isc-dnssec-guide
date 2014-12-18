@@ -17,8 +17,10 @@
    <listitem>
     <simpara><emphasis>Large UDP packets</emphasis>: Some network gears such as
     firewalls may make assumptions about the size of DNS UDP packets and reject
-    DNS traffic that appears too big. See <xref
-    linkend="whats-edns0-all-about"/> for more details.</simpara>
+    DNS traffic that appears too big. You should verify that the
+    responses your nameserver generates are being seen by the rest
+    of the world.  See <xref linkend="whats-edns0-all-about"/> for
+    more details.</simpara>
    </listitem>
   </orderedlist>
  </para>
