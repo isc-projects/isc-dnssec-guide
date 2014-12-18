@@ -12,7 +12,7 @@
  arriving at the authoritative name server. The giveaway is the presence
  of the Authoritative Answer (<code>aa</code>) flag: when present, we know
  we are talking to the authoritative server; when missing, we are talking
- to the recursive server. The example below show answer without the
+ to the recursive server. The example below shows an answer without the
  Authoritative Answer flag:
 
   <screen>$ <userinput>dig www.example.com. A</userinput>

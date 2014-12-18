@@ -19,12 +19,13 @@
   <para>A word of caution: before you enable debug logging, be aware that
   this may dramatically increase the load on your name servers.</para>
 
-  <para>With that said, sometimes it may become necessary to enable BIND
-  debug logging to see more details of how DNSSEC is validating (or not).
-  DNSSEC-related messages are not recorded in syslog by default, even if
-  query log is enabled, only DNSSEC errors will show up in syslog.
-  Enabling debug logging is not recommended for production servers, as it
-  increases load on the server.</para>
+  <para>With that said, sometimes it may become necessary to
+  temporarily enable BIND debug logging to see more details of how
+  DNSSEC is validating (or not).  DNSSEC-related messages are not
+  recorded in syslog by default, even if query log is enabled, only
+  DNSSEC errors will show up in syslog.  Enabling debug logging is
+  not recommended for production servers, as it increases load on
+  the server.</para>
 
   <para>The example below shows how to enable debug level 3 (to see full
   DNSSEC validation messages) in BIND9 and have it sent to syslog:</para>
@@ -38,7 +39,7 @@
     category dnssec { dnssec_log; };
 };</screen>
 
-  <para>The example below shows how to log DNSSEC messages to its own
+  <para>The example below shows how to log DNSSEC messages to their own
   file:</para>
 
   <screen>logging {

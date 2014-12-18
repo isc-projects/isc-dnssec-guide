@@ -1,7 +1,7 @@
 <section id="troubleshooting-visible-symptoms">
  <title>Visible Symptoms</title>
  
- <para>When there is a DNSSEC validation problem, the visible symtoms,
+ <para>When there is a DNSSEC validation problem, the visible symptoms,
  unfortunately, are very limited. With DNSSEC validation enabled, if a DNS
  response is not fully validated, it will result in a generic SERVFAIL
  message, as shown below.</para>

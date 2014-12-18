@@ -91,9 +91,9 @@ server reload successful</screen></para>
  <section id="signing-verification">
   <title>Verification</title>
 
-  <para>Your zone is signed, before moving on to the next step of coordinating
-  with your parent zone, let's make sure everything looks good using
-  <command>delv</command>.</para>
+  <para>Your zone is now signed. Before moving on to the next step
+  of coordinating with your parent zone, let's make sure everything
+  looks good using <command>delv</command>.</para>
 
   <para>First of all, we need to make a copy of the key
   Kexample.com.+008+06817.key for editing:</para>
