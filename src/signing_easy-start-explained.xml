@@ -135,7 +135,8 @@ zone "example.com" IN {
     key-directory "keys/example.com";
 };</screen>
    <para>This specifies where <command>named</command> should look for public
-   and private DNSSEC key files. The default is the current working directory.
+   and private DNSSEC key files. The default is <command>named</command>'s
+   working directory.
    In our example, we organized keys based on zone names, and placed all keys
    for <code>example.com</code> under one directory
    <filename>/etc/bind/keys/example.com</filename>.</para>
