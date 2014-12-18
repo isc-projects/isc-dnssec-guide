@@ -3,7 +3,7 @@
  <title>Commonly Asked Questions about DNSSEC</title>
  <para>No questions are too stupid to ask, below is a collection of such questions and answers.</para>
 
- <qandaset defaultlabel='qanda'>
+ <para><qandaset defaultlabel='qanda'>
 
   <qandaentry>
    <question><para>Do I need IPv6 to have DNSSEC?</para></question>
@@ -163,6 +163,7 @@
    linkend="advanced-discussions-key-storage" /> for more information on
    key storage options and considerations.</para></answer>
   </qandaentry>
- </qandaset>
+ </qandaset></para>
+
 </chapter>
 
