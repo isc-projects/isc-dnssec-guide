@@ -43,7 +43,7 @@ example.com.		300 IN DNSKEY 257 3 8 (
 
   <para>Another way to see if your zone data is signed is to check for the
   presence of signature. With DNSSEC, every record<footnote><para>Well, almost
-  every record. NS records and glue reocrds for delegations do not have RRSIG
+  every record. NS records and glue records for delegations do not have RRSIG
   records like everyone else. If you do not have any delegations, then yes,
   every record in your zone will be signed and comes with its own RRSIG.</para>
   </footnote>now comes with at least one corresponding signature known as
