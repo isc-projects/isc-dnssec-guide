@@ -12,10 +12,13 @@
   </orderedlist>
  </para>
  
- <para>ICANN maintains a list of registrars who support DNSSEC: <ulink
- url="https://www.icann.org/resources/pages/deployment-2012-02-25-en" />. Next,
- we will take a look at how to get each of the three formats from your existing
- data.</para>
+ <para>ICANN maintains a list of registrars who support DNSSEC:
+ <simpara><ulink
+ url="https://www.icann.org/resources/pages/deployment-2012-02-25-en"
+ /></simpara></para>
+
+ <para>Next, we will take a look at how to get each of the three
+ formats from your existing data.</para>
 
 
  <!-- === DS Record Format === -->

@@ -9,9 +9,10 @@
   to complete the parent-child trust relationship. If your parent zone does not
   support DNSSEC yet, contact them to voice your concern.</para>
 
-  <para>ICANN maintains a list of registrars who support DNSSEC: <ulink
+  <para>ICANN maintains a list of registrars who support DNSSEC:
+  <simpara><ulink
   url="https://www.icann.org/resources/pages/deployment-2012-02-25-en"
-  />.</para>
+  /></simpara></para>
 
  </section>
 
