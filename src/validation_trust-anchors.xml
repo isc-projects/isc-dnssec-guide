@@ -114,7 +114,7 @@
   <varname>dnssec-validation</varname> to <replaceable>auto</replaceable>, then
   there is nothing you need to do. BIND already includes a default key (in the
   file <filename>bind.keys</filename>), that will automatically update itself.
-  It looks something like this:
+  It looks something like this:<para>
 
    <screen>managed-keys {
     . initial-key 257 3 8 "AwEAAagAIKlVZrpC6Ia7gEzahOR+9W29euxhJhVVLOyQbSEW0O8gcCjF
@@ -126,23 +126,21 @@
     QxA+Uk1ihz0=";
 };</screen>
 
-  </para>
-
   <para>You could, of course, decide to manage this key on your own by hand.
   First, you'll need to make sure that your
   <varname>dnssec-validation</varname> is set to <replaceable>yes</replaceable>
-  rather than <replaceable>auto</replaceable>:
+  rather than <replaceable>auto</replaceable>: </para>
 
    <screen>options {
     dnssec-validation yes;
-};</screen></para>
+};</screen>
 
   <para>Then, download the root key manually from a trustworthy source, such as
   <ulink url="https://www.isc.org/bind-keys"/>. Finally, take the root key you
   manually downloaded, and put it into a <varname>trusted-keys</varname>
-  statement as shown below:
+  statement as shown below:</para>
 
-   <screen>trusted-keys {
+  <screen>trusted-keys {
     . 257 3 8 "AwEAAagAIKlVZrpC6Ia7gEzahOR+9W29euxhJhVVLOyQbSEW0O8gcCjF
     FVQUTf6v58fLjwBd0YI0EzrAcQqBGCzh/RStIoO8g0NfnfL2MTJRkxoX
     bfDaUeVPQuYEhg37NZWAJQ9VnMVDxP/VHL496M/QZxkjf5/Efucp2gaD
@@ -152,15 +150,13 @@
     QxA+Uk1ihz0=";
 };</screen>
 
-  </para>
-
   <para>Looking back at the example in <xref
   linkend="how-trust-anchors-are-used"/>, if you wanted to explicitly trust
   <code>.gov</code> and only validate domain names under <code>.gov</code>,
   your <varname>trusted-keys</varname> statement would look something like
-  this:
+  this:</para>
 
-   <screen>trusted-keys {
+  <screen>trusted-keys {
     gov. 257 3 8 "AQO8daaz7B+yshOfL60rytKd9aOSujgponEw3fwBMEC3
     /+e9XzHw2k+VKnbJTZ+QaVtpfUd1q9HKZIv/ck83Gl5T
     jYKE5jtUZ2kpEDZfVNGv6yx0smtWAXv1nCJS9ohnyOTd
@@ -171,7 +167,8 @@
     uCzKL6sU/ObHv17EFhD8aPDftTHZvV9L+OZr";
 };</screen>
 
-  </para>
+  <para>Finally, as the name <varname>trusted-keys</varname> suggests, it is
+  possible to have more than one key configured.</para>
 
   <note>
   <simpara>Remember, if you choose to manage the keys on your own, whenever the
