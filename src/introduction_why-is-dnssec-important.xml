@@ -34,6 +34,12 @@
     recommendation, as part of its on-going efforts to enhance security for
     online payment transactions.
 <!-- TODO: find source for the PCI DSS "rumor" and make this more precise. -->
+<!-- jkuo: Source of the rumor:
+http://www.internetsociety.org/deploy360/blog/2014/08/infoworld-why-you-need-to-deploy-dnssec-now/
+I have heard verbally from PCI-savy friends of the same rumor, but that's 
+obviously not reference-able. This is the only thing I could find online. If
+it is not appropriate to be spreading rumors, we could remove or rephase it.
+-->
     ICANN also requires that all new top-level domains support DNSSEC.</simpara>
 <!-- CITE: http://www.internetsociety.org/deploy360/blog/2013/09/icanns-2013-raa-requires-domain-name-registrars-to-support-dnssec-ipv6A -->
    </listitem>
