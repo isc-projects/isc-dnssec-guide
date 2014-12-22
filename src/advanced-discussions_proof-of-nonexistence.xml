@@ -77,11 +77,12 @@ susan.example.com.  300	IN	NSEC	alice.example.com.  A RRSIG NSEC</screen>
   nameless, gullible intern will keep divulging information about our
   employees. Imagine if the caller first asked: "Is Bob there?" and received
   back the names Alice and Edward. The caller can then call back again: "Is
-  Edward-a there?", and will get back Edward and Susan. Repeat the process
+  Edward A. there?", and will get back Edward and Susan. Repeat the process
   enough times, the caller will eventually learn every name in our company
   phone directory. For many of you, this may not be a problem, since the very
   idea of DNS is similar to a public phone book: if you don't want a name to be
-  known publicly, don't put it in DNS!</para>
+  known publicly, don't put it in DNS! Consider using DNS views (split DNS) and
+  only display your sensitive names to a selective audience.</para>
 
   <para>The second drawback of NSEC is a actually increased operational
   overhead: no opt-out mechanism for insecure child zones, this generally is a
