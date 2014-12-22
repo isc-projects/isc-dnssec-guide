@@ -91,9 +91,11 @@ server reload successful</screen></para>
  <section id="signing-verification">
   <title>Verification</title>
 
-  <para>Your zone is now signed. Before moving on to the next step
-  of coordinating with your parent zone, let's make sure everything
-  looks good using <command>delv</command>.</para>
+  <para>Your zone is now signed. Before moving on to the next step of
+  coordinating with your parent zone, let's make sure everything looks good
+  using <command>delv</command>. What we want to do is to simulate what a
+  validating resolver would check, by telling <command>delv</command> tto use a
+  specific trust anchor.</para>
 
   <para>First of all, we need to make a copy of the key
   Kexample.com.+008+06817.key for editing:</para>
@@ -117,8 +119,7 @@ trusted-keys {
 
   <para>Now we can run the <command>delv</command> command and point it to
   using this trusted-key file to validate the answer it receives from the
-  authoritative name server 192.168.1.13 (signature shortened for
-  display):</para>
+  authoritative name server 192.168.1.13: </para>
 
   <screen>$ <userinput>delv @192.168.1.13 -a /tmp/example.key +root=example.com example.com. SOA +multiline</userinput>
 ; fully validated
