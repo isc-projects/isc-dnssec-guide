@@ -108,7 +108,7 @@ server reload successful</screen></para>
 example.com. IN DNSKEY 257 3 8 AwEAAcWDps...lM3NRn/G/R</screen>
 
   <para>We want to edit the copy to the be the <varname>trusted-keys</varname>
-  format, to that it looks like this:</para>
+  format, so that it looks like this:</para>
 
   <screen># <userinput>cat /tmp/example.key</userinput>
 trusted-keys {
