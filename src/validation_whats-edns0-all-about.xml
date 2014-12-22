@@ -83,8 +83,8 @@ www.isc.org.		23 IN RRSIG A 5 3 60 (
   <title>Support for Large Packets on Network Equipments</title>
   <para>Okay, so both your recursive name server and your ISP's name
   servers support EDNS, we are all good here, right? Not so fast. As these
-  large packets have to traverse through the network gears, the network
-  gears must allow them to pass.</para>
+  large packets have to traverse through the network equipments, the network
+  equipments must allow them to pass.</para>
 
   <para>When data is physically transmitted over a network, it has to be
   broken down into chunks. The size of the data chunk is known as Maximum
@@ -95,40 +95,39 @@ www.isc.org.		23 IN RRSIG A 5 3 60 (
   data packet. IP fragmentation is not necessarily a bad thing, it most
   likely occurs on your network today.</para>
 
-  <para>Some network gear, such as firewalls, may make assumptions
-  about DNS traffic. One of these assumptions may be how large each
-  DNS packet is. When a firewall sees a larger DNS packet than it
-  expects, it either rejects the large packet or drops its fragments
-  because the firewall thinks it's an attack. This configuration
-  probably didn't cause problems in the past since traditional DNS
-  packets are usually pretty small in size. However, with DNSSEC,
-  these configurations need to be updated, since DNSSEC traffic
-  regularly exceeds 1500 bytes (a common MTU value). If not updated,
-  the result on your validating resolver is, it looks like the
-  queries go un-answered (large packets rejected), or in the case
-  of fragmentation, only a part of the answer made it to the
-  validating resolver, and your validating resolver may need to
-  re-ask the question again and again.</para>
+  <para>Some network equipment, such as firewalls, may make assumptions about DNS
+  traffic. One of these assumptions may be how large each DNS packet is. When a
+  firewall sees a larger DNS packet than it expects, it either rejects the
+  large packet or drops its fragments because the firewall thinks it's an
+  attack. This configuration probably didn't cause problems in the past since
+  traditional DNS packets are usually pretty small in size. However, with
+  DNSSEC, these configurations need to be updated, since DNSSEC traffic
+  regularly exceeds 1500 bytes (a common MTU value). If the configuration is
+  not updated to support larger DNS packet size, it will often result in the
+  larger packets being rejected, and to the end user it looks like the queries
+  go un-answered.  Or in the case of fragmentation, only a part of the answer
+  made it to the validating resolver, and your validating resolver may need to
+  re-ask the question again and again, creating the appearance "DNS/network is
+  really slow" for the end users.</para>
 
-  <para>And while you're updating your network gear, make sure TCP port 53
-  is also allowed for DNS traffic.</para>
+  <para>And while you're updating configuration on your network equipment, make
+  sure TCP port 53 is also allowed for DNS traffic.</para>
 
  </section>
 
  <!-- ====== Wait... DNS uses TCP? ====== -->
  <section id="dns-uses-tcp">
   <title>Wait... DNS Uses TCP?</title>
-  <para> Yes. DNS uses TCP port 53 as a fallback mechanism, when it cannot
-  use UDP to transmit data. This has always been the case even long before
-  DNSSEC arrived at the scene. Traditional DNS relies on TCP 53 for
-  operations such as zone transfer. The use of DNSSEC (DNS with IPv6
-  records such as AAAA) increases the chance that DNS data will be
-  transmitted on TCP.</para>
+  <para> Yes. DNS uses TCP port 53 as a fallback mechanism, when it cannot use
+  UDP to transmit data. This has always been the case even long before DNSSEC
+  arrived at the scene. Traditional DNS relies on TCP 53 for operations such as
+  zone transfer. The use of DNSSEC (DNS with IPv6 records such as AAAA)
+  increases the chance that DNS data will be transmitted on TCP.</para>
 
   <para>Due to the increased packet size, DNSSEC may fall back to TCP more
-  often then traditional (insecure) DNS. If your network gear is
-  blocking or filtering TCP port 53 today, you may already experience
-  instability with DNS resolution before deploying DNSSEC.</para>
+  often then traditional (insecure) DNS. If your network is blocking or
+  filtering TCP port 53 today, you may already experience instability with DNS
+  resolution before deploying DNSSEC.</para>
 
  </section>
 </section>
