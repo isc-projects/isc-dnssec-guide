@@ -114,7 +114,7 @@
   <varname>dnssec-validation</varname> to <replaceable>auto</replaceable>, then
   there is nothing you need to do. BIND already includes a default key (in the
   file <filename>bind.keys</filename>), that will automatically update itself.
-  It looks something like this:<para>
+  It looks something like this:</para>
 
    <screen>managed-keys {
     . initial-key 257 3 8 "AwEAAagAIKlVZrpC6Ia7gEzahOR+9W29euxhJhVVLOyQbSEW0O8gcCjF
