@@ -78,7 +78,7 @@
   </para>
 
   <para>For more details and configuration examples on Inline Signing,
-  please see <ulink url="https://kb.isc.org/article/AA-00626" />.</para>
+  please see <xref linkend="recipes-inline-signing" />.</para>
  </section>
 
 
