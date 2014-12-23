@@ -77,7 +77,7 @@
   </orderedlist>
 
   <para>This may look like a lot of work, but with
-  <varname>inline-signing</varname> and <varname>auto-dnssec</varname>, a most
+  <varname>inline-signing</varname> and <varname>auto-dnssec</varname>, most
   of these are automated. The only thing that needs to be done manually are just
   the first two items:</para>
 
@@ -86,9 +86,8 @@
    <listitem><simpara>Generate new ZSK</simpara></listitem>
   </itemizedlist>
 
-  <para>To see an example of the exact commands and steps to execute for a ZSK
-  rollover, please see <xref linkend="recipes-zsk-rollover" />.</para>
- </section>
+  <para>For an example of how to execute a ZSK rollover, please see <xref
+  linkend="recipes-zsk-rollover" />.</para> </section>
 
 
  <!-- ====== KSK Rollover Example ====== -->

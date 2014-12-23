@@ -78,21 +78,13 @@
   </para>
 
   <para>For more details and configuration examples on Inline Signing,
-  please see <ulink url="https://kb.isc.org/article/AA-00626" />.</para>
+  please see <xref linkend="recipes-inline-signing" />.</para>
  </section>
 
 
  <!-- === DNSSEC Look-aside Validation === -->
  <section id="dlv">
   <title>DNSSEC Look-aside Validation (DLV)</title>
-
-  <warning>
-   <para>ISC plans to discontinue the DLV service in the near future, as
-   DNSSEC deployment is nearing a more mature stage where most top level
-   domains are signed and more and more registrars are DNSSEC-ready. If
-   you are currently relying on DLV service provided by ISC, be aware that
-   the service will be discontinued in the near future.</para>
-  </warning>
 
   <para>First of all, if you are running older versions of BIND9 on your
   validating resolver, specifically, older than 9.4.3-P2, 9.5.1-P2, or
@@ -116,11 +108,17 @@
   trust anchors for you.</para>
 
   <para>To enable DLV on your validating resolver, place this line in your
-  configuration file and reload <command>named</command>:
+  configuration file and reload <command>named</command>:</para>
 
-   <screen>dnssec-lookaside auto;</screen>
+  <screen>dnssec-lookaside auto;</screen>
 
-  </para>
+  <warning>
+   <para>ISC plans to discontinue the DLV service at some point in the future,
+   as DNSSEC deployment is nearing a more mature stage where most top level
+   domains are signed and more and more registrars are DNSSEC-ready. If you are
+   currently relying on DLV service provided by ISC, be aware that the service
+   will not be available forever.</para>
+  </warning>
 
  </section>
 

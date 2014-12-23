@@ -4,7 +4,7 @@
 <!ENTITY mdash  "&#x2014;" >
 ]>
 
-<chapter id="troubleshooting">
+<chapter id="dnssec-troubleshooting">
  <title>Basic Troubleshooting</title>
    
  <!-- Introduction to Troubleshooting -->

@@ -77,11 +77,12 @@ susan.example.com.  300	IN	NSEC	alice.example.com.  A RRSIG NSEC</screen>
   nameless, gullible intern will keep divulging information about our
   employees. Imagine if the caller first asked: "Is Bob there?" and received
   back the names Alice and Edward. The caller can then call back again: "Is
-  Edward-a there?", and will get back Edward and Susan. Repeat the process
+  Edward A. there?", and will get back Edward and Susan. Repeat the process
   enough times, the caller will eventually learn every name in our company
   phone directory. For many of you, this may not be a problem, since the very
   idea of DNS is similar to a public phone book: if you don't want a name to be
-  known publicly, don't put it in DNS!</para>
+  known publicly, don't put it in DNS! Consider using DNS views (split DNS) and
+  only display your sensitive names to a selective audience.</para>
 
   <para>The second drawback of NSEC is a actually increased operational
   overhead: no opt-out mechanism for insecure child zones, this generally is a
@@ -219,22 +220,24 @@ salt as described in <xref linkend="advanced-discussions-nsec3-salt"/>.</note>
  <!-- === NSEC3 Opt-out === -->
  <section id="advanced-discussions-nsec3-optout">
   <title>NSEC3 Opt-Out</title>
+
   <para>One of the advantages of NSEC3 over NSEC is the ability for parent
-  zones to publish less information about insecure child (delegated) zones,
-  thus reducing overhead on the parent zone's name servers.</para>
+  zones to publish less information about its child or delegated zones. Why
+  would you ever want to do that? Well, if a significant number of your
+  delegations are not yet DNSSEC-aware, meaning they are still insecure or
+  unsigned, generating DNSSEC-records for their NS and glue records is not a
+  good use of your precious name server resources.</para>
 
-  <para>This may not seem like a lot, but imagine in if you are the operator of
-  busy top level domains such as <code>.com</code> or <code>.net</code>, with
-  millions and millions of insecure delegated domain names, it quickly adds up.
-  As of late 2014, less than 0.1% of all <code>.com</code> zones are signed.
-  Basically, without opt-out, if you have 50,000 delegations, only 5 of which
-  are secure, you still have to sign all 50,000 delegated names; with NSEC3
-  opt-out, you will only sign a set of delegated names if there is at least one
-  DS record present, indicating that the delegated name is secure. So with
-  opt-out, instead of signing 50,000 sets of delegations indiscriminately, you
-  will only sign 5 sets of delegations.</para>
+  <para>The resources may not seem like a lot, but imagine in if you are the
+  operator of busy top level domains such as <code>.com</code> or
+  <code>.net</code>, with millions and millions of insecure delegated domain
+  names, it quickly adds up.  As of late 2014, less than 0.1% of all
+  <code>.com</code> zones are signed.  Basically, without opt-out, if you have
+  1,000,000 delegations, only 5 of which are secure, you still have to generate
+  NSEC RRset for the other 999,995 delegations; with NSEC3 opt-out, you will
+  have saved yourself 999.995 sets of records.</para>
 
-  <para>But for most DNS administrators who do not manage a large number of
+  <para>For most DNS administrators who do not manage a large number of
   delegations, the decision whether or not to use NSEC3 opt-out is probably not
   relevant.</para>
 

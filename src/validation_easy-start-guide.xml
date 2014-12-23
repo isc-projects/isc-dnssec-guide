@@ -10,10 +10,10 @@
  the validation checks will result in the domain name not getting resolved.
  What this means for the DNS administrator is, if there is a DNSSEC
  configuration issue (sometimes outside of the administrator's control), a
- specific name, or sometimes entire domains, may "disappear" from DNS. What
- this means for the end user is, some parts of a URL will not load, or web
- browser will display some error message indicating the page cannot be
- displayed at all.</para>
+ specific name, or sometimes entire domains, may "disappear" from DNS, in that
+ it becomes unreachable through that resolver. What this means for the end user
+ is, some parts of a URL will not load, or web browser will display some error
+ message indicating the page cannot be displayed at all.</para>
 
  <para>For example, if root name servers were misconfigured with the wrong
  information about <code>.org</code>, it could cause all validation for

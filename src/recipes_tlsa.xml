@@ -48,7 +48,7 @@ viM+cUnhD5UvhU4bn3ZP0cp+WNsimycf/gdfkAe47Em1oVNZP6abUgqMPStongIB
  you need to remove all the colons, hence the added <command>sed</command> at
  the end to filter out all ":" characters:</para>
 
- <screen># <userinput>openssl x509 -noout -fingerprint -sha256 &lt; server.crt | sed 's/://g'</userinput>
+ <screen># <userinput>openssl x509 -noout -fingerprint -sha256 &lt; server.crt | tr -d :</userinput>
 SHA256 Fingerprint=294874DA378148CDD1B9C57D2E891E8C294D2958F0BCA7400A0D6D6F50C4A3BB</screen>
 
  <para>Now you can insert the TLSA record by editing the zone file the old
@@ -82,11 +82,13 @@ SHA256 Fingerprint=294874DA378148CDD1B9C57D2E891E8C294D2958F0BCA7400A0D6D6F50C4A
 
  <para>If you are interested in learning (a lot) more about the TLSA record type,
  check out <ulink
- url="http://www.ietf.org/mail-archive/web/dane/current/pdfk2DbQF0Oxs.pdf" />.
- </para>
+ url="http://www.ietf.org/mail-archive/web/dane/current/pdfk2DbQF0Oxs.pdf" >
+ <citetitle> A Step-by-Step guide for implementing DANE with a Proof of
+ Concept” by Sandoche Balakrichenan, Stephane Bortzmeyer, and Mohsen Souissi
+ (April 15, 2013) </citetitle> </ulink> </para>
 
- <para>Assuming you have successfully added the new TLSA record, now you can
- query for it:</para>
+ <para>Assuming you have successfully added the new TLSA record and generated
+ the appropriate signature(s), now you can query for it:</para>
 
  <screen>$ <userinput>dig _443._tcp.www.example.com. TLSA</userinput>
 
@@ -95,10 +97,10 @@ SHA256 Fingerprint=294874DA378148CDD1B9C57D2E891E8C294D2958F0BCA7400A0D6D6F50C4A
 _443._tcp.www.example.com.	3600 IN	TLSA	3 0 1 294874DA378148CDD1B9C57D2E891E8C294D2958F0BCA7400A0D6D6F 50C4A3BB
 ...</screen>
 
- <para>Great! But that's only half of the equation. We still need to make your
- web browser utilize this new information. For this recipe, we are showing you
- results of using Firefox with a plugin named DNSSEC TLSA Validator from <ulink
- url="https://www.dnssec-validator.cz" />. </para>
+ <para>Great! But that's still only half of the equation. We still need to make
+ your web browser utilize this new information. For this recipe, we are showing
+ you results of using Firefox with a plugin called DNSSEC TLSA Validator from
+ <ulink url="https://www.dnssec-validator.cz" />. </para>
 
  <para>Once the plugin is installed, activated, and Firefox restarted, when you
  visit the URL https://www.example.com, your browser will prompt you for a
@@ -113,19 +115,6 @@ _443._tcp.www.example.com.	3600 IN	TLSA	3 0 1 294874DA378148CDD1B9C57D2E891E8C29
   </mediaobject>
  </figure>
 
- <para>If you choose to examine the certificate further, you will see the web
- server is presenting the same SHA-256 fingerprint that we have listed in our
- TLSA record:</para>
-
- <figure>
-  <title>Certificate Fingerprint</title>
-  <mediaobject>
-   <imageobject>
-    <imagedata fileref="../img/tlsa-2.png" width="60%" scalefit="1"/>
-   </imageobject>
-  </mediaobject>
- </figure>
-
  <para>Although the certificate is not trusted by the browser itself (if you
  want to you'll have to install a custom CA root or make the browser trust the
  certificate individually), the plugin shows that it was able to verify the
@@ -136,7 +125,7 @@ _443._tcp.www.example.com.	3600 IN	TLSA	3 0 1 294874DA378148CDD1B9C57D2E891E8C29
   <title>DNSSEC TLSA Validator</title>
   <mediaobject>
    <imageobject>
-    <imagedata fileref="../img/tlsa-3.png" width="60%" scalefit="1"/>
+    <imagedata fileref="../img/tlsa-2.png" width="60%" scalefit="1"/>
    </imageobject>
   </mediaobject>
  </figure>

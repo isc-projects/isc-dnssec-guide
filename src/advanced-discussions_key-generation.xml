@@ -86,26 +86,25 @@
   <title>Which Algorithm?</title>
 
   <para>There are at least three algorithm choices for DNSSEC as of this
-  writing:
+  writing (late 2014): </para>
 
-   <itemizedlist>
-    <listitem>
-     <simpara>RSA</simpara>
-    </listitem>
-    <listitem>
-     <simpara>Digital Signature Algorithm (DSA)</simpara>
-    </listitem>
-    <listitem>
-     <simpara>Elliptic Curve DSA (ECDSA)</simpara>
-    </listitem>
-   </itemizedlist>
+  <itemizedlist>
+   <listitem>
+    <simpara>RSA</simpara>
+   </listitem>
+   <listitem>
+    <simpara>Digital Signature Algorithm (DSA)</simpara>
+   </listitem>
+   <listitem>
+    <simpara>Elliptic Curve DSA (ECDSA)</simpara>
+   </listitem>
+  </itemizedlist>
 
-  </para>
-
-  <para>RSA is the only one that is mandated to be implemented with DNSSEC, and
-  at the time of this writing, is the most widely supported algorithm by both
-  name servers and clients. For the near future, RSA/SHA-256 is the algorithm
-  of choice, with RSA/SHA-1 being an alternative.</para>
+  <para>While all three are supported by BIND, RSA is the only one that is
+  mandated to be implemented with DNSSEC, and at the time of this writing, is
+  the most widely supported algorithm by both name servers and clients. For the
+  near future, RSA/SHA-256 is the algorithm of choice, with RSA/SHA-1 being an
+  alternative.</para>
 
   <para>However, RSA is a little long in the tooth, and ECDSA is emerging as
   the next new cryptographic standard. In fact, the US federal government has
