@@ -82,7 +82,7 @@
   answers, unsigned answers from the hidden master, and signed answers from the
   other name servers.</para>
 
-  <para>The only configure change needed on the hidden master 192.168.1.1 is to
+  <para>The only configuration change needed on the hidden master 192.168.1.1 is to
   make sure it allows our middle box to perform a zone transfer:</para>
 
   <screen>zone "example.com" IN {
