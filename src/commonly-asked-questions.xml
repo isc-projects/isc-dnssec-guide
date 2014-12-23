@@ -137,7 +137,12 @@
    result is, to the rest of the world, your zone still appears to be insecure,
    and it will continue to be insecure until your parent zone can host DS
    record(s) for you, effectively telling the rest of the world that your zone
-   is signed.</para></answer>
+   is signed.</para>
+
+   <para>An interim solution is to take advantage of DLV (DNSSEC Look-aside
+   Validation), by submitting your key to a DLV registry such as <ulink
+   url="https://dlv.isc.org/" />, you can still get the benefits of DNSSEC even
+   if your parent zone is not yet supporting it.</para></answer>
   </qandaentry>
 
   <qandaentry>
