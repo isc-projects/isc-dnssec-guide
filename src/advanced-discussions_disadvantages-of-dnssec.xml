@@ -83,8 +83,7 @@
  <code>www.isc.org</code> is actually a CNAME to
  <code>96d719dc5612761de516fc.random-cloud-provider.com</code>. As long
  as <code>random-cloud-provider.com</code> remains an insecure DNS zone,
- users cannot fully validate everything when they visit my web page,
- although he name will still resolve through the traditional insecure
- DNS.</para>
+ users cannot fully validate everything when they visit my web page and
+ could be redirected elsewhere by a cache poisoning attack.</para>
 
 </section>
