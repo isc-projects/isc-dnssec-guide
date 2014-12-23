@@ -60,12 +60,15 @@
  <section id="recipes-inline-signing-bump-in-the-wire">
   <title>"Bump in the Wire" Inline Signing Recipe</title>
   
-  <para>In this recipe , we are taking advantage of the power of inline signing
+  <para>In this recipe, we are taking advantage of the power of inline signing
   by placing an additional name server 192.168.1.5 between the hidden master
   (192.168.1.1) and the DNS slaves (192.168.1.2, 192.168.1.3, and 192.168.1.4).
   The additional name server 192.168.1.5 acts as a "bump in the wire", taking
   unsigned zone from the hidden master on one end, and sending out signed data
-  on the other end to the slave name servers.</para>
+  on the other end to the slave name servers. The steps described in this
+  recipe may be used as part of the DNSSEC deployment strategy, since it
+  requires minimal changes made to the existing hidden DNS master and DNS
+  slaves. </para>
 
 
   <figure id="inline-signing-2">
@@ -78,11 +81,11 @@
   </figure>
 
   <para>It is important to remember that 192.168.1.1 in this case is a hidden
-  master not exposed to the world, otherwise the world will get conflicting
-  answers, unsigned answers from the hidden master, and signed answers from the
-  other name servers.</para>
+  master not exposed to the world, it must not be listed in the NS RRset.
+  Otherwise the world will get conflicting answers, unsigned answers from the
+  hidden master, and signed answers from the other name servers.</para>
 
-  <para>The only configure change needed on the hidden master 192.168.1.1 is to
+  <para>The only configuration change needed on the hidden master 192.168.1.1 is to
   make sure it allows our middle box to perform a zone transfer:</para>
 
   <screen>zone "example.com" IN {
@@ -93,11 +96,12 @@
 
   <para>On the middle box 192.168.1.5, all the tasks described in <xref
   linkend="easy-start-guide-for-authoritative-servers" /> still need to be
-  performed, such as generating key pairs, uploading information to parent
-  zone. This server is configured as slave to 192.168.1.1, receiving the
-  unsigned data, and then using keys accessible to this middle box, sign data
-  on the fly, and send out the signed data via zone transfer to the other three
-  DNS slaves. Its <filename>named.conf</filename> looks like this:</para>
+  performed, such as generating key pairs and uploading information to parent
+  zone. This server is configured as slave to the hidden master 192.168.1.1,
+  receiving the unsigned data, and then using keys accessible to this middle
+  box, sign data on the fly, and send out the signed data via zone transfer to
+  the other three DNS slaves. Its <filename>named.conf</filename> looks like
+  this:</para>
 
   <screen>zone example.com {
     type slave;
@@ -110,13 +114,14 @@
 };</screen>
 
   <para>Finally, on the three slave servers, configuration should be updated to
-  receive zone transfer from 192.168.1.5 instead of 192.168.1.1. If using BIND,
-  the <filename>named.conf</filename> looks like this:</para>
+  receive zone transfer from 192.168.1.5 (middle box) instead of 192.168.1.1
+  (hidden master). If using BIND, the <filename>named.conf</filename> looks
+  like this:</para>
 
   <screen>zone "example.com" IN {
     type slave;
     file "db/example.com.db";
-    masters { 192.168.1.5; };
+    masters { 192.168.1.5; };   # this was 192.168.1.1 before!
 };</screen>
 
  </section>
