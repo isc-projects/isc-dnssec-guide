@@ -149,8 +149,8 @@
   <code>example.com</code>? This is actually a more involving question,
   and we can only cover this topic briefly in this document.</para>
 
-  <para>Deploying DNSSEC in this context is possible, but what you not
-  gain much by doing so. Because by definition, these private networks are
+  <para>Deploying DNSSEC in this context is possible, but typically you do
+  not gain much by doing so. Because these private networks are usually
   trusted, thus there should be no need to worry about someone hijacking
   your DNS traffic. This is commonly known as the "last mile" in DNS
   delivery. However, if you still wish to deploy DNSSEC on your private
