@@ -260,7 +260,7 @@ NTQ0CQEJHM0S17POMCUSLG5IOQQEDTBJ (salt=1234567890ABCDEF, hash=1, iterations=10)<
 
  <!-- Revert to Unsigned -->
  <section id="revert-to-unsigned">
-  <title>Reverting to Un-signed Recipe</title>
+  <title>Reverting to Unsigned Recipe</title>
   
   <para>This recipe describes how to revert from signed zone (DNSSEC) back to
   unsigned (DNS).</para>
