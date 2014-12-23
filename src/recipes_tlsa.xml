@@ -115,19 +115,6 @@ _443._tcp.www.example.com.	3600 IN	TLSA	3 0 1 294874DA378148CDD1B9C57D2E891E8C29
   </mediaobject>
  </figure>
 
- <para>If you choose to examine the certificate further, you will see the web
- server is presenting the same SHA-256 fingerprint that we have listed in our
- TLSA record:</para>
-
- <figure>
-  <title>Certificate Fingerprint</title>
-  <mediaobject>
-   <imageobject>
-    <imagedata fileref="../img/tlsa-2.png" width="60%" scalefit="1"/>
-   </imageobject>
-  </mediaobject>
- </figure>
-
  <para>Although the certificate is not trusted by the browser itself (if you
  want to you'll have to install a custom CA root or make the browser trust the
  certificate individually), the plugin shows that it was able to verify the
@@ -138,7 +125,7 @@ _443._tcp.www.example.com.	3600 IN	TLSA	3 0 1 294874DA378148CDD1B9C57D2E891E8C29
   <title>DNSSEC TLSA Validator</title>
   <mediaobject>
    <imageobject>
-    <imagedata fileref="../img/tlsa-3.png" width="60%" scalefit="1"/>
+    <imagedata fileref="../img/tlsa-2.png" width="60%" scalefit="1"/>
    </imageobject>
   </mediaobject>
  </figure>
