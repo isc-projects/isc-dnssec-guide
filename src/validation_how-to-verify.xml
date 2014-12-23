@@ -301,7 +301,7 @@ www.isc.org.		30	IN	A	149.20.64.69</screen>
   </para>
 
   <para>For more information on troubleshooting, please see <xref
-  linkend="troubleshooting"/>.</para>
+  linkend="dnssec-troubleshooting"/>.</para>
 
  </section>
 </section>
