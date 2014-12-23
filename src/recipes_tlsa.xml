@@ -48,7 +48,7 @@ viM+cUnhD5UvhU4bn3ZP0cp+WNsimycf/gdfkAe47Em1oVNZP6abUgqMPStongIB
  you need to remove all the colons, hence the added <command>sed</command> at
  the end to filter out all ":" characters:</para>
 
- <screen># <userinput>openssl x509 -noout -fingerprint -sha256 &lt; server.crt | sed 's/://g'</userinput>
+ <screen># <userinput>openssl x509 -noout -fingerprint -sha256 &lt; server.crt | tr -d :</userinput>
 SHA256 Fingerprint=294874DA378148CDD1B9C57D2E891E8C294D2958F0BCA7400A0D6D6F50C4A3BB</screen>
 
  <para>Now you can insert the TLSA record by editing the zone file the old
