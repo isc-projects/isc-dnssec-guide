@@ -78,7 +78,7 @@
 
   <para>This may look like a lot of work, but with
   <varname>inline-signing</varname> and <varname>auto-dnssec</varname>, a most
-  of these are automated. The only thing that needs to be done manually re just
+  of these are automated. The only thing that needs to be done manually are just
   the first two items:</para>
 
   <itemizedlist>
