@@ -559,7 +559,7 @@ example.com.	300 IN RRSIG DNSKEY 7 2 300 (
    <command>named</command>, the removal of the DS record is manual. You should
    make sure the old DNSKEY record is gone from your zone first by querying for
    the DNSKEY records of the zone, and this time we expect to see one less
-   DNSKEY:</para>
+   DNSKEY, namely the key with ID of 24828:</para>
 
    <screen>$ <userinput>dig @192.168.1.13 example.com. DNSKEY +dnssec +multiline</userinput>
 
@@ -572,10 +572,10 @@ example.com.	300 IN DNSKEY 257 3 7 (
 				AwEAAc1BQN...Wdc0qoH21H
 				) ; KSK; alg = NSEC3RSASHA1; key id = 23550
 example.com.	300 IN RRSIG DNSKEY 7 2 300 (
-				20150308000000 20150205230000 23550 mydnssecgood.org.
+				20150208000000 20150105230000 23550 mydnssecgood.org.
 				Qw9Em3dDok...bNCS7KISw= )
 example.com.	300 IN RRSIG DNSKEY 7 2 300 (
-				20150308000000 20150205230000 29747 mydnssecgood.org.
+				20150208000000 20150105230000 29747 mydnssecgood.org.
 				OuelpIlpY9...XfsKupQgc= )
 ...</screen>
 
