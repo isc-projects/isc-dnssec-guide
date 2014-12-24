@@ -17,9 +17,13 @@
  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="recipes_rollovers.xml" />
 
- <!-- NSEC3 -->
+ <!-- NSEC and NSEC3 -->
  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="recipes_nsec3.xml" />
+
+ <!-- Revert to unsigned -->
+ <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="recipes_unsigned.xml" />
 
  <!-- TLSA -->
  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"

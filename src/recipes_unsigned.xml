@@ -1,0 +1,102 @@
+ <!-- Revert to Unsigned -->
+ <section id="revert-to-unsigned">
+  <title>Reverting to Unsigned Recipe</title>
+  
+  <para>This recipe describes how to revert from signed zone (DNSSEC) back to
+  unsigned (DNS).</para>
+
+  <para>Whether or not the world thinks your zone is signed really comes down
+  to the DS records hosted by your parent zone. If there are no DS records, the
+  world thinks your zone is not signed. So reverting to unsigned is as easy as
+  removing all DS records from the parent zone. </para>
+
+  <para>Below is an example of removing using <ulink
+  url="https://www.godaddy.com"> <citetitle>GoDaddy</citetitle></ulink>
+  web-based interface to remove all DS records.</para>
+
+  <orderedlist>
+   <!-- #1 -->
+   <listitem>
+    <simpara>After logging in, click the green "Launch" button next to the
+    domain name you want to manage.</simpara>
+    <figure>
+     <title>Revert to Unsigned Step #1</title>
+     <mediaobject>
+      <imageobject>
+       <imagedata fileref="../img/unsign-1.png" width="60%" scalefit="1"/>
+      </imageobject>
+     </mediaobject>
+    </figure>
+   </listitem>
+
+   <!-- #2 -->
+   <listitem>
+    <simpara>Scroll down to the "DS Records" section and click
+    Manage.</simpara>
+    <figure>
+     <title>Revert to Unsigned Step #2</title>
+     <mediaobject>
+      <imageobject>
+       <imagedata fileref="../img/unsign-2.png" width="40%" scalefit="1"/>
+      </imageobject>
+     </mediaobject>
+    </figure>
+   </listitem>
+
+   <!-- #3 -->
+   <listitem>
+    <simpara>A dialog appears, displaying all current keys. Use the far right
+    hand X button to remove each key.</simpara>
+    <figure>
+     <title>Revert to Unsigned Step #3</title>
+     <mediaobject>
+      <imageobject>
+       <imagedata fileref="../img/unsign-3.png" width="70%" scalefit="1"/>
+      </imageobject>
+     </mediaobject>
+    </figure>
+
+   </listitem>
+
+   <!-- #4 -->
+   <listitem>
+    <simpara>Click Save</simpara>
+    <figure>
+     <title>Revert to Unsigned Step #4</title>
+     <mediaobject>
+      <imageobject>
+       <imagedata fileref="../img/unsign-4.png" width="70%" scalefit="1"/>
+      </imageobject>
+     </mediaobject>
+    </figure>
+
+   </listitem>
+  </orderedlist>
+
+  <para>To be on the safe side, you should wait a while before actually
+  deleting all signed data from your zone, just in case some validating
+  resolvers out there have cached information. After you are certain that all
+  cached information have expired (usually this means TTL has passed), you may
+  reconfigure your zone. This is the <filename>named.conf</filename> when it is
+  signed, with DNSSEC-related configurations in bold:</para>
+
+  <screen>zone "example.com" IN {
+    type master;
+    file "db/example.com.db";
+    <userinput>key-directory "keys/example.com";</userinput>
+    <userinput>inline-signing yes;</userinput>
+    <userinput>auto-dnssec maintain;</userinput>
+    allow-transfer { any; };
+};</screen>
+
+  <para>Remove the 3 lines so your <filename>named.conf</filename> looks like
+  this, then use <command>rndc reload</command> to reload the zone:</para>
+
+  <screen>zone "example.com" IN {
+    type master;
+    file "db/example.com.db";
+    allow-transfer { any; };
+};</screen>
+
+  <para>Your zone is now reverted back to the traditional, insecure DNS format.</para>
+ </section>
