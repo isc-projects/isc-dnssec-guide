@@ -167,8 +167,9 @@
     uCzKL6sU/ObHv17EFhD8aPDftTHZvV9L+OZr";
 };</screen>
 
-  <para>Finally, as the name <varname>trusted-keys</varname> suggests, it is
-  possible to have more than one key configured.</para>
+  <para>As the name <varname>trusted-keys</varname> suggests, it is possible to
+  have more than one key configured. You could also leverage <xref
+  linkend="dlv" /> as part of your trust-anchor management strategy.</para>
 
   <note>
   <simpara>Remember, if you choose to manage the keys on your own, whenever the
