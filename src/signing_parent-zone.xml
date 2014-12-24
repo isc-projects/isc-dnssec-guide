@@ -55,8 +55,8 @@ example.com. IN DS 6817 8 2 2A5F1DF55D5E64CBD7BCFE1EFA6E9586AF335FA56A2473296E97
  <section id="parent-dnskey-format">
   <title>DNSKEY Format</title>
 
-  <para>Below is an example of DNSKEY format (actual key shortened for
-  display):</para>
+  <para>Below is an example of a different key ID (16027) using DNSKEY format
+  (actual key shortened for display):</para>
 
   <screen>example.com. 172800 IN DNSKEY 257 3 8 (AwEAAbGOPf...AX2QHMY8=) ; key id = 16027</screen>
   
