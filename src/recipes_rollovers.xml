@@ -90,8 +90,10 @@ Kexample.com.+008+<userinput>51623</userinput></screen>
    <para>Don't forget to make sure the successor keys are readable by
    <command>named</command>.</para>
 
-   <para>You can see in syslog the messages informing you when the next key
-   checking event is, and it looks like this:</para>
+   <para>You can see in <command>named</command>'s logging messages informing
+   you when the next key checking event is scheduled to occur, the frequency of
+   which can be controlled by <code>dnssec-loadkeys-interval</code>. The log
+   message looks like this:</para>
 
    <screen>zone example.com/IN (signed): next key event: 01-Dec-2014 00:13:05.385</screen>
 
