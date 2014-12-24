@@ -13,23 +13,23 @@
   validating resolvers.</para>
 
   <para>Below is an example attempting to resolve the A record for a test
-  domain name www.mydnssectestfail.com. From the user's perspective, as
+  domain name www.example.com. From the user's perspective, as
   described in <xref linkend="how-do-i-know-i-have-a-validation-problem"
   />, only SERVFAIL message is returned. On the validating resolver, we
   could see the following messages in syslog:</para>
 
-  <screen>named[6703]: error (no valid RRSIG) resolving 'mydnssectestfail.com/DNSKEY/IN': 149.20.61.151#53
-named[6703]: error (broken trust chain) resolving 'www.mydnssectestfail.com/DS/IN': 149.20.61.151#53
-named[6703]: error (broken trust chain) resolving 'www.mydnssectestfail.com/A/IN': 149.20.61.151#53</screen>
+  <screen>named[6703]: error (no valid RRSIG) resolving 'example.com/DNSKEY/IN': 149.20.61.151#53
+named[6703]: error (broken trust chain) resolving 'www.example.com/DS/IN': 149.20.61.151#53
+named[6703]: error (broken trust chain) resolving 'www.example.com/A/IN': 149.20.61.151#53</screen>
 
   <para>This gives us a hint that it is a broken trust chain issue. Let's
   take a look at the DS records that are published by querying one of the
   public DNS resolvers that supports DNSSEC. We have highlighted in the
   key tag ID returned, and shortened some keys for display:</para>
 
-  <screen>$ <userinput>dig @8.8.8.8 mydnssectestfail.com. DS</userinput>
+  <screen>$ <userinput>dig @8.8.8.8 example.com. DS</userinput>
 
-; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @8.8.8.8 mydnssectestfail.com. DS
+; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @8.8.8.8 example.com. DS
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
@@ -39,27 +39,27 @@ named[6703]: error (broken trust chain) resolving 'www.mydnssectestfail.com/A/IN
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 512
 ;; QUESTION SECTION:
-;mydnssectestfail.com.		IN	DS
+;example.com.		IN	DS
 
 ;; ANSWER SECTION:
-mydnssectestfail.com.	21599	IN	DS	<userinput>53476</userinput> 8 2 1544D......7DDA7
-mydnssectestfail.com.	21599	IN	DS	<userinput>53476</userinput> 8 1 CD2AF...0B47B
+example.com.	21599	IN	DS	<userinput>53476</userinput> 8 2 1544D......7DDA7
+example.com.	21599	IN	DS	<userinput>53476</userinput> 8 1 CD2AF...0B47B
 
 ;; Query time: 212 msec
 ;; SERVER: 8.8.8.8#53(8.8.8.8)
 ;; WHEN: Thu Nov 27 17:23:42 CST 2014
 ;; MSG SIZE  rcvd: 133</screen>
 
-  <para>Next, we query for the DNSKEY and RRSIG of mydnssectestfail.com,
+  <para>Next, we query for the DNSKEY and RRSIG of example.com,
   to see if there's anything wrong. Since we are having trouble
   validating, we flipped on the <command>+cd</command> option to disable
   checking for now to get the results back, even though they do not pass
   the validation tests.  Again, key tag ID's are highlighted, and some
   long strings are shortened for display:</para>
 
-  <screen>$ <userinput>dig @8.8.8.8 mydnssectestfail.com. DNSKEY +dnssec +cd +multiline</userinput>
+  <screen>$ <userinput>dig @8.8.8.8 example.com. DNSKEY +dnssec +cd +multiline</userinput>
 
-; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @8.8.8.8 mydnssectestfail.com. DNSKEY +dnssec +cd +multiline
+; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @8.8.8.8 example.com. DNSKEY +dnssec +cd +multiline
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
@@ -69,20 +69,20 @@ mydnssectestfail.com.	21599	IN	DS	<userinput>53476</userinput> 8 1 CD2AF...0B47B
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags: do; udp: 512
 ;; QUESTION SECTION:
-;mydnssectestfail.com.	IN DNSKEY
+;example.com.	IN DNSKEY
 
 ;; ANSWER SECTION:
-mydnssectestfail.com.	299 IN DNSKEY 257 3 8 (
+example.com.	299 IN DNSKEY 257 3 8 (
 				AwEAAePggU...0VPPEX+DE=
 				) ; KSK; alg = RSASHA256; key id = <userinput>48580</userinput>
-mydnssectestfail.com.	299 IN DNSKEY 256 3 8 (
+example.com.	299 IN DNSKEY 256 3 8 (
 				AwEAAbMZp6...NRJnwyC/uX
 				) ; ZSK; alg = RSASHA256; key id = <userinput>60426</userinput>
-mydnssectestfail.com.	299 IN RRSIG DNSKEY 8 2 300 (
-				20141227074820 20141127064820 <userinput>48580</userinput> mydnssectestfail.com.
+example.com.	299 IN RRSIG DNSKEY 8 2 300 (
+				20141227074820 20141127064820 <userinput>48580</userinput> example.com.
 				ph3eBXsBQy...fQTRTlpg== )
-mydnssectestfail.com.	299 IN RRSIG DNSKEY 8 2 300 (
-				20141227074820 20141127064820 <userinput>60426</userinput> mydnssectestfail.com.
+example.com.	299 IN RRSIG DNSKEY 8 2 300 (
+				20141227074820 20141127064820 <userinput>60426</userinput> example.com.
 				VaQ0INIa3a...nj3YTPv5A= )
 
 ;; Query time: 368 msec
@@ -91,7 +91,7 @@ mydnssectestfail.com.	299 IN RRSIG DNSKEY 8 2 300 (
 ;; MSG SIZE  rcvd: 961</screen>
 
   <para>Here is our problem: the parent zone is telling the world that
-  <code>mydnssectestfail.com</code> is using the key 53476, but the
+  <code>example.com</code> is using the key 53476, but the
   authoritative servers are saying: no no no, I am using keys 48580 and
   60426. There might be several causes for this mismatch, one possibility
   is that a malicious attacker has compromised one side and change the
@@ -153,9 +153,9 @@ named[18235]: loading configuration: failure</screen>
   pretty much all of your DNS lookups result in SERVFAIL, even when
   you are looking up domain names that have not been DNSSEC-enabled.</para>
 
-   <screen>$ <userinput>dig @192.168.1.11 www.yahoo.com. A</userinput>
+   <screen>$ <userinput>dig @192.168.1.11 www.example.com. A</userinput>
 
-; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.11 www.yahoo.com. A
+; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.11 www.example.com. A
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
@@ -165,12 +165,12 @@ named[18235]: loading configuration: failure</screen>
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 4096
 ;; QUESTION SECTION:
-;www.yahoo.com.			IN	A</screen>
+;www.example.com.			IN	A</screen>
 
   <para><command>delv</command> shows similar result:</para>
 
-   <screen>$ <userinput>delv @192.168.1.11 www.yahoo.com. +rtrace</userinput>
-;; fetch: www.yahoo.com/A
+   <screen>$ <userinput>delv @192.168.1.11 www.example.com. +rtrace</userinput>
+;; fetch: www.example.com/A
 ;; <userinput>resolution failed: failure</userinput></screen>
 
   <para>The next symptom you will see is in the DNSSEC log
