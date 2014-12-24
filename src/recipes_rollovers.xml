@@ -579,7 +579,10 @@ example.com.	300 IN RRSIG DNSKEY 7 2 300 (
 				OuelpIlpY9...XfsKupQgc= )
 ...</screen>
 
-   <para>Now, we can remove the old DS record for key 24828.</para>
+   <para>Now, we can remove the old DS record for key 24828 from our parent
+   zone. Be careful to remove the correct DS record. If we accidentally removed
+   the new DS record(s) of key ID 23550, it would effectively turn our zone
+   insecure.</para>
 
    <orderedlist>
     <!-- #1 -->
