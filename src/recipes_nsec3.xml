@@ -4,12 +4,12 @@
  <!-- === NSEC to NSEC3 === -->
  <section id="recipes-nsec-to-nsec3">
   <title>Migrating from NSEC to NSEC3</title>
-  <para>This recipe describes how to go from using NSEC to NSEC3 for proof of
-  non-existence, as described in both <xref linkend="signing-using-nsec3" />
-  and <xref linkend="advanced-discussions-proof-of-nonexistence" />.</para>
+  <para>This recipe describes how to go from using NSEC to NSEC3, as described
+  in both <xref linkend="signing-using-nsec3" /> and <xref
+  linkend="advanced-discussions-proof-of-nonexistence" />.</para>
 
-  <para>This command below enables NSEC3 for the zone example.com, using a
-  pseudo-random hex string 1234567890abcdef:</para>
+  <para>This command below enables NSEC3 for the zone <code>example.com</code>, using a
+  pseudo-random string 1234567890abcdef for its salt:</para>
 
   <screen># <userinput>rndc signing -nsec3param 1 0 10 1234567890abcdef example.com</userinput></screen>
 
