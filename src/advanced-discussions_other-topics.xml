@@ -153,30 +153,38 @@
   your DNS traffic. This is commonly known as the "last mile" in DNS
   delivery. However, if you still wish to deploy DNSSEC on your private
   networks, here are two scenarios to consider:</para>
+  
+  <orderedlist>
+   <listitem>
+    <para>If your name server is configured be both the validating resolver and
+    the internal authoritative server, the answers returned to your clients
+    will not be validated at all. This is because the answer is coming directly
+    from the authoritative server, thus the Authoritative Answer
+    (<code>aa</code>) bit is set, and by definition, it is not validated.  What
+    this means is, to a regular client making the query, the secure
+    authoritative answer looks exactly the same as the insecure authoritative
+    answer.</para>
+   </listitem>
 
-  <para>If you are running your validating resolver on the same machine as
-  the internal authoritative server, the answers returned to your clients
-  will not be validated at all. This is because the answer is coming
-  directly from the authoritative server, thus the Authoritative Answer
-  (<code>aa</code>) bit is set, and by definition, it is not validated.
-  What this means is, to a regular client making the query, the secure
-  authoritative answer looks exactly the same as the insecure
-  authoritative answer.</para>
+   <listitem>
+    <para>If you have two name server instances running, one acting as the
+    validating resolver, and one acting as the internal authoritative name
+    server, it is possible to actually validate answers, provided that you have
+    installed the trust anchor(s) necessary for your internal zones on the
+    validating resolver. If no trust anchors are installed, your validating
+    resolver will go out to root, and attempt to validate internal answers
+    against external authorities (and fail). In this setup, the client gets
+    back the Authenticated Data (<code>ad</code>) bit when querying against the
+    validating resolver.</para>
+   </listitem>
+  </orderedlist>
 
-  <para>If you are running the validating resolver and the internal
-  authoritative server on separate machines (or separate instances), it is
-  possible to actually validate answers, provided that you have installed
-  the trust anchor(s) necessary for your internal zones. If no trust
-  anchors are installed, your validating resolver will go out to root, and
-  attempt to validate internal answers against external authorities (and
-  fail). In this setup, the client gets back the Authenticated Data
-  (<code>ad</code>) bit when querying against the validating
-  resolver.</para>
-
-  <para>The bottom line is, if you are worried about the last mile
-  security, it is not a problem DNSSEC addresses. You might want to
-  consider a different technology other than DNSSEC, such as DNSCrypt
-  (<ulink url="https://www.opendns.com/about/innovations/dnscrypt/" />).</para>
+  <para>The bottom line is, if you are worried about the last mile security, it
+  is not a something DNSSEC solves as of late 2014, there is simply not enough
+  applications or stub resolver libraries that support DNSSEC.  You might want
+  to consider a different technology other than DNSSEC for the time being, such
+  as DNSCrypt (<ulink url="https://www.opendns.com/about/innovations/dnscrypt/"
+  />).</para>
 
  </section>
 
