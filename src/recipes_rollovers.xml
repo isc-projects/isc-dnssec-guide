@@ -109,9 +109,10 @@ Kexample.com.+008+<userinput>51623</userinput></screen>
 ...</screen>
 
    <para>Since the publish date is set to the morning of December 2nd, the next
-   morning you will notice that your zone has gained a new DNSKEY record, but no
-   corresponding RRSIG yet. Below is the abbreviated output with shortened DNSKEY
-   and RRSIG when querying the authoritative name server, 192.168.1.13:</para>
+   morning you will notice that your zone has gained a new DNSKEY record, but
+   the new ZSK is not yet being used to generate signatures.  Below is the
+   abbreviated output with shortened DNSKEY and RRSIG when querying the
+   authoritative name server, 192.168.1.13:</para>
 
    <screen>$ <userinput>dig @192.168.1.13 example.com. DNSKEY +dnssec +multiline</userinput>
 
@@ -144,7 +145,7 @@ example.com.		600 IN RRSIG DNSKEY 8 2 600 (
 ...
 ;; ANSWER SECTION:
 example.com.		600 IN SOA ns1.example.com. admin.example.com. (
-				2014112007 ; serial
+				2014120102 ; serial
 				1800       ; refresh (30 minutes)
 				900        ; retry (15 minutes)
 				2419200    ; expire (4 weeks)
