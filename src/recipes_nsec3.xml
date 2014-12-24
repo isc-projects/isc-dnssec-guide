@@ -208,8 +208,9 @@ TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com. 300 IN <userinput>NSEC3 1 0 10 FED
   <screen># rndc signing -nsec3param 1 <userinput>1</userinput> 10 1234567890abcdef example.com</screen>
 
   <para>After NSEC3 opt-out is enabled, the number of NSEC3 records is reduced.
-  Notice only the signed delegated zone bbb.example.com has a NSEC3 record. The
-  unsigned delegations have did not take up precious resources:</para>
+  Notice that the unsigned delegations <code>aaa</code>, <code>ccc</code>,
+  <code>ddd</code>, and <code>eee</code> now don't have corresponding NSEC3
+  records.</para>
 
   <itemizedlist>
    <listitem>
