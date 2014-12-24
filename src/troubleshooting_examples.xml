@@ -119,10 +119,10 @@ www.example.com.	600	IN	A	192.168.1.100
  <para>But 192.168.1.13 has no trouble answering the query for
  <code>www.example.com</code>, so the problem might be between
  192.168.1.11 and 192.168.1.13? We know there are no firewalls or network
- devices between those two devices that could intercept packets. Let's
- query 192.168.1.11 again, but this time, let's purposely turn off DNSSEC
- validation by using <option>+cd</option> (checking disabled), to see if
- this error message was caused by DNSSEC validation:</para>
+ devices between 192.168.1.11 and 192.168.1.13 that could intercept packets.
+ Let's query 192.168.1.11 again, but this time, let's purposely turn off DNSSEC
+ validation by using <option>+cd</option> (checking disabled), to see if this
+ error message was caused by DNSSEC validation:</para>
 
  <screen>$ <userinput>dig @192.168.1.11 www.example.com. A +cd</userinput>
 
