@@ -13,11 +13,11 @@
  to the query, but some proof to go along with the answer as well. If DNSSEC
  responses are received, the validating resolver will perform cryptographic
  computation to verify the authenticity (origin of the data) and integrity (data
- was not altered during transit) of the answers. It will repeat this process,
- tracing the keys all the way up the DNS delegation chain, to the zone's
- parent, and its parent, and its parent, all the way until the validating
- resolver reaches a key that it trusts. In the ideal, fully deployed world of
- DNSSEC, all validating resolvers only need to trust one key: the root
+ was not altered during transit) of the answers, and even ask the parent zone
+ as part of the verification. It will repeat this process of get-key, validate,
+ ask-parent, parent, and its parent, and its parent, all the way until the
+ validating resolver reaches a key that it trusts. In the ideal, fully deployed
+ world of DNSSEC, all validating resolvers only need to trust one key: the root
  key.</para>
 
  <para>The following example shows the DNSSEC validating process of looking up
