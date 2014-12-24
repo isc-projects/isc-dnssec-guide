@@ -1,7 +1,13 @@
 <section id="troubleshooting-visible-symptoms">
  <title>Visible Symptoms</title>
+
+ <para>After you have figured out the query path, the next thing to do is to
+ determine whether or not the problem is actually related to DNSSEC validation.
+ You can use the <command>+cd</command> flag in <command>dig</command> to
+ disable validation, as described in <xref
+ linkend="how-do-i-know-i-have-a-validation-problem" />.</para>
  
- <para>When there is a DNSSEC validation problem, the visible symptoms,
+ <para>When there is indeed a DNSSEC validation problem, the visible symptoms,
  unfortunately, are very limited. With DNSSEC validation enabled, if a DNS
  response is not fully validated, it will result in a generic SERVFAIL
  message, as shown below.</para>
