@@ -581,8 +581,10 @@ example.com.	300 IN RRSIG DNSKEY 7 2 300 (
 
    <para>Now, we can remove the old DS record for key 24828 from our parent
    zone. Be careful to remove the correct DS record. If we accidentally removed
-   the new DS record(s) of key ID 23550, it would effectively turn our zone
-   insecure.</para>
+   the new DS record(s) of key ID 23550, it could lead to a problem called
+   "security lameness", as discussed in <xref
+   linkend="troubleshooting-security-lameness" />, and may cause users unable
+   to resolve any names in our zone.</para>
 
    <orderedlist>
     <!-- #1 -->
