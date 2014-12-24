@@ -131,7 +131,7 @@ TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com. 300 IN <userinput>NSEC3 1 0 10 FED
   that can help conserve resources on parent zones that have many delegations
   that have yet been signed.</para>
 
-  <para>Before starting, for this recipe we will assume the zone example.com
+  <para>Before starting, for this recipe we will assume the zone <code>example.com</code>
   has the following 4 entries (for this example, it is not relevant what record
   types these entries are):</para>
 
@@ -153,7 +153,7 @@ TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com. 300 IN <userinput>NSEC3 1 0 10 FED
    <listitem><simpara>eee.example.com, not signed</simpara></listitem>
   </itemizedlist>
 
-  <para>Before enabling NSEC3 opt-out, the zone example.com contains ten NSEC3
+  <para>Before enabling NSEC3 opt-out, the zone <code>example.com</code> contains ten NSEC3
   records, below is the list with plain text name before the actual NSEC3
   record:</para>
 
@@ -201,8 +201,9 @@ TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com. 300 IN <userinput>NSEC3 1 0 10 FED
   </itemizedlist>
 
   <para>We can enable NSEC3 opt-out with this command, changing the opt-out bit
-  from 0 to 1 (see <xref linkend="advanced-discussions-nsec3param" /> to review
-  what each parameter is):</para>
+  (the second parameter of the 4) from 0 to 1 (see <xref
+  linkend="advanced-discussions-nsec3param" /> to review what each parameter
+  is):</para>
 
   <screen># rndc signing -nsec3param 1 <userinput>1</userinput> 10 1234567890abcdef example.com</screen>
 
@@ -210,8 +211,7 @@ TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com. 300 IN <userinput>NSEC3 1 0 10 FED
   Notice only the signed delegated zone bbb.example.com has a NSEC3 record. The
   unsigned delegations have did not take up precious resources:</para>
 
-
- <itemizedlist>
+  <itemizedlist>
    <listitem>
     <simpara><emphasis>bbb.example.com</emphasis>:
     AESO0NT3N44OOSDQS3PSL0HACHUE1O0U.example.com.</simpara>
@@ -252,9 +252,7 @@ TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com. 300 IN <userinput>NSEC3 1 0 10 FED
 
    <screen># <userinput>nsec3hash 1234567890ABCDEF 1 10 www.example.com.</userinput>
 NTQ0CQEJHM0S17POMCUSLG5IOQQEDTBJ (salt=1234567890ABCDEF, hash=1, iterations=10)</screen>
-
   </note>
-
  </section>
 
  <!-- Revert to Unsigned -->
