@@ -15,30 +15,39 @@
  with backwards compatibility in mind, and can be deployed without impacting
  "old" insecure domain names.</para>
 
- <para>DNSSEC is deployed on the two major components of the DNS
- infrastructure:
+ <para>DNSSEC is deployed on the three major components of the DNS
+ infrastructure:</para>
 
-  <itemizedlist>
-   <listitem>
-    <simpara><emphasis>Recursive Server</emphasis>: People use recursive
-    servers to lookup external domain names such www.example.com. Operators of
-    recursive servers need to enable DNSSEC validation. With validation
-    enabled, recursive servers will carry out additional tasks on each DNS
-    response they received to ensure its authenticity.</simpara>
-   </listitem>
+ <itemizedlist>
+  <listitem>
+   <simpara><emphasis>Recursive Server</emphasis>: People use recursive
+   servers to lookup external domain names such www.example.com. Operators of
+   recursive servers need to enable DNSSEC validation. With validation
+   enabled, recursive servers will carry out additional tasks on each DNS
+   response they received to ensure its authenticity.</simpara>
+  </listitem>
  
-   <listitem>
-    <simpara><emphasis>Authoritative Server</emphasis>: People who publish DNS
-    data on their name servers need to sign that data. This entails creating
-    additional resource records, and publishing them to parent domains where
-    necessary. With DNSSEC enabled, authoritative servers will respond to
-    queries with additional DNS data, such as digital signatures and keys, in
-    addition to the standard answers.</simpara>
-   </listitem>
-  </itemizedlist></para>
+  <listitem>
+   <simpara><emphasis>Authoritative Server</emphasis>: People who publish DNS
+   data on their name servers need to sign that data. This entails creating
+   additional resource records, and publishing them to parent domains where
+   necessary. With DNSSEC enabled, authoritative servers will respond to
+   queries with additional DNS data, such as digital signatures and keys, in
+   addition to the standard answers.</simpara>
+  </listitem>
 
- <para>In this guide, we will look at how DNSSEC works, how to configure a
- validating resolver, how to sign DNS zone data, and other operational
- tasks.</para>
+  <listitem>
+   <simpara><emphasis>Application</emphasis>: This component lives on every
+   client machine, from web server to smart phones. This includes resolver
+   libraries on different Operating Systems, and applications such as web
+   browsers. </simpara>
+  </listitem>
+ </itemizedlist>
+
+ <para>In this guide, we will focus on the first two components, Recursive
+ Server and Authoritative Server, and only lightly touch on the third
+ component. We will look at how DNSSEC works, how to configure a validating
+ resolver, how to sign DNS zone data, and other operational tasks and
+ considerations.</para>
 
 </section>
