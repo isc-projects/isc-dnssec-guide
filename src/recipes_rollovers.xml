@@ -231,10 +231,10 @@ example.com.		600 IN DNSKEY 256 3 8 (
 				AwEAAdeCGr...1DnEfX+Xzn
 				) ; ZSK; alg = RSASHA256; key id = 51623
 example.com.		600 IN RRSIG DNSKEY 8 2 600 (
-				20150131000000 20141231230000 6817 example.com.
+				20150203000000 20150102230000 6817 example.com.
 				KHY8P0zE21...Y3szrmjAM= )
 example.com.		600 IN RRSIG DNSKEY 8 2 600 (
-				20150131000000 20141231230000 51623 example.com.
+				20150203000000 20150102230000 51623 example.com.
 				G2g3crN17h...Oe4gw6gH8= )
 ...</screen>
 
