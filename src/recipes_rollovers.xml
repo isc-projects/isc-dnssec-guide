@@ -538,10 +538,10 @@ example.com.   300 IN DNSKEY 257 3 7 (
                 AwEAAc1BQN...Wdc0qoH21H
                 ) ; KSK; alg = NSEC3RSASHA1; key id = 23550
 example.com.	300 IN RRSIG DNSKEY 7 2 300 (
-				20150205074900 20150106064900 <userinput>23550</userinput> mydnssecgood.org.
+				20150201074900 20150101064900 <userinput>23550</userinput> mydnssecgood.org.
 				S6zTbBTfvU...Ib5eXkbtE= )
 example.com.	300 IN RRSIG DNSKEY 7 2 300 (
-				20150205074900 20150106064900 29747 mydnssecgood.org.
+				20150105074900 20141206064900 29747 mydnssecgood.org.
 				VY5URQA2/d...OVKr1+KX8= )
 ...</screen>
 
