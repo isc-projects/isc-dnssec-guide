@@ -26,7 +26,8 @@
     dnssec-validation auto;
 };</screen>
 
-  <para>This line enables DNSSEC validation in BIND, and no manual key
+  <para>This line enables DNSSEC validation, the act of chasing down signatures
+  and keys, making sure they are authentic. in BIND, and no manual key
   configuration is needed. There are three possible choices:
 
    <itemizedlist>
@@ -61,8 +62,9 @@
   in <filename>bind.keys</filename> as a <varname>managed-keys</varname>
   statement. The two copies of the key are identical.</para></footnote> of the
   root key. When set to <replaceable>auto</replaceable>, BIND will
-  automatically keep the keys up-to-date without intervention from the DNS
-  administrator.</para>
+  automatically keep the keys (also known as trust anchors, which we will look
+  at in <xref linkend="trust-anchors" />) up-to-date without intervention from
+  the DNS administrator.</para>
   
   <para>We recommend <replaceable>auto</replaceable> unless you
   have a good reason for requiring a manual trust anchor. To learn
