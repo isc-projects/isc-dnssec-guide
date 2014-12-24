@@ -20,19 +20,19 @@
  </section>
 
 
- <!-- === Do I need Both ZSK and KSK? === -->
+ <!-- === Do I need Separate ZSK and KSK? === -->
  <section id="do-i-need-zsk-and-ksk">
-  <title>Do I Need Both ZSK and KSK?</title>
-  <para>No, but you should, for operational ease. The DNSSEC protocol
-  itself does not require two classes of keys, but for operational
-  practicality, having two classes of keys make the life of a typical
-  DNS(SEC) administrator's life easier. One of the advantages of having
-  separate ZSK and KSK is a better balance between security and ease of
-  use: KSK can be stored in a secure and less accessible area, while ZSK
-  is easily accessible for routine use. For more details and
+  <title>Do I Need Separate ZSK and KSK?</title>
+  <para>No, it is not required that you create two separate sets of keys, but
+  you should, for operational ease. The DNSSEC protocol itself does not require
+  two classes of keys, but for operational practicality, having two classes of
+  keys make the life of a typical DNS(SEC) administrator's life easier. One of
+  the advantages of having separate ZSK and KSK is a better balance between
+  security and ease of use: KSK can be stored in a secure and less accessible
+  area, while ZSK is easily accessible for routine use. For more details and
   considerations on this topic, please refer to <ulink
-  url="https://tools.ietf.org/html/rfc6781#section-3"> <citetitle> RFC
-  6781 Section 3 </citetitle> </ulink>. </para>
+  url="https://tools.ietf.org/html/rfc6781#section-3"> <citetitle> RFC 6781
+  Section 3 </citetitle> </ulink>. </para>
   
   <para>If you kept the two sets of keys separate, the below are the use of
   each key:
