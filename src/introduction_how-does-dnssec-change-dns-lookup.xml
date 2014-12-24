@@ -18,9 +18,7 @@
  ask-parent, parent, and its parent, and its parent, all the way until the
  validating resolver reaches a key that it trusts. In the ideal, fully deployed
  world of DNSSEC, all validating resolvers only need to trust one key: the root
- key. We will talk about how to live in the currently less-than-perfect DNSSEC
- world later in <xref linkend="trust-anchors" /> and <xref linkend="dlv"
- />.</para>
+ key. </para>
 
  <para>The following example shows the DNSSEC validating process of looking up
  the name <code>www.isc.org</code> at a very high level:</para>
