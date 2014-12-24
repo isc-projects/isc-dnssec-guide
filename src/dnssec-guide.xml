@@ -45,46 +45,13 @@
       the official source and has not been modified in transit.</para>
 
       <para>ISC BIND supports the full DNSSEC standard.</para>
-
-      <para>This document provides introductory information on how DNSSEC
-      works, how to configure BIND to support some common DNSSEC features, as
-      well as some basic troubleshooting tips. The chapters are organized as
-      such:</para>
-
-      <para><xref linkend="introduction" /> covers the intended audience for
-      this document, assumed background knowledge, and a basic introduction to
-      the topic of DNSSEC.</para>
-
-      <para><xref linkend="getting-started" /> covers various requirements that
-      are needed before implementing DNSSEC, such as software versions,
-      hardware capacity, network requirements, and security changes.</para>
-      
-      <para><xref linkend="dnssec-validation" /> walks through setting up a validating
-      resolver, as well as examples of using tools to verify the resolver is
-      validating answers.</para>
-      
-      <para><xref linkend="dnssec-signing" /> walks through setting up a basic signed
-      authoritative zone, explains the relationship with the parent zone, and
-      on-going maintenance tasks.</para>
-
-      <para><xref linkend="dnssec-troubleshooting" /> provides some tips on how to
-      analyze and diagnose DNSSEC-related problems.</para>
-      
-      <para><xref linkend="dnssec-advanced-discussions" /> covers several topics,
-      from key generation, key storage, key management, NSEC and NSEC3, to
-      disadvantages of DNSSEC.</para>
-
-      <para><xref linkend="dnssec-recipes" /> provides several working examples of
-      common solutions, with step-by-step details.</para>
-      
-      <para><xref linkend="dnssec-commonly-asked-questions" /> lists some commonly
-      asked questions and answers about DNSSEC.</para>
-      
-      </abstract>
-
-
+    </abstract>
   </bookinfo>
 
+  <!-- Preface, including Acknowledgement-->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+  href="preface.xml" />
+  
   <!-- Chapter 1: Introduction -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
   href="introduction.xml" />

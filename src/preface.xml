@@ -1,0 +1,56 @@
+<preface>
+ <title>Preface</title>
+
+  <section id="preface-organization">
+   <title>Organization</title>
+   <para>This document provides introductory information on how DNSSEC works,
+   how to configure BIND to support some common DNSSEC features, as well as
+   some basic troubleshooting tips. The chapters are organized as such:</para>
+
+   <para><xref linkend="introduction" /> covers the intended audience for this
+   document, assumed background knowledge, and a basic introduction to the
+   topic of DNSSEC.</para>
+
+   <para><xref linkend="getting-started" /> covers various requirements that
+   are needed before implementing DNSSEC, such as software versions, hardware
+   capacity, network requirements, and security changes.</para>
+      
+   <para><xref linkend="dnssec-validation" /> walks through setting up a
+   validating resolver, as well as examples of using tools to verify the
+   resolver is validating answers.</para>
+      
+   <para><xref linkend="dnssec-signing" /> walks through setting up a basic
+   signed authoritative zone, explains the relationship with the parent zone,
+   and on-going maintenance tasks.</para>
+
+   <para><xref linkend="dnssec-troubleshooting" /> provides some tips on how to
+   analyze and diagnose DNSSEC-related problems.</para>
+      
+   <para><xref linkend="dnssec-advanced-discussions" /> covers several topics,
+   from key generation, key storage, key management, NSEC and NSEC3, to
+   disadvantages of DNSSEC.</para>
+
+   <para><xref linkend="dnssec-recipes" /> provides several working examples of
+   common solutions, with step-by-step details.</para>
+  
+   <para><xref linkend="dnssec-commonly-asked-questions" /> lists some commonly
+   asked questions and answers about DNSSEC.</para>
+ </section>
+
+
+ <!-- Acknowledgement -->
+ <section id="preface-acknowledgement">
+  <title>Acknowledgement</title>
+  <para>This document is originally authored by Josh Kuo of <ulink
+  url="http://www.deepdivenetworking.com/"> <citetitle>DeepDive
+  Networking</citetitle></ulink>. He can be reached at
+  <email>josh@deepdivenetworking.com</email> </para>
+
+  <para>Icons made by <ulink url="http://www.freepik.com/">
+  <citetitle>Freepik</citetitle> </ulink> and <ulink
+  url="http://www.simpleicon.com/"> <citetitle>SimpleIcon</citetitle> </ulink>
+  from <ulink url="http://www.flaticon.com" />, licensed under <ulink
+  url="http://creativecommons.org/licenses/by/3.0/"> <citetitle>Creative Commons
+  BY 3.0</citetitle> </ulink>.</para>
+ </section>
+</preface>
