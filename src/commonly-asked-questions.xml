@@ -24,12 +24,14 @@
   <qandaentry>
    <question><para>Does DNSSEC protect the communication between my laptop and
    my name server?</para></question>
-   <answer><para>Unfortunately, no. DNSSEC is a protocol among DNS servers.
-   Enabling DNSSEC will change the way your name server communicates with other
-   name servers, but not your how your laptop computer or mobile client
-   communicates with your recursive server. This communication between the
-   recursive server to the clients are commonly called the "last mile", and
-   enabling DNSSEC does not enhance security for the last mile.</para></answer>
+   <answer><para>Unfortunately, currently, no. DNSSEC is designed to protect
+   the communication between the end clients (laptop) and the name servers,
+   however, there are few applications or stub resolver libraries as of late
+   2014 that take advantage of this capability. This communication between the
+   recursive server to the clients are commonly called the "last mile", while
+   enabling DNSSEC today does little to enhance the security for the last mile,
+   we hope that will change in the near future as more and more applications
+   become DNSSEC-aware.</para></answer>
   </qandaentry>
 
   <qandaentry>
