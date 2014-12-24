@@ -84,22 +84,8 @@
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
   href="commonly-asked-questions.xml" />
 
-  <!-- Acknowledgements -->
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
-  href="acknowledgements.xml" />
-
 
 <!--
-  TODO: jkuo Thu Oct 30 11:01:18 UTC 2014
-  Is this where we should acknolwedge people who helped review the document?
-
-  <chapter id="acknowledgements">
-    <title>Acknowledgements</title>
-      <para>BIND is primarily designed, developed, and maintained by
-      Internet Systems Consortium, Inc. It is an open source project
-      and contributions are welcomed.</para>
-  </chapter>
-
   <index>    <title>Index</title> </index>
 -->
 </book>
