@@ -509,6 +509,13 @@ example.com.   300 IN RRSIG DNSKEY 7 2 300 (
 example.com.	21552	IN	DS	24828 7 1 D4A33E8DD550A9567B4C4971A34AD6C4B80A6AD3
 example.com.	21552	IN	DS	<userinput>23550</userinput> 7 1 54FCF030AA1C79C0088FDEC1BD1C37DAA2E70DFB</screen>
 
+   <para>You could also query your parent zone's authoritative name servers
+   directly to see if these records have been published. DS records will not
+   show up on your own authoritative zone, so do not query your own name
+   servers for them. In this recipe, the parent zone is <code>.com</code>, so
+   querying a few of the <code>.com</code> name servers is another appropriate
+   verification.</para>
+
   </section>
 
   <!-- === Day of KSK Rollover === -->
