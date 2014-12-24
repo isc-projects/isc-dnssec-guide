@@ -199,17 +199,22 @@ example.com.		600 IN RRSIG SOA 8 2 600 (
  <section id="signing-easy-start-so-what-now">
   <title>So... What Now?</title>
   <para>Congratulations, your zone is signed, and parent zone has accepted your
-  upload. Your zone is now officially DNSSEC-enabled. What happens now? Well,
-  there are a few maintenance tasks you need to do on a regular basis, which
-  you can find in <xref linkend="signing-maintenance-tasks"/>. As for updating
-  your zone file, you can continue to update them the same way you have been
-  prior to signing your zone, the normal work flow of editing zone file and
-  using the <command>rndc</command> command to reload the zone still works the
-  same, and although you are editing the unsigned version of the zone, BIND
-  will generate the signed version automatically.</para>
+  upload. Your zone is now officially DNSSEC-enabled. If you have any slave
+  name servers that perform zone transfers from you, they will receive the new
+  DNSSEC-enabled zone data. What happens next? Well, there are a few maintenance
+  tasks you need to do on a regular basis, which you can find in <xref
+  linkend="signing-maintenance-tasks"/>. As for updating your zone file, you
+  can continue to update them the same way you have been prior to signing your
+  zone, the normal work flow of editing zone file and using the
+  <command>rndc</command> command to reload the zone still works the same, and
+  although you are editing the unsigned version of the zone, BIND will generate
+  the signed version automatically.</para>
 
   <para>Curious as to what all these commands did to your zone file? Read on to
-  <xref linkend="your-zone-before-and-after-dnssec"/> and find out.</para>
+  <xref linkend="your-zone-before-and-after-dnssec"/> and find out. If you are
+  interested in how you can roll this out to your existing master and slave
+  name servers, check out <xref linkend="recipes-inline-signing" /> in <xref
+  linkend="dnssec-recipes" />.</para>
 
  </section>
 
