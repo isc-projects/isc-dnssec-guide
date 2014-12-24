@@ -59,7 +59,8 @@
     record type. In general, there are two categories of keys used in DNSSEC,
     Zone Signing Key (ZSK) is used to protect all zone data, and Key Signing
     Key (KSK) is used to protect other keys. We will talk about keys in <xref
-    linkend="signing-generate-keys-explained" />.</simpara>
+    linkend="signing-generate-keys-explained" />, and again later in <xref
+    linkend="advanced-discussions-key-generation" />.</simpara>
    </listitem>
 
    <listitem>
