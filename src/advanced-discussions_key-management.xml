@@ -57,7 +57,7 @@
       published, some resolvers may only have the old ZSK cached when the new
       RRSIG records are published, and validation may fail. This is the method
       that was described in <xref linkend="maintenance-tasks-zsk-rollover"
-      />.</simpara>
+      /> and <xref linkend="recipes-zsk-rollover" /></simpara>
      </listitem>
 
      <!-- #2 Double Signature -->
@@ -95,7 +95,8 @@
       the old DS at the parent. The benefit is that the size of the DNSKEY
       RRset is kept to a minimum, but interactions with the parent zone is
       increased to two events. This is the method that is described in <xref
-      linkend="maintenance-tasks-ksk-rollover" />. </simpara>
+      linkend="maintenance-tasks-ksk-rollover" /> and <xref
+      linkend="recipes-ksk-rollover" />. </simpara>
      </listitem>
 
      <!-- #2 Double-KSK -->
