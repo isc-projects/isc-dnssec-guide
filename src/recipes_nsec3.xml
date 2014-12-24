@@ -87,7 +87,7 @@ ns1.example.com.	300 IN NSEC web.example.com. A RRSIG NSEC
   privacy. In this recipe, we will look at what command to execute to actually
   change the salt, and how to verify that it has been changed.</para>
 
-  <para>To change your NSEC3 salt, you may run the rndc signing command like
+  <para>To change your NSEC3 salt to "fedcba0987654321", you may run the rndc signing command like
   this:</para>
 
   <screen># <userinput>rndc signing -nsec3param 1 1 10 fedcba0987654321 example.com</userinput></screen>
