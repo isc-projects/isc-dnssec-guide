@@ -80,7 +80,7 @@ ns1.example.com.	300 IN NSEC web.example.com. A RRSIG NSEC
 
  <!-- === Changing NSEC3 Salt === -->
  <section id="recipes-nsec3-salt">
-  <title>Changing NSEC3 Salt</title>
+  <title>Changing NSEC3 Salt Recipe</title>
 
   <para>In <xref linkend="advanced-discussions-nsec3-salt" />, we've discussed
   the reasons why you may want to change your salt once in a while for better
@@ -123,7 +123,7 @@ TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com. 300 IN <userinput>NSEC3 1 0 10 FED
 
  <!-- === NSEC3 Optout === -->
  <section id="recipes-nsec3-optout">
-  <title>NSEC3 Optout</title>
+  <title>NSEC3 Optout Recipe</title>
 
   <para>This recipe discusses how to enable and disable NSEC3 opt-out, and show
   the results of each action. As discussed in <xref
