@@ -241,7 +241,9 @@ example.com.		600 IN RRSIG DNSKEY 8 2 600 (
 				G2g3crN17h...Oe4gw6gH8= )
 ...</screen>
 
-   <para>Congratulations, the ZSK rollover is complete!</para>
+   <para>Congratulations, the ZSK rollover is complete! As for the actual key
+   files (the <filename>.key</filename> and <filename>.private</filename>
+   files), they may be deleted at this point, but it's not required.</para>
 
   </section>
  </section>
@@ -636,7 +638,9 @@ example.com.	300 IN RRSIG DNSKEY 7 2 300 (
     </listitem>
    </orderedlist>
 
-   <para>Congratulations, the KSK rollover is complete!</para>
+   <para>Congratulations, the KSK rollover is complete! As for the actual key
+   files (the <filename>.key</filename> and <filename>.private</filename>
+   files), they may be deleted at this point, but it's not required.</para>
   </section>
  </section>
 </section>
