@@ -167,8 +167,10 @@ example.com.		600 IN RRSIG SOA 8 2 600 (
   will not resolve your domain name.</note>
 
   <para>Here are some examples of what you may upload to your parent zone,
-  actual keys shortened for display. Again, contact your parent zone
-  administrator(s) to find out what is the correct format for you:
+  actual keys shortened for display. Note that no matter what formats may be
+  required, the end result will be the parent zone publishing DS record(s)
+  based on the information you upload. Again, contact your parent zone
+  administrator(s) to find out what is the correct format for you.
 
    <orderedlist>
     <!-- #1 DS Record -->

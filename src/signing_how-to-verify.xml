@@ -141,7 +141,7 @@ OK</screen>
   <title>Check the Parent</title>
   <para>Although this is not strictly related to whether or not the zone is
   signed, but a critical part of DNSSEC is the trust relationship between the
-  parent and child. Just because we, the child, have all the correct signed
+  parent and child. Just because we, the child, have all the correctly signed
   records in our zone doesn't mean it can be fully validated by a validating
   resolver, unless our parent's data agrees with us. To check if our upload to
   the parent is successful, ask the parent name server for the DS record of our
