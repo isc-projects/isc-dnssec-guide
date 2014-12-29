@@ -95,11 +95,32 @@ www.isc.org.		60	IN	A	149.20.64.69</screen>
 
   <para>Below shows what the results look like querying the same server
   (192.168.1.7) after enabling DNSSEC validation. The exact same command is
-  run, and this time notice three key differences, 1) the presence of the
-  Authenticated Data (<code>ad</code>) flag in the header, 2) the DNSSEC OK
-  (<code>do</code>) flag indicating the recursive server is DNSSEC-aware, and
-  3) an additional resource record of type RRSIG, with the same name as the A
-  record.</para>
+  run, and this time notice three key differences:
+   <orderedlist>
+    <listitem>
+     <simpara>The presence of the Authenticated Data (<code>ad</code>) flag in
+     the header</simpara>
+    </listitem>
+    <listitem>
+     <simpara>The DNSSEC OK (<code>do</code>) flag indicating the recursive
+     server is DNSSEC-aware</simpara>
+    </listitem>
+    <listitem>
+     <simpara>An additional resource record of type RRSIG, with the same name
+     as the A record.</simpara>
+    </listitem>
+   </orderedlist>
+  </para>
+
+  <para>The DNSSEC OK (<code>do</code>) flag tells us that the recursive server
+  we are querying (192.168.1.7 in this example) is DNSSEC-aware. That its
+  administrator has enabled DNSSEC on the name server to perform validation.
+  The Authenticated Data (<code>ad</code>) flag tells us that the answer
+  received has passed the validation process as described in <xref
+  linkend="how-are-answers-verified" />. We can have confidence in the
+  authenticity and integrity of the answer that <code>www.isc.org</code> really
+  points to the IP address 149.20.64.69, and it was not a spoofed answer from a
+  clever attacker.</para>
 
   <screen>$ <userinput>dig @192.168.1.7 www.isc.org. A +dnssec +multiline</userinput>
 
