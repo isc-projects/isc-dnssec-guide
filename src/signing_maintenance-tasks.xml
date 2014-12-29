@@ -11,12 +11,12 @@
  resign your zone with new RRSIG and NSEC or NSEC3 records, and even increment
  the serial number for you.</para>
 
- <para>That leaves DNSKEY records. Just like passwords and underwear, keys need
- to be changed periodically. If you followed the examples in this guide with
- inline signing and automatic key management, the recurring tasks you need to
- perform are very limited. You should change your ZSK pair annually, and your
- KSK pair  every five years. This is also known as a key rollover.</para>
-
+ <para>That leaves DNSKEY records. Just like passwords and underwear, keys should 
+ be changed periodically. There are arguments for and against rolling keys,
+ which are discussed elsewhere. If you decide to change your keys, we recommend
+ changing your ZSK pair anually, and your KSK pair every five years. This is
+ also known as a key rollover.</para>
+ 
  <para>Why annually for the ZSK? That's just a convenient length of time that
  probably coincides with your domain name registration/renewal cycle; And every
  five years? That's also a generic length of time, one which happens to be the
@@ -24,8 +24,9 @@
  do it more frequently, while some argue that there is no need for key rolling.
  We discuss those considerations in <xref linkend="key-rollovers" />. But
  assuming you do not have special security requirements, nor do you host a
- high valued zone, rotating your ZSK every year and KSK every five years
- should suffice.</para>
+ high valued zone, rotating your ZSK every year and KSK every five years should
+ suffice. We also provide detailed step-by-step examples of each rollover in
+ <xref linkend="recipes-rollovers" />.</para>
 
 
  <!-- ====== ZSK Rollover Example ====== -->
