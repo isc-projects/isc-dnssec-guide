@@ -10,10 +10,10 @@
  <para>When there is indeed a DNSSEC validation problem, the visible symptoms,
  unfortunately, are very limited. With DNSSEC validation enabled, if a DNS
  response is not fully validated, it will result in a generic SERVFAIL
- message, as shown below.</para>
+ message, as shown below when querying against a recursive name server 192.168.1.7:</para>
 
- <screen>$ <userinput>dig @192.168.1.11 www.isc.org. A</userinput>
-; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.11 www.isc.org. A
+ <screen>$ <userinput>dig @192.168.1.7 www.isc.org. A</userinput>
+; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.7 www.isc.org. A
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
@@ -26,14 +26,14 @@
 ;www.isc.org.			IN	A
 
 ;; Query time: 973 msec
-;; SERVER: 192.168.1.11#53(192.168.1.11)
+;; SERVER: 192.168.1.7#53(192.168.1.7)
 ;; WHEN: Thu Oct 16 20:28:20 CST 2014
 ;; MSG SIZE  rcvd: 40</screen>
 
  <para>With <command>delv</command>, a "resolution failed" message is
  output instead:</para>
 
- <screen>$ <userinput>delv @192.168.1.11 www.isc.org. A +rtrace</userinput>
+ <screen>$ <userinput>delv @192.168.1.7 www.isc.org. A +rtrace</userinput>
 ;; fetch: www.isc.org/A
 ;; <userinput>resolution failed: failure</userinput></screen>
 </section>

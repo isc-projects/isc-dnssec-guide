@@ -147,15 +147,15 @@ example.com.	299 IN RRSIG DNSKEY 8 2 300 (
    <screen>named[18235]: /etc/bind/named.conf.options:29: <userinput>bad base64 encoding</userinput>
 named[18235]: loading configuration: failure</screen>
 
-  <para>If the key is a valid base64 string, but the algorithm number is
-  incorrect (we discuss algorithm number in later KEY SIGNING section), or
-  if the wrong key is installed, the first thing you will notice is that
-  pretty much all of your DNS lookups result in SERVFAIL, even when
-  you are looking up domain names that have not been DNSSEC-enabled.</para>
+  <para>If the key is a valid base64 string, but the key algorithm is
+  incorrect, or if the wrong key is installed, the first thing you will notice
+  is that pretty much all of your DNS lookups result in SERVFAIL, even when you
+  are looking up domain names that have not been DNSSEC-enabled. Below shows an
+  example of querying a recursive server 192.168.1.7:</para>
 
-   <screen>$ <userinput>dig @192.168.1.11 www.example.com. A</userinput>
+   <screen>$ <userinput>dig @192.168.1.7 www.example.com. A</userinput>
 
-; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.11 www.example.com. A
+; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.7 www.example.com. A
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
@@ -169,7 +169,7 @@ named[18235]: loading configuration: failure</screen>
 
   <para><command>delv</command> shows similar result:</para>
 
-   <screen>$ <userinput>delv @192.168.1.11 www.example.com. +rtrace</userinput>
+   <screen>$ <userinput>delv @192.168.1.7 www.example.com. +rtrace</userinput>
 ;; fetch: www.example.com/A
 ;; <userinput>resolution failed: failure</userinput></screen>
 
