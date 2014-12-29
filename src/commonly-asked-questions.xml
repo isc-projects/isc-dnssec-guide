@@ -55,8 +55,9 @@
    signed and more and more recursive servers are validating, DNSSEC will make
    it much more difficult for attackers to spoof DNS responses or perform cache
    poisoning. It still does not protect users from visiting a malicious web
-   site that the attacker owns and operates, it just becomes unlikely that the
-   attacker can hijack other domain names.</para></answer>
+   site that the attacker owns and operates, or prevent users from mis-typing a
+   domain name, it just becomes unlikely that the attacker can hijack other
+   domain names.</para></answer>
   </qandaentry>
 
   <qandaentry>
