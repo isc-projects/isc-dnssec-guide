@@ -46,6 +46,19 @@
   Networking</citetitle></ulink>. He can be reached at
   <email>josh@deepdivenetworking.com</email> </para>
 
+  <para>The sections on key rollover and key timing meta data is borrowed
+  heavily from the Internet Engineering Task Force draft titled <ulink
+  url="https://tools.ietf.org/html/draft-morris-dnsop-dnssec-key-timing"><citetitle>
+  "DNSSEC Key Timing Considerations" by S. Morris, J. Ihren, J. Dickinson, and
+  W. Mekking</citetitle></ulink>.
+  </para>
+
+  <para>The recipe for TLSA self-signed certificate is based on the work of <ulink
+  url="http://www.ietf.org/mail-archive/web/dane/current/pdfk2DbQF0Oxs.pdf" >
+  <citetitle> "A Step-by-Step guide for implementing DANE with a Proof of
+  Concept” by Sandoche Balakrichenan, Stephane Bortzmeyer, and Mohsen Souissi
+  (April 15, 2013) </citetitle> </ulink>.</para>
+
   <para>Icons made by <ulink url="http://www.freepik.com/">
   <citetitle>Freepik</citetitle> </ulink> and <ulink
   url="http://www.simpleicon.com/"> <citetitle>SimpleIcon</citetitle> </ulink>

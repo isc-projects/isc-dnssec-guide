@@ -83,7 +83,7 @@ SHA256 Fingerprint=294874DA378148CDD1B9C57D2E891E8C294D2958F0BCA7400A0D6D6F50C4A
  <para>If you are interested in learning (a lot) more about the TLSA record type,
  check out <ulink
  url="http://www.ietf.org/mail-archive/web/dane/current/pdfk2DbQF0Oxs.pdf" >
- <citetitle> A Step-by-Step guide for implementing DANE with a Proof of
+ <citetitle> "A Step-by-Step guide for implementing DANE with a Proof of
  Concept” by Sandoche Balakrichenan, Stephane Bortzmeyer, and Mohsen Souissi
  (April 15, 2013) </citetitle> </ulink> </para>
 
