@@ -27,7 +27,8 @@
   be a hassle to bring the private key out of storage every time the zone file
   changes or when signatures expire.</para>
 
-  <para>One way around this is to have two sets of keys, a ZSK and KSK. ZSK
+  <para>A common approach to strike the balance between security and
+  practicality is to have two sets of keys, a ZSK set, and a KSK set. ZSK
   private key is used to sign zone data, and can be kept online for ease of
   use; KSK private key is used to sign just the DNSKEY (the ZSK), it is used
   less frequently, and can be stored in a much more secure and restricted
@@ -39,9 +40,8 @@
   available for routine use, maybe be a good a good balance between operational
   flexibility and security.</para>
 
-  <para>And don't forget to change these keys regularly, as described in <xref
+  <para>And if you need to change your keys, please see <xref
   linkend="key-rollovers" />.</para>
-
  </section>
 
 
