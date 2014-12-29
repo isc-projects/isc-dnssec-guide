@@ -6,10 +6,13 @@
   <title>Migrating from NSEC to NSEC3</title>
   <para>This recipe describes how to go from using NSEC to NSEC3, as described
   in both <xref linkend="signing-using-nsec3" /> and <xref
-  linkend="advanced-discussions-proof-of-nonexistence" />.</para>
-
-  <para>This command below enables NSEC3 for the zone <code>example.com</code>, using a
-  pseudo-random string 1234567890abcdef for its salt:</para>
+  linkend="advanced-discussions-proof-of-nonexistence" />. Thie recipe assumes
+  that the zones are already signed, and <command>named</command> is
+  configured according to the steps described in <xref
+  linkend="easy-start-guide-for-authoritative-servers" />.</para>
+  
+  <para>This command below enables NSEC3 for the zone <code>example.com</code>,
+  using a pseudo-random string 1234567890abcdef for its salt:</para>
 
   <screen># <userinput>rndc signing -nsec3param 1 0 10 1234567890abcdef example.com</userinput></screen>
 
