@@ -13,9 +13,9 @@
 
   <para>This line enables DNSSEC support, the default is yes, we're declaring
   it explicitly here. Note that if this is the only thing you enable and
-  nothing else, the default validation behavior is set to rely on manual keys,
-  and no validation will actually take place until you have manually configured
-  at least one trusted key.</para>
+  nothing else, the default validation behavior is set to rely on
+  manually-configured keys, and no validation will actually take place until
+  you have manually configured at least one trusted key.</para>
 
  </section>
 
