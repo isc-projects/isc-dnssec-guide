@@ -62,9 +62,9 @@
    <!-- #4 -->
    <listitem>
     <simpara><code>isc.org</code> name server responds with the cryptographic
-    keys used to generate the digital signature that was sent in #2. At this
-    point, the validating resolver can use this information to verify the
-    answers received in #2.</simpara>
+    keys (and digital signatures of the keys) used to generate the digital
+    signature that was sent in #2. At this point, the validating resolver can
+    use this information to verify the answers received in #2.</simpara>
 
     <simpara>Let's take a quick break here and look at what we've got so far...
     how could we trust this answer? If a clever attacker had taken over the
@@ -94,14 +94,12 @@
     received in #4, and the two of them should match, proving the authenticity
     of <code>isc.org</code>.</simpara>
 
-
-    <simpara>Let's examine this process.
-    You might be thinking to yourself, well, what if the clever attacker that
-    took over <code>isc.org</code> also compromised the <code>.org</code>
-    servers? Of course all this information will match! That's why we will turn
-    our attention now to the <code>.org</code> servers, interrogate it for its
-    cryptographic keys, and move on one level up to <code>.org</code>'s parent,
-    root.</simpara>
+    <simpara>Let's examine this process.  You might be thinking to yourself,
+    well, what if the clever attacker that took over <code>isc.org</code> also
+    compromised the <code>.org</code> servers? Of course all this information
+    would match! That's why we will turn our attention now to the
+    <code>.org</code> servers, interrogate it for its cryptographic keys, and
+    move on one level up to <code>.org</code>'s parent, root.</simpara>
    </listitem>
 
    <!-- #7 -->
@@ -114,8 +112,8 @@
    <!-- #8 -->
    <listitem>
     <simpara><code>.org</code> name server responds with the answer (in this
-    case, keys). At this point, validating resolver can verify the answers
-    received in #6.</simpara>
+    case, keys and signatures). At this point, validating resolver can verify
+    the answers received in #6.</simpara>
    </listitem>
 
    <!-- #9 -->
@@ -127,9 +125,8 @@
    <!-- #10 -->
    <listitem>
     <simpara>Root name server sends back the verifiable information it keeps on
-    <code>.org</code>. The validating resolver now takes this
-    information and uses it to verify the answers received in
-    #8.</simpara>
+    <code>.org</code>. The validating resolver now takes this information and
+    uses it to verify the answers received in #8.</simpara>
 
     <simpara>So up to this point, both <code>isc.org</code> and
     <code>.org</code> check out. But what about root? What if this attacker is
