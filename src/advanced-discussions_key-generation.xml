@@ -34,50 +34,9 @@
   url="https://tools.ietf.org/html/rfc6781#section-3"> <citetitle> RFC 6781
   Section 3 </citetitle> </ulink>. </para>
   
-  <para>If you kept the two sets of keys separate, the below are the use of
-  each key:
+  <para>Please refer to <xref linkend="zsk-ksk-comparison" /> for a comparison
+  of how each of the keys are used.</para>
 
-   <table>
-    <title>ZSK KSK Comparison</title>
-    <tgroup cols='3' align='left' colsep='0' rowsep='0'>
-     <thead>
-      <row>
-       <entry>Key</entry>
-       <entry>Usage</entry>
-       <entry>Frequency of Use</entry>
-      </row>
-     </thead>
-     <tbody>
-      <row>
-       <entry>ZSK Private</entry>
-       <entry>Used by authoritative server to create RRSIG for zone
-       data</entry>
-       <entry>Used somewhat frequently, whenever zone data changes or
-       re-signing is needed</entry>
-      </row>
-      <row>
-       <entry>ZSK Public</entry>
-       <entry>Used by recursive server to validate zone data RRset</entry>
-       <entry>Used very frequently, whenever recursive server validates a
-       response</entry>
-      </row>
-      <row>
-       <entry>KSK Private</entry>
-       <entry>Used by authoritative server to create RRSIG for ZSK and KSK
-       Public (DNSKEY)</entry>
-       <entry>Very infrequently, whenever ZSK's or KSK's change (every
-       year or every five years in our examples)</entry>
-      </row>
-      <row>
-       <entry>KSK Public</entry>
-       <entry>Used by recursive server to validate DNSKEY RRset</entry>
-       <entry>Used very frequently, whenever recursive server validates a
-       DNSKEY RRset</entry>
-      </row>
-     </tbody>
-    </tgroup>
-   </table>
-  </para>
  </section>
 
 

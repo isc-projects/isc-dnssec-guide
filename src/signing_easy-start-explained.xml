@@ -5,17 +5,18 @@
  <section id="signing-generate-keys-explained">
   <title>Generate Keys Explained</title>
   <para>In <xref linkend="signing-easy-start-generate-keys"/>, we generated two
-  pairs of keys by running these commands:
+  pairs of keys, a pair of Zone Signing Key (ZSK), and a pair of Key Signing
+  Key (KSK). To quickly summarize, ZSK's are used to generate RRSIG, while
+  KSK's are used to sign DNSKEY records, as well as to derive the DS record to
+  be sent to the parent. We generated keys by running these commands:</para>
 
-   <screen># <userinput>cd /etc/bind/keys/example.com</userinput>
+  <screen># <userinput>cd /etc/bind/keys/example.com</userinput>
 # <userinput>dnssec-keygen -a RSASHA256 -b 1024 example.com</userinput>
 Generating key pair...++++++ .............++++++ 
 Kexample.com.+008+17694
 # <userinput>dnssec-keygen -a RSASHA256 -b 2048 -f KSK example.com</userinput>
 Generating key pair........................+++ ..................................+++ 
 Kexample.com.+008+06817</screen>
-
-  </para>
 
   <para>With these commands, we generated NSEC3-compatible key pairs (see <xref
   linkend="advanced-discussions-nsec3"/> to learn more about NSEC3). In the
@@ -48,9 +49,9 @@ Kexample.com.+008+06817</screen>
   <para>The two files ending in <code>.key</code> are your public keys. One is
   the zone-signing key (ZSK), and one is the key-signing Key (KSK). We can tell
   which is which by looking at the actual file contents (actual keys shortened
-  for display):
+  for display):</para>
 
-   <screen># <userinput>cat Kexample.com.+008+06817.key
+  <screen># <userinput>cat Kexample.com.+008+06817.key
 ; This is a key-signing key, keyid 6817, for example.com.</userinput>
 ; Created: 20141120094612 (Thu Nov 20 17:46:12 2014)
 ; Publish: 20141120094612 (Thu Nov 20 17:46:12 2014)
@@ -62,8 +63,6 @@ example.com. IN DNSKEY 257 3 8 AwEAAcWDps...lM3NRn/G/R
 ; Publish: 20141120094536 (Thu Nov 20 17:45:36 2014)
 ; Activate: 20141120094536 (Thu Nov 20 17:45:36 2014)
 example.com. IN DNSKEY 256 3 8 AwEAAcjGaU...zuu55If5</screen>
-
-  </para>
 
   <para>The first line of each file tell us what type of key it is. Also, by
   looking at the actual DNSKEY record, we could tell them apart: 256 is ZSK,
@@ -88,6 +87,49 @@ example.com. IN DNSKEY <userinput>257</userinput> 3 8 AwEAAcWDps...lM3NRn/G/R</s
   to evaluate what values work best for your environment. To learn more about
   key generation, different algorithm choices, and key sizes, see <xref
   linkend="advanced-discussions-key-generation"/>.</para>
+
+  <para>The table below summarizes the usage and frequency of use for each of
+  the keys.  <table id="zsk-ksk-comparison">
+    <title>ZSK KSK Comparison</title>
+    <tgroup cols='3' align='left' colsep='0' rowsep='0'>
+     <thead>
+      <row>
+       <entry>Key</entry>
+       <entry>Usage</entry>
+       <entry>Frequency of Use</entry>
+      </row>
+     </thead>
+     <tbody>
+      <row>
+       <entry>ZSK Private</entry>
+       <entry>Used by authoritative server to create RRSIG for zone
+       data</entry>
+       <entry>Used somewhat frequently depending on the zone, whenever
+       authoritative zone data changes or re-signing is needed</entry>
+      </row>
+      <row>
+       <entry>ZSK Public</entry>
+       <entry>Used by recursive server to validate zone data RRset</entry>
+       <entry>Used very frequently, whenever recursive server validates a
+       response</entry>
+      </row>
+      <row>
+       <entry>KSK Private</entry>
+       <entry>Used by authoritative server to create RRSIG for ZSK and KSK
+       Public (DNSKEY)</entry>
+       <entry>Very infrequently, whenever ZSK's or KSK's change (every
+       year or every five years in our examples)</entry>
+      </row>
+      <row>
+       <entry>KSK Public</entry>
+       <entry>Used by recursive server to validate DNSKEY RRset</entry>
+       <entry>Used very frequently, whenever recursive server validates a
+       DNSKEY RRset</entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </table>
+  </para>
 
  </section>
 

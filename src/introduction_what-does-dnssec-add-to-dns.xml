@@ -64,11 +64,11 @@
    </listitem>
 
    <listitem>
-    <simpara><emphasis>DS</emphasis>: One of the key components of DNSSEC is
-    that the parent zone can "vouch" for its child zone. DS record is
-    verifiable information a parent zone keeps on its child as part of the
-    chain of trust. To learn more about Chain of Trust, see <xref
-    linkend="chain-of-trust" />.</simpara>
+    <simpara><emphasis>DS</emphasis>: One of the critical components of DNSSEC
+    is that the parent zone can "vouch" for its child zone. DS record is
+    verifiable information (generated from one of the child's public keys) a
+    parent zone keeps on its child as part of the chain of trust. To learn more
+    about Chain of Trust, see <xref linkend="chain-of-trust" />.</simpara>
    </listitem>
   </itemizedlist></para>
 
