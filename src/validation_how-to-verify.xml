@@ -235,9 +235,9 @@ www.isc.org.		19 IN RRSIG A 5 3 60 (
   <para>And no problem resolving the domain name as shown below using
   <command>dig</command>:</para>
 
-  <screen>$ <userinput>dig @192.168.1.11 www.dnssec-failed.org. A</userinput>
+  <screen>$ <userinput>dig @192.168.1.7 www.dnssec-failed.org. A</userinput>
 
-; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.11 www.dnssec-failed.org. A
+; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.7 www.dnssec-failed.org. A
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
@@ -254,7 +254,7 @@ www.dnssec-failed.org.	7200	IN	A	68.87.109.242
 www.dnssec-failed.org.	7200	IN	A	69.252.193.191
 
 ;; Query time: 955 msec
-;; SERVER: 192.168.1.11#53(192.168.1.11)
+;; SERVER: 192.168.1.7#53(192.168.1.7)
 ;; WHEN: Fri Oct 17 07:42:50 CST 2014
 ;; MSG SIZE  rcvd: 82</screen>
 
@@ -263,9 +263,9 @@ www.dnssec-failed.org.	7200	IN	A	69.252.193.191
   message from your web browser. And looking up this domain name using
   <command>dig</command> should result in SERVFAIL, as shown below:</para>
 
-  <screen>$ <userinput>dig @192.168.1.11 www.dnssec-failed.org. A</userinput>
+  <screen>$ <userinput>dig @192.168.1.7 www.dnssec-failed.org. A</userinput>
 
-; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.11 www.dnssec-failed.org. A
+; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.7 www.dnssec-failed.org. A
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
@@ -278,7 +278,7 @@ www.dnssec-failed.org.	7200	IN	A	69.252.193.191
 ;www.dnssec-failed.org.		IN	A
 
 ;; Query time: 2435 msec
-;; SERVER: 192.168.1.11#53(192.168.1.11)
+;; SERVER: 192.168.1.7#53(192.168.1.7)
 ;; WHEN: Fri Oct 17 07:44:56 CST 2014
 ;; MSG SIZE  rcvd: 50</screen>
 
