@@ -44,9 +44,9 @@
   <itemizedlist>
    <listitem>
     <simpara><emphasis>RRSIG</emphasis>: With DNSSEC enabled, just about every
-    DNS answer (A, PTR, MX, SOA, etc.) will come with at least one RRSIG, or
-    resource record signature. These signatures are used by recursive name
-    servers, also known as validating resolvers, to verify the answers
+    DNS answer (A, PTR, MX, SOA, DNSKEY, etc.) will come with at least one
+    RRSIG, or resource record signature. These signatures are used by recursive
+    name servers, also known as validating resolvers, to verify the answers
     received. To learn how digital signatures are generated and used, see <xref
     linkend="how-are-answers-verified" />.</simpara>
    </listitem>
