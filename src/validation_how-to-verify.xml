@@ -216,16 +216,17 @@ www.isc.org.		19 IN RRSIG A 5 3 60 (
  <!-- ====== Verifying Protection from Bad Domain Names ====== -->
  <section id="verifying-protection-from-bad-domain-names">
   <title>Verifying Protection from Bad Domain Names</title>
-  <para>It is also important to make sure DNSSEC is doing its job of protecting
-  you from domain names that you should not trust or resolve. This could happen
-  for a number of reasons, maybe the answer doesn't verify because it's a
-  spoofed response; maybe the signature was a replayed network attack that has
-  expired; or maybe the child zone has been compromised along with its keys,
-  and the parent zone's information is telling us that things don't add up.
-  There is a domain name specifically setup to purposely fail DNSSEC
-  validation, <code>www.dnssec-failed.org</code>.  Prior to enabling DNSSEC
-  validation, you should have no trouble visiting the URL <ulink
-  url="http://www.dnssec-failed.org/" />:</para>
+  <para>It is also important to make sure that DNSSEC is protecting you from
+  domain names that fail to validate; such failures could be caused by attacks
+  on your system, attempting to get it to accept false DNS information.
+  Validation could fail for a number of reasons, maybe the answer doesn't
+  verify because it's a spoofed response; maybe the signature was a replayed
+  network attack that has expired; or maybe the child zone has been compromised
+  along with its keys, and the parent zone's information is telling us that
+  things don't add up.  There is a domain name specifically setup to purposely
+  fail DNSSEC validation, <code>www.dnssec-failed.org</code>.  Prior to
+  enabling DNSSEC validation, you should have no trouble visiting the URL
+  <ulink url="http://www.dnssec-failed.org/" /> in your web browser:</para>
 
   <simpara>
    <imagedata fileref="../img/dnssec-failed-org-example.png" />
