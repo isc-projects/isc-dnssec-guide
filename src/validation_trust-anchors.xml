@@ -106,8 +106,8 @@
  <!-- ====== Trust Anchors and Managed Keys ====== -->
  <section id="trusted-keys-and-managed-keys">
   <title>Trusted Keys and Managed Keys</title>
-  <para>So we have at least one key configured, and it is known as a trust
-  anchor. How did it get here, and how do we maintain it?</para>
+  <para>So, as the resolver is validating, we must have at least one key (trust
+  anchor) configured. How did it get here, and how do we maintain it?</para>
 
   <para>If you followed the recommendation in <xref
   linkend="easy-start-guide-for-recursive-servers"/>, by setting
@@ -116,7 +116,7 @@
   file <filename>bind.keys</filename>), that will automatically update itself.
   It looks something like this:</para>
 
-   <screen>managed-keys {
+  <screen>managed-keys {
     . initial-key 257 3 8 "AwEAAagAIKlVZrpC6Ia7gEzahOR+9W29euxhJhVVLOyQbSEW0O8gcCjF
     FVQUTf6v58fLjwBd0YI0EzrAcQqBGCzh/RStIoO8g0NfnfL2MTJRkxoX
     bfDaUeVPQuYEhg37NZWAJQ9VnMVDxP/VHL496M/QZxkjf5/Efucp2gaD
@@ -131,7 +131,7 @@
   <varname>dnssec-validation</varname> is set to <replaceable>yes</replaceable>
   rather than <replaceable>auto</replaceable>: </para>
 
-   <screen>options {
+  <screen>options {
     dnssec-validation yes;
 };</screen>
 
