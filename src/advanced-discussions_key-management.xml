@@ -21,11 +21,6 @@
   <title>Key Rollovers</title>
 
   <para>Generally speaking, ZSK should be rolled more frequently than KSK. In
-  <xref linkend="signing-maintenance-tasks" />, we described how to roll ZSK
-  every year using key pre-publication (described below), and how to roll KSK
-  every five years using double DS (also described below).</para>
-
-  <para>Generally speaking, ZSK should be rolled more frequently than KSK. In
   <xref linkend="signing-maintenance-tasks" />, we described at a very high
   level how to roll ZSK every year using key pre-publication (described below),
   and how to roll KSK every five years using double DS (also described below).
@@ -46,10 +41,11 @@
      <!-- #1 Pre-publication -->
      <listitem>
       <simpara><emphasis>Pre-publication</emphasis>: Publish new ZSK into zone
-      data before it is actually used. Wait at least one TTL so the world knows
-      about both keys, then stop using the old key and generate new RRSIG using
-      the new key. Wait at least another TTL before removing the old
-      key.</simpara>
+      data before it is actually used. Wait at least one TTL so the world's
+      recursive servers know about both keys, then stop using the old key and
+      generate new RRSIG using the new key. Wait at least another TTL, so the
+      cached old key data is expunged from world's recursive servers, before
+      removing the old key.</simpara>
 
       <simpara>The benefit of the Pre-publication approach is it does not
       dramatically increase the zone size, but the duration of the rollover is
@@ -333,6 +329,22 @@ Runtime in seconds:                      0.055</screen>
   before attempting to removing it from the zone. It is probably better to
   err on the safe side and leave the old data in the zone a little
   longer.</para>
+
+  <note>
+  <para>One of the worst things to happen during a rollover is to "orphan" old
+  keys, by deleting it too soon from the zone. This will reuslt in the world's
+  recursive servers come asking "hey, do you have the key(s) for these older
+  signatures?" and not get an answer to satisfy their needs. The recursive
+  servers would have to fail the validation, and the users may think you zone
+  has been compromised because the keys and signatures to match up. This is why
+  it is a good idea to wait a period of time in-between each phase of the key
+  rollover, to ensure that not only new information has propogated to the
+  world, but also that old information that was previously published to the
+  world have expired from whoever has been caching them. This is why in this
+  document we have chosen a very conservative period of 30 days. If you have
+  unusually long TTL or signature expirations, it may be wise to change the
+  rollover schedule accordingly.</para>
+  </note>
 
  </section>
 
