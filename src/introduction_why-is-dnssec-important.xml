@@ -33,7 +33,6 @@
     industry, has been rumored to list DNSSEC as a requirement or
     recommendation, as part of its on-going efforts to enhance security for
     online payment transactions.
-<!-- TODO: find source for the PCI DSS "rumor" and make this more precise. -->
 <!-- jkuo: Source of the rumor:
 http://www.internetsociety.org/deploy360/blog/2014/08/infoworld-why-you-need-to-deploy-dnssec-now/
 I have heard verbally from PCI-savy friends of the same rumor, but that's 
