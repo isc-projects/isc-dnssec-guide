@@ -195,12 +195,15 @@ zone "example.com" IN {
    traditional (insecure) zone data to signed (secure) data automatically and
    transparently, using keys found in <varname>key-directory</varname>.</para>
 
-   <para>This feature alleviates the burden of resigning zone data put on
+   <para>This feature alleviates the burden of re-signing zone data put on
    DNSSEC zone administrators. As the zone administrator, you can continue to
    manually maintain the unsigned version of the zone just like before, and
    <command>named</command> automatically creates an internal copy of the
-   zone, signs it on the fly, and increments the serial number for the
-   signed zone. The unsigned version of the zone is left intact.</para>
+   zone, signs it on the fly, and increments the serial number for the signed
+   zone. The unsigned version of the zone is left intact. With this feature
+   enabled, whenever <command>named</command> detects that your zone needs to
+   be signed, either due to a new record being added, removed, or signature
+   expiration, it will automatically re-sign the zone data.</para>
 
    <para>Inline signing can also be used as a strategy to aid DNSSEC
    deployment in the case where the master zone cannot be easily modified
