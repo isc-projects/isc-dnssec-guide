@@ -2,26 +2,8 @@
   <title>Using NSEC3</title>
   <para>After reloading the server configuration file, additional DNSSEC
   resource records are auto-magically generated. By default, BIND will generate
-  NSEC records, this section describes how to switch to using NSEC3 records. To
-  learn more about the difference between NSEC and NSEC3, please see <xref
+  NSEC records. If you wish to use NSEC3 instead, please follow the steps
+  described in <xref linkend="recipes-nsec-to-nsec3" />.  To learn more about
+  the difference between NSEC and NSEC3, please see <xref
   linkend="advanced-discussions-proof-of-nonexistence" />.</para>
-
-  <para>This command below enables NSEC3 for the zone example.com, using a
-  pseudo-random hex string 1234567890abcdef:
-
-   <screen># <userinput>rndc signing -nsec3param 1 0 10 1234567890abcdef example.com</userinput></screen>
-
-  </para>
-
-  <para>You'll know it worked if you see the following syslog messages:
-
-   <screen>Oct 21 13:47:21 received control channel command 'signing -nsec3param 1 0 10 1234567890abcdef example.com'
-Oct 21 13:47:21 zone example.com/IN (signed): zone_addnsec3chain(1,CREATE,10,1234567890ABCDEF)</screen>
-
-  </para>
-
-  <para>To learn more about how these parameters work as well as the
-  pseudo-random hex input, please see <xref
-  linkend="advanced-discussions-nsec3param" />.</para>
-
  </section>

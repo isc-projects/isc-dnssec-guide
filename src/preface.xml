@@ -7,32 +7,40 @@
    how to configure BIND to support some common DNSSEC features, as well as
    some basic troubleshooting tips. The chapters are organized as such:</para>
 
+   <!-- Chater 1 Introduction -->
    <para><xref linkend="introduction" /> covers the intended audience for this
    document, assumed background knowledge, and a basic introduction to the
    topic of DNSSEC.</para>
 
+   <!-- Chatper 2 Getting Started -->
    <para><xref linkend="getting-started" /> covers various requirements that
    are needed before implementing DNSSEC, such as software versions, hardware
    capacity, network requirements, and security changes.</para>
-      
+   
+   <!-- Chapter 3 Validation -->
    <para><xref linkend="dnssec-validation" /> walks through setting up a
-   validating resolver, as well as examples of using tools to verify the
-   resolver is validating answers.</para>
+   validating resolver, more information on the validation process, as well as
+   examples of using tools to verify the resolver is validating answers.</para>
       
+   <!-- Chapter 4 Signing -->
    <para><xref linkend="dnssec-signing" /> walks through setting up a basic
    signed authoritative zone, explains the relationship with the parent zone,
    and on-going maintenance tasks.</para>
 
+   <!-- Chapter 5 Troubleshooting -->
    <para><xref linkend="dnssec-troubleshooting" /> provides some tips on how to
    analyze and diagnose DNSSEC-related problems.</para>
-      
+   
+   <!-- Chapter 6 Advanced Discussions -->
    <para><xref linkend="dnssec-advanced-discussions" /> covers several topics,
    from key generation, key storage, key management, NSEC and NSEC3, to
    disadvantages of DNSSEC.</para>
 
+   <!-- Chapter 7 Recipes -->
    <para><xref linkend="dnssec-recipes" /> provides several working examples of
    common solutions, with step-by-step details.</para>
   
+   <!-- Chapter 8 Commonly Asked Questions -->
    <para><xref linkend="dnssec-commonly-asked-questions" /> lists some commonly
    asked questions and answers about DNSSEC.</para>
  </section>
@@ -59,9 +67,9 @@
 
   <para>The sections on key rollover and key timing meta data is borrowed
   heavily from the Internet Engineering Task Force draft titled <ulink
-  url="https://tools.ietf.org/html/draft-morris-dnsop-dnssec-key-timing"><citetitle>
-  "DNSSEC Key Timing Considerations" by S. Morris, J. Ihren, J. Dickinson, and
-  W. Mekking</citetitle></ulink>.
+  url="https://tools.ietf.org/html/draft-morris-dnsop-dnssec-key-timing">
+  <citetitle> "DNSSEC Key Timing Considerations" by S. Morris, J. Ihren, J.
+  Dickinson, and W. Mekking</citetitle></ulink>.
   </para>
 
   <para>The recipe for TLSA self-signed certificate is based on the work of <ulink
