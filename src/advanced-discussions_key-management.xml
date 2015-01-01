@@ -332,7 +332,7 @@ Runtime in seconds:                      0.055</screen>
 
   <note>
   <para>One of the worst things to happen during a rollover is to "orphan" old
-  keys, by deleting it too soon from the zone. This will reuslt in the world's
+  keys, by deleting it too soon from the zone. This will result in the world's
   recursive servers come asking "hey, do you have the key(s) for these older
   signatures?" and not get an answer to satisfy their needs. The recursive
   servers would have to fail the validation, and the users may think you zone

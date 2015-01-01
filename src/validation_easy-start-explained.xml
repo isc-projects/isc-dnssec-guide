@@ -252,7 +252,7 @@
 				jqExHZZuZ268Ntlxqgf9OmKRRv8X8YigaPShuyU= )</screen>
   </para>
 
-  <para>When a validating resolver quires for the A record
+  <para>When a validating resolver queries for the A record
   <code>www.isc.org</code>, it receives both the A record and the RRSIG record.
   It runs the A record through a hash function (in this example, it would be
   SHA1 as indicated by the number 5, signifying RSA-SHA1) and produces hash

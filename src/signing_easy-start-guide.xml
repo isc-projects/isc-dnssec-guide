@@ -94,7 +94,7 @@ server reload successful</screen></para>
   <para>Your zone is now signed. Before moving on to the next step of
   coordinating with your parent zone, let's make sure everything looks good
   using <command>delv</command>. What we want to do is to simulate what a
-  validating resolver would check, by telling <command>delv</command> tto use a
+  validating resolver would check, by telling <command>delv</command> to use a
   specific trust anchor.</para>
 
   <para>First of all, we need to make a copy of the key
@@ -225,7 +225,7 @@ example.com.		600 IN RRSIG SOA 8 2 600 (
   <title>Your Zone, Before and After DNSSEC</title>
   <para>In the previous section <xref
   linkend="easy-start-guide-for-authoritative-servers"/>, we provided the
-  minimal amount of information to essentially convert an traditional DNS zone
+  minimal amount of information to essentially convert a traditional DNS zone
   into a DNSSEC-enabled zone. This is what the zone looked like before we
   started: 
 
