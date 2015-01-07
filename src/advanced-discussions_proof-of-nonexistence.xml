@@ -165,9 +165,9 @@ NTQ0....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  FSK5... A RRSIG</scre
  <!-- === NSEC3PARAM === -->
  <section id="advanced-discussions-nsec3param">
   <title>NSEC3PARAM</title>
-  <para>Above, our example used four
-  parameters: 1, 0, 10, and 1234567890ABCDEF, in the order they appeared. It
-  looked like this:</para>
+  <para>The above NSEC3 examples used four parameters: 1, 0, 10,
+  and 1234567890ABCDEF. The <command>rndc</command> tool may be used to
+  set the NSEC3 parameters for a zone; for example:</para>
   <screen># <userinput>rndc signing -nsec3param 1 0 10 1234567890abcdef example.com</userinput></screen>
   
   <para>1 represents the algorithm, 0 represents the opt-out flag, 10
