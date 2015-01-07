@@ -145,13 +145,6 @@ NTQ0.... (produced from Alice)</screen>
 JKMA....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  NTQ0... A RRSIG
 NTQ0....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  FSK5... A RRSIG</screen>
 
-  <para>Some of you who paid attention earlier may recognize the numbers here
-  1, 0, 10, and 1234567890ABCDEF from <xref linkend="signing-using-nsec3" />,
-  then you will remember that these four parameters represent algorithm,
-  opt-out, iterations, and salt, respectively. We will discuss more about
-  opt-out in <xref linkend="advanced-discussions-nsec3-optout" /> and salt in
-  <xref linkend="advanced-discussions-nsec3-salt" />.</para>
-
   <note>
    <title>Hashes and Privacy</title>
    <para> Just because we employed one-way hash functions does not mean there's
@@ -172,7 +165,7 @@ NTQ0....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  FSK5... A RRSIG</scre
  <!-- === NSEC3PARAM === -->
  <section id="advanced-discussions-nsec3param">
   <title>NSEC3PARAM</title>
-  <para>In <xref linkend="signing-using-nsec3" />, our example used four
+  <para>Above, our example used four
   parameters: 1, 0, 10, and 1234567890ABCDEF, in the order they appeared. It
   looked like this:</para>
   <screen># <userinput>rndc signing -nsec3param 1 0 10 1234567890abcdef example.com</userinput></screen>

@@ -121,6 +121,12 @@ TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com. 300 IN <userinput>NSEC3 1 0 10 FED
    <screen># rndc signing -nsec3param 1 0 10 $(head -c 300 /dev/random | sha1sum | cut -b 1-16) example.com</screen>
   </note>
 
+  <para>
+    BIND 9.10 and newer provides the keyword <quote>auto</quote>
+    which may be used in place of the salt field for
+    <command>named</command> to generate a random salt.
+  </para>
+
  </section>
 
 
