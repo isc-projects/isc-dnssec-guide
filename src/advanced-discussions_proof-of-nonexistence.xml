@@ -193,7 +193,7 @@ NTQ0....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  FSK5... A RRSIG</scre
 
     <listitem>
      <simpara><emphasis>Salt</emphasis>: The salt is a string of data expressed
-     in hexadecimal, or a hyphen (‘-’) if no salt is to be used. We will learn
+     in hexadecimal, or a hyphen (`-') if no salt is to be used. We will learn
      more about salt in <xref linkend="advanced-discussions-nsec3-salt"
      />.</simpara></listitem>
 

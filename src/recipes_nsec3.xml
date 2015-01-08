@@ -16,7 +16,7 @@
 
   <screen># <userinput>rndc signing -nsec3param 1 0 10 1234567890abcdef example.com</userinput></screen>
 
-  <para>You’ll know it worked if you see the following log messages:</para>
+  <para>You'll know it worked if you see the following log messages:</para>
 
   <screen>Oct 21 13:47:21 received control channel command 'signing -nsec3param 1 0 10 1234567890abcdef example.com'
 Oct 21 13:47:21 zone example.com/IN (signed): zone_addnsec3chain(1,CREATE,10,1234567890ABCDEF)</screen>
@@ -40,7 +40,7 @@ TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com. 300 IN <userinput>NSEC3</userinput
   linkend="advanced-discussions-nsec3param" />.</para>
 
   <para>For example, to create an NSEC3 chain using the SHA-1 hash algorithm,
-  no opt-out flag, 10 iterations, and a salt value of ”FFFF”, use: </para>
+  no opt-out flag, 10 iterations, and a salt value of "FFFF", use: </para>
 
   <screen># <userinput>rndc signing -nsec3param 1 0 10 FFFF example.com</userinput></screen>
 
