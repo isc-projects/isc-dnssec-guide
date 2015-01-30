@@ -27,6 +27,9 @@
   not recommended for production servers, as it increases load on
   the server.</para>
 
+<!-- TODO: explain default debugging with named.run file and rndc trace
+which can be done by default without configuration changes. -->
+
   <para>The example below shows how to enable debug level 3 (to see full
   DNSSEC validation messages) in BIND9 and have it sent to syslog:</para>
 
