@@ -5,10 +5,11 @@
  <section id="signing-generate-keys-explained">
   <title>Generate Keys Explained</title>
   <para>In <xref linkend="signing-easy-start-generate-keys"/>, we generated two
-  pairs of keys, a pair of Zone Signing Key (ZSK), and a pair of Key Signing
-  Key (KSK). To quickly summarize, ZSK's are used to generate RRSIG, while
-  KSK's are used to sign DNSKEY records, as well as to derive the DS record to
-  be sent to the parent. We generated keys by running these commands:</para>
+  pairs of keys: a pair of Zone Signing Keys (ZSK) and a pair of Key Signing
+  Keys (KSK). To quickly summarize, ZSKs sign the bulk of the zone,
+  but KSKs only sign the DNSKEYs. This makes ZSKs easier to change
+  (since you can do so without updating the parent).  We generated
+  keys by running these commands:</para>
 
   <screen># <userinput>cd /etc/bind/keys/example.com</userinput>
 # <userinput>dnssec-keygen -a RSASHA256 -b 1024 example.com</userinput>
@@ -141,7 +142,6 @@ example.com. IN DNSKEY <userinput>257</userinput> 3 8 AwEAAcWDps...lM3NRn/G/R</s
   highlighted a few lines, let's explain what each one of them does.
 
    <screen>options {
-    dnssec-enable yes;
     directory "/etc/bind";
     recursion no;
     minimal-responses yes;
@@ -160,13 +160,10 @@ zone "example.com" IN {
   <!-- ====== dnssec-enable ====== -->
   <section id="signing-dnssec-enable-explained">
    <title>dnssec-enable</title>
-   <screen>options {
-    dnssec-enable yes;
-};</screen>
-   <para>This line enables DNSSEC support in <command>named</command>. If not
-   set, named behaves as if it does not support DNSSEC. The default is yes. We
-   are just explicitly declaring it again here, in case your distribution has
-   it disabled.</para>
+   <para>DNSSEC support is enabled in <command>named</command> by
+   default.  If the <option>dnssec-enable</option> option is turned
+   off, <command>named</command> will be unable to serve signed
+   zones.</para>
 
   </section>
 
