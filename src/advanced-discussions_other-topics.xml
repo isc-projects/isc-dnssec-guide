@@ -147,16 +147,16 @@
   <code>example.com</code>? This is actually a more involving question,
   and we can only cover this topic briefly in this document.</para>
 
-  <para>Deploying DNSSEC in this context is possible, but typically you do
-  not gain much by doing so. Because these private networks are usually
-  trusted, thus there should be no need to worry about someone hijacking
-  your DNS traffic. This is commonly known as the "last mile" in DNS
-  delivery. However, if you still wish to deploy DNSSEC on your private
-  networks, here are two scenarios to consider:</para>
+  <para>Deploying DNSSEC in this context is possible.  Because
+  private networks are usually trusted, there may be less need to
+  worry about someone hijacking your DNS traffic. This is commonly
+  known as the "last mile" in DNS delivery. If you wish to deploy
+  DNSSEC on your private networks, here are some scenarios to
+  consider:</para>
   
   <orderedlist>
    <listitem>
-    <para>If your name server is configured be both the validating resolver and
+    <para>If your name server is configured as both the validating resolver and
     the internal authoritative server, the answers returned to your clients
     will not be validated at all. This is because the answer is coming directly
     from the authoritative server, thus the Authoritative Answer
@@ -177,14 +177,23 @@
     back the Authenticated Data (<code>ad</code>) bit when querying against the
     validating resolver.</para>
    </listitem>
+
+   <listitem>
+    <para> DNSSEC is designed to protect the communication between
+     the client and the nameserver, however there are few applications
+     or stub resolver libraries that take advantage of this.  DNSSEC
+     can help with last mile security in a managed environment, by
+     deploying validating resolvers (such as BIND) on client
+     machines.</para>
+   </listitem>
   </orderedlist>
 
-  <para>The bottom line is, if you are worried about the last mile security, it
-  is not a something DNSSEC solves as of late 2014, there is simply not enough
-  applications or stub resolver libraries that support DNSSEC.  You might want
-  to consider a different technology other than DNSSEC for the time being, such
-  as DNSCrypt (<ulink url="https://www.opendns.com/about/innovations/dnscrypt/"
-  />).</para>
+  <para>In addition, early efforts have concentrated on getting
+    DNSSEC deployed between authoritative servers and recursive
+    servers as that is a prerequisite for working DNSSEC between
+    the recursive server and the application.  These efforts also
+    provide a degree of protection for applications that are not
+    DNSSEC-aware.</para>
 
  </section>
 
