@@ -81,7 +81,7 @@ example.com.		300 IN RRSIG SOA 8 2 300 (
   
   </para>
 
-  <para>Notice again that the serial number was automatically incremented from
+  <para>The serial number was automatically incremented from
   the old, unsigned version. Named keeps track of the serial number of the
   signed version of the zone independently of the unsigned version.  If the
   unsigned zone is updated with a new serial number that's higher than the one
@@ -167,6 +167,8 @@ example.com.  61179	IN	DS	28267 8 2 71D9335416B7132519190A95685E18CBF478DCF4CA98
 
   </para>
  </section>
+
+<!-- TODO: add a section about using dnssec-verify on the signed zone. -->
 
  <!-- === Verify using External Tools === -->
  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
