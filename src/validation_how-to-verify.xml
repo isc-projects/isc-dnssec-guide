@@ -258,6 +258,9 @@ www.dnssec-failed.org.	7200	IN	A	69.252.193.191
 ;; WHEN: Fri Oct 17 07:42:50 CST 2014
 ;; MSG SIZE  rcvd: 82</screen>
 
+<!-- TODO: redo or reexplain these examples, as this server is
+not default, but probably configured with dnssec-enable no. -->
+
   <para>After DNSSEC validation is enabled, any attempt to loading the URL
   should result in some kind of "Sorry, this page cannot be displayed" error
   message from your web browser. And looking up this domain name using
