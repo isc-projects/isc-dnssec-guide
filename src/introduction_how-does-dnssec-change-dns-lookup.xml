@@ -24,7 +24,7 @@
  the name <code>www.isc.org</code> at a very high level:</para>
 
  <para>
-  <figure>
+  <figure id="dnssec-12-steps">
    <title>DNSSEC Validation 12 Steps</title>
    <mediaobject>
     <imageobject>

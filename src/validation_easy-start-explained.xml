@@ -87,18 +87,9 @@
   level, simplified 12-steps of DNSSEC validation process. Let's revisit that
   process now and see what your validating resolver is doing in more detail.
   Again, we are using the example to lookup the A record for the domain name
-  <code>www.isc.org</code>:</para>
+  <code>www.isc.org</code> (<xref linkend="dnssec-12-steps" />):</para>
 
   <para>
-   <figure>
-    <title>DNSSEC Validation 12 Steps, Revisited</title>
-    <mediaobject>
-     <imageobject>
-      <imagedata fileref="../img/dnssec-12-steps.png" width="80%" scalefit="1"/>
-    </imageobject>
-    </mediaobject>
-   </figure>
-
   <orderedlist>
    <!-- #1 -->
    <listitem>
