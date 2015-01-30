@@ -30,14 +30,7 @@
     <simpara>January 1st, 2015, day of rollover</simpara>
     <itemizedlist>
      <listitem>
-      <simpara>Use existing KSK to sign new ZSK, add new RRSIG for new ZSK to
-      the zone</simpara>
-     </listitem>
-     <listitem>
-      <simpara>Start using new ZSK to sign records</simpara>
-     </listitem>
-     <listitem>
-      <simpara>Remove RRSIG for old ZSK from zone</simpara>
+      <simpara>New ZSK used to replace RRSIGs for the bulk of the zone</simpara>
      </listitem>
     </itemizedlist>
    </listitem>
@@ -47,6 +40,9 @@
     <itemizedlist>
      <listitem>
       <simpara>Remove old ZSK DNSKEY RRset from zone</simpara>
+     </listitem>
+     <listitem>
+      <simpara>DNSKEY signatures made with KSK are changed</simpara>
      </listitem>
     </itemizedlist>
    </listitem>
