@@ -21,6 +21,11 @@
  document. We are trusting you, a responsible DNS administrator, to take the
  necessary precautions to secure your system.</note>
 
+<!-- TODO: maybe explicitly explain about that if named is not
+running as root you will need to chgrp named (or group name) and
+chmod g+r the private key files.  Maybe share example of error
+related to this.  -->
+
  <para>For our examples below, we will be working with the assumption that
  there is an existing insecure zone <code>example.com</code> that we will be
  converting to a secure version.</para>
