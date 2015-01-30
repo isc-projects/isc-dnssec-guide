@@ -70,8 +70,8 @@
   flexibility, ease of use, and clarity of output.</para>
 
   <para>The example below shows using dig to query the name server 192.168.1.7
-  for the A record for <code>www.isc.org</code> before DNSSEC validation is
-  enabled. The address 192.168.1.7 is only used as an example, you should
+  for the A record for <code>www.isc.org</code> if DNSSEC is disabled.
+  The address 192.168.1.7 is only used as an example, you should
   replace this address with the actual address or host name of your recursive
   name server. Notice although we specifically used the <option> +dnssec
   </option> code line option, we do not see the DNSSEC OK (<code>do</code>) bit
