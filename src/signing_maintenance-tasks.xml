@@ -56,13 +56,7 @@
     <simpara>January 1st, day of rollover</simpara>
     <itemizedlist>
      <listitem>
-      <simpara>Use existing KSK to sign DNSKEY, this generates new RRSIG</simpara>
-     </listitem>
-     <listitem>
-      <simpara>Add new RRSIG to the zone</simpara>
-     </listitem>
-     <listitem>
-      <simpara>Remove RRSIG for old key from zone</simpara>
+      <simpara>New ZSK used to replace RRSIGs for the bulk of the zone</simpara>
      </listitem>
     </itemizedlist>
    </listitem>
@@ -71,7 +65,10 @@
     <simpara>February 1st, a month after rollover date</simpara>
     <itemizedlist>
      <listitem>
-      <simpara>Remove old key DNSKEY from zone</simpara>
+      <simpara>Remove old DNSKEY from zone</simpara>
+     </listitem>
+     <listitem>
+      <simpara>DNSKEY signatures made with KSK are changed</simpara>
      </listitem>
     </itemizedlist>
    </listitem>
