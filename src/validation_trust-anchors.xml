@@ -171,7 +171,14 @@
   have more than one key configured. You could also leverage <xref
   linkend="dlv" /> as part of your trust-anchor management strategy.</para>
 
-  <para>While <varname>trusted-keys</varname> and <varname>managed-keys</varname> appear similar, there is an important difference: <varname>trusted-keys</varname> are always trusted, until they are deleted from <filename>named.conf</filename>; <varname>managed-keys</varname> (specifically, <varname>initial-key</varname>, which is the only supported type currently) are only trusted once: for as long as it takes to load the managed key database and start the key maintenance process.</para>
+  <para>While <varname>trusted-keys</varname> and
+  <varname>managed-keys</varname> appear similar, there is an
+  important difference: <varname>trusted-keys</varname> are always
+  trusted, until they are deleted from <filename>named.conf</filename>;
+  <varname>managed-keys</varname> (specifically,
+  <varname>initial-key</varname>, which is the only supported type
+  currently) are only trusted once: for as long as it takes to load
+  the managed key database and start the key maintenance process.</para>
 
   <note>
   <simpara>Remember, if you choose to manage the keys on your own, whenever the
@@ -182,6 +189,11 @@
   the root key, you could break all DNS requests made to your recursive name
   server if the root key is incorrect.</simpara>
   </note>
+
+<!-- TODO: better explain how RFC 5011 automatic trust
+anchor maintenance differs from static trusted-keys. Explain what
+the key maintenance process does. -->
+
  </section>
 </section>
 
