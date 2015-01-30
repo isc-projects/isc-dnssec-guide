@@ -54,8 +54,11 @@ example.com.	21599	IN	DS	<userinput>53476</userinput> 8 1 CD2AF...0B47B
   to see if there's anything wrong. Since we are having trouble
   validating, we flipped on the <command>+cd</command> option to disable
   checking for now to get the results back, even though they do not pass
-  the validation tests.  Again, key tag ID's are highlighted, and some
-  long strings are shortened for display:</para>
+  the validation tests.
+  The <command>+multiline</command> option tells <command>dig</command> to
+  print the type, algorithm type, and key id for DNSKEY records.
+  Again, key tag ID's are highlighted, and some long strings are
+  shortened for display:</para>
 
   <screen>$ <userinput>dig @8.8.8.8 example.com. DNSKEY +dnssec +cd +multiline</userinput>
 
