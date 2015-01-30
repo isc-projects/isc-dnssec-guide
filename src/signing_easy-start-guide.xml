@@ -69,7 +69,6 @@ Kexample.com.+008+06817</screen>
   lines you most likely need to add are in bold.
 
    <screen>options {
-    dnssec-enable yes;
     directory "/etc/bind";
     recursion no;
     minimal-responses yes;
