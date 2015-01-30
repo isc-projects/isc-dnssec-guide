@@ -2,11 +2,11 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
 <!ENTITY mdash  "&#x2014;" >
-<!ENTITY __VERSION__ "0.5">
+<!ENTITY __VERSION__ "0.6">
 ]>
 
 <!--
- - Copyright (C) 2014  Internet Systems Consortium, Inc. ("ISC")
+ - Copyright (C) 2014-2015  Internet Systems Consortium, Inc. ("ISC")
  -
  - Permission to use, copy, modify, and/or distribute this software for any
  - purpose with or without fee is hereby granted, provided that the above
@@ -28,7 +28,9 @@
     <title>BIND DNSSEC Guide</title>
 
     <copyright>
-      <year>2014</year><holder>Internet Systems Consortium, Inc.</holder>
+      <year>2014</year>
+      <year>2015</year>
+      <holder>Internet Systems Consortium, Inc.</holder>
     </copyright>
 
     <abstract>
