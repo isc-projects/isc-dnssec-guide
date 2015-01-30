@@ -5,7 +5,7 @@
  <section id="whats-edns0-all-about-overview">
   <title>EDNS Overview</title>
 
-  <para>Traditional DNS queries are typically small in size, less than 512
+  <para>Traditional DNS responses are typically small in size, less than 512
   bytes, that fits nicely into a small UDP packet. Extension
   mechanism for DNS (EDNS, or EDNS(0)) gives us a mechanism to send DNS
   data in larger packets over UDP. In order to support EDNS, both
@@ -19,6 +19,9 @@
   experience slow DNS resolution or unable to resolve certain names at
   all.</para>
 
+  <para>Note that EDNS applies whether or not you are validating
+  DNSSEC because BIND has DNSSEC enabled by default.</para>
+
   <para>Please see <xref linkend="network-requirements"/> for more
   information on what DNSSEC expects from the network environment.</para>
 
@@ -27,8 +30,8 @@
  <!-- ====== EDNS on DNS Servers ====== -->
  <section id="edns-on-dns-servers">
   <title>EDNS on DNS Servers</title>
-  <para>BIND have been shipped with EDNS enabled by default for over a
-  decade, and the UDP packet size set to a maximum of 4096 bytes.
+  <para>BIND has been shipped with EDNS enabled by default for over a
+  decade, and the UDP packet size is set to a maximum of 4096 bytes.
   So as the DNS administrator, there should not be any re-configuration
   needed. You can use <command>dig</command> to verify that your server
   supports EDNS and the UDP packet size it is allowing as follows:
@@ -76,11 +79,16 @@ www.isc.org.		23 IN RRSIG A 5 3 60 (
   server that you forward to) does not support EDNS, you will still
   experience packet fragmentation.</para>
 
+<!-- TODO: If an upstream server doesn't support
+EDNS then you will NOT get fragmentation? -->
+
+<!-- TODO: also if doesn't support EDNS, then won't get DNSSEC -->
+
  </section>
 
- <!-- ====== Support for Large Packets on Network Equipments ====== -->
- <section id="support-for-large-packets-on-network-equipments">
-  <title>Support for Large Packets on Network Equipments</title>
+ <!-- ====== Support for Large Packets on Network Equipment ====== -->
+ <section id="support-for-large-packets-on-network-equipment">
+  <title>Support for Large Packets on Network Equipment</title>
   <para>Okay, so both your recursive name server and your ISP's name
   servers support EDNS, we are all good here, right? Not so fast. As these
   large packets have to traverse through the network, the network
@@ -109,6 +117,11 @@ www.isc.org.		23 IN RRSIG A 5 3 60 (
   made it to the validating resolver, and your validating resolver may need to
   re-ask the question again and again, creating the appearance "DNS/network is
   really slow" for the end users.</para>
+
+<!-- TODO: write about there is a strong argument for setting
+max-udp-size to something smaller than the ethernet MTU on
+authoritative servers, to reduce the problems caused by misconfigured
+firewalls at remote sites.  -->
 
   <para>And while you're updating configuration on your network equipment, make
   sure TCP port 53 is also allowed for DNS traffic.</para>
