@@ -14,6 +14,10 @@
   url="https://www.icann.org/resources/pages/deployment-2012-02-25-en"
   /></simpara></para>
 
+<!-- TODO:  make a clearer distinction between support in your
+parent zone, and support from your registrar - perhaps a separate
+subsection for each one.  -->
+
  </section>
 
  <section id="security-requirements">
