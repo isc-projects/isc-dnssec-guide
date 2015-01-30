@@ -292,8 +292,8 @@ Runtime in seconds:                      0.055</screen>
     file "<userinput>db/example.com.signed.db</userinput>";
 };</screen>
 
-  <para>You will need to repeat this process every time the zone data
-  changes.</para>
+  <para>You will need to re-sign periodically as as well as every time
+  the zone data changes.</para>
 
   </section>
  </section>
