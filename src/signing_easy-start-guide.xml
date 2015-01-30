@@ -196,8 +196,11 @@ example.com.		600 IN RRSIG SOA 8 2 600 (
    </orderedlist>
   </para>
 
-  <para>For more details and examples on how to work with your parent zone,
-  please see <xref linkend="working-with-parent-zone"/></para>
+  <para>The DS record format may be generated using the
+  <command>dnssec-dsfromkey</command> tool which is covered in
+  <xref linkend="parent-ds-record-format"/>. For more details and
+  examples on how to work with your parent zone, please see <xref
+  linkend="working-with-parent-zone"/></para>
 
  </section>
 
