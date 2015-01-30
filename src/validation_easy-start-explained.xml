@@ -1,23 +1,10 @@
 <section id="validation-easy-start-explained">
  <title>Validation Easy Start Explained</title>
- <para>In <xref linkend="easy-start-guide-for-recursive-servers"/>, we used two
- lines of configuration to turn on DNSSEC validation. Now we are going to take
- a closer look at what it actually does, and some other options.</para>
-
- <!-- dnssec-enable -->
- <section id="dnssec-enable-explained">
-  <title>dnssec-enable</title>
-  <screen>options {
-    dnssec-enable yes;
-};</screen>
-
-  <para>This line enables DNSSEC support, the default is yes, we're declaring
-  it explicitly here. Note that if this is the only thing you enable and
-  nothing else, the default validation behavior is set to rely on
-  manually-configured keys, and no validation will actually take place until
-  you have manually configured at least one trusted key.</para>
-
- </section>
+ <para>In <xref linkend="easy-start-guide-for-recursive-servers"/>,
+ we used one line of configuration to turn on DNSSEC validation,
+ the act of chasing down signatures and keys, making sure they are
+ authentic. Now we are going to take a closer look at what it
+ actually does, and some other options.</para>
 
  <!-- dnssec-validation -->
  <section id="dnssec-validation-explained">
@@ -26,15 +13,18 @@
     dnssec-validation auto;
 };</screen>
 
-  <para>This line enables DNSSEC validation, the act of chasing down signatures
-  and keys, making sure they are authentic. in BIND, and no manual key
-  configuration is needed. There are three possible choices:
+  <para>This <quote>auto</quote> line enables automatic DNSSEC
+  trust anchor configuration using the <option>managed-keys</option>
+  feature. In this case, no manual key configuration is needed.
+  There are three possible choices for the 
+  <option>dnssec-validation</option> option:
 
    <itemizedlist>
     <listitem>
      <simpara><emphasis>yes</emphasis>: DNSSEC validation is enabled, but a
-     trust anchor must be manually configured. This is the default.</simpara>
-    </listitem>
+     trust anchor must be manually configured. No validation will
+     actually take place until you have manually configured at
+     least one trusted key. This is the default.</simpara> </listitem>
 
     <listitem>
      <simpara><emphasis>no</emphasis>: DNSSEC validation is disabled, and
@@ -53,7 +43,7 @@
   <para>Let's discuss the difference between <replaceable>yes</replaceable> and
   <replaceable>auto</replaceable>. If you set it to
   <replaceable>yes</replaceable> (the default), the trust anchor will need to
-  be manually defined and maintained using the <code>trusted-key</code>
+  be manually defined and maintained using the <code>trusted-keys</code>
   statement in the configuration file; if you set it to
   <replaceable>auto</replaceable> (as shown in the example), then no further
   action should be required as BIND includes a copy<footnote><para>BIND
