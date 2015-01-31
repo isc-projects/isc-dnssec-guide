@@ -13,7 +13,11 @@
   unfortunately, most applications lack native support and will likely result in
   some kind of error message or warning even if you have deployed TLSA
   correctly.</para>
+
+  <para>Popular applications or servers that provide TLSA support include:
+   <ulink url="http://www.postfix.org/TLS_README.htm">Postfix</ulink>.</para>
  </note>
+
 
  <para>For this recipe, we are assuming that you already have a working web
  server configured with a self-signed x509 certificate. Although the steps
