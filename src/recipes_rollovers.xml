@@ -202,6 +202,9 @@ example.com.		600 IN RRSIG SOA 8 2 600 (
     was deactivated, thus the signature could live for almost 30 more days, all
     the way up to right before February 1st. </para>
 
+<!-- TODO: 22.5 days by default, due to 7.5 cycle interval, and jitter too? -->
+<!-- TODO: by the way, where is this documented in the ARM for auto-dnssec? -->
+
     <para>This is why it is important that you should keep the old ZSK in the
     zone for a little bit longer and not delete it right away. </para> 
 
