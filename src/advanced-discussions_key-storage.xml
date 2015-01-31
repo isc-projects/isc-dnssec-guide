@@ -34,6 +34,9 @@
   less frequently, and can be stored in a much more secure and restricted
   fashion.</para>
 
+<!-- TODO: write about offline key storage doesn't work with
+automatic zone signing, and refer to dnssec-signzone manual. -->
+
   <para>For example, a KSK private key stored on a USB flash drive that is kept
   in a fireproof safe, only brought online once a year to sign a new pair of
   ZSK, combined with a ZSK private key stored on the network file-system
