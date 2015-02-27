@@ -69,10 +69,13 @@
   Dr. Jeffry A. Spain.</para>
 
   <para>The sections on key rollover and key timing meta data is borrowed
-  heavily from the Internet Engineering Task Force draft titled <ulink
-  url="https://tools.ietf.org/html/draft-morris-dnsop-dnssec-key-timing">
-  <citetitle> "DNSSEC Key Timing Considerations" by S. Morris, J. Ihren, J.
-  Dickinson, and W. Mekking</citetitle></ulink>.
+  heavily from the Internet Engineering Task Force draft titled
+  <citetitle>"DNSSEC Key Timing Considerations" by S. Morris, J. Ihren, J.
+  Dickinson, and W. Mekking</citetitle>. For more recent details,
+  see <ulink
+  url="https://tools.ietf.org/html/draft-ietf-dnsop-dnssec-key-timing">
+  <citetitle>"DNSSEC Key Rollover Timing
+  Considerations"</citetitle></ulink>.
   </para>
 
   <para>The recipe for TLSA self-signed certificate is based on the work of <ulink
