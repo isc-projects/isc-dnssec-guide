@@ -70,8 +70,10 @@
   recommended to stop using RSA altogether by September 2015, and migrate to
   using ECDSA or similar algorithms.</para>
 
-  <para>So for now, use RSA, but keep your eyes on emerging new standards or
-  requirements.</para>
+  <para>So for now, use RSA, but keep your eyes on emerging new
+  standards or requirements. For details about rolling over DNSKEYs
+  to a new algorithm, see <xref
+  linkend="advanced-discussions-DNSKEY-algorithm-rollovers" />.</para>
 
  </section>
 
