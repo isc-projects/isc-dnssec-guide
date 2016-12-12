@@ -17,10 +17,13 @@
    </listitem>
 
    <!-- #3 -->
+<!--
    <listitem>
     <simpara>Sec Spider: <ulink url="http://secspider.cs.ucla.edu/"
     /></simpara>
    </listitem>
+-->
+
   </orderedlist>
  </para>
 
@@ -62,6 +65,7 @@
  </section>
 
  <!-- ====== Sec Spider ====== -->
+ <!--
  <section id="external-tools-secspider">
   <title>Sec Spider</title>
   <para>URL: <ulink url="http://secspider.cs.ucla.edu/" /></para>
@@ -77,4 +81,6 @@
    </mediaobject>
   </figure>
  </section>
+ -->
+
 </section>
