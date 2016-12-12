@@ -68,14 +68,12 @@
   John Allen, Jim Young, Tony Finch, Timothe Litt, and
   Dr. Jeffry A. Spain.</para>
 
-  <para>The sections on key rollover and key timing meta data is borrowed
+  <para>The sections on key rollover and key timing meta data borrowed
   heavily from the Internet Engineering Task Force draft titled
   <citetitle>"DNSSEC Key Timing Considerations" by S. Morris, J. Ihren, J.
-  Dickinson, and W. Mekking</citetitle>. For more recent details,
-  see <ulink
-  url="https://tools.ietf.org/html/rfc7583">
-  <citetitle>RFC 7583 - "DNSSEC Key Rollover Timing
-  Considerations"</citetitle></ulink>.
+  Dickinson, and W. Mekking</citetitle>, subsequently published as
+  <ulink url="https://tools.ietf.org/html/rfc7583">
+  <citetitle>RFC 7583</citetitle></ulink>.
   </para>
 
   <para>The recipe for TLSA self-signed certificate is based on the work of <ulink
