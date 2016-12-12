@@ -73,6 +73,12 @@ susan.example.com.  300	IN	NSEC	example.com.        A RRSIG NSEC</screen>
   the fly before generating NSEC records, much like how a phone directory is
   sorted.</para>
 
+  <para>The NSEC record allow allows for a proof of non-existence
+  for record types.  If you ask a signed zone for a name that
+  exists but for a record type that doesn't (for that name), the
+  signed NSEC record returned lists all of the record types that
+  <emphasis>do</emphasis> exist for the requested domain name.</para>
+
   <para>Unfortunately, the NSEC solution has a few drawbacks, one of which is
   trivial "zone walking". A curious person can keep calling back, and our
   nameless, gullible intern will keep divulging information about our
