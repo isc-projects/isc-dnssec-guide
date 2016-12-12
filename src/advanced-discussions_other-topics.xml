@@ -168,15 +168,16 @@
    </listitem>
 
    <listitem>
-    <para>If you have two name server instances running, one acting as the
-    validating resolver, and one acting as the internal authoritative name
-    server, it is possible to actually validate answers, provided that you have
-    installed the trust anchor(s) necessary for your internal zones on the
-    validating resolver. If no trust anchors are installed, your validating
-    resolver will go out to root, and attempt to validate internal answers
-    against external authorities (and fail). In this setup, the client gets
-    back the Authenticated Data (<code>ad</code>) bit when querying against the
-    validating resolver.</para>
+    <para>If you have two name server instances running, one acting
+    as the validating resolver, and one acting as the internal
+    authoritative name server, it is possible to actually validate
+    answers, provided that you have installed the trust anchor(s)
+    necessary for your internal zones on the validating resolver.
+    In this setup, the client gets back the Authenticated Data
+    (<code>ad</code>) bit when querying against the validating
+    resolver.  If no trust anchors are installed, your validating
+    resolver will go out to root, and attempt to validate internal
+    answers against external authorities (and fail).</para>
    </listitem>
 
    <listitem>
