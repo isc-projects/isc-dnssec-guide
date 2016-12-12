@@ -113,11 +113,12 @@
   <screen>dnssec-lookaside auto;</screen>
 
   <warning>
-   <para>ISC plans to discontinue the DLV service at some point in the future,
-   as DNSSEC deployment is nearing a more mature stage where most top level
-   domains are signed and more and more registrars are DNSSEC-ready. If you are
-   currently relying on DLV service provided by ISC, be aware that the service
-   will not be available forever.</para>
+   <para>DNSSEC deployment has matured to a stage where most
+   top level domains are signed and more and more registrars are
+   DNSSEC-ready. If you are currently relying on DLV service provided
+   by ISC, be aware that the service will not be available forever.
+   ISC stopped accepting new zones into the DLV registry in July 2016
+   and plans to discontinue the DLV service during 2017.</para>
   </warning>
 
  </section>
