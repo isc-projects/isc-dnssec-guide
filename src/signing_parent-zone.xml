@@ -11,11 +11,13 @@
    <listitem><simpara>Trusted Key Format</simpara></listitem>
   </orderedlist>
  </para>
- 
- <para>ICANN maintains a list of registrars who support DNSSEC:
+
+ <para>ccTLDs typically maintain their own lists of registrars and
+ should have a list of which of those support DNSSEC.  ICANN maintains
+ a list of accredited registrars who support DNSSEC for gTLDs:
  <simpara><ulink
- url="https://www.icann.org/resources/pages/deployment-2012-02-25-en"
- /></simpara></para>
+ url="https://www.icann.org/resources/pages/deployment-2012-02-25-en"/>
+ </simpara></para>
 
  <para>Next, we will take a look at how to get each of the three
  formats from your existing data.</para>
