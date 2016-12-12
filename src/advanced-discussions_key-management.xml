@@ -27,8 +27,8 @@
   Here, we show some other methods of rolling keys. To see examples of key
   rolling, please refer to <xref linkend="recipes-rollovers" />. For (far)
   deeper discussions and considerations on the topic of key rolling, check out
-  <ulink url="https://tools.ietf.org/html/draft-ietf-dnsop-dnssec-key-timing"
-  />.</para>
+  <ulink url="https://tools.ietf.org/html/rfc7583"><citetitle>RFC 7583</citetitle>
+  </ulink>.</para>
 
   <!-- ====== ZSK Rollover ====== -->
   <section id="zsk-rollover-methods">
@@ -383,8 +383,9 @@ Runtime in seconds:                      0.055</screen>
 
   <para>As usual, there is a lot more to consider when it comes to emergency
   key rollovers. For more in-depth considerations, please check out <ulink
-  url="https://tools.ietf.org/html/draft-ietf-dnsop-dnssec-key-timing"
-  />.</para>
+  url="https://tools.ietf.org/html/draft-ietf-dnsop-dnssec-key-timing">
+  <citetitle>RFC 7583</citetitle>
+  </ulink>.</para>
  </section>
 
  <!-- === DNSKEY Algorithm Rollovers === -->

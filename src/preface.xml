@@ -73,8 +73,8 @@
   <citetitle>"DNSSEC Key Timing Considerations" by S. Morris, J. Ihren, J.
   Dickinson, and W. Mekking</citetitle>. For more recent details,
   see <ulink
-  url="https://tools.ietf.org/html/draft-ietf-dnsop-dnssec-key-timing">
-  <citetitle>"DNSSEC Key Rollover Timing
+  url="https://tools.ietf.org/html/rfc7583">
+  <citetitle>RFC 7583 - "DNSSEC Key Rollover Timing
   Considerations"</citetitle></ulink>.
   </para>
 
