@@ -45,7 +45,7 @@
   <title>Which Algorithm?</title>
 
   <para>There are at least three algorithm choices for DNSSEC as of this
-  writing (late 2014): </para>
+  writing (late 2016): </para>
 
   <itemizedlist>
    <listitem>
@@ -59,14 +59,14 @@
    </listitem>
   </itemizedlist>
 
-  <para>While all three are supported by BIND, RSA is the only one that is
-  mandated to be implemented with DNSSEC, and at the time of this writing, is
-  the most widely supported algorithm by both name servers and clients. For the
-  near future, RSA/SHA-256 is the algorithm of choice, with RSA/SHA-1 being an
-  alternative.</para>
+  <para>While all three are supported by BIND, RSA is the only one
+  that is mandated to be implemented with DNSSEC, and at the time of
+  writing is the most widely supported algorithm by both name servers
+  and clients. For the time being, RSA/SHA-256 is the algorithm of
+  choice.</para>
 
   <para>However, RSA is a little long in the tooth, and ECDSA is emerging as
-  the next new cryptographic standard. In fact, the US federal government has
+  the next new cryptographic standard. In fact, the US federal government
   recommended to stop using RSA altogether by September 2015, and migrate to
   using ECDSA or similar algorithms.</para>
 
