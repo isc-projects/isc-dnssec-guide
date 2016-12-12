@@ -22,7 +22,7 @@
   validating resolver only needs to have one trust anchor, and that is the
   root's public key. But there is no restriction that the validating resolver
   must only have one trust anchor. In fact, in the early stages of DNSSEC
-  adoption, it is not unusual for a validating resolver to have more than one
+  adoption, it was not unusual for a validating resolver to have more than one
   trust anchor.</para>
 
   <para>For instance, before the root zone was signed (prior to the year 2010),
