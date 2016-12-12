@@ -31,7 +31,7 @@
 which can be done by default without configuration changes. -->
 
   <para>The example below shows how to enable debug level 3 (to see full
-  DNSSEC validation messages) in BIND9 and have it sent to syslog:</para>
+  DNSSEC validation messages) in BIND 9 and have it sent to syslog:</para>
 
   <screen>logging {
    channel dnssec_log {

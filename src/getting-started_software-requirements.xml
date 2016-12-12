@@ -19,7 +19,7 @@ BIND 9.10.1</screen>
  <!-- ====== Check BIND if DNSSEC-capable ====== --> 
  <section id="dnssec-support-in-bind">
   <title>DNSSEC Support in BIND</title>
-  <para>All versions of BIND9 can support DNSSEC. The BIND software you are
+  <para>All versions of BIND 9 can support DNSSEC. The BIND software you are
   running most likely already supports DNSSEC as shipped. Run the command
   <command>named -V</command> to see what flags it was built with. If it was
   built with OpenSSL (<option>--with-openssl</option>), then it supports
@@ -38,7 +38,7 @@ using OpenSSL version: OpenSSL 1.0.1i 6 Aug 2014
 using libxml2 version: 2.9.1</screen>
   </para>
 
-  <para>If the BIND9 software you have does not support DNSSEC, it may be
+  <para>If the BIND 9 software you have does not support DNSSEC, it may be
   necessary to rebuild it from source or upgrade to a newer version.</para>
 
  </section>
