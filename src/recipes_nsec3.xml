@@ -6,15 +6,18 @@
   <title>Migrating from NSEC to NSEC3</title>
   <para>This recipe describes how to go from using NSEC to NSEC3, as described
   in both <xref linkend="signing-using-nsec3" /> and <xref
-  linkend="advanced-discussions-proof-of-nonexistence" />. Thie recipe assumes
+  linkend="advanced-discussions-proof-of-nonexistence" />. This recipe assumes
   that the zones are already signed, and <command>named</command> is
   configured according to the steps described in <xref
   linkend="easy-start-guide-for-authoritative-servers" />.</para>
   
-  <warning>If your zone is signed with the RSASHA1 (algorithm 5) you cannot
+  <warning>If your zone is signed with RSASHA1 (algorithm 5) you cannot
   migrate to NSEC3 without also performing an <emphasis>algorithm rollover
   </emphasis> to RSASHA1-NSEC3-SHA1 (algorithm 7) as described in
-  <xref linkend="advanced-discussions-DNSKEY-algorithm-rollovers"/>.
+  <xref linkend="advanced-discussions-DNSKEY-algorithm-rollovers"/>.  This
+  ensures that older validating resolvers that don't understand NSEC3 will
+  fallback to treating the zone as unsecured (rather than "bogus") as described in <ulink
+  url="https://tools.ietf.org/html/rfc5155#section-2">Section 2 of RFC 5155</ulink>.
   </warning>
 
   <para>This command below enables NSEC3 for the zone <code>example.com</code>,
