@@ -36,9 +36,9 @@
 
     <abstract>
       <para>This is version &__VERSION__; of the DNSSEC deployment guide for
-      BIND.</para>
+      BIND 9.</para>
 
-      <para>BIND is open source software that implements the Domain Name System
+      <para>BIND 9 is open source software that implements the Domain Name System
       (DNS) protocols for the Internet. It is a reference implementation of
       those protocols, but it is also production-grade software, suitable for
       use in high-volume and high-reliability applications.</para>
@@ -47,7 +47,7 @@
       DNS to provide a measure of security; it proves that the data comes from
       the official source and has not been modified in transit.</para>
 
-      <para>ISC BIND supports the full DNSSEC standard.</para>
+      <para>ISC BIND 9 supports the full set of DNSSEC standards.</para>
     </abstract>
   </bookinfo>
 

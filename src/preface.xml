@@ -4,7 +4,7 @@
   <section id="preface-organization">
    <title>Organization</title>
    <para>This document provides introductory information on how DNSSEC works,
-   how to configure BIND to support some common DNSSEC features, as well as
+   how to configure BIND 9 to support some common DNSSEC features, as well as
    some basic troubleshooting tips. The chapters are organized as such:</para>
 
    <!-- Chater 1 Introduction -->
