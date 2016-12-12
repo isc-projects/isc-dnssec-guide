@@ -50,22 +50,24 @@
   Oliver, the answer would be: "I'm sorry, that person doesn't work here. The
   name before that is Edward, and the name after that is Susan". Another caller
   asked for Todd, and the answer would be: "I'm sorry, that person doesn't work
-  here. The name before that is Susan, and the name after that is
-  Alice".</para>
+  here. The name before that is Susan, and there's no other name after that".
+  </para>
 
-  <para>So we end up with three NSEC records:</para>
+  <para>So we end up with four NSEC records:</para>
 
-  <screen>alice.example.com.  300	IN	NSEC	edward.example.com. A RRSIG NSEC
+  <screen>example.com.        300	IN	NSEC	alice.example.com.  A RRSIG NSEC
+alice.example.com.  300	IN	NSEC	edward.example.com. A RRSIG NSEC
 edward.example.com. 300	IN	NSEC	susan.example.com.  A RRSIG NSEC
-susan.example.com.  300	IN	NSEC	alice.example.com.  A RRSIG NSEC</screen>
+susan.example.com.  300	IN	NSEC	example.com.        A RRSIG NSEC</screen>
 
-  <para>What if the attacker tried to use the same replay method described
-  earlier? If someone called for Edward, none of the three answers would fit.
-  If attacker played message #1, "I'm sorry, that person doesn't work here. The
-  name before it is Alice, and the name after it is Edward", it is obviously
-  false, since "Edward" is in the response; same for #2, Edward and Susan. As
-  for #3, Edward does not fall in range after Susan or before Alice, and the
-  caller can logically deduct that it was an incorrect answer.</para>
+  <para>What if the attacker tried to use the same replay method
+  described earlier? If someone called for Edward, none of the three
+  answers would fit.  If attacker played message #2, "I'm sorry,
+  that person doesn't work here. The name before it is Alice, and the
+  name after it is Edward", it is obviously false, since "Edward" is
+  in the response; same for #3, Edward and Susan. As for #1 and #4,
+  Edward does not fall in range before Alice or after Susan, so the
+  caller can logically deduce that it was an incorrect answer.</para>
 
   <para>In BIND inline signing, your zone data will be automatically sorted on
   the fly before generating NSEC records, much like how a phone directory is
