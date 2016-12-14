@@ -73,11 +73,17 @@ susan.example.com.  300	IN	NSEC	example.com.        A RRSIG NSEC</screen>
   the fly before generating NSEC records, much like how a phone directory is
   sorted.</para>
 
-  <para>The NSEC record allow allows for a proof of non-existence
+  <para>The NSEC record allows for a proof of non-existence
   for record types.  If you ask a signed zone for a name that
   exists but for a record type that doesn't (for that name), the
   signed NSEC record returned lists all of the record types that
   <emphasis>do</emphasis> exist for the requested domain name.</para>
+
+  <para>NSEC records can also be used to show whether a record was
+  generated as the result of a wildcard expansion or not.  The details
+  of this are out of scope for this document, but are described well
+  in <ulink url="https://tools.ietf.org/html/rfc7129">
+  <citetitle>RFC 7129</citetitle></ulink>.</para>
 
   <para>Unfortunately, the NSEC solution has a few drawbacks, one of which is
   trivial "zone walking". A curious person can keep calling back, and our
