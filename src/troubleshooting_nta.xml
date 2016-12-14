@@ -1,0 +1,32 @@
+<section id="troubleshooting-nta">
+ <title>Negative Trust Anchors</title>
+
+ <para>BIND 9.11 introduced <emphasis>Negative Trust Anchors</emphasis>
+ (NTAs) as a means to <emphasis>temporarily</emphasis> disable DNSSEC
+ validation for a zone when you know that the zone's DNSSEC is
+ mis-configured.</para>
+
+ <para>NTAs are added using the <code>rndc</code> command, e.g:</para>
+
+ <screen>$ <userinput>rndc nta example.com</userinput>
+ Negative trust anchor added: example.com/_default, expires 14-Dec-2016 13:39:09.000
+ </screen>
+
+ <para>The list of currently configured NTAs can also be examined using
+ <code>rndc</code>, e.g:
+ </para>
+
+ <screen>$ <userinput>rndc nta -dump</userinput>
+ example.com: expiry 14-Dec-2016 13:39:09.000
+ </screen>
+
+ <para>The default lifetime of an NTA is one hour, and by default
+ BIND will poll the zone every five minutes to see if the zone now
+ correctly validates, at which point the NTA will automatically expire.
+ Both the default lifetime and the polling interval may be configured
+ via <code>named.conf</code>, and the lifetime can be overriden on a
+ per-zone basis using the <code>-lifetime duration</code> parameter
+ to <code>rndc nta</code>.  Both timer values have a permitted maximum
+ value of one week.</para>
+
+</section>

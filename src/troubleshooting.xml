@@ -30,6 +30,10 @@
  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="troubleshooting_common-problems.xml" />
 
+ <!-- NTAs -->
+ <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+ href="troubleshooting_nta.xml" />
+
  <!-- NSEC3 -->
  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="troubleshooting_nsec3.xml" />
