@@ -39,7 +39,7 @@
   will be doing what is described in <xref
   linkend="how-does-dnssec-change-dns-lookup" />. However, if your users only
   care about resources in the <code>.com</code> domain, which as of this
-  writing, is less than 0.1% signed, then your recursive name server is
+  writing, is 0.5% signed, then your recursive name server is
   unlikely to experience significant load increase after enabling DNSSEC
   validation.</para>
  </section>
