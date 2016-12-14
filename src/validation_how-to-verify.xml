@@ -21,10 +21,10 @@
 
    <itemizedlist>
     <listitem>
-     <ulink url="http://dnssectest.sidnlabs.nl/" />
+     <ulink url="http://en.conn.internet.nl/connection/" />
     </listitem>
     <listitem>
-     <ulink url="http://test.dnssec-or-not.com/" />
+     <ulink url="http://http://www.dnssec-tools.org/" />
     </listitem>
     <listitem>
      <ulink url="http://dnssec.vs.uni-due.de/" />
@@ -32,6 +32,7 @@
    </itemizedlist>
   </para>
 
+<!--
   <para>For example, opening the URL <ulink
   url="http://dnssectest.sidnlabs.nl/" /> in your web browser will show the
   following before (left) and after (right) DNSSEC validation is enabled:</para>
@@ -44,6 +45,7 @@
     </imageobject>
    </mediaobject>
   </figure>
+-->
 
  </section>
 
