@@ -7,8 +7,8 @@
  responsible, sends the query to one of the authoritative name servers, and
  waits for the authoritative name server to respond with the answer.</para>
 
- <para>With DNSSEC validation enabled, recursive name servers (validating
- resolver) will ask for additional resource records in its query, hoping the
+ <para>With DNSSEC validation enabled, a validating recursive name server (a.k.a.
+ a <emphasis>validating resolver</emphasis>) will ask for additional resource records in its query, hoping the
  remote authoritative name servers will respond with more than just the answer
  to the query, but some proof to go along with the answer as well. If DNSSEC
  responses are received, the validating resolver will perform cryptographic
@@ -167,6 +167,6 @@
   </section>
 
   <para>We will revisit this 12-step process again later in <xref
-  linkend="how-does-dnssec-change-dns-lookup-revisited" /> more technical
+  linkend="how-does-dnssec-change-dns-lookup-revisited" /> with more technical
   details.</para>
  </section>

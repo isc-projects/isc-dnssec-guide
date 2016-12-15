@@ -16,12 +16,12 @@
    <para><xref linkend="getting-started" /> covers various requirements that
    are needed before implementing DNSSEC, such as software versions, hardware
    capacity, network requirements, and security changes.</para>
-   
+ 
    <!-- Chapter 3 Validation -->
    <para><xref linkend="dnssec-validation" /> walks through setting up a
    validating resolver, more information on the validation process, as well as
-   examples of using tools to verify the resolver is validating answers.</para>
-      
+   examples of using tools to verify that the resolver is validating answers.</para>
+ 
    <!-- Chapter 4 Signing -->
    <para><xref linkend="dnssec-signing" /> walks through setting up a basic
    signed authoritative zone, explains the relationship with the parent zone,
@@ -30,7 +30,7 @@
    <!-- Chapter 5 Troubleshooting -->
    <para><xref linkend="dnssec-troubleshooting" /> provides some tips on how to
    analyze and diagnose DNSSEC-related problems.</para>
-   
+
    <!-- Chapter 6 Advanced Discussions -->
    <para><xref linkend="dnssec-advanced-discussions" /> covers several topics,
    from key generation, key storage, key management, NSEC and NSEC3, to
@@ -39,7 +39,7 @@
    <!-- Chapter 7 Recipes -->
    <para><xref linkend="dnssec-recipes" /> provides several working examples of
    common solutions, with step-by-step details.</para>
-  
+ 
    <!-- Chapter 8 Commonly Asked Questions -->
    <para><xref linkend="dnssec-commonly-asked-questions" /> lists some commonly
    asked questions and answers about DNSSEC.</para>

@@ -14,7 +14,7 @@
  data. It operates independently of an existing Public Key Infrastructure
  (PKI). It does not need SSL certificates or shared secrets. It was designed
  with backwards compatibility in mind, and can be deployed without impacting
- "old" insecure domain names.</para>
+ "old" unsecured domain names.</para>
 
  <para>DNSSEC is deployed on the three major components of the DNS
  infrastructure:</para>

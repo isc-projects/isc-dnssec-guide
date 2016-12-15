@@ -5,8 +5,8 @@
  <section id="whats-edns0-all-about-overview">
   <title>EDNS Overview</title>
 
-  <para>Traditional DNS responses are typically small in size, less than 512
-  bytes, that fits nicely into a small UDP packet. Extension
+  <para>Traditional DNS responses are typically small in size (less than 512
+  bytes) and fit nicely into a small UDP packet. Extension
   mechanism for DNS (EDNS, or EDNS(0)) gives us a mechanism to send DNS
   data in larger packets over UDP. In order to support EDNS, both
   the DNS server and the network need to be properly prepared to support

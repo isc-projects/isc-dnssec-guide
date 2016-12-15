@@ -14,7 +14,7 @@
   the DNSSEC lookup process (12 steps), and at the end of the 12 steps, a
   critical comparison happens: the key received from the remote server, and the
   key we have on file are compared to see if we trust it. The key we have on
-  file is called a trust anchor, sometimes also known as trust key, trust
+  file is called a trust anchor, sometimes also known as a trust key, trust
   point, or secure entry point.</para>
 
   <para>The 12-step lookup process describes the DNSSEC lookup in the ideal
@@ -180,7 +180,7 @@
   currently) are only trusted once: for as long as it takes to load
   the managed key database and start the key maintenance process.</para>
 
-  <note>
+  <warning>
   <simpara>Remember, if you choose to manage the keys on your own, whenever the
   key changes, the configuration needs to be updated manually. Failing to do so
   will result in breaking nearly all DNS queries for the sub domain of the key.
@@ -188,7 +188,7 @@
   <code>.gov</code> space may become unresolvable; if you are manually managing
   the root key, you could break all DNS requests made to your recursive name
   server if the root key is incorrect.</simpara>
-  </note>
+  </warning>
 
 <!-- TODO: better explain how RFC 5011 automatic trust
 anchor maintenance differs from static trusted-keys. Explain what

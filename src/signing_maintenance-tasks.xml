@@ -1,6 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+<!ENTITY mdash  "&#x2014;" >
+]>
 <section id="signing-maintenance-tasks">
  <title>Maintenance Tasks</title>
- <para>Zone data is signed, parent zone has published your DS records, at this
+ <para>Zone data is signed and the parent zone has published your DS records &mdash; at this
  point your zone is officially secure. When other validating resolvers lookup
  information in your zone, they are able to follow the 12-step process as
  described in <xref linkend="how-does-dnssec-change-dns-lookup-revisited" />
