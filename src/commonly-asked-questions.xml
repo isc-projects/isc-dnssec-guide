@@ -68,7 +68,7 @@
    this writing, although 99.5% of the .com domains have yet to be signed, a
    DNSSEC-enabled validating resolver can still lookup all of these domain
    names following the "old fashioned way". There are four (4) categories of
-   responses (RFC 4035 Sec 4.3):
+   responses (<ulink url="https://tools.ietf.org/html/rfc4035#section-4.3"><citetitle>RFC 4035 Sec 4.3</citetitle></ulink>):
     <orderedlist>
      <listitem>
       <simpara><emphasis>Secure</emphasis>:
