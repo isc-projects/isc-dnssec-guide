@@ -109,7 +109,9 @@
   
   </para>
 
-  <para>These should be the minimum key sizes one should choose.</para>
+  <para>These should be the minimum key sizes one should choose.  At the time
+  of writing (late 2016) the root zone and many TLDs are already using 2048 bit
+  ZSKs.</para>
 
   <para>If you choose to implement larger key sizes, keep in mind that larger
   key size results in larger DNS responses, and this may mean more load on
