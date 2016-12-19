@@ -86,9 +86,11 @@
  <section id="dlv">
   <title>DNSSEC Look-aside Validation (DLV)</title>
 
+<!--
   <para>First of all, if you are running older versions of BIND 9 on your
   validating resolver, specifically, older than 9.4.3-P2, 9.5.1-P2, or
   9.6.1, <varname>dnssec-lookaside</varname> is not supported.</para>
+-->
   
   <para>So what is it? DNSSEC Look-aside Validation (DLV) is an extension
   to the DNSSEC protocol. It is designed to assist in early DNSSEC
