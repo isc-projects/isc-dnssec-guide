@@ -51,7 +51,7 @@
     masters { 192.168.1.1; };
 };</screen>
 
-  <para>In fact, slave servers do not even need to be running BIND, it could be
+  <para>In fact, the slave servers do not even need to be running BIND, it could be
   running any other DNS product that has DNSSEC support.</para>
  </section>
 

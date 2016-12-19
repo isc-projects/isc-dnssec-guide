@@ -273,13 +273,13 @@ example.com.		600 IN RRSIG DNSKEY 8 2 600 (
     <simpara>December 1st, 2016, a month before rollover</simpara>
     <itemizedlist>
      <listitem>
-      <simpara>Change timer on current KSK</simpara>
+      <simpara>Change timer on the current KSK</simpara>
      </listitem>
      <listitem>
       <simpara>Generate new KSK and DS records</simpara>
      </listitem>
      <listitem>
-      <simpara>Add DNSKEY for new KSK to zone</simpara>
+      <simpara>Add DNSKEY for the new KSK to zone</simpara>
      </listitem>
      <listitem>
       <simpara>Upload new DS records to parent zone</simpara>
@@ -291,17 +291,17 @@ example.com.		600 IN RRSIG DNSKEY 8 2 600 (
     <simpara>January 1st, 2017, day of rollover</simpara>
     <itemizedlist>
      <listitem>
-      <simpara>Use new KSK to sign all DNSKEY RRset, this generates new
+      <simpara>Use the new KSK to sign all DNSKEY RRset, this generates new
       RRSIGs</simpara>
      </listitem>
      <listitem>
       <simpara>Add new RRSIGs to the zone</simpara>
      </listitem>
      <listitem>
-      <simpara>Remove RRSIG for old ZSK from zone</simpara>
+      <simpara>Remove RRSIG for the old ZSK from zone</simpara>
      </listitem>
      <listitem>
-      <simpara>Start using new KSK to sign DNSKEY</simpara>
+      <simpara>Start using the new KSK to sign DNSKEY</simpara>
      </listitem>
     </itemizedlist>
    </listitem>
@@ -310,7 +310,7 @@ example.com.		600 IN RRSIG DNSKEY 8 2 600 (
     <simpara>February 1st, 2017</simpara>
     <itemizedlist>
      <listitem>
-      <simpara>Remove old KSK DNSKEY from zone</simpara>
+      <simpara>Remove the old KSK DNSKEY from zone</simpara>
      </listitem>
      <listitem>
       <simpara>Remove old DS records from parent zone</simpara>
@@ -319,7 +319,7 @@ example.com.		600 IN RRSIG DNSKEY 8 2 600 (
    </listitem>
   </orderedlist>
 
-  <para>The current active KSK has the ID 248282, and this is the DS record
+  <para>The current active KSK has the ID 24828, and this is the DS record
   that has already been published by the parent zone:</para>
 
   <screen># <userinput>dnssec-dsfromkey -a SHA-1 Kexample.com.+007+24828.key</userinput>
