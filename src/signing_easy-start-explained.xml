@@ -145,6 +145,7 @@ example.com. IN DNSKEY <userinput>257</userinput> 3 8 AwEAAcWDps...lM3NRn/G/R</s
     directory "/etc/bind";
     recursion no;
     minimal-responses yes;
+    <userinput>dnssec-enable yes;</userinput>
 };
 
 zone "example.com" IN {

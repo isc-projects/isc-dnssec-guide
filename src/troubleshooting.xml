@@ -10,7 +10,7 @@
  <!-- Introduction to Troubleshooting -->
  <para>In this chapter, we are going to cover some basic
  troubleshooting techniques, common DNSSEC symptoms, and their
- solutions and causes. This is not a comprehensive "how to troubleshoot
+ causes and solutions. This is not a comprehensive "how to troubleshoot
  any DNS or DNSSEC problem" guide, because that in and of itself could
  easily be an entire book.</para>
 

@@ -63,7 +63,7 @@ example.com. IN DS 6817 8 2 2A5F1DF55D5E64CBD7BCFE1EFA6E9586AF335FA56A2473296E97
   <screen>example.com. 172800 IN DNSKEY 257 3 8 (AwEAAbGOPf...AX2QHMY8=) ; key id = 16027</screen>
   
   <para>The key itself is easy to find (it's kind of hard to miss that big long
-  base64 string) in the file. Remember, we want KSK, so look for the presence
+  base64 string) in the file. Remember, we want the KSK, so look for the presence
   of 257.</para>
 
   <screen># <userinput>cd /etc/bind/keys/example.com</userinput>
@@ -97,9 +97,9 @@ example.com. IN DNSKEY <userinput>257</userinput> 3 8 AwEAAcWDps...lM3NRn/G/R</s
  <section id="parent-no-dnssec-support">
   <title>What if My Parent Zone Doesn't Support DNSSEC?</title>
   <para>Without a parent zone to vouch for you, none of your new shiny DNSSEC
-  records will yield to much significance when it comes to validation. Your
+  records will be of much user when it comes to validation. Your
   zone will still be resolvable without cooperation from your parent
-  zone.</para>
+  zone, though.</para>
 
   <para>But not all hope is lost. Assuming you want everyone on the Internet to
   be able to validate your DNS data, you should do both of the followings:

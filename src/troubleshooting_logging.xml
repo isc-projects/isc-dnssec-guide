@@ -46,7 +46,7 @@ which can be done by default without configuration changes. -->
   file:</para>
 
   <screen>logging {
-   channel dnssec_log {
+    channel dnssec_log {
         file "/var/log/dnssec.log";
         severity debug 3;
     };

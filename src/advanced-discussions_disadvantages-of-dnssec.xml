@@ -1,6 +1,6 @@
 <section id="disadvantages-of-dnssec">
  <title>Disadvantages of DNSSEC</title>
- <para>DNSSEC, like many things in this world, is not perfect and without its
+ <para>DNSSEC, like many things in this world, is not without its
  own problems. Below are a few challenges and disadvantages that DNSSEC faces.
 
   <orderedlist>

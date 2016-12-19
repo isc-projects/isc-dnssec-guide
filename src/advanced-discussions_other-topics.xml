@@ -103,8 +103,8 @@
   trusted repository through which those keys can be securely retrieved by
   the validating resolver when it needs them. Basically, someone else (in
   this case, ISC) is performing the tedious task of trust anchor
-  management, and your validating resolver just needs to trust that
-  someone else (in this case, ISC) is doing a good job maintaining these
+  management, and your validating resolver just needs to trust that that
+  someone else is doing a good job maintaining these
   trust anchors for you.</para>
 
   <para>To enable DLV on your validating resolver, place this line in your
@@ -206,7 +206,7 @@
 
   <para>With your DNS infrastructure now secured with DNSSEC, information can
   now be stored in DNS and its integrity and authenticity can be proved. One of
-  the ne features that takes advantage of this is the DNS-Based Authentication
+  the new features that takes advantage of this is the DNS-Based Authentication
   of Named Entities, or DANE.  Below is a list of features currently being
   developed and tested by the DANE community:</para>
 
@@ -230,7 +230,7 @@
    </listitem>
   </itemizedlist>
 
-  <para>DANE is an exciting area for DNS administrators, if you would like
+  <para>DANE is an exciting area for DNS administrators.  If you would like
   to learn more about the standards being proposed or new features being
   discussed, check out the DANE working group:  <ulink
   url="https://datatracker.ietf.org/wg/dane/charter/" />. You can also check
