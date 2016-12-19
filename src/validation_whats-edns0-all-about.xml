@@ -12,8 +12,9 @@
   the DNS server and the network need to be properly prepared to support
   the larger packet size and multiple fragments.</para>
 
-  <para>This is important for DNSSEC, since DNSSEC responses are larger
-  than traditional DNS. If DNS servers and network environment cannot
+  <para>This is important for DNSSEC, since the <command>+do</command> bit that
+  signals DNSSEC-awareness is carried within EDNS, and DNSSEC responses are larger
+  than traditional DNS.  If DNS servers and network environment cannot
   support large UDP packets, it will cause retransmission over
   TCP, or the larger UDP responses will be discarded. Users will likely
   experience slow DNS resolution or unable to resolve certain names at
