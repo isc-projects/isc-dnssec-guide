@@ -57,7 +57,8 @@ Kexample.com.+008+06817</screen>
   <command>named</command>.</para>
 
   <para>Refer to <xref linkend="system-entropy"/> for information on how you
-  could speed this process up.</para>
+  might speed up the key generation process if your random number generator
+  has insufficient entropy.</para>
 
  </section>
 
