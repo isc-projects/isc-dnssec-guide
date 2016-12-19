@@ -302,9 +302,10 @@ not default, but probably configured with dnssec-enable no. -->
   <title>How Do I know I Have a Validation Problem?</title>
   <para>Since all DNSSEC validation failures result in a general
   <code>SERVFAIL</code> message, how do we know that it was related to
-  validation in the first place? Fortunately, there is a flag to disable DNSSEC
-  validation in <command>dig</command>, <option>+cd</option> (checking
-  disable). When you've received a <code>SERVFAIL</code> message, re-run the
+  validation in the first place?  Fortunately, there is a flag in
+  <command>dig</command>, (<option>+cd</option>, checking disabled)
+  which tells the server to disable DNSSEC validation.  
+  When you've received a <code>SERVFAIL</code> message, re-run the
   query one more time, and throw in the <option>+cd</option> flag. If the query
   succeeds with <option>+cd</option>, but ends in <code>SERVFAIL</code> without
   it, then you know you are dealing with a validation problem.</para>
