@@ -115,8 +115,8 @@ www.isc.org.		60	IN	A	149.20.64.69</screen>
   </para>
 
   <para>The DNSSEC OK (<code>do</code>) flag tells us that the recursive server
-  we are querying (192.168.1.7 in this example) is DNSSEC-aware. That its
-  administrator has enabled DNSSEC on the name server to perform validation.
+  we are querying (192.168.1.7 in this example) is DNSSEC-aware but not
+  neccesarily that it is configured to perform DNSSEC validation.
   The Authenticated Data (<code>ad</code>) flag tells us that the answer
   received has passed the validation process as described in <xref
   linkend="how-are-answers-verified" />. We can have confidence in the
