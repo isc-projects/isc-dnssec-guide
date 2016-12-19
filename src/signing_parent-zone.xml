@@ -97,20 +97,20 @@ example.com. IN DNSKEY <userinput>257</userinput> 3 8 AwEAAcWDps...lM3NRn/G/R</s
  <section id="parent-no-dnssec-support">
   <title>What if My Parent Zone Doesn't Support DNSSEC?</title>
   <para>Without a parent zone to vouch for you, none of your new shiny DNSSEC
-  records will be of much user when it comes to validation. Your
+  records will be of much use when it comes to validation. Your
   zone will still be resolvable without cooperation from your parent
   zone, though.</para>
 
   <para>But not all hope is lost. Assuming you want everyone on the Internet to
-  be able to validate your DNS data, you should do both of the followings:
+  be able to validate your DNS data, you should do both of the following:
   </para>
 
   <orderedlist>
    <listitem>
-    <simpara>Contact your registrar and ask for DNSSEC support.</simpara>
+    <simpara>Contact your domain registrar and/or registries and ask for DNSSEC support.</simpara>
    </listitem>
    <listitem>
-    <simpara>Look into using <xref linkend="dlv"/>.</simpara>
+    <simpara>Look into using <xref linkend="dlv"><citetitle>DLV</citetitle></xref>, but be aware that this is only an interim solution.</simpara>
    </listitem>
   </orderedlist>
 
