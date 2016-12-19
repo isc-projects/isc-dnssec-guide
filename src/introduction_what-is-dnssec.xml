@@ -6,7 +6,7 @@
  little protection against malicious or forged answers. DNS Security Extensions
  (DNSSEC) addresses this need, by adding digital signatures into DNS data, so
  each DNS response can be verified for integrity (message did not change during
- transit) and authenticity (sender is really the sender, not an
+ transit) and authenticity (the data came from the true source, not an
  impostor). In the ideal world when DNSSEC is fully deployed, every
  single DNS answer can be validated and trusted.</para>
 
