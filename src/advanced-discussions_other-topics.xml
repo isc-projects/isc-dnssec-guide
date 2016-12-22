@@ -92,8 +92,8 @@
   9.6.1, <varname>dnssec-lookaside</varname> is not supported.</para>
 -->
   
-  <para>So what is it? DNSSEC Look-aside Validation (DLV) is an extension
-  to the DNSSEC protocol. It is designed to assist in early DNSSEC
+  <para>DNSSEC Look-aside Validation (DLV) is an extension
+  to the DNSSEC protocol. It was designed to assist in early DNSSEC
   adoption by simplifying the configuration of recursive servers and
   lessen the burden of key management for the administrators. Without DLV,
   in the absence of a fully signed path from root to a zone,
@@ -120,7 +120,7 @@
    DNSSEC-ready. If you are currently relying on DLV service provided
    by ISC, be aware that the service will not be available forever.
    ISC stopped accepting new zones into the DLV registry in July 2016
-   and plans to discontinue the DLV service during 2017.</para>
+   and plans to discontinue the DLV service in early 2017.</para>
   </warning>
 
  </section>

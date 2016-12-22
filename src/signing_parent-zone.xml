@@ -94,6 +94,7 @@ example.com. IN DNSKEY <userinput>257</userinput> 3 8 AwEAAcWDps...lM3NRn/G/R</s
 
 
  <!-- === What if My Parent Zone Doesn't Support DNSSEC? === -->
+ <!--
  <section id="parent-no-dnssec-support">
   <title>What if My Parent Zone Doesn't Support DNSSEC?</title>
   <para>Without a parent zone to vouch for you, none of your new shiny DNSSEC
@@ -119,4 +120,5 @@ example.com. IN DNSKEY <userinput>257</userinput> 3 8 AwEAAcWDps...lM3NRn/G/R</s
   that does.</para>
 
  </section>
+ -->
 </section>
