@@ -383,7 +383,7 @@ Runtime in seconds:                      0.055</screen>
 
   <para>As usual, there is a lot more to consider when it comes to emergency
   key rollovers. For more in-depth considerations, please check out <ulink
-  url="https://tools.ietf.org/html/draft-ietf-dnsop-dnssec-key-timing">
+  url="https://tools.ietf.org/html/rfc7583">
   <citetitle>RFC 7583</citetitle>
   </ulink>.</para>
  </section>

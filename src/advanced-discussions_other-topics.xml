@@ -163,7 +163,7 @@
     the internal authoritative server, the answers returned to your clients
     will not be validated at all. This is because the answer is coming directly
     from the authoritative server, thus the Authoritative Answer
-    (<code>aa</code>) bit is set, and by definition, it is not validated.  What
+    (<code>aa</code>) bit is set and, by definition, it is not validated.  What
     this means is, to a regular client making the query, the secure
     authoritative answer looks exactly the same as the insecure authoritative
     answer.</para>

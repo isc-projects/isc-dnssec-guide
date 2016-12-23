@@ -60,8 +60,8 @@
   </itemizedlist>
 
   <para>While all three are supported by BIND, RSA is the only one
-  that is mandated to be implemented with DNSSEC, and at the time of
-  writing is the most widely supported algorithm by both name servers
+  that is mandated to be implemented with DNSSEC and, at the time of
+  writing, is the most widely supported algorithm by both name servers
   and clients. For the time being, RSA/SHA-256 is the algorithm of
   choice.</para>
 

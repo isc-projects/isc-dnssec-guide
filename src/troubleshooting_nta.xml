@@ -20,7 +20,7 @@
  example.com: expiry 14-Dec-2016 13:39:09.000
  </screen>
 
- <para>The default lifetime of an NTA is one hour, and by default
+ <para>The default lifetime of an NTA is one hour although, by default,
  BIND will poll the zone every five minutes to see if the zone now
  correctly validates, at which point the NTA will automatically expire.
  Both the default lifetime and the polling interval may be configured

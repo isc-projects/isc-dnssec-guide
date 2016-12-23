@@ -187,7 +187,7 @@
   So if you are manually managing <code>.gov</code>, all domain names in the
   <code>.gov</code> space may become unresolvable; if you are manually managing
   the root key, you could break all DNS requests made to your recursive name
-  server if the root key is incorrect.</simpara>
+  server.</simpara>
   </warning>
 
 <!-- TODO: better explain how RFC 5011 automatic trust
