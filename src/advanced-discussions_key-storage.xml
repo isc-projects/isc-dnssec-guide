@@ -11,7 +11,7 @@
   them, since both ZSK and KSK public keys are published in the zone data as
   DNSKEY resource records.</para>
 
-  <para>Additionally, a portion of the KSK public key is also uploaded to the
+  <para>Additionally, a hash of the KSK public key is also uploaded to the
   parent zone (see <xref linkend="working-with-parent-zone" /> for more
   details), and is published by the parent zone as DS records.</para>
 
@@ -40,7 +40,7 @@ automatic zone signing, and refer to dnssec-signzone manual. -->
   <para>For example, a KSK private key stored on a USB flash drive that is kept
   in a fireproof safe, only brought online once a year to sign a new pair of
   ZSK, combined with a ZSK private key stored on the network file-system
-  available for routine use, maybe be a good a good balance between operational
+  available for routine use, maybe be a good balance between operational
   flexibility and security.</para>
 
   <para>And if you need to change your keys, please see <xref

@@ -20,27 +20,27 @@
  <section id="key-rollovers">
   <title>Key Rollovers</title>
 
-  <para>Generally speaking, ZSK should be rolled more frequently than KSK. In
+  <para>Generally speaking, ZSKs should be rolled more frequently than KSKs. In
   <xref linkend="signing-maintenance-tasks" />, we described at a very high
-  level how to roll ZSK every year using key pre-publication (described below),
-  and how to roll KSK every five years using double DS (also described below).
+  level how to roll the ZSK every year using key pre-publication (described below),
+  and how to roll the KSK every five years using double DS (also described below).
   Here, we show some other methods of rolling keys. To see examples of key
   rolling, please refer to <xref linkend="recipes-rollovers" />. For (far)
   deeper discussions and considerations on the topic of key rolling, check out
-  <ulink url="https://tools.ietf.org/html/draft-ietf-dnsop-dnssec-key-timing"
-  />.</para>
+  <ulink url="https://tools.ietf.org/html/rfc7583"><citetitle>RFC 7583</citetitle>
+  </ulink>.</para>
 
   <!-- ====== ZSK Rollover ====== -->
   <section id="zsk-rollover-methods">
    <title>ZSK Rollover Methods</title>
-   <para>Generally speaking, ZSK is smaller in size (compared to KSK) for
-   performance, but smaller keys take less time to break, thus ZSK should be
-   changed, or rolled, more frequently. ZSK can be rolled in one of the
+   <para>Generally speaking, the ZSK is smaller in size (compared to the KSK) for
+   performance, but smaller keys take less time to break, thus the ZSK should be
+   changed, or rolled, more frequently. The ZSK can be rolled in one of the
    following two ways:
     <orderedlist>
      <!-- #1 Pre-publication -->
      <listitem>
-      <simpara><emphasis>Pre-publication</emphasis>: Publish new ZSK into zone
+      <simpara><emphasis>Pre-publication</emphasis>: Publish the new ZSK into zone
       data before it is actually used. Wait at least one TTL so the world's
       recursive servers know about both keys, then stop using the old key and
       generate new RRSIG using the new key. Wait at least another TTL, so the
@@ -49,7 +49,7 @@
 
       <simpara>The benefit of the Pre-publication approach is it does not
       dramatically increase the zone size, but the duration of the rollover is
-      longer. If not sufficient amount of time has passed after new ZSK is
+      longer. If insufficient time has passed after the new ZSK is
       published, some resolvers may only have the old ZSK cached when the new
       RRSIG records are published, and validation may fail. This is the method
       that was described in <xref linkend="maintenance-tasks-zsk-rollover"
@@ -58,7 +58,7 @@
 
      <!-- #2 Double Signature -->
      <listitem>
-      <simpara><emphasis>Double Signature</emphasis>: Publish new ZSK and new
+      <simpara><emphasis>Double Signature</emphasis>: Publish the new ZSK and new
       RRSIG, essentially double the size of the zone. Wait at least one TTL
       before removing the old ZSK and old RRSIG.</simpara>
 
@@ -74,9 +74,9 @@
   <!-- ====== KSK Rollover ====== -->
   <section id="ksk-rollover-methods">
    <title>KSK Rollover Methods</title>
-   <para>Rolling KSK requires interaction with the parent zone, so
-   operationally this may be more complex than rolling ZSK. There are three
-   methods of rolling KSK:
+   <para>Rolling the KSK requires interaction with the parent zone, so
+   operationally this may be more complex than rolling ZSKs. There are three
+   methods of rolling the KSK:
 
     <orderedlist>
      <!-- #1 Double-DS -->
@@ -133,7 +133,7 @@
  <section id="keymanagement-and-metadata">
   <title>Key Management and Metadata</title>
 
-  <para>In <xref linkend="signing-auto-dnssec-explained" />, we alluded to
+  <para>In <xref linkend="signing-auto-dnssec-explained" />, we alluded
   that <varname>auto-dnssec</varname> is doing a lot of automation for us
   so we don't have to, and we've also alluded to something called the key
   timing metadata. In fact, if you looked at your key file, it likely
@@ -383,8 +383,9 @@ Runtime in seconds:                      0.055</screen>
 
   <para>As usual, there is a lot more to consider when it comes to emergency
   key rollovers. For more in-depth considerations, please check out <ulink
-  url="https://tools.ietf.org/html/draft-ietf-dnsop-dnssec-key-timing"
-  />.</para>
+  url="https://tools.ietf.org/html/rfc7583">
+  <citetitle>RFC 7583</citetitle>
+  </ulink>.</para>
  </section>
 
  <!-- === DNSKEY Algorithm Rollovers === -->
@@ -454,7 +455,7 @@ Runtime in seconds:                      0.055</screen>
   remove the associated RRSIGs automatically.  </para>
 
   <para> Once you have verified that the old DNSKEYs and RRSIGs
-  have been removed from the zone, the final step (optional) is to
+  have been removed from the zone, the final (optional) step is to
   remove the key files for the old algorithm from the key directory.
   </para>
 

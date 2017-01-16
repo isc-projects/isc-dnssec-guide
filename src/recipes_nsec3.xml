@@ -6,11 +6,20 @@
   <title>Migrating from NSEC to NSEC3</title>
   <para>This recipe describes how to go from using NSEC to NSEC3, as described
   in both <xref linkend="signing-using-nsec3" /> and <xref
-  linkend="advanced-discussions-proof-of-nonexistence" />. Thie recipe assumes
+  linkend="advanced-discussions-proof-of-nonexistence" />. This recipe assumes
   that the zones are already signed, and <command>named</command> is
   configured according to the steps described in <xref
   linkend="easy-start-guide-for-authoritative-servers" />.</para>
   
+  <warning>If your zone is signed with RSASHA1 (algorithm 5) you cannot
+  migrate to NSEC3 without also performing an <emphasis>algorithm rollover
+  </emphasis> to RSASHA1-NSEC3-SHA1 (algorithm 7) as described in
+  <xref linkend="advanced-discussions-DNSKEY-algorithm-rollovers"/>.  This
+  ensures that older validating resolvers that don't understand NSEC3 will
+  fallback to treating the zone as unsecured (rather than "bogus") as described in <ulink
+  url="https://tools.ietf.org/html/rfc5155#section-2">Section 2 of RFC 5155</ulink>.
+  </warning>
+
   <para>This command below enables NSEC3 for the zone <code>example.com</code>,
   using a pseudo-random string 1234567890abcdef for its salt:</para>
 
@@ -58,7 +67,7 @@ TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com. 300 IN <userinput>NSEC3</userinput
   <para>This recipe describes how to migrate from NSEC3 to NSEC.</para>
   
   <para>Migrating from NSEC3 back to NSEC is easy, just use the
-  <command>rndc</command> like this:</para>
+  <command>rndc</command> command like this:</para>
 
   <screen>$ <userinput>rndc signing -nsec3param none example.com</userinput></screen>
 
@@ -90,7 +99,7 @@ ns1.example.com.	300 IN NSEC web.example.com. A RRSIG NSEC
   privacy. In this recipe, we will look at what command to execute to actually
   change the salt, and how to verify that it has been changed.</para>
 
-  <para>To change your NSEC3 salt to "fedcba0987654321", you may run the rndc signing command like
+  <para>To change your NSEC3 salt to "fedcba0987654321", you may run the <command>rndc signing</command> command like
   this:</para>
 
   <screen># <userinput>rndc signing -nsec3param 1 1 10 fedcba0987654321 example.com</userinput></screen>

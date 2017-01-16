@@ -1,6 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+<!ENTITY mdash  "&#x2014;" >
+]>
 <section id="signing-maintenance-tasks">
  <title>Maintenance Tasks</title>
- <para>Zone data is signed, parent zone has published your DS records, at this
+ <para>Zone data is signed and the parent zone has published your DS records &mdash; at this
  point your zone is officially secure. When other validating resolvers lookup
  information in your zone, they are able to follow the 12-step process as
  described in <xref linkend="how-does-dnssec-change-dns-lookup-revisited" />
@@ -23,8 +28,8 @@
  same as the root key's rollover schedule. Some people feel or have the need to
  do it more frequently, while some argue that there is no need for key rolling.
  We discuss those considerations in <xref linkend="key-rollovers" />. But
- assuming you do not have special security requirements, nor do you host a
- high valued zone, rotating your ZSK every year and KSK every five years should
+ assuming you do not have special security requirements, nor host a
+ high-valued zone, rotating your ZSK every year and KSK every five years should
  suffice. We also provide detailed step-by-step examples of each rollover in
  <xref linkend="recipes-rollovers" />.</para>
 
@@ -33,12 +38,12 @@
  <section id="maintenance-tasks-zsk-rollover">
   <title>ZSK Rollover</title>
 
-  <para>Assuming you are rolling over ZSK every year on January 1st, below is
+  <para>Assuming you are rolling your ZSK every year on January 1st, below is
   the timeline of what should happen:</para>
 
   <orderedlist>
    <listitem>
-    <simpara>December 1st, a month before rollover date</simpara>
+    <simpara>December 1st, a month before rollover date:</simpara>
     <itemizedlist>
      <listitem>
       <simpara>Change timer on current ZSK</simpara>
@@ -53,7 +58,7 @@
    </listitem>
 
    <listitem>
-    <simpara>January 1st, day of rollover</simpara>
+    <simpara>January 1st, day of rollover:</simpara>
     <itemizedlist>
      <listitem>
       <simpara>New ZSK used to replace RRSIGs for the bulk of the zone</simpara>
@@ -62,7 +67,7 @@
    </listitem>
 
    <listitem>
-    <simpara>February 1st, a month after rollover date</simpara>
+    <simpara>February 1st, a month after rollover date:</simpara>
     <itemizedlist>
      <listitem>
       <simpara>Remove old DNSKEY from zone</simpara>
@@ -76,7 +81,7 @@
 
   <para>This may look like a lot of work, but with
   <varname>inline-signing</varname> and <varname>auto-dnssec</varname>, most
-  of these are automated. The only thing that needs to be done manually are just
+  of these are automated. The only things that need to be done manually are just
   the first two items:</para>
 
   <itemizedlist>
@@ -98,7 +103,7 @@
 
   <orderedlist>
    <listitem>
-    <simpara>December 1st, a month before rollover date</simpara>
+    <simpara>December 1st, a month before rollover date:</simpara>
     <itemizedlist>
      <listitem>
       <simpara>Change timer on current KSK</simpara>
@@ -113,7 +118,7 @@
    </listitem>
 
    <listitem>
-    <simpara>January 1st, day of rollover</simpara>
+    <simpara>January 1st, day of rollover:</simpara>
     <itemizedlist>
      <listitem>
       <simpara>Use new KSK to sign all DNSKEY RRset, this generates new RRSIGs</simpara>
@@ -128,7 +133,7 @@
    </listitem>
 
    <listitem>
-    <simpara>February 1st, a month after rollover date</simpara>
+    <simpara>February 1st, a month after rollover date:</simpara>
     <itemizedlist>
      <listitem>
       <simpara>Remove old KSK DNSKEY from zone</simpara>

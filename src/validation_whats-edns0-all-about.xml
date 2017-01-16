@@ -5,15 +5,16 @@
  <section id="whats-edns0-all-about-overview">
   <title>EDNS Overview</title>
 
-  <para>Traditional DNS responses are typically small in size, less than 512
-  bytes, that fits nicely into a small UDP packet. Extension
+  <para>Traditional DNS responses are typically small in size (less than 512
+  bytes) and fit nicely into a small UDP packet. Extension
   mechanism for DNS (EDNS, or EDNS(0)) gives us a mechanism to send DNS
   data in larger packets over UDP. In order to support EDNS, both
   the DNS server and the network need to be properly prepared to support
   the larger packet size and multiple fragments.</para>
 
-  <para>This is important for DNSSEC, since DNSSEC responses are larger
-  than traditional DNS. If DNS servers and network environment cannot
+  <para>This is important for DNSSEC, since the <command>+do</command> bit that
+  signals DNSSEC-awareness is carried within EDNS, and DNSSEC responses are larger
+  than traditional DNS.  If DNS servers and network environment cannot
   support large UDP packets, it will cause retransmission over
   TCP, or the larger UDP responses will be discarded. Users will likely
   experience slow DNS resolution or unable to resolve certain names at
@@ -76,13 +77,8 @@ www.isc.org.		23 IN RRSIG A 5 3 60 (
   extension to DNS. This means the use of EDNS is negotiated between each
   pair of hosts in a DNS resolution process, which in turn means if one of
   your upstream name servers (for instance, your ISP's recursive name
-  server that you forward to) does not support EDNS, you will still
-  experience packet fragmentation.</para>
-
-<!-- TODO: If an upstream server doesn't support
-EDNS then you will NOT get fragmentation? -->
-
-<!-- TODO: also if doesn't support EDNS, then won't get DNSSEC -->
+  server that you forward to) does not support EDNS, you may experience
+  DNS lookup failures or be unable to perform DNSSEC validation.</para>
 
  </section>
 

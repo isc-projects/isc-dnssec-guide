@@ -86,12 +86,14 @@
  <section id="dlv">
   <title>DNSSEC Look-aside Validation (DLV)</title>
 
-  <para>First of all, if you are running older versions of BIND9 on your
+<!--
+  <para>First of all, if you are running older versions of BIND 9 on your
   validating resolver, specifically, older than 9.4.3-P2, 9.5.1-P2, or
   9.6.1, <varname>dnssec-lookaside</varname> is not supported.</para>
+-->
   
-  <para>So what is it? DNSSEC Look-aside Validation (DLV) is an extension
-  to the DNSSEC protocol. It is designed to assist in early DNSSEC
+  <para>DNSSEC Look-aside Validation (DLV) is an extension
+  to the DNSSEC protocol. It was designed to assist in early DNSSEC
   adoption by simplifying the configuration of recursive servers and
   lessen the burden of key management for the administrators. Without DLV,
   in the absence of a fully signed path from root to a zone,
@@ -103,8 +105,8 @@
   trusted repository through which those keys can be securely retrieved by
   the validating resolver when it needs them. Basically, someone else (in
   this case, ISC) is performing the tedious task of trust anchor
-  management, and your validating resolver just needs to trust that
-  someone else (in this case, ISC) is doing a good job maintaining these
+  management, and your validating resolver just needs to trust that that
+  someone else is doing a good job maintaining these
   trust anchors for you.</para>
 
   <para>To enable DLV on your validating resolver, place this line in your
@@ -113,11 +115,12 @@
   <screen>dnssec-lookaside auto;</screen>
 
   <warning>
-   <para>ISC plans to discontinue the DLV service at some point in the future,
-   as DNSSEC deployment is nearing a more mature stage where most top level
-   domains are signed and more and more registrars are DNSSEC-ready. If you are
-   currently relying on DLV service provided by ISC, be aware that the service
-   will not be available forever.</para>
+   <para>DNSSEC deployment has matured to a stage where most
+   top level domains are signed and more and more registrars are
+   DNSSEC-ready. If you are currently relying on DLV service provided
+   by ISC, be aware that the service will not be available forever.
+   ISC stopped accepting new zones into the DLV registry in July 2016
+   and plans to discontinue the DLV service in early 2017.</para>
   </warning>
 
  </section>
@@ -160,22 +163,33 @@
     the internal authoritative server, the answers returned to your clients
     will not be validated at all. This is because the answer is coming directly
     from the authoritative server, thus the Authoritative Answer
-    (<code>aa</code>) bit is set, and by definition, it is not validated.  What
+    (<code>aa</code>) bit is set and, by definition, it is not validated.  What
     this means is, to a regular client making the query, the secure
     authoritative answer looks exactly the same as the insecure authoritative
     answer.</para>
+
+    <para>It <emphasis>is</emphasis> technically possible to
+    achieve validation and authoritative serving within a single
+    instance of BIND by using separate views for each, however the
+    details of doing so are outside the scope of this document.
+    There is a good example of this technique for serving a locally
+    validatable copy of the root zone in Appendix A of <ulink
+    url="https://tools.ietf.org/html/rfc7706"><citetitle>RFC
+    7706</citetitle></ulink>.</para>
+
    </listitem>
 
    <listitem>
-    <para>If you have two name server instances running, one acting as the
-    validating resolver, and one acting as the internal authoritative name
-    server, it is possible to actually validate answers, provided that you have
-    installed the trust anchor(s) necessary for your internal zones on the
-    validating resolver. If no trust anchors are installed, your validating
-    resolver will go out to root, and attempt to validate internal answers
-    against external authorities (and fail). In this setup, the client gets
-    back the Authenticated Data (<code>ad</code>) bit when querying against the
-    validating resolver.</para>
+    <para>If you have two name server instances running, one acting
+    as the validating resolver, and one acting as the internal
+    authoritative name server, it is possible to actually validate
+    answers, provided that you have installed the trust anchor(s)
+    necessary for your internal zones on the validating resolver.
+    In this setup, the client gets back the Authenticated Data
+    (<code>ad</code>) bit when querying against the validating
+    resolver.  If no trust anchors are installed, your validating
+    resolver will go out to root, and attempt to validate internal
+    answers against external authorities (and fail).</para>
    </listitem>
 
    <listitem>
@@ -204,7 +218,7 @@
 
   <para>With your DNS infrastructure now secured with DNSSEC, information can
   now be stored in DNS and its integrity and authenticity can be proved. One of
-  the ne features that takes advantage of this is the DNS-Based Authentication
+  the new features that takes advantage of this is the DNS-Based Authentication
   of Named Entities, or DANE.  Below is a list of features currently being
   developed and tested by the DANE community:</para>
 
@@ -228,7 +242,7 @@
    </listitem>
   </itemizedlist>
 
-  <para>DANE is an exciting area for DNS administrators, if you would like
+  <para>DANE is an exciting area for DNS administrators.  If you would like
   to learn more about the standards being proposed or new features being
   discussed, check out the DANE working group:  <ulink
   url="https://datatracker.ietf.org/wg/dane/charter/" />. You can also check

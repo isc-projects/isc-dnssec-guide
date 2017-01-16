@@ -50,26 +50,40 @@
   Oliver, the answer would be: "I'm sorry, that person doesn't work here. The
   name before that is Edward, and the name after that is Susan". Another caller
   asked for Todd, and the answer would be: "I'm sorry, that person doesn't work
-  here. The name before that is Susan, and the name after that is
-  Alice".</para>
+  here. The name before that is Susan, and there's no other name after that".
+  </para>
 
-  <para>So we end up with three NSEC records:</para>
+  <para>So we end up with four NSEC records:</para>
 
-  <screen>alice.example.com.  300	IN	NSEC	edward.example.com. A RRSIG NSEC
+  <screen>example.com.        300	IN	NSEC	alice.example.com.  A RRSIG NSEC
+alice.example.com.  300	IN	NSEC	edward.example.com. A RRSIG NSEC
 edward.example.com. 300	IN	NSEC	susan.example.com.  A RRSIG NSEC
-susan.example.com.  300	IN	NSEC	alice.example.com.  A RRSIG NSEC</screen>
+susan.example.com.  300	IN	NSEC	example.com.        A RRSIG NSEC</screen>
 
-  <para>What if the attacker tried to use the same replay method described
-  earlier? If someone called for Edward, none of the three answers would fit.
-  If attacker played message #1, "I'm sorry, that person doesn't work here. The
-  name before it is Alice, and the name after it is Edward", it is obviously
-  false, since "Edward" is in the response; same for #2, Edward and Susan. As
-  for #3, Edward does not fall in range after Susan or before Alice, and the
-  caller can logically deduct that it was an incorrect answer.</para>
+  <para>What if the attacker tried to use the same replay method
+  described earlier? If someone called for Edward, none of the four
+  answers would fit.  If attacker played message #2, "I'm sorry,
+  that person doesn't work here. The name before it is Alice, and the
+  name after it is Edward", it is obviously false, since "Edward" is
+  in the response; same for #3, Edward and Susan. As for #1 and #4,
+  Edward does not fall in range before Alice or after Susan, so the
+  caller can logically deduce that it was an incorrect answer.</para>
 
   <para>In BIND inline signing, your zone data will be automatically sorted on
   the fly before generating NSEC records, much like how a phone directory is
   sorted.</para>
+
+  <para>The NSEC record allows for a proof of non-existence
+  for record types.  If you ask a signed zone for a name that
+  exists but for a record type that doesn't (for that name), the
+  signed NSEC record returned lists all of the record types that
+  <emphasis>do</emphasis> exist for the requested domain name.</para>
+
+  <para>NSEC records can also be used to show whether a record was
+  generated as the result of a wildcard expansion or not.  The details
+  of this are out of scope for this document, but are described well
+  in <ulink url="https://tools.ietf.org/html/rfc7129">
+  <citetitle>RFC 7129</citetitle></ulink>.</para>
 
   <para>Unfortunately, the NSEC solution has a few drawbacks, one of which is
   trivial "zone walking". A curious person can keep calling back, and our
@@ -187,13 +201,13 @@ NTQ0....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  FSK5... A RRSIG</scre
      <simpara><emphasis>Iterations</emphasis>: iterations defines the number of
      additional times to apply the algorithm when generating an NSEC3 hash.
      More iterations yields more secure results, but consumes more resources
-     for both authoritative server sand validating resolvers. In the regard, we
+     for both authoritative servers and validating resolvers. In this regard, we
      have similar considerations as we've seen in <xref linkend="key-sizes"
      /> of security versus resources.</simpara></listitem>
 
     <listitem>
      <simpara><emphasis>Salt</emphasis>: The salt is a string of data expressed
-     in hexadecimal, or a hyphen (`-') if no salt is to be used. We will learn
+     in hexadecimal, or a hyphen ('-') if no salt is to be used. We will learn
      more about salt in <xref linkend="advanced-discussions-nsec3-salt"
      />.</simpara></listitem>
 
@@ -224,7 +238,7 @@ NTQ0....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  FSK5... A RRSIG</scre
   <para>The resources may not seem like a lot, but imagine in if you are the
   operator of busy top level domains such as <code>.com</code> or
   <code>.net</code>, with millions and millions of insecure delegated domain
-  names, it quickly adds up.  As of late 2014, less than 0.1% of all
+  names, it quickly adds up.  As of late 2016, less than 0.5% of all
   <code>.com</code> zones are signed.  Basically, without opt-out, if you have
   1,000,000 delegations, only 5 of which are secure, you still have to generate
   NSEC RRset for the other 999,995 delegations; with NSEC3 opt-out, you will
@@ -269,17 +283,17 @@ NTQ0....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  FSK5... A RRSIG</scre
   or requirements.</para>
 
   <para>If you prefer not to make your zone easily enumerable, implementing
-  NSEC3 paired with a new salt periodically will provide a certain level of
+  NSEC3 paired with a periodically changed salt will provide a certain level of
   privacy protection. However, someone could still randomly guess the names in
-  your zone (such as 'ftp' or 'www'), as in the traditional insecure
+  your zone (such as "ftp" or "www"), as in the traditional insecure
   DNS.</para>
 
   <para>If you have many many delegations, and have a need for opt-out to save
   resources, NSEC3 is for you.</para>
 
   <para>Other than that, using NSEC is typically a good choice for most zone
-  administrators, as it relieves the authoritative servers from additional
-  cryptographic operations NSEC3 requires, and NSEC is comparatively easier to
+  administrators, as it relieves the authoritative servers from the additional
+  cryptographic operations that NSEC3 requires, and NSEC is comparatively easier to
   troubleshoot than NSEC3.</para>
  </section>
 </section>

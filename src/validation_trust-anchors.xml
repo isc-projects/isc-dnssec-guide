@@ -14,7 +14,7 @@
   the DNSSEC lookup process (12 steps), and at the end of the 12 steps, a
   critical comparison happens: the key received from the remote server, and the
   key we have on file are compared to see if we trust it. The key we have on
-  file is called a trust anchor, sometimes also known as trust key, trust
+  file is called a trust anchor, sometimes also known as a trust key, trust
   point, or secure entry point.</para>
 
   <para>The 12-step lookup process describes the DNSSEC lookup in the ideal
@@ -22,7 +22,7 @@
   validating resolver only needs to have one trust anchor, and that is the
   root's public key. But there is no restriction that the validating resolver
   must only have one trust anchor. In fact, in the early stages of DNSSEC
-  adoption, it is not unusual for a validating resolver to have more than one
+  adoption, it was not unusual for a validating resolver to have more than one
   trust anchor.</para>
 
   <para>For instance, before the root zone was signed (prior to the year 2010),
@@ -180,15 +180,15 @@
   currently) are only trusted once: for as long as it takes to load
   the managed key database and start the key maintenance process.</para>
 
-  <note>
+  <warning>
   <simpara>Remember, if you choose to manage the keys on your own, whenever the
   key changes, the configuration needs to be updated manually. Failing to do so
   will result in breaking nearly all DNS queries for the sub domain of the key.
   So if you are manually managing <code>.gov</code>, all domain names in the
   <code>.gov</code> space may become unresolvable; if you are manually managing
   the root key, you could break all DNS requests made to your recursive name
-  server if the root key is incorrect.</simpara>
-  </note>
+  server.</simpara>
+  </warning>
 
 <!-- TODO: better explain how RFC 5011 automatic trust
 anchor maintenance differs from static trusted-keys. Explain what

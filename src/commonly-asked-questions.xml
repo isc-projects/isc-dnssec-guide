@@ -27,7 +27,7 @@
    <answer><para>Unfortunately, currently, no. DNSSEC is designed to protect
    the communication between the end clients (laptop) and the name servers,
    however, there are few applications or stub resolver libraries as of late
-   2014 that take advantage of this capability. This communication between the
+   2016 that take advantage of this capability. This communication between the
    recursive server to the clients are commonly called the "last mile", while
    enabling DNSSEC today does little to enhance the security for the last mile,
    we hope that will change in the near future as more and more applications
@@ -65,10 +65,10 @@
    majority of the domain names, since most domains names don't have DNSSEC
    yet?</para></question>
    <answer><para>No, DNSSEC is backwards compatible to "standard" DNS. As of
-   this writing, although 99% of the .com domains have yet to be signed, a
+   this writing, although 99.5% of the .com domains have yet to be signed, a
    DNSSEC-enabled validating resolver can still lookup all of these domain
    names following the "old fashioned way". There are four (4) categories of
-   responses (RFC 4035 Sec 4.3):
+   responses (<ulink url="https://tools.ietf.org/html/rfc4035#section-4.3"><citetitle>RFC 4035 Sec 4.3</citetitle></ulink>):
     <orderedlist>
      <listitem>
       <simpara><emphasis>Secure</emphasis>:
@@ -107,9 +107,9 @@
    <para>The longer answer is although you don't have to, you may want to.
    There are more and more client softwares that take advantage of the new
    DNSSEC features and give user better feedback about the domain name they are
-   visiting. CZ.NIC Lab's has created a plugin for several popular web
+   visiting. CZ.NIC Labs has created a plugin for several popular web
    browsers, and Mozilla has created a new web browser Bloodhound that performs
-   DNSSEC validation.</para>
+   DNSSEC validation. </para>
    <para>As DNSSEC deployment becomes more common place, we are sure to see
    more and more software libraries and applications be updated to support its
    features.</para></answer>
@@ -140,7 +140,7 @@
    result is, to the rest of the world, your zone still appears to be insecure,
    and it will continue to be insecure until your parent zone can host DS
    record(s) for you, effectively telling the rest of the world that your zone
-   is signed.</para>
+   is signed. </para>
 
    <para>An interim solution is to take advantage of DLV (DNSSEC Look-aside
    Validation), by submitting your key to a DLV registry such as <ulink

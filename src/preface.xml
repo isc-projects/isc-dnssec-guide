@@ -4,7 +4,7 @@
   <section id="preface-organization">
    <title>Organization</title>
    <para>This document provides introductory information on how DNSSEC works,
-   how to configure BIND to support some common DNSSEC features, as well as
+   how to configure BIND 9 to support some common DNSSEC features, as well as
    some basic troubleshooting tips. The chapters are organized as such:</para>
 
    <!-- Chater 1 Introduction -->
@@ -16,12 +16,12 @@
    <para><xref linkend="getting-started" /> covers various requirements that
    are needed before implementing DNSSEC, such as software versions, hardware
    capacity, network requirements, and security changes.</para>
-   
+ 
    <!-- Chapter 3 Validation -->
    <para><xref linkend="dnssec-validation" /> walks through setting up a
    validating resolver, more information on the validation process, as well as
-   examples of using tools to verify the resolver is validating answers.</para>
-      
+   examples of using tools to verify that the resolver is validating answers.</para>
+ 
    <!-- Chapter 4 Signing -->
    <para><xref linkend="dnssec-signing" /> walks through setting up a basic
    signed authoritative zone, explains the relationship with the parent zone,
@@ -30,7 +30,7 @@
    <!-- Chapter 5 Troubleshooting -->
    <para><xref linkend="dnssec-troubleshooting" /> provides some tips on how to
    analyze and diagnose DNSSEC-related problems.</para>
-   
+
    <!-- Chapter 6 Advanced Discussions -->
    <para><xref linkend="dnssec-advanced-discussions" /> covers several topics,
    from key generation, key storage, key management, NSEC and NSEC3, to
@@ -39,7 +39,7 @@
    <!-- Chapter 7 Recipes -->
    <para><xref linkend="dnssec-recipes" /> provides several working examples of
    common solutions, with step-by-step details.</para>
-  
+ 
    <!-- Chapter 8 Commonly Asked Questions -->
    <para><xref linkend="dnssec-commonly-asked-questions" /> lists some commonly
    asked questions and answers about DNSSEC.</para>
@@ -57,9 +57,9 @@
   <para>Thanks to the following individuals (in no particular order) who have
   helped in completing this document: Jeremy C. Reed, Heidi Schempf, Stephen
   Morris, Jeff Osborn, Vicky Risk, Jim Martin, Evan Hunt, Mark Andrews, Michael
-  McNally, Kelli Blucher, Chuck Aurora, Francis Dupont, and Rob Nagy.</para>
+  McNally, Kelli Blucher, Chuck Aurora, Francis Dupont, Rob Nagy and Ray Bellis.
+  </para>
 
-  
   <para>Special thanks goes to Cricket Liu and Matt Larson for their
   selflessness in knowledge sharing.</para>
 
@@ -68,14 +68,12 @@
   John Allen, Jim Young, Tony Finch, Timothe Litt, and
   Dr. Jeffry A. Spain.</para>
 
-  <para>The sections on key rollover and key timing meta data is borrowed
+  <para>The sections on key rollover and key timing meta data borrowed
   heavily from the Internet Engineering Task Force draft titled
   <citetitle>"DNSSEC Key Timing Considerations" by S. Morris, J. Ihren, J.
-  Dickinson, and W. Mekking</citetitle>. For more recent details,
-  see <ulink
-  url="https://tools.ietf.org/html/draft-ietf-dnsop-dnssec-key-timing">
-  <citetitle>"DNSSEC Key Rollover Timing
-  Considerations"</citetitle></ulink>.
+  Dickinson, and W. Mekking</citetitle>, subsequently published as
+  <ulink url="https://tools.ietf.org/html/rfc7583">
+  <citetitle>RFC 7583</citetitle></ulink>.
   </para>
 
   <para>The recipe for TLSA self-signed certificate is based on the work of <ulink

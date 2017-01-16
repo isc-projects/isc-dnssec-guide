@@ -11,11 +11,13 @@
    <listitem><simpara>Trusted Key Format</simpara></listitem>
   </orderedlist>
  </para>
- 
- <para>ICANN maintains a list of registrars who support DNSSEC:
+
+ <para>ccTLDs typically maintain their own lists of registrars and
+ should have a list of which of those support DNSSEC.  ICANN maintains
+ a list of accredited registrars who support DNSSEC for gTLDs:
  <simpara><ulink
- url="https://www.icann.org/resources/pages/deployment-2012-02-25-en"
- /></simpara></para>
+ url="https://www.icann.org/resources/pages/deployment-2012-02-25-en"/>
+ </simpara></para>
 
  <para>Next, we will take a look at how to get each of the three
  formats from your existing data.</para>
@@ -61,7 +63,7 @@ example.com. IN DS 6817 8 2 2A5F1DF55D5E64CBD7BCFE1EFA6E9586AF335FA56A2473296E97
   <screen>example.com. 172800 IN DNSKEY 257 3 8 (AwEAAbGOPf...AX2QHMY8=) ; key id = 16027</screen>
   
   <para>The key itself is easy to find (it's kind of hard to miss that big long
-  base64 string) in the file. Remember, we want KSK, so look for the presence
+  base64 string) in the file. Remember, we want the KSK, so look for the presence
   of 257.</para>
 
   <screen># <userinput>cd /etc/bind/keys/example.com</userinput>
@@ -92,23 +94,24 @@ example.com. IN DNSKEY <userinput>257</userinput> 3 8 AwEAAcWDps...lM3NRn/G/R</s
 
 
  <!-- === What if My Parent Zone Doesn't Support DNSSEC? === -->
+ <!--
  <section id="parent-no-dnssec-support">
   <title>What if My Parent Zone Doesn't Support DNSSEC?</title>
   <para>Without a parent zone to vouch for you, none of your new shiny DNSSEC
-  records will yield to much significance when it comes to validation. Your
+  records will be of much use when it comes to validation. Your
   zone will still be resolvable without cooperation from your parent
-  zone.</para>
+  zone, though.</para>
 
   <para>But not all hope is lost. Assuming you want everyone on the Internet to
-  be able to validate your DNS data, you should do both of the followings:
+  be able to validate your DNS data, you should do both of the following:
   </para>
 
   <orderedlist>
    <listitem>
-    <simpara>Contact your registrar and ask for DNSSEC support.</simpara>
+    <simpara>Contact your domain registrar and/or registries and ask for DNSSEC support.</simpara>
    </listitem>
    <listitem>
-    <simpara>Look into using <xref linkend="dlv"/>.</simpara>
+    <simpara>Look into using <xref linkend="dlv"><citetitle>DLV</citetitle></xref>, but be aware that this is only an interim solution.</simpara>
    </listitem>
   </orderedlist>
 
@@ -117,4 +120,5 @@ example.com. IN DNSKEY <userinput>257</userinput> 3 8 AwEAAcWDps...lM3NRn/G/R</s
   that does.</para>
 
  </section>
+ -->
 </section>

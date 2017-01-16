@@ -39,7 +39,7 @@
   will be doing what is described in <xref
   linkend="how-does-dnssec-change-dns-lookup" />. However, if your users only
   care about resources in the <code>.com</code> domain, which as of this
-  writing, is less than 0.1% signed, then your recursive name server is
+  writing, is 0.5% signed, then your recursive name server is
   unlikely to experience significant load increase after enabling DNSSEC
   validation.</para>
  </section>
@@ -81,12 +81,15 @@
     </listitem>
    </orderedlist></para>
 
-  <para>One of the factors to consider, but you really have no control over, is
-  how many users who query your domain name have DNSSEC enabled. It is
-  estimated in late 2014, that roughly 10% to 15% of the Internet DNS queries
-  are DNSSEC aware. This translates to roughly 10% to 15% of the DNS queries
-  for your domain will take advantage the additional security features, which
-  result in the increased system load and possibly network traffic.</para>
+  <para>One of the factors to consider, but you really have no
+  control over, is how many users who query your domain name have
+  DNSSEC enabled. It was estimated in late 2014, that roughly 10% to
+  15% of the Internet DNS queries were DNSSEC aware, and since then
+  Google DNS has become DNSSEC enabled and is used by a further 15%
+  of global DNS users. This translates to roughly 25% to 30% of the
+  DNS queries for your domain will take advantage the additional
+  security features, which result in the increased system load and
+  possibly network traffic.</para>
 
  </section>
 </section>

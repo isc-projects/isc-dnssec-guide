@@ -2,11 +2,11 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
 <!ENTITY mdash  "&#x2014;" >
-<!ENTITY __VERSION__ "1.1">
+<!ENTITY __VERSION__ "1.2">
 ]>
 
 <!--
- - Copyright (C) 2014-2015  Internet Systems Consortium, Inc. ("ISC")
+ - Copyright (C) 2014-2016  Internet Systems Consortium, Inc. ("ISC")
  -
  - Permission to use, copy, modify, and/or distribute this software for any
  - purpose with or without fee is hereby granted, provided that the above
@@ -30,14 +30,16 @@
     <copyright>
       <year>2014</year>
       <year>2015</year>
+      <year>2016</year>
+      <year>2017</year>
       <holder>Internet Systems Consortium, Inc.</holder>
     </copyright>
 
     <abstract>
       <para>This is version &__VERSION__; of the DNSSEC deployment guide for
-      BIND.</para>
+      BIND 9.</para>
 
-      <para>BIND is open source software that implements the Domain Name System
+      <para>BIND 9 is open source software that implements the Domain Name System
       (DNS) protocols for the Internet. It is a reference implementation of
       those protocols, but it is also production-grade software, suitable for
       use in high-volume and high-reliability applications.</para>
@@ -46,7 +48,7 @@
       DNS to provide a measure of security; it proves that the data comes from
       the official source and has not been modified in transit.</para>
 
-      <para>ISC BIND supports the full DNSSEC standard.</para>
+      <para>ISC BIND 9 supports the full set of DNSSEC standards.</para>
     </abstract>
   </bookinfo>
 

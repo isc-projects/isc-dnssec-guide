@@ -6,7 +6,7 @@
 
   <para>Yes and no. Good security practice suggests that you should use unique
   key pairs for each zone, just like how you should have different passwords
-  for your email account, social media login, and online banking credential. On
+  for your email account, social media login, and online banking credentials. On
   a technical level, this is completely feasible, but then multiple zones are 
   at risk when one key pair is compromised. If you have hundreds or thousands
   (or even hundreds of thousands) of zones to administer, a single key pair for
@@ -27,9 +27,9 @@
   you should, for operational ease. The DNSSEC protocol itself does not require
   two classes of keys, but for operational practicality, having two classes of
   keys make the life of a typical DNS(SEC) administrator's life easier. One of
-  the advantages of having separate ZSK and KSK is a better balance between
-  security and ease of use: KSK can be stored in a secure and less accessible
-  area, while ZSK is easily accessible for routine use. For more details and
+  the advantages of having separate ZSKs and KSKs is a better balance between
+  security and ease of use: the KSK can be stored in a secure and less accessible
+  area, while the ZSK is easily accessible for routine use. For more details and
   considerations on this topic, please refer to <ulink
   url="https://tools.ietf.org/html/rfc6781#section-3"> <citetitle> RFC 6781
   Section 3 </citetitle> </ulink>. </para>
@@ -45,7 +45,7 @@
   <title>Which Algorithm?</title>
 
   <para>There are at least three algorithm choices for DNSSEC as of this
-  writing (late 2014): </para>
+  writing (late 2016): </para>
 
   <itemizedlist>
    <listitem>
@@ -59,14 +59,14 @@
    </listitem>
   </itemizedlist>
 
-  <para>While all three are supported by BIND, RSA is the only one that is
-  mandated to be implemented with DNSSEC, and at the time of this writing, is
-  the most widely supported algorithm by both name servers and clients. For the
-  near future, RSA/SHA-256 is the algorithm of choice, with RSA/SHA-1 being an
-  alternative.</para>
+  <para>While all three are supported by BIND, RSA is the only one
+  that is mandated to be implemented with DNSSEC and, at the time of
+  writing, is the most widely supported algorithm by both name servers
+  and clients. For the time being, RSA/SHA-256 is the algorithm of
+  choice.</para>
 
   <para>However, RSA is a little long in the tooth, and ECDSA is emerging as
-  the next new cryptographic standard. In fact, the US federal government has
+  the next new cryptographic standard. In fact, the US federal government
   recommended to stop using RSA altogether by September 2015, and migrate to
   using ECDSA or similar algorithms.</para>
 
@@ -109,7 +109,9 @@
   
   </para>
 
-  <para>These should be the minimum key sizes one should choose.</para>
+  <para>These should be the minimum key sizes one should choose.  At the time
+  of writing (late 2016) the root zone and many TLDs are already using 2048 bit
+  ZSKs.</para>
 
   <para>If you choose to implement larger key sizes, keep in mind that larger
   key size results in larger DNS responses, and this may mean more load on

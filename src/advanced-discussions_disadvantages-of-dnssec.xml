@@ -1,6 +1,6 @@
 <section id="disadvantages-of-dnssec">
  <title>Disadvantages of DNSSEC</title>
- <para>DNSSEC, like many things in this world, is not perfect and without its
+ <para>DNSSEC, like many things in this world, is not without its
  own problems. Below are a few challenges and disadvantages that DNSSEC faces.
 
   <orderedlist>
@@ -52,21 +52,17 @@
 
    <listitem>
     <simpara><emphasis>Not enough people are using it today</emphasis>: while
-    it's estimated as of late 2014, that roughly 12% of the global Internet DNS
+    it's estimated as of late 2016, that roughly 28% of the global Internet DNS
     traffic is validating
-    <footnote><para>This percentage an overly simplified average provided by Geoff
-    Huston in an interview dated September 2014. The interview video can be
-    found online at <ulink
-    url="http://www.internetsociety.org/deploy360/blog/2014/09/video-geoff-huston-what-if-everyone-did-dnssec-apnic-38/"
-    />. The research that includes more details, including percentage of DNSSEC
-    traffic by country or by network, is available at <ulink
-    url="http://www.potaroo.net/ispcol/2014-07/measure.html" />.</para></footnote>
+    <footnote><para>based on APNIC statistics at
+    <ulink url="http://stats.labs.apnic.net/dnssec/XA" />
+    </para></footnote>
     , that doesn't mean that many of the DNS zones are
     actually signed. What this means is, if you signed your company's zone
-    today, only less than 15% of the Internet users are taking advantage of
-    this extra security. It gets worse, with less than 1% of the .com domains
+    today, only less than 30% of the Internet users are taking advantage of
+    this extra security. It gets worse: with less than 1% of the .com domains
     signed, if you enabled DNSSEC validation today, it's not likely to buy you
-    or your users a whole lot more protection, until these popular domains
+    or your users a whole lot more protection until these popular domains
     names decide to sign their zones.</simpara>
    </listitem>
   </orderedlist>
