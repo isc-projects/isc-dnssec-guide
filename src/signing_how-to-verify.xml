@@ -21,7 +21,7 @@ example.com.		300 IN DNSKEY 256 3 8 (
 				0qknWoPpkq0gIwTrYf3DJY+eIKPVHxrM+o2AoRIVhubG
 				jfv1bT5wTYrawZstS84ejCQ+ehA+8DxKyeWUEzW0ZMBe
 				OhyeG0cuQVK/p6Z1E096JLu0DjgbabLspequkw4M+HT7
-				) ; ZSK; alg = RSASHA256; key id = 57009
+				) ; ZSK; alg = RSASHA256; key id = 17694
 example.com.		300 IN DNSKEY 257 3 8 (
 				AwEAAdQ2ctHx8VmryndiOgpchXPdj3NwxMeUvAre6uYI
 				5KELlFJUghTHrz+/CzEc8CXG8wwQ4ZvAey0FGV2nJAFC
@@ -31,7 +31,7 @@ example.com.		300 IN DNSKEY 257 3 8 (
 				9bsWmhYWSHJKZ66+JnTiMS0nQM69YwBF43QfDKurs5R6
 				qPUDiBlaMCzSxmlaBU6fsI1Mu/yIU8w1ewy26a42rUTU
 				rPBC3Oa/zf9VQ8kpUrMZgJ7LEAA4xmR+qwWDh6U=
-				) ; KSK; alg = RSASHA256; key id = 28267</screen>
+				) ; KSK; alg = RSASHA256; key id = 06817</screen>
                 
   </para>
  </section>
@@ -73,7 +73,7 @@ example.com.		300 IN SOA ns1.example.com. dnsadmin.example.com. (
 				900        ; minimum (15 minutes)
 				)
 example.com.		300 IN RRSIG SOA 8 2 300 (
-				20141121122105 20141022112105 57009 example.com.
+				20141121122105 20141022112105 17694 example.com.
 				NqPGNLkUs40Lg/qq7Fv+bgyCwVB4s9PsHQOK6p9ZWWk3
 				36z2Qz2WjM+Q19SlVBAPux9jijvcRcjGb6KREuxER9uX
 				wdVeiGx9a4X+PaO3qTqdkiXuGS2XkK1kBm1CgwhVHTYV
@@ -162,8 +162,8 @@ OK</screen>
 ;example.com.			IN	DS
 
 ;; ANSWER SECTION:
-example.com.  61179	IN	DS	28267 8 1 66D47CE4B4F551BE5EDA43AC5F3109E8C98E2FAE
-example.com.  61179	IN	DS	28267 8 2 71D9335416B7132519190A95685E18CBF478DCF4CA98867062777938F8FEAB89</screen>
+example.com.  61179	IN	DS	06817 8 1 66D47CE4B4F551BE5EDA43AC5F3109E8C98E2FAE
+example.com.  61179	IN	DS	06817 8 2 71D9335416B7132519190A95685E18CBF478DCF4CA98867062777938F8FEAB89</screen>
 
   </para>
  </section>

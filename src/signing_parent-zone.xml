@@ -28,7 +28,7 @@
   <title>DS Record Format</title>
 
   <para>Below is an example of generating DS record formats from the KSK we
-  created earlier (<filename>Kexample.com.+008+28267.key</filename>) using two
+  created earlier (<filename>Kexample.com.+008+06817.key</filename>) using two
   different secure hashing algorithms (SHA-1 and SHA-256, respectively):</para>
 
   <screen># <userinput>cd /etc/bind/keys/example.com</userinput>
@@ -41,7 +41,7 @@ example.com. IN DS 6817 8 2 2A5F1DF55D5E64CBD7BCFE1EFA6E9586AF335FA56A2473296E97
   and digest used. In the first example, 8 represents the algorithm used, and 1
   represents the digest type (SHA-1); in the second example, 8 is the
   algorithm, and 2 is the digest type (SHA-256). The key tag or key ID is
-  28267.</para>
+  06817.</para>
 
   <para>Alternatively, you could generate it from the DNSKEY records like
   this:</para>
