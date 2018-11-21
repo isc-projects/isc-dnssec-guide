@@ -54,7 +54,7 @@ viM+cUnhD5UvhU4bn3ZP0cp+WNsimycf/gdfkAe47Em1oVNZP6abUgqMPStongIB
 
  <para>Next, use <command>openssl</command> to generate a SHA-256 fingerprint
  of this certificate, this is what you will list in DNS as a TLSA record. Also,
- you need to remove all the colons, hence the added <command>sed</command> at
+ you need to remove all the colons, hence the added <command>tr</command> at
  the end to filter out all ":" characters:</para>
 
  <screen># <userinput>openssl x509 -noout -fingerprint -sha256 &lt; server.crt | tr -d :</userinput>
