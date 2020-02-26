@@ -6,12 +6,13 @@
  <section id="bind-version">
   <title>BIND Version</title>
   <para>The configuration examples given in this document requires BIND
-  version <emphasis>9.9</emphasis> or newer. To check the version of
+  version 9.16.0 or newer (although many should work
+  with all versions of BIND later than 9.9). To check the version of
   <command>named</command> you have installed, use the <option>-v</option>
   switch as shown below:
 
    <screen># <userinput>named -v</userinput>
-BIND 9.10.1</screen>
+BIND 9.16.0 (Stable Release) &lt;id:6270e602ea&gt;</screen>
   </para>
  </section>
 
@@ -28,19 +29,34 @@ BIND 9.10.1</screen>
   -V</command>:
 
   <screen>$ <userinput>named -V</userinput>
-BIND 9.10.1 &lt;id:fe66c6b1> built by make with '--prefix=/opt/local'
-'--mandir=/opt/local/share/man' '<userinput>--with-openssl</userinput>=/opt/local'
-'--with-libxml2=/opt/local' '--without-libjson' '--enable-threads'
-'--enable-ipv6' 'CC=/usr/bin/clang' 'CFLAGS=-pipe -Os -arch x86_64'
-'LDFLAGS=-L/opt/local/lib -Wl,-headerpad_max_install_names -arch x86_64'
-'CPPFLAGS=-I/opt/local/include'
-compiled by CLANG 4.2.1 Compatible Apple LLVM 5.1 (clang-503.0.40)
-using OpenSSL version: OpenSSL 1.0.1i 6 Aug 2014
-using libxml2 version: 2.9.1</screen>
+BIND 9.16.0 (Stable Release) &lt;id:6270e602ea&gt;
+running on Linux x86_64 4.9.0-9-amd64 #1 SMP Debian 4.9.168-1+deb9u4 (2019-07-19)
+built by make with defaults
+compiled by GCC 6.3.0 20170516
+compiled with OpenSSL version: OpenSSL 1.1.0l  10 Sep 2019
+linked to OpenSSL version: OpenSSL 1.1.0l  10 Sep 2019
+compiled with libxml2 version: 2.9.4
+linked to libxml2 version: 20904
+compiled with json-c version: 0.12.1
+linked to json-c version: 0.12.1
+compiled with zlib version: 1.2.8
+linked to zlib version: 1.2.8
+threads support is enabled
+
+default paths:
+  named configuration:  /usr/local/etc/named.conf
+  rndc configuration:   /usr/local/etc/rndc.conf
+  DNSSEC root key:      /usr/local/etc/bind.keys
+  nsupdate session key: /usr/local/var/run/named/session.key
+  named PID file:       /usr/local/var/run/named/named.pid
+  named lock file:      /usr/local/var/run/named/named.lock</screen>
   </para>
 
-  <para>If the BIND 9 software you have does not support DNSSEC, it may be
-  necessary to rebuild it from source or upgrade to a newer version.</para>
+  <para>If the BIND 9 software you have does not support DNSSEC, you should
+  upgrade it. (It has not been possible to build BIND without DNSSEC since BIND
+  9.13, released in 2018.) As well as missing out on DNSSEC support, you are
+  also missing out on a number of security fixes made to the software in recent
+  years.</para>
 
  </section>
 

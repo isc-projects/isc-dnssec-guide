@@ -84,10 +84,12 @@
   <para>One of the factors to consider, but you really have no
   control over, is how many users who query your domain name have
   DNSSEC enabled. It was estimated in late 2014, that roughly 10% to
-  15% of the Internet DNS queries were DNSSEC aware, and since then
-  Google DNS has become DNSSEC enabled and is used by a further 15%
-  of global DNS users. This translates to roughly 25% to 30% of the
-  DNS queries for your domain will take advantage the additional
+  15% of the Internet DNS queries were DNSSEC aware. Estimates by
+  <ulink target="https://www.apnic.net/">APNIC</ulink> suggest that
+  in 2020 about <ulink target="https://stats.labs.apnic.net/dnssec">
+  one third</ulink> of all queries are validating queries, although
+  the fractions varies widely on a per-country basis.  This means
+  that more DNS queries for your domain will take advantage the additional
   security features, which result in the increased system load and
   possibly network traffic.</para>
 
