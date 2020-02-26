@@ -5,7 +5,7 @@
    <title>Organization</title>
    <para>This document provides introductory information on how DNSSEC works,
    how to configure BIND 9 to support some common DNSSEC features, as well as
-   some basic troubleshooting tips. The chapters are organized as such:</para>
+   some basic troubleshooting tips. The chapters are organized as follows:</para>
 
    <!-- Chater 1 Introduction -->
    <para><xref linkend="introduction" /> covers the intended audience for this
@@ -77,7 +77,7 @@
   </para>
 
   <para>The recipe for TLSA self-signed certificate is based on the work of <ulink
-  url="http://www.ietf.org/mail-archive/web/dane/current/pdfk2DbQF0Oxs.pdf" >
+  url="https://mailarchive.ietf.org/arch/msg/dane/XA8r2tIuCST6nt_h6dA_Xpu7oN0/4/">
   <citetitle> "A Step-by-Step guide for implementing DANE with a Proof of
   Concept" by Sandoche Balakrichenan, Stephane Bortzmeyer, and Mohsen Souissi
   (April 15, 2013) </citetitle> </ulink>.</para>
