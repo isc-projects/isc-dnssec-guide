@@ -34,6 +34,12 @@
    <listitem>
     <simpara>NSEC3PARAM (proof of nonexistence)</simpara>
    </listitem>
+   <listitem>
+    <simpara>CDS (child-parent)</simpara>
+   </listitem>
+   <listitem>
+    <simpara>CDNSKEY (child-parent)</simpara>
+   </listitem>
   </itemizedlist>
  </para>
 
@@ -76,6 +82,10 @@
  interesting problem: proving that something really does not exist.  We will
  look at these record types in more detail in <xref
  linkend="advanced-discussions-proof-of-nonexistence" />.</para>
+
+ <para>The CDS and CDNSKEY resource records apply to operational matters and
+ are a way to signal to the parent zone that the DS records it holds for the
+ child zone should be updated. This is covered in more detail WHERE?</para>
 
 </section>
 
