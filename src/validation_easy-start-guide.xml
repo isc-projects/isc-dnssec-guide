@@ -12,10 +12,10 @@
  administrator is, if there is a DNSSEC configuration issue (sometimes outside
  of the administrator's control), a specific name, or sometimes entire domains,
  may "disappear" from DNS, in that it becomes unreachable through that
- resolver. What this means for the end user is, name resolution is slow or
- fails altogether, or some parts of a URL will not load, or web browser will
- display some error message indicating the page cannot be displayed at
- all.</para>
+ resolver. For the end user, the issue may manifest itself as name resolution
+ being slow or failing altogether, some parts of a URL not loading, or the web
+ browser displaying some error message indicating that the page cannot be
+ displayed at all.</para>
 
  <para>For example, if root name servers were misconfigured with the wrong
  information about <code>.org</code>, it could cause all validation for
@@ -28,24 +28,23 @@
  whether or not you already have DNSSEC validation by following steps described
  in <xref linkend="how-to-test-recursive-server"/>.</para>
 
- <para>Enabling DNSSEC validation on a BIND 9 recursive name server is easy,
- you only need one line of configuration in your configuration file:
+ <para>In earlier versions of BIND including, at the time of writing (March 2020),
+ the current extended support version (9.11), DNSSEC validation has to be
+ explicitly enabled.  To do this, you only need to add one line to the
+ <code>options</code> section of your configuration file:
 
  <screen>options {
-    dnssec-validation auto;
+    ...
+    <userinput>dnssec-validation auto;</userinput>
+    ...
 };</screen></para>
 
  <para>Restart <command>named</command> or use <command>rndc reconfig</command>,
  and your recursive server is now happily validating each DNS response. If this
  does not work for you, and you have already verified DNSSEC support as
  described in <xref linkend="dnssec-support-in-bind"/>, you most likely have
- some other network-related configurations that need to be adjusted, take a
+ some other network-related configurations that need to be adjusted. Take a
  look at <xref linkend="network-requirements"/> to make sure your network is
  ready for DNSSEC.</para>
-
- <para>DNSSEC is enabled by default for BIND,
- but this line enables automatic trust anchor configuration.
- To learn more about this configuration, please refer to <xref
- linkend="validation-easy-start-explained"/>.</para>
 
 </section>
