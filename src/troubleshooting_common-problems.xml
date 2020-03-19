@@ -13,44 +13,44 @@
   validating resolvers.</para>
 
   <para>Below is an example attempting to resolve the A record for a test
-  domain name www.example.com. From the user's perspective, as
+  domain name www.example.net. From the user's perspective, as
   described in <xref linkend="how-do-i-know-i-have-a-validation-problem"
   />, only SERVFAIL message is returned. On the validating resolver, we
   could see the following messages in syslog:</para>
 
-  <screen>named[6703]: error (no valid RRSIG) resolving 'example.com/DNSKEY/IN': 149.20.61.151#53
-named[6703]: error (broken trust chain) resolving 'www.example.com/DS/IN': 149.20.61.151#53
-named[6703]: error (broken trust chain) resolving 'www.example.com/A/IN': 149.20.61.151#53</screen>
+  <screen>named[126063]: validating example.net/DNSKEY: no valid signature found (DS)
+named[126063]: no valid RRSIG resolving 'example.net/DNSKEY/IN': 10.53.0.2#53
+named[126063]: broken trust chain resolving 'www.example.net/A/IN': 10.53.0.2#53</screen>
 
   <para>This gives us a hint that it is a broken trust chain issue. Let's
-  take a look at the DS records that are published by querying one of the
-  public DNS resolvers that supports DNSSEC. We have highlighted in the
-  key tag ID returned, and shortened some keys for display:</para>
+  take a look at the DS records that are published for the zone.  We have
+  highlighted in the key tag ID returned, and shortened the keys for display:</para>
 
-  <screen>$ <userinput>dig @8.8.8.8 example.com. DS</userinput>
+  <screen>$ <userinput>dig @10.53.0.3 example.net. DS</userinput>
 
-; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @8.8.8.8 example.com. DS
+; &lt;&lt;&gt;&gt; DiG 9.16.0 &lt;&lt;&gt;&gt; @10.53.0.3 example.net DS
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 9640
-;; flags: qr rd ra ad; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 59602
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
 
 ;; OPT PSEUDOSECTION:
-; EDNS: version: 0, flags:; udp: 512
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 7026d8f7c6e77e2a010000005e735d7c9d038d061b2d24da (good)
 ;; QUESTION SECTION:
-;example.com.		IN	DS
+;example.net.			IN	DS
 
 ;; ANSWER SECTION:
-example.com.	21599	IN	DS	<userinput>53476</userinput> 8 2 1544D......7DDA7
-example.com.	21599	IN	DS	<userinput>53476</userinput> 8 1 CD2AF...0B47B
+example.net.		256	IN	DS	<userinput>14956</userinput> 8 2 9F3CACD...D3E3A396
 
-;; Query time: 212 msec
-;; SERVER: 8.8.8.8#53(8.8.8.8)
-;; WHEN: Thu Nov 27 17:23:42 CST 2014
-;; MSG SIZE  rcvd: 133</screen>
+;; Query time: 0 msec
+;; SERVER: 10.53.0.3#53(10.53.0.3)
+;; WHEN: Thu Mar 19 11:54:36 GMT 2020
+;; MSG SIZE  rcvd: 116
+</screen>
 
-  <para>Next, we query for the DNSKEY and RRSIG of example.com,
+  <para>Next, we query for the DNSKEY and RRSIG of example.net,
   to see if there's anything wrong. Since we are having trouble
   validating, we flipped on the <command>+cd</command> option to disable
   checking for now to get the results back, even though they do not pass
@@ -60,43 +60,46 @@ example.com.	21599	IN	DS	<userinput>53476</userinput> 8 1 CD2AF...0B47B
   Again, key tag ID's are highlighted, and some long strings are
   shortened for display:</para>
 
-  <screen>$ <userinput>dig @8.8.8.8 example.com. DNSKEY +dnssec +cd +multiline</userinput>
+  <screen>$ <userinput>dig @10.53.0.3 example.net. DNSKEY +dnssec +cd +multiline</userinput>
 
-; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @8.8.8.8 example.com. DNSKEY +dnssec +cd +multiline
+; &lt;&lt;&gt;&gt; DiG 9.16.0 &lt;&lt;&gt;&gt; @10.53.0.3 example.net DNSKEY +cd +multiline +dnssec
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 20329
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 42980
 ;; flags: qr rd ra cd; QUERY: 1, ANSWER: 4, AUTHORITY: 0, ADDITIONAL: 1
 
 ;; OPT PSEUDOSECTION:
-; EDNS: version: 0, flags: do; udp: 512
+; EDNS: version: 0, flags: do; udp: 4096
+; COOKIE: 4b5e7c88b3680c35010000005e73722057551f9f8be1990e (good)
 ;; QUESTION SECTION:
-;example.com.	IN DNSKEY
+;example.net.		IN DNSKEY
 
 ;; ANSWER SECTION:
-example.com.	299 IN DNSKEY 257 3 8 (
-				AwEAAePggU...0VPPEX+DE=
-				) ; KSK; alg = RSASHA256; key id = <userinput>48580</userinput>
-example.com.	299 IN DNSKEY 256 3 8 (
-				AwEAAbMZp6...NRJnwyC/uX
-				) ; ZSK; alg = RSASHA256; key id = <userinput>60426</userinput>
-example.com.	299 IN RRSIG DNSKEY 8 2 300 (
-				20141227074820 20141127064820 <userinput>48580</userinput> example.com.
-				ph3eBXsBQy...fQTRTlpg== )
-example.com.	299 IN RRSIG DNSKEY 8 2 300 (
-				20141227074820 20141127064820 <userinput>60426</userinput> example.com.
-				VaQ0INIa3a...nj3YTPv5A= )
+example.net.		287 IN DNSKEY 256 3 8 (
+				AwEAAbu3NX...ADU/D7xjFFDu+8WRIn
+				) ; ZSK; alg = RSASHA256 ; key id = <userinput>35328</userinput>
+example.net.		287 IN DNSKEY 257 3 8 (
+				AwEAAbKtU1...PPP4aQZTybk75ZW+uL
+				6OJMAF63NO0s1nAZM2EWAVasbnn/X+J4N2rLuhk=
+				) ; KSK; alg = RSASHA256 ; key id = <userinput>27247</userinput>
+example.net.		287 IN RRSIG DNSKEY 8 2 300 (
+				20811123173143 20180101000000 <userinput>27247</userinput> example.net.
+				Fz1sjClIoF...YEjzpAWuAj9peQ== )
+example.net.		287 IN RRSIG DNSKEY 8 2 300 (
+				20811123173143 20180101000000 <userinput>35328</userinput> example.net.
+				seKtUeJ4/l...YtDc1rcXTVlWIOw= )
 
-;; Query time: 368 msec
-;; SERVER: 8.8.8.8#53(8.8.8.8)
-;; WHEN: Fri Nov 28 11:33:00 CST 2014
-;; MSG SIZE  rcvd: 961</screen>
+;; Query time: 0 msec
+;; SERVER: 10.53.0.3#53(10.53.0.3)
+;; WHEN: Thu Mar 19 13:22:40 GMT 2020
+;; MSG SIZE  rcvd: 962</screen>
+
 
   <para>Here is our problem: the parent zone is telling the world that
-  <code>example.com</code> is using the key 53476, but the
-  authoritative servers are saying: no no no, I am using keys 48580 and
-  60426. There might be several causes for this mismatch, one possibility
+  <code>example.net</code> is using the key 14956, but the
+  authoritative server is saying: no no no, I am using keys 27247 and
+  35328. There might be several causes for this mismatch; one possibility
   is that a malicious attacker has compromised one side and change the
   data. The more likely scenario is that the DNS administrator for the
   child zone did not upload the correct key information to the parent
@@ -118,14 +121,14 @@ example.com.	299 IN RRSIG DNSKEY 8 2 300 (
   incorrectly set too far in the future, or the zone administrator has not
   kept up with RRSIG maintenance.</para>
 
-   <screen>validating @0xb7b839b0: . DNSKEY: <userinput>verify failed due to bad signature (keyid=19036): RRSIG has expired</userinput></screen>
+   <screen>validating example.com/DNSKEY: <userinput>verify failed due to bad signature (keyid=19036): RRSIG has expired</userinput></screen>
    
   <para>The logs below show RRSIG validity period has not begun. This
   could mean validation resolver system is incorrectly set too far in the
   past, or the zone administrator has incorrectly generated signatures for
   this domain name.</para>
 
-   <screen>validating @0xb7c1bd88: www.isc.org A: <userinput>verify failed due to bad signature (keyid=4521): RRSIG validity period has not begun</userinput></screen>
+   <screen>validating example.com/DNSKEY: <userinput>verify failed due to bad signature (keyid=4521): RRSIG validity period has not begun</userinput></screen>
  </section>
 
 
@@ -154,41 +157,46 @@ named[18235]: loading configuration: failure</screen>
   incorrect, or if the wrong key is installed, the first thing you will notice
   is that pretty much all of your DNS lookups result in SERVFAIL, even when you
   are looking up domain names that have not been DNSSEC-enabled. Below shows an
-  example of querying a recursive server 192.168.1.7:</para>
+  example of querying a recursive server 10.53.0.3:</para>
 
-   <screen>$ <userinput>dig @192.168.1.7 www.example.com. A</userinput>
+   <screen>$ <userinput>dig @10.53.0.3 www.example.com. A</userinput>
 
-; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.7 www.example.com. A
+; &lt;&lt;&gt;&gt; DiG 9.16.0 &lt;&lt;&gt;&gt; @10.53.0.3 www.example.org A +dnssec
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER&lt;&lt;- opcode: QUERY, status: <userinput>SERVFAIL</userinput>, id: 8093
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: <userinput>SERVFAIL</userinput>, id: 29586
 ;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
 
 ;; OPT PSEUDOSECTION:
-; EDNS: version: 0, flags:; udp: 4096
+; EDNS: version: 0, flags: do; udp: 4096
+; COOKIE: ee078fc321fa1367010000005e73a58bf5f205ca47e04bed (good)
 ;; QUESTION SECTION:
-;www.example.com.			IN	A</screen>
+;www.example.org.		IN	A
+</screen>
 
   <para><command>delv</command> shows similar result:</para>
 
    <screen>$ <userinput>delv @192.168.1.7 www.example.com. +rtrace</userinput>
 ;; fetch: www.example.com/A
-;; <userinput>resolution failed: failure</userinput></screen>
+;; <userinput>resolution failed: SERVFAIL</userinput></screen>
 
   <para>The next symptom you will see is in the DNSSEC log
   messages:</para>
 
-   <screen>validating @0xb8b18a38: . DNSKEY: starting
-validating @0xb8b18a38: . DNSKEY: attempting positive response validation
-validating @0xb8b18a38: <userinput>. DNSKEY: unable to find a DNSKEY which verifies the DNSKEY RRset and also matches a trusted key for '.'</userinput>
-validating @0xb8b18a38: . DNSKEY: please check the 'trusted-keys' for '.' in named.conf.</screen>
+   <screen>managed-keys-zone: <userinput>DNSKEY set for zone '.' could not be verified with current keys</userinput>
+validating ./DNSKEY: starting
+validating ./DNSKEY: attempting positive response validation
+validating ./DNSKEY: no DNSKEY matching DS
+validating ./DNSKEY: no DNSKEY matching DS
+validating ./DNSKEY: no valid signature found (DS)</screen>
 
  </section>
 
 
 
  <!-- ====== Unable to Load Keys ====== -->
+<!-- Commented out until the section on the new key manager is written
  <section id="troubleshooting-unable-to-load-keys">
   <title>Unable to Load Keys</title>
   <para>This is a simple yet common issue. If the keys files were present
@@ -236,6 +244,6 @@ example.com.db	example.com.db.jbk  example.com.db.signed  example.com.db.signed.
 
   <para>So, unless you see the <code>*.signed.jnl</code> file, your zone
   has not been signed.</para>
-
  </section>
+-->
 </section>

@@ -9,7 +9,7 @@
  <para>NTAs are added using the <code>rndc</code> command, e.g:</para>
 
  <screen>$ <userinput>rndc nta example.com</userinput>
- Negative trust anchor added: example.com/_default, expires 14-Dec-2016 13:39:09.000
+ Negative trust anchor added: example.com/_default, expires 19-Mar-2020 19:57:42.000
  </screen>
 
  <para>The list of currently configured NTAs can also be examined using
@@ -17,7 +17,7 @@
  </para>
 
  <screen>$ <userinput>rndc nta -dump</userinput>
- example.com: expiry 14-Dec-2016 13:39:09.000
+ example.com/_default: expiry 19-Mar-2020 19:57:42.000
  </screen>
 
  <para>The default lifetime of an NTA is one hour although, by default,

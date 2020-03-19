@@ -2,10 +2,10 @@
  <title>Logging</title>
 
  <para>DNSSEC validation error messages by default will show up in syslog
- as a Query-Error. It will have the string "error" at the start of the
- message. Here is an example of what it may look like:</para>
+ as a Query-Error. Here is an example of what it may look like:</para>
 
- <screen>error (insecurity proof failed) resolving './NS/IN': 192.168.1.13#53</screen>
+ <screen>validating www.example.org/A: no valid signature found
+RRSIG failed to verify resolving 'www.example.org/A/IN': 10.53.0.2#53</screen>
 
  <para>Usually, this level of error logging should suffice for most. If
  you would like to get more detailed information about why DNSSEC
@@ -56,55 +56,50 @@ which can be done by default without configuration changes. -->
   <para>After restarting BIND, a large number of log messages will appear
   in syslog. The example below shows the log messages as a result of
   successfully looking up and validating the domain name
-  <code>www.isc.org</code>.</para>
+  <code>ftp.isc.org</code>.</para>
 
-  <screen>validating @0xb8012d88: . NS: starting
-validating @0xb8012d88: . NS: attempting positive response validation
-validating @0xb805a9b0: . DNSKEY: starting
-validating @0xb805a9b0: . DNSKEY: attempting positive response validation
-validating @0xb805a9b0: . DNSKEY: verify rdataset (keyid=19036): success
-validating @0xb805a9b0: . DNSKEY: signed by trusted key; marking as secure
-validator @0xb805a9b0: dns_validator_destroy
-validating @0xb8012d88: . NS: in fetch_callback_validator
-validating @0xb8012d88: . NS: keyset with trust 8
-validating @0xb8012d88: . NS: resuming validate
-validating @0xb8012d88: . NS: verify rdataset (keyid=8230): success
-validating @0xb8012d88: . NS: marking as secure, noqname proof not needed
-validator @0xb8012d88: dns_validator_destroy
-validating @0xb8012d88: www.isc.org A: starting
-validating @0xb8012d88: www.isc.org A: attempting positive response validation
-validating @0xb805a9b0: isc.org DNSKEY: starting
-validating @0xb805a9b0: isc.org DNSKEY: attempting positive response validation
-validating @0xb827e298: isc.org DS: starting
-validating @0xb827e298: isc.org DS: attempting positive response validation 
-validating @0xb827fd18: org DNSKEY: starting
-validating @0xb827fd18: org DNSKEY: attempting positive response validation 
-validating @0xb8281798: . NS: starting
-validating @0xb8281798: . NS: attempting positive response validation 
-validating @0xb8281798: . NS: keyset with trust 8
-validating @0xb8280790: org DS: starting
-validating @0xb8280790: org DS: attempting positive response validation 
-validating @0xb8280790: org DS: keyset with trust 8
-validating @0xb8280790: org DS: verify rdataset (keyid=8230): success
-validating @0xb8280790: org DS: marking as secure, noqname proof not needed
-validator @0xb8280790: dns_validator_destroy
-validating @0xb827fd18: org DNSKEY: in dsfetched
-validating @0xb827fd18: org DNSKEY: dsset with trust 8
-validating @0xb827fd18: org DNSKEY: verify rdataset (keyid=21366): success
-validating @0xb827fd18: org DNSKEY: marking as secure (DS)
-validator @0xb827fd18: dns_validator_destroy
-validating @0xb827e298: isc.org DS: in fetch_callback_validator
-validating @0xb827e298: isc.org DS: keyset with trust 8
-validating @0xb827e298: isc.org DS: resuming validate
-validating @0xb827e298: isc.org DS: verify rdataset (keyid=33287): success
-validating @0xb827e298: isc.org DS: marking as secure, noqname proof not needed
-validator @0xb827e298: dns_validator_destroy
-validating @0xb805a9b0: isc.org DNSKEY: in dsfetched 
-validating @0xb805a9b0: isc.org DNSKEY: dsset with trust 8
-validating @0xb805a9b0: isc.org DNSKEY: verify rdataset (keyid=12892): success
-validating @0xb805a9b0: isc.org DNSKEY: marking as secure (DS)
-validator @0xb805a9b0: dns_validator_destroy
-validating @0xb8012d88: www.isc.org A: in fetch_callback_validator</screen>
+ <screen>validating ./NS: starting
+validating ./NS: attempting positive response validation
+  validating ./DNSKEY: starting
+  validating ./DNSKEY: attempting positive response validation
+  validating ./DNSKEY: verify rdataset (keyid=20326): success
+  validating ./DNSKEY: marking as secure (DS)
+validating ./NS: in validator_callback_dnskey
+validating ./NS: keyset with trust secure
+validating ./NS: resuming validate
+validating ./NS: verify rdataset (keyid=33853): success
+validating ./NS: marking as secure, noqname proof not needed
+validating ftp.isc.org/A: starting
+validating ftp.isc.org/A: attempting positive response validation
+validating isc.org/DNSKEY: starting
+validating isc.org/DNSKEY: attempting positive response validation
+  validating isc.org/DS: starting
+  validating isc.org/DS: attempting positive response validation
+validating org/DNSKEY: starting
+validating org/DNSKEY: attempting positive response validation
+  validating org/DS: starting
+  validating org/DS: attempting positive response validation
+  validating org/DS: keyset with trust secure
+  validating org/DS: verify rdataset (keyid=33853): success
+  validating org/DS: marking as secure, noqname proof not needed
+validating org/DNSKEY: in validator_callback_ds
+validating org/DNSKEY: dsset with trust secure
+validating org/DNSKEY: verify rdataset (keyid=9795): success
+validating org/DNSKEY: marking as secure (DS)
+  validating isc.org/DS: in fetch_callback_dnskey
+  validating isc.org/DS: keyset with trust secure
+  validating isc.org/DS: resuming validate
+  validating isc.org/DS: verify rdataset (keyid=33209): success
+  validating isc.org/DS: marking as secure, noqname proof not needed
+validating isc.org/DNSKEY: in validator_callback_ds
+validating isc.org/DNSKEY: dsset with trust secure
+validating isc.org/DNSKEY: verify rdataset (keyid=7250): success
+validating isc.org/DNSKEY: marking as secure (DS)
+validating ftp.isc.org/A: in fetch_callback_dnskey
+validating ftp.isc.org/A: keyset with trust secure
+validating ftp.isc.org/A: resuming validate
+validating ftp.isc.org/A: verify rdataset (keyid=27566): success
+validating ftp.isc.org/A: marking as secure, noqname proof not needed</screen>
 
  </section>
 

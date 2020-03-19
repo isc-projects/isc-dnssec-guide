@@ -12,28 +12,30 @@
  response is not fully validated, it will result in a generic SERVFAIL
  message, as shown below when querying against a recursive name server 192.168.1.7:</para>
 
- <screen>$ <userinput>dig @192.168.1.7 www.isc.org. A</userinput>
-; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.7 www.isc.org. A
+ <screen>$ <userinput>dig @10.53.0.3 www.example.org. A</userinput>
+
+; &lt;&lt;&gt;&gt; DiG 9.16.0 &lt;&lt;&gt;&gt; @10.53.0.3 www.example.org A
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER&lt;&lt;- opcode: QUERY, status: <userinput>SERVFAIL</userinput>, id: 8101
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: SERVFAIL, id: 28947
 ;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
 
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: d1301968aca086ad010000005e723a7113603c01916d136b (good)
 ;; QUESTION SECTION:
-;www.isc.org.			IN	A
+;www.example.org.		IN	A
 
-;; Query time: 973 msec
-;; SERVER: 192.168.1.7#53(192.168.1.7)
-;; WHEN: Thu Oct 16 20:28:20 CST 2014
-;; MSG SIZE  rcvd: 40</screen>
+;; Query time: 3 msec
+;; SERVER: 10.53.0.3#53(10.53.0.3)
+;; WHEN: Wed Mar 18 15:12:49 GMT 2020
+;; MSG SIZE  rcvd: 72</screen>
 
  <para>With <command>delv</command>, a "resolution failed" message is
  output instead:</para>
 
- <screen>$ <userinput>delv @192.168.1.7 www.isc.org. A +rtrace</userinput>
-;; fetch: www.isc.org/A
-;; <userinput>resolution failed: failure</userinput></screen>
+ <screen>$ <userinput>delv @10.53.0.3 www.example.org. A +rtrace</userinput>
+;; fetch: www.example.org/A
+;; <userinput>resolution failed: SERVFAIL</userinput></screen>
 </section>

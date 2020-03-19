@@ -39,6 +39,13 @@
  href="troubleshooting_nsec3.xml" />
 
  <!-- Examples -->
+<!--
+ This example is commented out because it is not realistic:
+ it relies on the resolver including a trusted-keys statement
+ containing a copy of the key used to sign a non-root zone.
+ possible, but unlikely to be the case in 2020.
+
  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
  href="troubleshooting_examples.xml" />
+-->
 </chapter>

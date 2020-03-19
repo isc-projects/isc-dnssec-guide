@@ -12,60 +12,59 @@
  arriving at the authoritative name server. The giveaway is the presence
  of the Authoritative Answer (<code>aa</code>) flag: when present, we know
  we are talking to the authoritative server; when missing, we are talking
- to the recursive server. The example below shows an answer without the
- Authoritative Answer flag:
+ to a recursive server. The example below shows an answer to a query for
+ <code>www.example.com</code> without the Authoritative Answer flag:
 
-  <screen>$ <userinput>dig www.example.com. A</userinput>
+ <screen>$ <userinput>dig @10.53.0.3 www.example.com A</userinput>
 
-; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> www.example.com. A
+; &lt;&lt;&gt;&gt; DiG 9.16.0 &lt;&lt;&gt;&gt; @10.53.0.3 www.example.com a
+; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 41006
-;; flags: qr rd <userinput>ra</userinput>; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 62714
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
 
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: c823fe302625db5b010000005e722b504d81bb01c2227259 (good)
 ;; QUESTION SECTION:
 ;www.example.com.		IN	A
 
 ;; ANSWER SECTION:
-www.example.com.	600	IN	A	192.168.1.100
+www.example.com.	60	IN	A	10.1.0.1
 
-;; Query time: 21 msec
-;; SERVER: 192.168.1.7#53(192.168.1.7)
-;; WHEN: Mon Nov 03 19:54:37 CST 2014
-;; MSG SIZE  rcvd: 60</screen>
-
+;; Query time: 3 msec
+;; SERVER: 10.53.0.3#53(10.53.0.3)
+;; WHEN: Wed Mar 18 14:08:16 GMT 2020
+;; MSG SIZE  rcvd: 88</screen>
  </para>
 
  <para>Not only do we not see the <code>aa</code> flag, we see the
  presence of an <code>ra</code> flag, which represents Recursion
- Available. This indicates that the server we are talking to (192.168.1.7
+ Available. This indicates that the server we are talking to (10.53.0.3
  in this example) is a recursive name server. And although we were able to
  get an answer for <code>www.example.com</code>, the answer came from
  somewhere else.</para>
- 
- <para>The example below shows when we query the authoritative server
- directly and see the presence of the <code>aa</code> flag:
 
-  <screen>$ <userinput>dig @192.168.1.13 www.example.com. A</userinput>
+ <para>If we query the authoritative server directly, we get:
 
-; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.13 www.example.com. A
+ <screen>$ <userinput>dig @10.53.0.2 www.example.com A</userinput>
+
+; &lt;&lt;&gt;&gt; DiG 9.16.0 &lt;&lt;&gt;&gt; @10.53.0.2 www.example.com a
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 35962
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 39542
 ;; flags: qr <userinput>aa</userinput> rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
 ;; WARNING: recursion requested but not available
 ...</screen>
-
  </para>
 
  <para>The presence of the <code>aa</code> flag tells us that we are now
- talking to the authoritative name server for <code>example.com</code>,
+ talking to the authoritative name server for <code>www.example.com</code>,
  and this is not a cached answer it obtained from some other name server,
  it served this answer to us right from its own database. In fact, if you
- look closely, the <code>ra</code> flag is not present, which means this
+ look closely, the Recursion Available (<code>ra</code>) flag is not present, which means this
  name server is not configured to perform recursion (at least not for this
  client), so it could not have queried another name server to get cached
  results anyway.</para>
