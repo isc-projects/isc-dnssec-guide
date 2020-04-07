@@ -41,7 +41,7 @@
    <title>Verisign DNSSEC Debugger</title>
    <mediaobject>
     <imageobject>
-     <imagedata fileref="../img/verisign-dnssec-debugger-example.png" scalefit="1"/>
+     <imagedata fileref="../img/verisign-dnssec-debugger-example.png" scale="50"/>
     </imageobject>
    </mediaobject>
   </figure>
