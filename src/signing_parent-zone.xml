@@ -1,5 +1,5 @@
 <section id="working-with-parent-zone">
- <title>Working with Parent Zone</title>
+ <title>Working with the Parent Zone</title>
  <para>As we mentioned in <xref
  linkend="signing-easy-start-upload-to-parent-zone" />, the format of the
  information you upload to your parent zone is dictated by your parent zone
@@ -22,33 +22,39 @@
  <para>Next, we will take a look at how to get each of the three
  formats from your existing data.</para>
 
+<para>First though, what existing data?  When <command>named</command> turned on
+ automatic DNSSEC maintenance, more or less the first thing it did was
+ to create the DNSSEC keys and put them in the key directory you
+ specified in the <code>key-directory</code> option in the <code>zone</code>
+ statement.  If you look in that directory, you will see two files with
+ names like <code>Kexample.com.+013+10376.key</code>,
+ <code>>Kexample.com.+013+10376.private</code> and
+  <code>>Kexample.com.+013+10376.state</code>.  The one we are
+ interested in is the one with the <code>.key</code> suffix, which
+ contains the zone's public key. (The other files contain the zone's private
+ key and the DNSSEC state associated with the key.) This is used to
+ generate the information we need to pass to the parent.</para>
 
  <!-- === DS Record Format === -->
  <section id="parent-ds-record-format">
   <title>DS Record Format</title>
 
-  <para>Below is an example of generating DS record formats from the KSK we
-  created earlier (<filename>Kexample.com.+008+06817.key</filename>) using two
-  different secure hashing algorithms (SHA-1 and SHA-256, respectively):</para>
+  <para>Below is an example of generating a DS record formats from the KSK we
+  created earlier (<filename>Kexample.com.+013+10376.key</filename>):</para>
 
   <screen># <userinput>cd /etc/bind/keys/example.com</userinput>
-# <userinput>dnssec-dsfromkey -a SHA-1 Kexample.com.+008+06817.key</userinput>
-example.com. IN DS 6817 8 1 59194A835ACD78D25D538D5F35CA043A8F3F4446
-# <userinput>dnssec-dsfromkey -a SHA-256 Kexample.com.+008+06817.key</userinput>
-example.com. IN DS 6817 8 2 2A5F1DF55D5E64CBD7BCFE1EFA6E9586AF335FA56A2473296E975B89AFD31E11</screen>
+ <userinput>dnssec-dsfromkey Kexample.com.+013+10376.key</userinput>
+example.com. IN DS 10376 13 2 B92E22CAE0B41430EC38D3F7EDF1183C3A94F4D4748569250C15EE33B8312EF0</screen>
 
   <para>Some registrars many ask you to manually specify the types of algorithm
-  and digest used. In the first example, 8 represents the algorithm used, and 1
-  represents the digest type (SHA-1); in the second example, 8 is the
-  algorithm, and 2 is the digest type (SHA-256). The key tag or key ID is
-  06817.</para>
+  and digest used. In this example, 13 represents the algorithm used, and 2
+  represents the digest type (SHA-256).  The key tag or key ID is 10376.</para>
 
   <para>Alternatively, you could generate it from the DNSKEY records like
   this:</para>
 
   <screen>$ <userinput>dig @192.168.1.13 example.com. DNSKEY | dnssec-dsfromkey -f - example.com</userinput>
-example.com. IN DS 6817 8 1 59194A835ACD78D25D538D5F35CA043A8F3F4446
-example.com. IN DS 6817 8 2 2A5F1DF55D5E64CBD7BCFE1EFA6E9586AF335FA56A2473296E975B89AFD31E11</screen>
+example.com. IN DS 10376 13 2 B92E22CAE0B41430EC38D3F7EDF1183C3A94F4D4748569250C15EE33B8312EF0</screen>
 
  </section>
 
@@ -57,26 +63,30 @@ example.com. IN DS 6817 8 2 2A5F1DF55D5E64CBD7BCFE1EFA6E9586AF335FA56A2473296E97
  <section id="parent-dnskey-format">
   <title>DNSKEY Format</title>
 
-  <para>Below is an example of a different key ID (16027) using DNSKEY format
+  <para>Below is an example of the same key ID (10376) using DNSKEY format
   (actual key shortened for display):</para>
 
-  <screen>example.com. 172800 IN DNSKEY 257 3 8 (AwEAAbGOPf...AX2QHMY8=) ; key id = 16027</screen>
+  <screen>example.com. 3600 IN DNSKEY 257 3 13 (6saiq99qDB...dqp+o0dw==) ; key id = 10376</screen>
   
   <para>The key itself is easy to find (it's kind of hard to miss that big long
-  base64 string) in the file. Remember, we want the KSK, so look for the presence
-  of 257.</para>
+  base64 string) in the file (again shortened for display).</para>
 
   <screen># <userinput>cd /etc/bind/keys/example.com</userinput>
-# <userinput>cat Kexample.com.+008+06817.key</userinput>
-; This is a key-signing key, keyid <userinput>6817</userinput>, for example.com.
-; Created: 20141120094612 (Thu Nov 20 17:46:12 2014)
-; Publish: 20141120094612 (Thu Nov 20 17:46:12 2014)
-; Activate: 20141120094612 (Thu Nov 20 17:46:12 2014)
-example.com. IN DNSKEY <userinput>257</userinput> 3 8 AwEAAcWDps...lM3NRn/G/R</screen>
+# <userinput>cat Kexample.com.+013+10376.key</userinput>
+; This is a key-signing key, keyid <userinput>10376</userinput>, for example.com.
+; Created: 20200407150255 (Tue Apr  7 16:02:55 2020)
+; Publish: 20200407150255 (Tue Apr  7 16:02:55 2020)
+; Activate: 20200407150255 (Tue Apr  7 16:02:55 2020)
+example.com. 3600 IN DNSKEY <userinput>257</userinput> 3 13 6saiq99qDB...dqp+o0dw==</screen>
+
+  <para>Even though this is a combined-signing key (CSK), the file states that it
+  is a key-signing key (KSK).  The reason for this is explained WHERE?  That the
+  record represents a KSK can be seen in the DNSKEY line itself where the highlighted
+  value is 257 (it would be 256 for a zone-signing key).</para>
 
   <para>Some registrars may ask you to manually specify the type of algorithm
-  used and the key tag number. In our example above, the chosen algorithm is 8,
-  and the key ID is 6817.</para>
+  used and the key tag number. In our example above, the chosen algorithm is 13,
+  and the key ID is 10376.</para>
 
  </section>
 
@@ -88,7 +98,7 @@ example.com. IN DNSKEY <userinput>257</userinput> 3 8 AwEAAcWDps...lM3NRn/G/R</s
   mostly cosmetic. Below is an example of <varname>trusted-keys</varname>
   format (again, actual key shortened for display):</para>
 
-  <screen>"example.com." 257 3 8 "AwEAAbGOPf...9AX2QHMY8=";</screen>
+  <screen>example.com. 257 3 13 "6saiq99qDB...dqp+o0dw==";</screen>
 
  </section>
 
