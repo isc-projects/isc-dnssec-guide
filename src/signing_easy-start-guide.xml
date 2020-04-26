@@ -27,8 +27,8 @@
 
 <!-- === #1 Activate dnssec-policy and wait for completion === -->
  <section id="signing-easy-start-policy-enable">
-  <title>Enable Automatic DNSSEC Maintenance</title>
-  <para>To enable DNSSEC in your zone, you need to add the following statements
+  <title>Enable Automated DNSSEC Zone Maintenance</title>
+  <para>To sign your zone, you need to add the following statements
   to its <code>zone</code> clause in the configuration file:
 
   <screen>
@@ -45,26 +45,30 @@ zone "example.com" in {
     ...
 };</screen></para>
 
-  <para>The <code>dnssec-policy</code> statement turns on DNSSEC for the
-  zone and starts automatic maintenance.  The value <code>default</code> selects the default
-  policy, which contain values suitable for most situations.  We will cover
-  the creation of your own policy later WHERE?? but for the moment we will
-  accept the default values.</para>
+  <para>The <code>dnssec-policy</code> statement causes the zone to be
+  signed and turns on automatic maintenance for the zone.  This includes
+  re-signing the zone as signatures expire, and replacing keys on a
+  periodic basic.  The value <code>default</code> selects the default
+  policy, which contain values suitable for most situations.  We will
+  cover the creation of your own policy in <xref
+  linkend="signing-custom-policy"/> but for the moment we will accept
+  the default values.</para>
 
-  <para>The <code>key-directory</code> statement tells BIND where to store
-  the DNSSEC key files; if absent, they will be
-  stored in the directory set by the <code>directory</code> statement in the
-  configuration file's <code>options</code> clause.  In the example above,
-  since the key directory does not have a leading slash, BIND interpretes the
-  name as being relative to the directory specified in the <code>options</code>
-  clause, in other words <code>/etc/bin/keys/example.com</code>.</para>
+  <para>The <code>key-directory</code> statement tells BIND where to
+  store the files holding the DNSSEC keys; if absent, they will be
+  stored in the directory set by the <code>directory</code> statement in
+  the configuration file's <code>options</code> clause.  In the example
+  above, since the key directory does not have a leading slash, BIND
+  interpretes the name as being relative to the directory specified in
+  the <code>options</code> clause, in other words
+  <code>/etc/bin/keys/example.com</code>.</para>
 
   <para>When you are done updating the configuration file, tell
   <command>named</command> to reload the configuration file:
 
   <screen># <userinput>rndc reconfig</userinput></screen></para>
 
-  <para>And that's it - that is all you have to do to run a DNSSEC-signed zone.</para>
+  <para>And that's it - your zone is now signed.</para>
 
  </section>
 
@@ -78,8 +82,7 @@ zone "example.com" in {
   it in the published zone.  This is marked by messages similar to the following
   appearing in the log file:
 
-<!-- The following needs putting into proper syslog format -->
-  <screen>
+<screen>
 07-Apr-2020 16:02:55.045 zone example.com/IN (signed): reconfiguring zone keys
 07-Apr-2020 16:02:55.045 reloading configuration succeeded
 07-Apr-2020 16:02:55.046 keymgr: DNSKEY example.com/ECDSAP256SHA256/10376 (CSK) created for policy default
@@ -96,7 +99,7 @@ zone "example.com" in {
 
   <screen># <userinput>rndc signing -list example.com</userinput></screen>
 
-  While the signing is in progress, the output will be:
+  While the signing is in progress, the output will be something like:
   <screen>Signing with key 10376/ECDSAP256SHA256</screen>
 
   and when it is finished:
@@ -237,11 +240,10 @@ example.com.		600 IN RRSIG SOA 13 2 600 (
  <!-- === Your Zone, Before and After DNSSEC === -->
  <section id="your-zone-before-and-after-dnssec">
   <title>Your Zone, Before and After DNSSEC</title>
-  <para>In the previous section <xref
-  linkend="easy-start-guide-for-authoritative-servers"/>, we provided the
-  minimal amount of information to essentially convert a traditional DNS zone
-  into a DNSSEC-enabled zone. This is what the zone looked like before we
-  started: 
+  <para>When we assigned the default DNSSEC policy to the zone, we
+  provided the minimal amount of information to essentially convert a
+  traditional DNS zone into a DNSSEC-enabled zone. This is what the zone
+  looked like before we started:
 
    <screen>$ <userinput>dig @192.168.1.13 example.com. AXFR +multiline +onesoa</userinput>
 

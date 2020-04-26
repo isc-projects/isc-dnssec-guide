@@ -4,8 +4,7 @@
  <!-- === Enable Automatic Maintenance Explained === -->
  <section id="enable-automatic-maintenance-explained">
   <title>Enable Automatic DNSSEC Maintenance Explained</title>
-  <para>Signing a zone and then maintaining it requires a
-  number of separate steps:</para>
+  <para>Signing a zone requires a number of separate steps:</para>
 
    <itemizedlist>
     <listitem>
@@ -18,6 +17,11 @@
      <simpara>Signing of the records in the file (including the
      generation of the NSEC or NSEC3 records).</simpara>
     </listitem>
+   </itemizedlist>
+
+  <para>Maintaining it comprises a set of ongoing tasks:</para>
+
+   <itemizedlist>
     <listitem>
      <simpara>Re-signing the zone as signatures approach expiration.</simpara>
     </listitem>
@@ -37,15 +41,17 @@
     </listitem>
    </itemizedlist>
 
-   <para>That is a lot of complexity, and it is all handled with the single
-   <code>dnssec-policy default</code> statement. We will see later on WHERE?
-   how the these actions can be tuned by setting up our own DNSSEC policy with
-   customised parameters. In many cases though, the defaults are adequate.
-   After reading the rest of this guide, you may decide that you do need to
-   tweak the parameters or use an alternative signing method.  But if not,
-   that's it - you can forget about DNSSEC, there is nothing more to do.</para>
+   <para>That is a lot of complexity, and it is all handled with the
+   single <code>dnssec-policy default</code> statement. We will see
+   later on (in section <xref linkend="signing-custom-policy"/>) how the
+   these actions can be tuned by setting up our own DNSSEC policy with
+   customised parameters. In many cases though, the defaults are
+   adequate.  After reading the rest of this guide, you may decide that
+   you do need to tweak the parameters or use an alternative signing
+   method.  But if not, that's it - you can forget about DNSSEC, there
+   is nothing more to do.</para>
 
-   <para>At the time of wriiting (April 2020), <code>dnssec-policy</code> is
+   <para>At the time of writing (April 2020), <code>dnssec-policy</code> is
    still a relatively new feature in BIND.  As such, although it is the
    preferred way to run DNSSEC in your zone, it can't do everything
    that you can do with a more "hands on" approach to signing and key

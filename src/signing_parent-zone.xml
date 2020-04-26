@@ -3,23 +3,17 @@
  <para>As we mentioned in <xref
  linkend="signing-easy-start-upload-to-parent-zone" />, the format of the
  information you upload to your parent zone is dictated by your parent zone
- administrator, and the three main formats are:
+ administrator, and the two main formats are:
 
   <orderedlist>
    <listitem><simpara>DS Record Format</simpara></listitem>
    <listitem><simpara>DNSKEY Format</simpara></listitem>
-   <listitem><simpara>Trusted Key Format</simpara></listitem>
   </orderedlist>
  </para>
 
- <para>ccTLDs typically maintain their own lists of registrars and
- should have a list of which of those support DNSSEC.  ICANN maintains
- a list of accredited registrars who support DNSSEC for gTLDs:
- <simpara><ulink
- url="https://www.icann.org/resources/pages/deployment-2012-02-25-en"/>
- </simpara></para>
+ <para>You should check with your parent zone which format they require.</para>
 
- <para>Next, we will take a look at how to get each of the three
+ <para>Next, we will take a look at how to get each of the
  formats from your existing data.</para>
 
 <para>First though, what existing data?  When <command>named</command> turned on
@@ -80,25 +74,14 @@ example.com. IN DS 10376 13 2 B92E22CAE0B41430EC38D3F7EDF1183C3A94F4D4748569250C
 example.com. 3600 IN DNSKEY <userinput>257</userinput> 3 13 6saiq99qDB...dqp+o0dw==</screen>
 
   <para>Even though this is a combined-signing key (CSK), the file states that it
-  is a key-signing key (KSK).  The reason for this is explained WHERE?  That the
+  is a key-signing key (KSK).  The reason for this is explained in section
+  <xref linkend="types-of-keys"/>.  That the
   record represents a KSK can be seen in the DNSKEY line itself where the highlighted
   value is 257 (it would be 256 for a zone-signing key).</para>
 
   <para>Some registrars may ask you to manually specify the type of algorithm
   used and the key tag number. In our example above, the chosen algorithm is 13,
   and the key ID is 10376.</para>
-
- </section>
-
-
- <!-- === Trusted Key Format === -->
- <section id="parent-trusted-key-format">
-  <title>Trusted Key Format</title>
-  <para>This format is very similar to the DNSKEY format, the differences are
-  mostly cosmetic. Below is an example of <varname>trusted-keys</varname>
-  format (again, actual key shortened for display):</para>
-
-  <screen>example.com. 257 3 13 "6saiq99qDB...dqp+o0dw==";</screen>
 
  </section>
 

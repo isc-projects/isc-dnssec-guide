@@ -14,142 +14,59 @@
  <para>There is not that much left for you to do, as the DNS administrator, at
  an ongoing basis. Whenever you update your zone, BIND will automatically
  resign your zone with new RRSIG and NSEC or NSEC3 records, and even increment
- the serial number for you.</para>
+ the serial number for you.  If you choose to split your keys into a KSK
+ and ZSK, the rolling of the ZSK is completely automatic.</para>
 
- <para>That leaves DNSKEY records. Just like passwords and underwear, keys should 
- be changed periodically. There are arguments for and against rolling keys,
- which are discussed elsewhere. If you decide to change your keys, we recommend
- changing your ZSK pair anually, and your KSK pair every five years. This is
- also known as a key rollover.</para>
- 
- <para>Why annually for the ZSK? That's just a convenient length of time that
- probably coincides with your domain name registration/renewal cycle; And every
- five years? That's also a generic length of time, one which happens to be the
- same as the root key's rollover schedule. Some people feel or have the need to
- do it more frequently, while some argue that there is no need for key rolling.
- We discuss those considerations in <xref linkend="key-rollovers" />. But
- assuming you do not have special security requirements, nor host a
- high-valued zone, rotating your ZSK every year and KSK every five years should
- suffice. We also provide detailed step-by-step examples of each rollover in
- <xref linkend="recipes-rollovers" />.</para>
+ <para>The only manual tasks for you to do are to monitor KSK or CSK key
+ rolls and pass the new DS record to the parent zone - and you may not
+ even have to do that if the parent can process CDS or CDNSKEY
+ records.</para>
 
+ <section id="cds-cdnskey">
+  <title>The CDS and CDNSKEY Resource Records</title>
+  <para>Passing the DS record to the organization running the parent
+  zone has always been recognised as a bottleneck in the key rollover
+  process.  To automate the process the CDS and CDNSKEY resource records were
+  introduced.</para>
 
- <!-- ====== ZSK Rollover Example ====== -->
- <section id="maintenance-tasks-zsk-rollover">
-  <title>ZSK Rollover</title>
+  <para>The CDS and CDNSKEY records are identical to the DS and DNSKEY
+  records, except in the type code and the name.  When such a record appears
+  in the child zone, it is a signal to the parent that it should update the
+  DS it has for that zone.  In essence, what happens is that the parent
+  polls the child zone and notices the presence of either or both of the CDS
+  and CDNSKEY records.  It checks these records in the usual way i.e., that they
+  are signed by a valid key for the zone. If the
+  record(s) successfully validate a new DS record (copied from a CDS record
+  or calculated from a CDNSKEY one) is added to the parent's DS RRset
+  for the child.</para>
+ </section>
 
-  <para>Assuming you are rolling your ZSK every year on January 1st, below is
-  the timeline of what should happen:</para>
+ <section id="working-with-the-parent-2">
+  <title>Working with the Parent Zone (2)</title>
+  <para>If your parent zone does support polling for CDS/CDNSKEY records, you
+  are almost there.  When BIND publishes these records, they will be uploaded
+  and the DS record published in the parent.... we hope.
+  At the time of writing (April 2020) BIND will not check for the
+  presence of a DS record in the parent zone before completing the KSK or
+  CSK rollover and withdrawing the old key.  Instead, it assumes that
+  the operation will be completed within the time period set by the
+  <code>parent-registration-delay</code> value in the DNSSEC policy
+  <footnote><para>So if the parent zone supports CDS/CDNSKEY,
+  why did we have to manually upload the DS record when we first signed the
+  zone?  The answer is down to security.  Until our zone was signed, the parent
+  couldn't be sure that a CDS or CDNSKEY record it obtained really did come from
+  the zone. So some other form of secure had to be used to obtain the information.
+  </para></footnote>.</para>
 
-  <orderedlist>
-   <listitem>
-    <simpara>December 1st, a month before rollover date:</simpara>
-    <itemizedlist>
-     <listitem>
-      <simpara>Change timer on current ZSK</simpara>
-     </listitem>
-     <listitem>
-      <simpara>Generate new ZSK</simpara>
-     </listitem>
-     <listitem>
-      <simpara>Publish new DNSKEY</simpara>
-     </listitem>
-    </itemizedlist>
-   </listitem>
+  <para>If your parent doesn't support CDS/CDNSKEY, when a new KSK appears in your
+  zone, you will have to supply the DNSKEY or DS record to the zone manually,
+  probably using the same mechanism you used to upload the records for the first
+  time.</para>
 
-   <listitem>
-    <simpara>January 1st, day of rollover:</simpara>
-    <itemizedlist>
-     <listitem>
-      <simpara>New ZSK used to replace RRSIGs for the bulk of the zone</simpara>
-     </listitem>
-    </itemizedlist>
-   </listitem>
-
-   <listitem>
-    <simpara>February 1st, a month after rollover date:</simpara>
-    <itemizedlist>
-     <listitem>
-      <simpara>Remove old DNSKEY from zone</simpara>
-     </listitem>
-     <listitem>
-      <simpara>DNSKEY signatures made with KSK are changed</simpara>
-     </listitem>
-    </itemizedlist>
-   </listitem>
-  </orderedlist>
-
-  <para>This may look like a lot of work, but with
-  <varname>inline-signing</varname> and <varname>auto-dnssec</varname>, most
-  of these are automated. The only things that need to be done manually are just
-  the first two items:</para>
-
-  <itemizedlist>
-   <listitem><simpara>Change timer on current ZSK</simpara></listitem>
-   <listitem><simpara>Generate new ZSK</simpara></listitem>
-  </itemizedlist>
-
-  <para>For an example of how to execute a ZSK rollover, please see <xref
-  linkend="recipes-zsk-rollover" />.</para> </section>
-
-
- <!-- ====== KSK Rollover Example ====== -->
- <section id="maintenance-tasks-ksk-rollover">
-  <title>KSK Rollover</title>
-  <para>KSK rollover is very similar to ZSK, with the addition of interacting
-  with the parent zone. In fact, as you can see below, the timeline looks
-  nearly identical to the ZSK rollover, with the addition of interaction with
-  parent zone:</para>
-
-  <orderedlist>
-   <listitem>
-    <simpara>December 1st, a month before rollover date:</simpara>
-    <itemizedlist>
-     <listitem>
-      <simpara>Change timer on current KSK</simpara>
-     </listitem>
-     <listitem>
-      <simpara>Generate new KSK and DS records</simpara>
-     </listitem>
-     <listitem>
-      <simpara>Upload new DS records to parent zone</simpara>
-     </listitem>
-    </itemizedlist>
-   </listitem>
-
-   <listitem>
-    <simpara>January 1st, day of rollover:</simpara>
-    <itemizedlist>
-     <listitem>
-      <simpara>Use new KSK to sign all DNSKEY RRset, this generates new RRSIGs</simpara>
-     </listitem>
-     <listitem>
-      <simpara>Add new RRSIGs to the zone</simpara>
-     </listitem>
-     <listitem>
-      <simpara>Remove old RRSIGs from zone</simpara>
-     </listitem>
-    </itemizedlist>
-   </listitem>
-
-   <listitem>
-    <simpara>February 1st, a month after rollover date:</simpara>
-    <itemizedlist>
-     <listitem>
-      <simpara>Remove old KSK DNSKEY from zone</simpara>
-     </listitem>
-     <listitem>
-      <simpara>Remove old DS records from parent zone</simpara>
-     </listitem>
-    </itemizedlist>
-   </listitem>
-  </orderedlist>
-
-  <para>Unfortunately, as of this writing, KSK rollover involves a lot of
-  manual steps. As described above, the only automated tasks are the ones that
-  occur on the day of the rollover (January 1st), everything else needs to be
-  done manually. To see an example of how to perform a KSK rollover, please see
-  <xref linkend="recipes-ksk-rollover" />.</para>
+  <para>Either way, you need to monitor the progress of a KSK or CSK roll.  Look
+  for the introduction of the CDS and CDNSKEY records in the zone.  If required,
+  send the DS record to the parent zone manually.  And monitor the parent zone to
+  ensure that the DS record appears at the correct time.</para>
 
  </section>
 </section>
