@@ -76,16 +76,22 @@
     parent zone publishes about its child as part of the chain of trust. To learn more
     about the Chain of Trust, see <xref linkend="chain-of-trust" />.</simpara>
    </listitem>
+
+   <listitem>
+    <simpara><emphasis>NSEC, NSEC3, NSEC3PARAM</emphasis>: These resource
+    records all deal with a very interesting problem: proving that something
+    really does not exist.  We will look at these record types in more detail
+    in <xref linkend="advanced-discussions-proof-of-nonexistence" />.</simpara>
+   </listitem>
+
+   <listitem>
+    <simpara><emphasis>CDS, CDNSKEY</emphasis>: The CDS and CDNSKEY resource
+    records apply to operational matters and are a way to signal to the parent
+    zone that the DS records it holds for the child zone should be updated.
+    This is covered in more detail in <xref linkend="cds-cdnskey"/></simpara>
+   </listitem>
+
   </itemizedlist></para>
-
- <para>The NSEC, NSEC3, and NSEC3PARAM resource records all deal with a very
- interesting problem: proving that something really does not exist.  We will
- look at these record types in more detail in <xref
- linkend="advanced-discussions-proof-of-nonexistence" />.</para>
-
- <para>The CDS and CDNSKEY resource records apply to operational matters and
- are a way to signal to the parent zone that the DS records it holds for the
- child zone should be updated. This is covered in more detail WHERE?</para>
 
 </section>
 
