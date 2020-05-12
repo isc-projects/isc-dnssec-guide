@@ -15,7 +15,8 @@
  an ongoing basis. Whenever you update your zone, BIND will automatically
  resign your zone with new RRSIG and NSEC or NSEC3 records, and even increment
  the serial number for you.  If you choose to split your keys into a KSK
- and ZSK, the rolling of the ZSK is completely automatic.</para>
+ and ZSK, the rolling of the ZSK is completely automatic. Rolling of
+ a KSK or CSK requires manual intervention.</para>
 
  <para>The only manual tasks for you to do are to monitor KSK or CSK key
  rolls and pass the new DS record to the parent zone - and you may not

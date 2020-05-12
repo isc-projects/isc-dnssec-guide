@@ -196,7 +196,6 @@ validating ./DNSKEY: no valid signature found (DS)</screen>
 
 
  <!-- ====== Unable to Load Keys ====== -->
-<!-- Commented out until the section on the new key manager is written
  <section id="troubleshooting-unable-to-load-keys">
   <title>Unable to Load Keys</title>
   <para>This is a simple yet common issue. If the keys files were present
@@ -245,5 +244,5 @@ example.com.db	example.com.db.jbk  example.com.db.signed  example.com.db.signed.
   <para>So, unless you see the <code>*.signed.jnl</code> file, your zone
   has not been signed.</para>
  </section>
--->
+
 </section>

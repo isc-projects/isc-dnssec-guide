@@ -3,234 +3,23 @@
 "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
 <!ENTITY mdash  "&#x2014;" >
 ]>
-<section id="signing-custom-policy">
- <title>Custom DNSSEC Policy</title>
- <para>When we set up signing, we accepted the default policy.  But
- what exactly is a "policy" and what can we change about it?
- Before we go into that, we need to to have background, so in
- the next couple of sections we will discuss signature
- validity periods, zone re-signing, key types, and key rolling.
- (If you're interested, more details than are provided here can be
- found in <ulink url="https://tools.ietf.org/html/rfc6781">
- <citetitle>RFC 6781</citetitle></ulink>.)</para>
-
- <section id="signature-validity-periods">
-  <title>Signature Validity Periods and Zone Re-Signing</title>
-  <para>In <xref linkend="how-are-answers-verified"/>, we saw that record
-  signatures have a validity period, outside which they are not valid.
-  This means that at some point, a signature will no longer be valid and
-  a query for the associated record will fail DNSSEC validation.  But
-  how long should a signature be valid for?</para>
-
-  <para>The selection of maximum validity period is determined by the
-  impact of a replay attack.  If this is low, the period can be long; if
-  this is high, the period should be shorter.  There is no right value,
-  but periods of between a few days to a month seem to be common. The
-  default policy sets a signature lifetime of 14 days.</para>
-
-  <para>Deciding the minimum period is probably an easier question to
-  answer.  Should something fail (e.g. a hidden master distributing to
-  slave servers that actually answer queries), how long will it be
-  before the failure is noticed, and how long before it is fixed?  If
-  you are a large 24x7 operation with operators always on site, the
-  answer might be less  than an hour.  On the other hand in smaller
-  companies, if the failure occurs just after everyone has gone home for
-  a long weekend, the answer might be several days.  </para>
-
-  <para>There is no right answer to these questions - the answer depends
-  on your circumstances.  At the time of writing, the default policy
-  used by BIND sets the signature validity period to 14 days.</para>
-
-  <para>Since the signatures expire, to keep the zone valid, the
-  signatures must be preriodically refreshed, in other words, the zone
-  must be periodically re-signed.  The frequency of the re-signing
-  depends on a number of considerations.  For example, signing puts a
-  load on your server, so if the server is very highly loaded, a lower
-  frequency is better.  Another consideration is the signature lifetime.
-  Obviously the intervals between signings must not be longer that the
-  signature validity period.  But if you have set a signature lifetime
-  close to the minimum (see above), the signing interval must be much
-  shorter (what would happen if the system fails just before the zone is
-  re-signed?).</para>
-
-  <para>Again, there is no right answer, it depends on your
-  circumstances.  The default policy sets the signature refresh interval
-  to 5 days.</para>
- </section>
-
- <section id="keys-and-rollovers">
-  <title>Keys and Key Rollovers</title>
-
-  <section id="types-of-keys">
-   <title>Types of Keys</title>
-   <para>The title of this section is a bit of a misnomer - although 
-   DNSSEC documentation talks about three types of keys, they are all
-   the same thing.  The types of keys are:</para>
-
-    <variablelist>
-     <varlistentry>
-      <term>Zone Signing Key (ZSK)</term>
-     <listitem>
-      <simpara>This is the key used to sign the zone.  It
-      usually signs all records in the zone apart from the DNSKEY RRset,
-      although some nameserver implementaations use it to sign that
-      as well.</simpara>
-     </listitem>
-    </varlistentry>
-
-    <varlistentry>
-     <term>Key Signing Key (KSK)</term>
-     <listitem>
-      <simpara>This is the key used to sign the DNSKEY RRset and is
-      the key used to link the parent and child zones.  The parent
-      zone stores a digest of the KSK.  When a resolver is verifying
-      the chain of trust it checks to see that the DS record in the
-      parent (which holds the digest of a key) matches a key in the
-      DNSKEY RRset, and that it is able to use that key to verify the
-      DNSKEY RRset.  If it is able to do that, the resolver knows that
-      it can trust the DNSKEY records, and so can use one of them to
-      validate the other records in the zone.</simpara>
-     </listitem>
-    </varlistentry>
-
-    <varlistentry>
-     <term>Combined Signing Key (CSK)</term>
-     <listitem>
-      <simpara>A CSK combines the functionality of a ZSK and a KSK.
-      Instead of having one key for signing the zone and one for linking
-      the parent and child zones, A CSK is a single key that serves both
-      purposes.</simpara>
-     </listitem>
-    </varlistentry>
-   </variablelist>
-
-   <para>It is important to realise the terms ZSK, KSK and CSK describe
-   how the keys are used -  all these keys are represented by DNSKEY
-   records. The following examples are the DNSKEY records from a zone
-   signed with a KSK and ZSK:</para>
-
-<para><screen>$ <userinput>dig @192.168.1.12 example.com DNSKEY</userinput>
-
-; &lt;&lt;&gt;&gt; DiG 9.16.0 &lt;&lt;&gt;&gt; @192.168.1.12 example.com dnskey +multiline
-; (1 server found)
-;; global options: +cmd
-;; Got answer:
-;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 54989
-;; flags: qr aa rd; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
-;; WARNING: recursion requested but not available
-
-;; OPT PSEUDOSECTION:
-; EDNS: version: 0, flags:; udp: 4096
-; COOKIE: 5258d7ed09db0d76010000005ea1cc8c672d8db27a464e37 (good)
-;; QUESTION SECTION:
-;example.com.		IN DNSKEY
-
-;; ANSWER SECTION:
-example.com.		60 IN DNSKEY <userinput>256</userinput> 3 13 (
-				tAeXLtIQ3aVDqqS/1UVRt9AE6/nzfoAuaT1Vy4dYl2CK
-				pLNcUJxME1Z//pnGXY+HqDU7Gr5HkJY8V0W3r5fzlw==
-				) ; ZSK; alg = ECDSAP256SHA256 ; key id = 63722
-example.com.		60 IN DNSKEY <userinput>257</userinput> 3 13 (
-				cxkNegsgubBPXSra5ug2P8rWy63B8jTnS4n0IYSsD9eW
-				VhiyQDmdgevKUhfG3SE1wbLChjJc2FAbvSZ1qk03Nw==
-				) ; KSK; alg = ECDSAP256SHA256 ; key id = 42933</screen></para>
-
-
-   <para>... and a zone signed with just a CSK:</para>
-
-<para><screen>$ <userinput>dig @192.168.1.13 example.com DNSKEY</userinput>
-
-; &lt;&lt;&gt;&gt; DiG 9.16.0 &lt;&lt;&gt;&gt; @192.168.1.13 example.com dnskey +multiline
-; (1 server found)
-;; global options: +cmd
-;; Got answer:
-;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 22628
-;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
-;; WARNING: recursion requested but not available
-
-;; OPT PSEUDOSECTION:
-; EDNS: version: 0, flags:; udp: 4096
-; COOKIE: bf19ee914b5df46e010000005ea1cd02b66c06885d274647 (good)
-;; QUESTION SECTION:
-;example.com.		IN DNSKEY
-
-;; ANSWER SECTION:
-example.com.		60 IN DNSKEY <userinput>257</userinput> 3 13 (
-				p0XM6AJ68qid2vtOdyGaeH1jnrdk2GhZeVvGzXfP/PNa
-				71wGtzR6jdUrTbXo5Z1W5QeeJF4dls4lh4z7DByF5Q==
-				) ; KSK; alg = ECDSAP256SHA256 ; key id = 1231</screen></para>
-
-   <para>The only visible differece between the records (apart from the
-   key data itself) are is the value of the flags fields (highlighted);
-   this is 256 for a ZSK and 257 for a KSK or CSK.  Even then, the flags
-   field is only a hint to the software using them as to the role of the
-   key: zones can be signed by any key.  The fact that a CSK and KSK
-   both have the same flags emphasises this.  A KSK usually only signs
-   the DNSKEYs in a zone whereas a CSK is used to sign all records in
-   the zone.</para>
-
-   <para>The original idea of separating the function of the key into
-   a KSK and ZSK was operational.  With a single key, changing it for any
-   reason is an expensive operation, as it requires interaction with
-   the parent zone (e.g. uploading the key to the parent may require
-   manual interaction with the organization running that zone). By
-   splitting it, interaction with the parent is required only if the
-   KSK is changed; the ZSK can be changed as often as required without
-   involving them.</para>
-
-   <para>The split also allows the keys to be of different lengths. So
-   the ZSK, which is used to sign the record in the zone can be of a
-   (relatively) short length, lowering the load on the server.  The
-   KSK, which is used only infrequently, can be of a much longer length.
-   The relatively infrequent use also allows the private part of the
-   key to be stored in a way that is more secure but may require more
-   overhead to access, e.g. on an HSM (see
-   <ulink linkend="private-key-storage"/>).</para>
-
-   <para>In the early days of DNSSEC, the idea of splitting the key went
-   more or less unchallenged.  However, with the advent of more powerful
-   computers and the introduction of signalling methods between the
-   parent and child zones (see WHERE??), the advantages of a ZSK/KSK
-   split are less clear and, for many zones, a single key is all that is
-   required. </para>
-
-   <para>As with many questions relatied to the choice of DNSSEC policy,
-   the answer is not clear and depends on your circumstances.</para>
-  </section>
-
-  <section id="key-rollover-summary">
-   <title>Key Rollovers</title>
-   <para>Best practice when running a DNSSEC-signed zone requires that
-   the key be periodically changed (or "rolled", the entire process
-   being referred to as a "key rollover").  Unfortunately, this is not
-   as simple as just changing the key and re-signing the zone.  If you
-   were to do that, a number of queries would fail to validate.
-   Resolvers that had your DNSKEY RRet cached from a previous query that
-   obtained records signed with the new keys would fail to validate
-   those records.</para>
-
-   <para>For this reason, a key roll can be a long affair.  A
-   description of the steps involved can be found in <ulink
-   linkend="key-rollovers"/> but, in brief, after every step the the
-   process there has to be a period of waiting while the new information
-   percolates through your DNS infrastructure and information in
-   resolver caches times out.  Fortunately BIND takes care of all this
-   for you; all you have to do is to provide the right settings for the
-   policy.</para>
-
-  </section>
- </section>
-
  <section id="dnssec-policy-creation">
   <title>Creating and Setting a DNSSEC Policy</title>
+
+   <para>The remainder of this section describes the contents of a custom
+   DNSSEC policy.  <xref linkend="dnssec-advanced-discussions"/> describes the
+   concepts involved here and the pros and cons of choosing particular values.
+   If you are not familiar with DNSSEC, it may be worth reading that chapter
+   first.</para>
+
   <para>Setting up your own DNSSEC policy means that you have to include
   a <code>dnssec-policy</code> clause in the zone file.  The following
   is an example of such a clause:
   <screen>dnssec-policy example {
     dnskey-ttl 600;
     keys {
-        ksk lifetime 365d algorithm ecdsa256;
-        zsk lifetime 60d algorithm ecdsa256;
+        ksk lifetime 365d algorithm ecdsap256sha256;
+        zsk lifetime 60d algorithm ecdsap256sha256;
     };
     max-zone-ttl 600;
     parent-ds-ttl 600;
@@ -244,11 +33,13 @@ example.com.		60 IN DNSKEY <userinput>257</userinput> 3 13 (
     zone-propagation-delay 2h;
 };</screen></para>
 
+
  <para>The <code>keys</code> clause lists all keys that should be in the zone,
  along with their associated parameters.  In this example, we are using the
  conventional KSK/ZSK split, with the KSK changed every year and the ZSK
  changed every two months.  The <code>default</code> DNSSEC policy sets a
- CSK that is never changed.</para>
+ CSK that is never changed.  We have used one of the two mandatory
+ algorithms for the keys.</para>
 
  <para>The <code>*-ttl</code> options are, as expected, the TTLs of the associated
  records.  Remember that we said that during a key rollover, we have to wait for
@@ -257,8 +48,11 @@ example.com.		60 IN DNSKEY <userinput>257</userinput> 3 13 (
  your zone, the non-DNSKEY records in your zone, and for the DS records in the parent
  zone.  The <code>*-propagation-delay</code> parameters tell BIND how long it takes for
  a change in zone contents to become available on all slave servers. (This may be
- non-negligible. For example, if notification is not enabled on slave servers,
- a slave server won't see ay updates until it next polls the master.)</para>
+ non-negligible. For example, if a large zone is downloaded over a slow link.)</para>
+
+ <para>The policy also sets values for the various signature pameters: how long the
+ signatures on the DNSKEY and non-DNSKEY records are valid, and how often BIND should
+ re-sign the zone.</para>
 
  <para>When a new KSK or CSK appears in the zone, the associated DS record needs
  to be included in the parent zone.  That time is represented by the
@@ -266,12 +60,13 @@ example.com.		60 IN DNSKEY <userinput>257</userinput> 3 13 (
  zone may still require manual intervention, so we will look at this in more
  detail in section <xref linkend="working-with-the-parent-2"/>.</para>
 
- <para>The policy also sets values for the various signature pameters: how long the
- signatures on the DNSKEY and non-DNSKEY records are valid, and how often BIND should
- re-sign the zone.</para>
-
  <para>Finally, the <code>*-safety</code> options are there to give you a bit of leeway
- in case things don't go to plan.</para>
+ in case a key roll doesn't go to plan.  When introduced into the zone, the
+ <code>publish-safety</code> time is the amount of additional time over and above that
+ calculated from the other parameters, that the new key will be in the zone before
+ BIND starts to sign record with it.  Similarly, the <code>retire-safety</code> is
+ the amount of additional time, over and above that calculated from the other
+ parameters, that the old key is retained in the zone before being removed.</para>
 
  <para>Usually, the exact timing of a key roll, or how long a signature remains valid
  is not critical.  In which case, when setting values for the parameters, err on the
@@ -280,4 +75,3 @@ example.com.		60 IN DNSKEY <userinput>257</userinput> 3 13 (
  have users get validation failures during the process.</para>
 
  </section>
-</section>

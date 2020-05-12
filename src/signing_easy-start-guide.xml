@@ -27,8 +27,8 @@
 
 <!-- === #1 Activate dnssec-policy and wait for completion === -->
  <section id="signing-easy-start-policy-enable">
-  <title>Enable Automated DNSSEC Zone Maintenance</title>
-  <para>To sign your zone, you need to add the following statements
+  <title>Enable Automated DNSSEC Zone Maintenance and Key Generation</title>
+  <para>To sign your zone, you need to add the following statement
   to its <code>zone</code> clause in the configuration file:
 
   <screen>
@@ -41,34 +41,24 @@ options {
 zone "example.com" in {
     ...
     <userinput>dnssec-policy default;</userinput>
-    <userinput>key-directory "keys/example.com";</userinput>
     ...
 };</screen></para>
 
   <para>The <code>dnssec-policy</code> statement causes the zone to be
   signed and turns on automatic maintenance for the zone.  This includes
-  re-signing the zone as signatures expire, and replacing keys on a
+  re-signing the zone as signatures expire and replacing keys on a
   periodic basic.  The value <code>default</code> selects the default
   policy, which contain values suitable for most situations.  We will
   cover the creation of your own policy in <xref
   linkend="signing-custom-policy"/> but for the moment we will accept
   the default values.</para>
 
-  <para>The <code>key-directory</code> statement tells BIND where to
-  store the files holding the DNSSEC keys; if absent, they will be
-  stored in the directory set by the <code>directory</code> statement in
-  the configuration file's <code>options</code> clause.  In the example
-  above, since the key directory does not have a leading slash, BIND
-  interpretes the name as being relative to the directory specified in
-  the <code>options</code> clause, in other words
-  <code>/etc/bin/keys/example.com</code>.</para>
-
   <para>When you are done updating the configuration file, tell
   <command>named</command> to reload the configuration file:
 
   <screen># <userinput>rndc reconfig</userinput></screen></para>
 
-  <para>And that's it - your zone is now signed.</para>
+  <para>And that's it - BIND will sign your zone.</para>
 
  </section>
 
@@ -119,10 +109,11 @@ zone "example.com" in {
   telling <command>delv</command> to use a specific trust anchor.</para>
 
   <para>First of all, we need to make a copy of the key created by BIND.
-  This will be in the directory you set with the <code>key-directory</code>
-  statement, and will be named something like <code>Kexample.com.+013.10376.key</code>:</para>
+  This will be in the directory you set with the <code>directory</code>
+  statement inyour configuration file's <code>options</code> clause
+  and will be named something like <code>Kexample.com.+013.10376.key</code>:</para>
 
-  <screen># <userinput>cp /etc/bind/keys/example.com/Kexample.com.+013+10376.key /tmp/example.key</userinput></screen>
+  <screen># <userinput>cp /etc/bind/example.com/Kexample.com.+013+10376.key /tmp/example.key</userinput></screen>
 
   <para>The original key file looks like this (actual key shortened for
   display, and comments omitted):</para>
