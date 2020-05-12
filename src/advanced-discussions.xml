@@ -13,9 +13,13 @@ Some information in this chapter is taken from the following sources:
 <chapter id="dnssec-advanced-discussions">
  <title>Advanced Discussions</title>
 
+  <!-- === Alternative Ways of Signing the Zone === -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+  href="advanced-discussions_alternative-signing.xml" />
+
   <!-- === Key Generation === -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
-  href="advanced-discussions_key-generation.xml" />
+  href="advanced-discussions_advanced-key-issues.xml" />
 
   <!-- === Proof of Nonexistence=== -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"

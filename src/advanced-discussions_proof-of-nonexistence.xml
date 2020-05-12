@@ -181,16 +181,28 @@ NTQ0....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  FSK5... A RRSIG</scre
   <title>NSEC3PARAM</title>
   <para>The above NSEC3 examples used four parameters: 1, 0, 10,
   and 1234567890ABCDEF. The <command>rndc</command> tool may be used to
-  set the NSEC3 parameters for a zone; for example:</para>
-  <screen># <userinput>rndc signing -nsec3param 1 0 10 1234567890abcdef example.com</userinput></screen>
-  
+  set the NSEC3 parameters for a zone<footnote><para>It is possible to
+  add an NSEC3PARAM RR to your zone file.  The first time a zone is
+  signed, it will be signed using NSEC3 if the zone contains an
+  NSEC3PARAM record.
+  However, owing to the way BIND processes NSEC3PARAM,
+  removing it or changing is is not so straight-forward: if you merely
+  remove it or change it in the zone file and reload the zone, BIND will
+  update all other records but will not alter the NSEC3PARAM or the
+  mode of signing.  To change NSEC3PARAM parameters or to remove it
+  entirely requires use of RNDC.</para></footnote>; for example:</para>
+
+  <screen># <userinput>rndc signing -nsec3param 1 0 10 1234567890abcdef
+  example.com</userinput></screen>
+
   <para>1 represents the algorithm, 0 represents the opt-out flag, 10
-  represents the number of iterations, and 1234567890abcedf is the salt. Let's
-  look at how each one can be configured:
+  represents the number of iterations, and 1234567890abcedf is the salt.
+  Let's look at how each one can be configured:
    <itemizedlist>
     <listitem>
-     <simpara><emphasis>Algorithm</emphasis>: Not much of a choice here, the
-     only defined value currently is 1 for SHA-1.</simpara></listitem>
+     <simpara><emphasis>Algorithm</emphasis>: Not much of a choice here,
+     the only defined value currently is 1 for
+     SHA-1.</simpara></listitem>
 
     <listitem>
      <simpara><emphasis>Opt-out</emphasis>: Set this to 1 if you want to do

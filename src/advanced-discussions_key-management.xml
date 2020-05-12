@@ -235,68 +235,7 @@
      </tbody>
     </tgroup>
    </table>
-
-  <!-- === Manual Key Management and Signing === -->
-  <section id="advanced-discussions-manual-key-management-and-signing">
-   <title>Manual Key Management and Signing</title>
-   
-   <para>This guide is intended as an introductory to DNSSEC deployment
-   using BIND. Since BIND comes with a set of features to automate key
-   loading and signing, that is the recommended configuration for readers
-   of this document. In this section, we will only briefly cover tools and
-   commands to manually load keys and manually sign zone data, but not go
-   into great details.</para>
-
-   <para>The directive <varname>auto-dnssec maintain</varname> makes
-   <command>named</command> check for new keys and load them automatically
-   on an interval. If you wish to not automate this process, you could opt
-   to change it to <varname>auto-dnssec off</varname>. This makes all key
-   management manual, and to load new keys, you will need to execute the
-   command <command>rndc loadkeys example.com</command>.</para>
-
-   <para>To manually sign the zone, first, you need to edit the zone file
-   to make sure the proper DNSKEY entries are included in your zone file,
-   then use the command <command>dnssec-signzone</command> as such:</para>
-
-   <screen># <userinput>cd /etc/bind/keys/example.com/</userinput>
-# <userinput>dnssec-signzone -A -t -N INCREMENT -o example.com -f /etc/bind/db/example.com.signed.db \
-> /etc/bind/db/example.com.db Kexample.com.+008+17694.key Kexample.com.+008+06817.key</userinput>
-Verifying the zone using the following algorithms: RSASHA256.
-Zone fully signed:
-Algorithm: RSASHA256: KSKs: 1 active, 0 stand-by, 0 revoked
-                      ZSKs: 1 active, 0 stand-by, 0 revoked
-/etc/bind/db/example.com.signed.db
-Signatures generated:                       17
-Signatures retained:                         0
-Signatures dropped:                          0
-Signatures successfully verified:            0
-Signatures unsuccessfully verified:          0
-Signing time in seconds:                 0.046
-Signatures per second:                 364.634
-Runtime in seconds:                      0.055</screen>
-
-  <para>The -o switch explicitly defines the domain name
-  (<code>example.com</code> in this case), -f switch specifies the output
-  file name. The second line has 3 parameters, they are the unsigned zone
-  name (<filename>/etc/bind/db/example.com.db</filename>), ZSK, and KSK
-  file names. This generated a plain text file
-  <filename>/etc/bind/db/example.com.signed.db</filename>, which you can
-  verify for correctness.</para>
-
-  <para>Finally, you'll need to update <filename>named.conf</filename> to
-  load the signed version of the zone, so it looks something like
-  this:</para>
-
-  <screen>zone "example.com" IN {
-    type master;
-    file "<userinput>db/example.com.signed.db</userinput>";
-};</screen>
-
-  <para>You will need to re-sign periodically as as well as every time
-  the zone data changes.</para>
-
-  </section>
- </section>
+</section>
 
 
  <!-- === How Long Do I Wait Before Deleting Old Data? === -->
