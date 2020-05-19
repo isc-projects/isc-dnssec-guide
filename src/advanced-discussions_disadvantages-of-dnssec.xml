@@ -77,7 +77,7 @@
  trying to access your web page. For example, although I may have signed
  the zone <code>isc.org</code>, but my web address
  <code>www.isc.org</code> is actually a CNAME to
- <code>96d719dc5612761de516fc.random-cloud-provider.com</code>. As long
+ <code>foo.random-cloud-provider.com</code>. As long
  as <code>random-cloud-provider.com</code> remains an insecure DNS zone,
  users cannot fully validate everything when they visit my web page and
  could be redirected elsewhere by a cache poisoning attack.</para>

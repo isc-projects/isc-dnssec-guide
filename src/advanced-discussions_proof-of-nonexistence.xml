@@ -234,6 +234,14 @@ NTQ0....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  FSK5... A RRSIG</scre
     
    <screen># <userinput>rndc signing -nsec3param 1 1 15 - example.com</userinput></screen>
 
+   <para>Note the use of <command>rndc</command> to enable NSEC3. If you put an
+   NSEC3PARAM record into your zone and you are using Automatic or semi-Automatic signing,
+   the first time that the zone is loaded NSEC3 will be used as proof of non-existence.
+   Owing to the way that BIND handles NSEC3, you can't revert to NSEC by removing the
+   record; nor can you change the NSEC3 parameters by replacing it. You would need
+   to remove the zone from BIND then add it again.  For this reason, <command>rndc</command>
+   is the preferred way of handling NSEC3.</para>
+
  </section>
 
  <!-- === NSEC3 Opt-out === -->
