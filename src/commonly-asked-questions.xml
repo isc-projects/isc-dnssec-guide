@@ -171,6 +171,44 @@
    linkend="advanced-discussions-key-storage" /> for more information on
    key storage options and considerations.</para></answer>
   </qandaentry>
+
+  <qandaentry>
+   <question><para>Can I use the same key for multiple zones?
+   </para></question>
+   <answer><para>Yes and no. Good security practice suggests that you
+   should use unique key pairs for each zone, just like how you should
+   have different passwords for your email account, social media login,
+   and online banking credentials. On a technical level, this is
+   completely feasible, but then multiple zones are at risk when one key
+   pair is compromised. If you have hundreds or thousands (or even
+   hundreds of thousands) of zones to administer, a single key pair for
+   all might be less error-prone to manage. You may choose to use the
+   same approach to password management: use unique passwords for your
+   bank accounts and shopping sites, but use a standard password for
+   your not-very-important logins. So categorize your zones, high valued
+   zones (or zones that have specific key rollover requirements) get
+   their own key pairs, while other more "generic" zones can use a
+   single key pair for easier management.</para>
+
+   <para>At present (2020), fully-automatic signing (iusing the
+   <code>dnssec-policy</code> clause in your <command>named</command>
+   configuration file) does not support this.  If you wish
+   to use the same key for multiple zones, you should sign your zones
+   semi-automatically.  Each zone wishing to use the key should point to the
+   same key directory.
+   </para></answer>
+  </qandaentry>
+
+  <qandaentry>
+   <question><para>How do I sign different instances of a zone within a view?
+   </para></question>
+   <answer><para>To avoid problems with computers accessing the different
+   instances of a zone (e.g. a laptop moving from your office to a customer site),
+   you should sign the instances with the same key.  This means using the
+   semi-automatic method of signing.
+   </para></answer>
+  </qandaentry>
+
  </qandaset></para>
 
 </chapter>
