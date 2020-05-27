@@ -5,7 +5,7 @@
  <!-- =====  BIND Version ====== -->
  <section id="bind-version">
   <title>BIND Version</title>
-  <para>The configuration examples given in this document requires BIND
+  <para>The configuration examples given in this document require BIND
   version 9.16.0 or newer (although many should work
   with all versions of BIND later than 9.9). To check the version of
   <command>named</command> you have installed, use the <option>-v</option>
@@ -53,7 +53,7 @@ default paths:
   </para>
 
   <para>If the BIND 9 software you have does not support DNSSEC, you should
-  upgrade it. (It has not been possible to build BIND without DNSSEC since BIND
+  upgrade it. (It has not been possible to build BIND without DNSSEC support since BIND
   9.13, released in 2018.) As well as missing out on DNSSEC support, you are
   also missing out on a number of security fixes made to the software in recent
   years.</para>
