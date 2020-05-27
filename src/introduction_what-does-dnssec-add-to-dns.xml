@@ -35,10 +35,10 @@
     <simpara>NSEC3PARAM (proof of nonexistence)</simpara>
    </listitem>
    <listitem>
-    <simpara>CDS (child-parent)</simpara>
+    <simpara>CDS (child-parent signaling)</simpara>
    </listitem>
    <listitem>
-    <simpara>CDNSKEY (child-parent)</simpara>
+    <simpara>CDNSKEY (child-parent signaling)</simpara>
    </listitem>
   </itemizedlist>
  </para>
