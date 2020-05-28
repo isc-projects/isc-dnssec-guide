@@ -132,67 +132,6 @@ example.net.		287 IN RRSIG DNSKEY 8 2 300 (
  </section>
 
 
- <!-- ====== Invalid Trust Anchors ====== -->
- <section id="troubleshooting-invalid-trust-anchors">
-  <title>Invalid Trust Anchors</title>
-  <para>As we have seen in the section <xref linkend="trust-anchors"/>,
-  whenever a DNSKEY is received by the validating resolver, it is actually
-  compared to the list of keys the resolver has explicitly trusted to see if
-  further action is needed. If the two keys match, the validating resolver
-  stops performing further verification and returns the answer(s) as
-  validated.</para>
-
-  <para>But what if the key file on the validating resolver is
-  misconfigured or missing? Below we show some examples of log messages
-  when things are not working properly.</para>
-
-  <para>First of all, if the key you copied is malformed, BIND will not
-  even start up and you will likely find this error message in
-  syslog:</para>
-
-   <screen>named[18235]: /etc/bind/named.conf.options:29: <userinput>bad base64 encoding</userinput>
-named[18235]: loading configuration: failure</screen>
-
-  <para>If the key is a valid base64 string, but the key algorithm is
-  incorrect, or if the wrong key is installed, the first thing you will notice
-  is that pretty much all of your DNS lookups result in SERVFAIL, even when you
-  are looking up domain names that have not been DNSSEC-enabled. Below shows an
-  example of querying a recursive server 10.53.0.3:</para>
-
-   <screen>$ <userinput>dig @10.53.0.3 www.example.com. A</userinput>
-
-; &lt;&lt;&gt;&gt; DiG 9.16.0 &lt;&lt;&gt;&gt; @10.53.0.3 www.example.org A +dnssec
-; (1 server found)
-;; global options: +cmd
-;; Got answer:
-;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: <userinput>SERVFAIL</userinput>, id: 29586
-;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
-
-;; OPT PSEUDOSECTION:
-; EDNS: version: 0, flags: do; udp: 4096
-; COOKIE: ee078fc321fa1367010000005e73a58bf5f205ca47e04bed (good)
-;; QUESTION SECTION:
-;www.example.org.		IN	A
-</screen>
-
-  <para><command>delv</command> shows similar result:</para>
-
-   <screen>$ <userinput>delv @192.168.1.7 www.example.com. +rtrace</userinput>
-;; fetch: www.example.com/A
-;; <userinput>resolution failed: SERVFAIL</userinput></screen>
-
-  <para>The next symptom you will see is in the DNSSEC log
-  messages:</para>
-
-   <screen>managed-keys-zone: <userinput>DNSKEY set for zone '.' could not be verified with current keys</userinput>
-validating ./DNSKEY: starting
-validating ./DNSKEY: attempting positive response validation
-validating ./DNSKEY: no DNSKEY matching DS
-validating ./DNSKEY: no DNSKEY matching DS
-validating ./DNSKEY: no valid signature found (DS)</screen>
-
- </section>
-
 
 
  <!-- ====== Unable to Load Keys ====== -->
@@ -243,6 +182,73 @@ example.com.db	example.com.db.jbk  example.com.db.signed  example.com.db.signed.
 
   <para>So, unless you see the <code>*.signed.jnl</code> file, your zone
   has not been signed.</para>
+ </section>
+
+ <!-- ====== Invalid Trust Anchors ====== -->
+ <section id="troubleshooting-invalid-trust-anchors">
+  <title>Invalid Trust Anchors</title>
+  <para>In most cases, you will never need to explicitly configure trust
+  anchors. <command>named</command> is supplied with the current root trust
+  anchor and, with the default setting of <code>dnssec-validation<code>, will
+  update it on the infrequent occasions on which it is changed.</para>
+
+  <para>iHowever, in some circumstances you may need to explicitly configure
+  your own trust anchor.  As we have seen in the section <xref
+  linkend="trust-anchors"/>, whenever a DNSKEY is received by the validating
+  resolver, it is actually compared to the list of keys the resolver has
+  explicitly trusted to see if further action is needed. If the two keys match,
+  the validating resolver stops performing further verification and returns the
+  answer(s) as validated.</para>
+
+  <para>But what if the key file on the validating resolver is
+  misconfigured or missing? Below we show some examples of log messages
+  when things are not working properly.</para>
+
+  <para>First of all, if the key you copied is malformed, BIND will not
+  even start up and you will likely find this error message in
+  syslog:</para>
+
+   <screen>named[18235]: /etc/bind/named.conf.options:29: <userinput>bad base64 encoding</userinput>
+named[18235]: loading configuration: failure</screen>
+
+  <para>If the key is a valid base64 string, but the key algorithm is
+  incorrect, or if the wrong key is installed, the first thing you will notice
+  is that pretty much all of your DNS lookups result in SERVFAIL, even when you
+  are looking up domain names that have not been DNSSEC-enabled. Below shows an
+  example of querying a recursive server 10.53.0.3:</para>
+
+   <screen>$ <userinput>dig @10.53.0.3 www.example.com. A</userinput>
+
+; &lt;&lt;&gt;&gt; DiG 9.16.0 &lt;&lt;&gt;&gt; @10.53.0.3 www.example.org A +dnssec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: <userinput>SERVFAIL</userinput>, id: 29586
+;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 4096
+; COOKIE: ee078fc321fa1367010000005e73a58bf5f205ca47e04bed (good)
+;; QUESTION SECTION:
+;www.example.org.		IN	A
+</screen>
+
+  <para><command>delv</command> shows similar result:</para>
+
+   <screen>$ <userinput>delv @192.168.1.7 www.example.com. +rtrace</userinput>
+;; fetch: www.example.com/A
+;; <userinput>resolution failed: SERVFAIL</userinput></screen>
+
+  <para>The next symptom you will see is in the DNSSEC log
+  messages:</para>
+
+   <screen>managed-keys-zone: <userinput>DNSKEY set for zone '.' could not be verified with current keys</userinput>
+validating ./DNSKEY: starting
+validating ./DNSKEY: attempting positive response validation
+validating ./DNSKEY: no DNSKEY matching DS
+validating ./DNSKEY: no DNSKEY matching DS
+validating ./DNSKEY: no valid signature found (DS)</screen>
+
  </section>
 
 </section>

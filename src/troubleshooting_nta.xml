@@ -24,7 +24,7 @@
  BIND will poll the zone every five minutes to see if the zone now
  correctly validates, at which point the NTA will automatically expire.
  Both the default lifetime and the polling interval may be configured
- via <code>named.conf</code>, and the lifetime can be overriden on a
+ via <code>named.conf</code>, and the lifetime can be overridden on a
  per-zone basis using the <code>-lifetime duration</code> parameter
  to <code>rndc nta</code>.  Both timer values have a permitted maximum
  value of one week.</para>
