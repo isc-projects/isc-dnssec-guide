@@ -50,7 +50,7 @@ zone "example.com" in {
   periodic basic.  The value <code>default</code> selects the default
   policy, which contain values suitable for most situations.  We will
   cover the creation of your own policy in <xref
-  linkend="signing-custom-policy"/> but for the moment we will accept
+  linkend="dnssec-policy-creation"/> but for the moment we will accept
   the default values.</para>
 
   <para>When you are done updating the configuration file, tell
@@ -110,7 +110,7 @@ zone "example.com" in {
 
   <para>First of all, we need to make a copy of the key created by BIND.
   This will be in the directory you set with the <code>directory</code>
-  statement inyour configuration file's <code>options</code> clause
+  statement in your configuration file's <code>options</code> clause
   and will be named something like <code>Kexample.com.+013.10376.key</code>:</para>
 
   <screen># <userinput>cp /etc/bind/example.com/Kexample.com.+013+10376.key /tmp/example.key</userinput></screen>
@@ -179,7 +179,7 @@ example.com.		600 IN RRSIG SOA 13 2 600 (
   will not resolve your domain name.</note>
 
   <para>Here are some examples of what you may upload to your parent zone,
-  actual keys shortened for display. Note that no matter what formats may be
+  with the DNSKEY/DS data shortened for display. Note that no matter what formats may be
   required, the end result will be the parent zone publishing DS record(s)
   based on the information you upload. Again, contact your parent zone
   administrator(s) to find out what is the correct format for you.
@@ -187,18 +187,20 @@ example.com.		600 IN RRSIG SOA 13 2 600 (
    <orderedlist>
     <!-- #1 DS Record -->
     <listitem>
-     <simpara>DS Record Format: <code>example.com. IN DS 10376 13 2
-     B92E22CAE0B41430EC38D3F7EDF1183C3A94F4D4748569250C15EE33B8312EF0</code></simpara>
+     <simpara>DS Record Format:
+      <screen>example.com. 3600 IN DS 10376 13 2 B92E22CAE0...33B8312EF0</screen>
+     </simpara>
     </listitem>
     <!-- #2 DNSKEY -->
     <listitem>
-     <simpara>DNSKEY Format: <code>example.com. 3600 IN DNSKEY 257 13 
-     (6saiq99qDB...dqp+o0dw==) ; key id = 10376</code></simpara>
+     <simpara>DNSKEY Format:
+      <screen>example.com. 3600 IN DNSKEY 257 3 13 6saiq99qDB...dqp+o0dw==</screen>
+     </simpara>
     </listitem>
    </orderedlist>
   </para>
 
-  <para>The DS record format may be generated using the
+  <para>The DS record format may be generated from the DNSKEY using the
   <command>dnssec-dsfromkey</command> tool which is covered in
   <xref linkend="parent-ds-record-format"/>. For more details and
   examples on how to work with your parent zone, please see <xref

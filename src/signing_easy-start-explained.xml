@@ -29,12 +29,15 @@
      <simpara>Generation of new keys as the time approaches for a key roll.</simpara>
     </listitem>
     <listitem>
-     <simpara>Inclusion of new keys into the zone when the rollover starts and
-     the signing of the resource records with both sets of keys.</simpara>
+     <simpara>Inclusion of new keys into the zone when the rollover starts.</simpara>
     </listitem>
     <listitem>
-     <simpara>Waiting the appropriate interval before stopping signing with
-     the old key and removing the old key from the zone.</simpara>
+     <simpara>Transition from signing the zone with the old set of keys to signing
+     the zone with the new set of keys.</simpara>
+    </listitem>
+    <listitem>
+     <simpara>Waiting the appropriate interval before removing the old keys
+     from the zone.</simpara>
     </listitem>
     <listitem>
      <simpara>Deleting the old keys.</simpara>
@@ -43,9 +46,9 @@
 
    <para>That is a lot of complexity, and it is all handled with the
    single <code>dnssec-policy default</code> statement. We will see
-   later on (in section <xref linkend="signing-custom-policy"/>) how the
+   later on (in section <xref linkend="dnssec-policy-creation"/>) how the
    these actions can be tuned by setting up our own DNSSEC policy with
-   customised parameters. In many cases though, the defaults are
+   customized parameters. In many cases though, the defaults are
    adequate.  After reading the rest of this guide, you may decide that
    you do need to tweak the parameters or use an alternative signing
    method.  But if not, that's it - you can forget about DNSSEC, there

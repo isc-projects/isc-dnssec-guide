@@ -22,8 +22,8 @@
  specified in the <code>key-directory</code> option in the <code>zone</code>
  statement.  If you look in that directory, you will see two files with
  names like <code>Kexample.com.+013+10376.key</code>,
- <code>>Kexample.com.+013+10376.private</code> and
-  <code>>Kexample.com.+013+10376.state</code>.  The one we are
+ <code>Kexample.com.+013+10376.private</code> and
+  <code>Kexample.com.+013+10376.state</code>.  The one we are
  interested in is the one with the <code>.key</code> suffix, which
  contains the zone's public key. (The other files contain the zone's private
  key and the DNSSEC state associated with the key.) This is used to

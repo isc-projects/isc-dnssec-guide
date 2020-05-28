@@ -29,12 +29,12 @@ articles owned by ISC:
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
   href="signing_parent-zone.xml" />
 
-  <!-- === Zone Maintenance === -->
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
-  href="signing_maintenance-tasks.xml" />
-
   <!-- === Custom DNSSEC Policy === -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
   href="signing_custom-policy.xml" />
+
+  <!-- === Zone Maintenance === -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+  href="signing_maintenance-tasks.xml" />
 
 </chapter>
