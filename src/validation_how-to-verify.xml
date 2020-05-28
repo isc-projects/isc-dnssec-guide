@@ -56,9 +56,9 @@
   tool to check your validating resolver yourself.</para>
 
   <para>While <command>nslookup</command> is popular, partly because it comes pre-installed on
-  most systems, it is not DNSSEC-aware. <command>dig</command> (domain
-  information groper), on the other hand, fully supports the DNSSEC
-  standard, and comes as a part of BIND. If you do not have <command>dig</command> already
+  most systems, it is not DNSSEC-aware. <command>dig</command>,
+  on the other hand, fully supports the DNSSEC
+  standard and comes as a part of BIND. If you do not have <command>dig</command> already
   installed on your system, install it by downloading it from ISC's web site.
   ISC provides pre-compiled Windows versions on its web site.</para>
   
@@ -74,7 +74,7 @@
   an example, you should replace it with the actual address or host
   name of your recursive name server.</para>
 
-  <screen>$ <userinput>dig @10.53.0.1 www.isc.org. A +dnssec +multiline</userinput>
+  <screen>$ <userinput>dig @10.53.0.1 ftp.isc.org. A +dnssec +multiline</userinput>
 
 ; &lt;&lt;&gt;&gt; DiG 9.16.0 &lt;&lt;&gt;&gt; @10.53.0.1 ftp.isc.org a +dnssec +multiline
 ; (1 server found)
@@ -128,7 +128,8 @@ options {
   <para>If the server is re-started (to ensure a clean cache) and the same
   <command>dig</command> command executed, the result is very similar:</para>
 
-  <screen>$ <userinput>dig @10.53.0.1 www.isc.org. A +dnssec +multiline</userinput>
+  <screen>$ <userinput>dig @10.53.0.1 ftp.isc.org. A +dnssec +multiline</userinput>
+
 ; &lt;&lt;&gt;&gt; DiG 9.16.0 &lt;&lt;&gt;&gt; @10.53.0.1 ftp.isc.org a +dnssec +multiline
 ; (1 server found)
 ;; global options: +cmd
@@ -181,7 +182,6 @@ ftp.isc.org.		300 IN RRSIG A 13 3 300 (
 
   <screen>$ <userinput>dig @10.53.0.1 www.dnssec-failed.org. A</userinput>
 
-; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @10.53.0.1 www.dnssec-failed.org. A
 ; &lt;&lt;&gt;&gt; DiG 9.16.0 &lt;&lt;&gt;&gt; @10.53.0.1 www.dnssec-failed.org. A
 ; (1 server found)
 ;; global options: +cmd
@@ -253,7 +253,7 @@ www.dnssec-failed.org.	7200	IN	A	69.252.193.191
   previous example of <code>www.dnssec-failed.org</code> and with DNSSEC
   validation enabled in the resolver:</para>
 
-  <screen>$ <userinput>dig @10.53.0.1 www.isc.org. A +cd</userinput>
+  <screen>$ <userinput>dig @10.53.0.1 www.dnssec-failed.org A +cd</userinput>
 
 ; &lt;&lt;&gt;&gt; DiG 9.16.0 &lt;&lt;&gt;&gt; @10.53.0.1 www.dnssec-failed.org. A +cd
 ; (1 server found)

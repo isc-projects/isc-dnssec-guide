@@ -28,7 +28,7 @@
  whether or not you already have DNSSEC validation by following steps described
  in <xref linkend="how-to-test-recursive-server"/>.</para>
 
- <para>In earlier versions of BIND including, at the time of writing (March 2020),
+ <para>In earlier versions of BIND including, at the time of writing (mid-2020),
  the current extended support version (9.11), DNSSEC validation has to be
  explicitly enabled.  To do this, you only need to add one line to the
  <code>options</code> section of your configuration file:
