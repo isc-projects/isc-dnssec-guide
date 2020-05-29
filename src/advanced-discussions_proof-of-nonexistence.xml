@@ -258,7 +258,7 @@ NTQ0....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  FSK5... A RRSIG</scre
   <para>The resources may not seem like a lot, but imagine in if you are the
   operator of busy top level domains such as <code>.com</code> or
   <code>.net</code>, with millions and millions of insecure delegated domain
-  names, it quickly adds up.  As of late 2016, less than 0.5% of all
+  names, it quickly adds up.  As of mid-2020, less than 1.5% of all
   <code>.com</code> zones are signed.  Basically, without opt-out, if you have
   1,000,000 delegations, only 5 of which are secure, you still have to generate
   NSEC RRset for the other 999,995 delegations; with NSEC3 opt-out, you will

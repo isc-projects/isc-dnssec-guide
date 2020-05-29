@@ -31,7 +31,7 @@
  used by BIND sets the signature validity period to 14 days.</para>
 
  <para>Since the signatures expire, to keep the zone valid, the
- signatures must be preriodically refreshed, in other words, the zone
+ signatures must be periodically refreshed, in other words, the zone
  must be periodically re-signed.  The frequency of the re-signing
  depends on a number of considerations.  For example, signing puts a
  load on your server, so if the server is very highly loaded, a lower

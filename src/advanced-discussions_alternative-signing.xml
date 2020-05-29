@@ -98,7 +98,16 @@
 
  <section id="semi-automatic-signing">
   <title>Semi-Automatic Signing</title>
-  <para>To convert a traditional (insecure) DNS zone to a secure one, we
+  <para>As mentioned earlier, Semi-Automatic signing is the same as Fully-Automatic
+  signing but without the key creation.  It also requires that you define policy by
+  setting certain key-related parameters in the files holding the keys, and by
+  setting some configuration parameters.  This does, however, allow you to do things
+  that, at the time of writing (mid-2020), you are not able to do by setting
+  <code>dnssec-policy</code> parameters; amongst these is the ability to
+  use an HSM to store keys, and the ability to use the same key for multiple
+  zones.</para>
+
+  <para>Getting down to the details, to convert a traditional (insecure) DNS zone to a secure one, we
   need to create various additional records (DNSKEY, RRSIG, NSEC or
   NSEC3) and, as with Fully-Automatic signing, upload verifiable
   information (such as DS record) to the parent zone to complete the
@@ -150,8 +159,8 @@ Kexample.com.+008+06817</screen>
 
   <section>
    <title>Setting Key Timing Information</title>
-   <para>You may remember that in the description of  this method in
-   <xref linkend="alternative-ways"/>, we said that time information related to
+   <para>You may remember that in the above description of this method,
+   we said that time information related to
    rolling keys is stored in the
    key files.  This is placed there by <command>dnssec-keygen</command> when the
    file is created, and it can be modified using <command>dnssec-settime</command>.
@@ -168,7 +177,7 @@ example.com. IN DNSKEY 256 3 8 AwEAAcCV...kdWv4EJx
 </screen>(The key itself has been abbreviated for clarity.)</para>
 
    <para>All the dates are the same and are the date and time that <command>dnssec-keygen</command>
-   created the key.  If we wanted to use this key from 1 June 2020 and have a lifetime of a year,
+   created the key.  So, if we wanted to use this key from 1 June 2020 and have a lifetime of a year,
    we could use <command>dnssec-settime</command> to modify the dates:
 
 <screen># <userinput>dnssec-settime -P 20200601 -A 20200701 -I 20210601 -D 20210701 Kexample.com.+008+31078.key</userinput>
@@ -290,7 +299,7 @@ server reload successful</screen>
  <section id="advanced-discussions-manual-key-management-and-signing">
   <title>Manual Signing</title>
   <para>Manual signing of a zone was the first method of signing introduced
-  into BIND and is the least automated. In short, you have to do everything:
+  into BIND and has, as the name suggests, no automation. In short, you have to do everything:
   create the keys, to sign the zone file with them, load the signed zone,
   periodically re-sign the zone, handle key rolls, including interaction with
   the parent. Certainly you could so all this, although you would probably

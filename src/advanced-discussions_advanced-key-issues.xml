@@ -14,7 +14,7 @@
      <listitem>
       <simpara>This is the key used to sign the zone.  It
       usually signs all records in the zone apart from the DNSKEY RRset,
-      although some nameserver implementaations use it to sign that
+      although some nameserver implementations use it to sign that
       as well.</simpara>
      </listitem>
     </varlistentry>
@@ -45,7 +45,7 @@
     </varlistentry>
    </variablelist>
 
-   <para>It is important to realise the terms ZSK, KSK and CSK describe
+   <para>It is important to realize the terms ZSK, KSK and CSK describe
    how the keys are used -  all these keys are represented by DNSKEY
    records. The following examples are the DNSKEY records from a zone
    signed with a KSK and ZSK:</para>
@@ -101,12 +101,12 @@ example.com.		60 IN DNSKEY <userinput>257</userinput> 3 13 (
 				71wGtzR6jdUrTbXo5Z1W5QeeJF4dls4lh4z7DByF5Q==
 				) ; KSK; alg = ECDSAP256SHA256 ; key id = 1231</screen></para>
 
-   <para>The only visible differece between the records (apart from the
+   <para>The only visible difference between the records (apart from the
    key data itself) are is the value of the flags fields (highlighted);
    this is 256 for a ZSK and 257 for a KSK or CSK.  Even then, the flags
    field is only a hint to the software using them as to the role of the
    key: zones can be signed by any key.  The fact that a CSK and KSK
-   both have the same flags emphasises this.  A KSK usually only signs
+   both have the same flags emphasizes this.  A KSK usually only signs
    the DNSKEYs in a zone whereas a CSK is used to sign all records in
    the zone.</para>
 
@@ -130,12 +130,12 @@ example.com.		60 IN DNSKEY <userinput>257</userinput> 3 13 (
 
    <para>In the early days of DNSSEC, the idea of splitting the key went
    more or less unchallenged.  However, with the advent of more powerful
-   computers and the introduction of signalling methods between the
-   parent and child zones (see WHERE??), the advantages of a ZSK/KSK
+   computers and the introduction of signaling methods between the
+   parent and child zones (<xref linkend="cds-cdnskey"/>), the advantages of a ZSK/KSK
    split are less clear and, for many zones, a single key is all that is
    required. </para>
 
-   <para>As with many questions relatied to the choice of DNSSEC policy,
+   <para>As with many questions related to the choice of DNSSEC policy,
    the answer is not clear and depends on your circumstances.</para>
   </section>
 
@@ -144,7 +144,7 @@ example.com.		60 IN DNSKEY <userinput>257</userinput> 3 13 (
   <title>Which Algorithm?</title>
 
   <para>There are at three algorithm choices for DNSSEC as of this
-  writing (late 2020): </para>
+  writing (mid-2020): </para>
 
   <itemizedlist>
    <listitem>
@@ -206,7 +206,7 @@ example.com.		60 IN DNSKEY <userinput>257</userinput> 3 13 (
   </para>
 
   <para>These should be the minimum RSA key sizes one should choose.  At the time
-  of writing (late 2020) the root zone and many TLDs are already using 2048 bit
+  of writing (mid-2020) the root zone and many TLDs are already using 2048 bit
   ZSKs.  If you choose to implement larger key sizes, keep in mind that larger
   key size results in larger DNS responses, and this may mean more load on
   network resources. Depending on network configuration, end users may even

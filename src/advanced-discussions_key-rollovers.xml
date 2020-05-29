@@ -10,7 +10,7 @@
   <para>Before going any further, it is worth noting that if you sign
   your zone with either the Automatic or Semi-Automatic method, you
   don't really need to concern yourself with the details of a key rollover:
-  BIND takes care of it all for ou (apart from key creation if using the
+  BIND takes care of it all for you (apart from key creation if using the
   semi-automatic method).  If you are doing a manual key roll, you do
   need to concern yourself with the various steps involved and the
   timing details.</para>
@@ -18,7 +18,7 @@
   <para>Rolling a key is not as simple as replacing the DNSKEY statement
   in the zone.  That is an essential part of it, but timing is everything.
   For example, suppose that we run the <code>example.com</code> zone
-  and that someone lookups the AAAA record for <code>www.example.com</code>.
+  and that a friend queries for the AAAA record of <code>www.example.com</code>.
   As part of the resolution process (described in 
   <xref linkend="how-does-dnssec-change-dns-lookup"/>), their recursive server
   looks up the keys for the <code>example.com</code> zone and uses them to
@@ -26,21 +26,21 @@
   the records validated successfully, so all is well so they can use the
   address to visit example.com's web site.</para>
   
-  <para>Let's assume now that immediately after the lookup, we want to roll the keys
+  <para>Let's assume that immediately after the lookup, we want to roll the ZSK
   for <code>example.com</code>.  Our first attempt at this is to remove the old
-  DNSKEY records and signatures, add new DNSKEY records, and re-sign the zone.
-  So one minute their server is serving the old DNSKEYs and records signed with
-  those old keys then the next minute it is serving the new keys and records
-  signed with the new keys.  We've achieved out goal - we are serving a zone
+  DNSKEY record and signatures, add new DNSKEY record, and re-sign the zone with it.
+  So one minute our server is serving the old DNSKEY and records signed with
+  the old key, and the next minute it is serving the new key and records
+  signed with it.  We've achieved out goal - we are serving a zone
   signed with the new keys and to check this is really the case, we booted up our
   laptop and looked up the AAAA record <code>ftp.example.com</code>. The lookup
-  succeeded so all must be well.  Or is it?  Just to be sure, we asked
-  our friend working in another office to check.
+  succeeded so all must be well.  Or is it?  Just to be sure, we called
+  our friend and asked them to check.
   They tried to lookup <code>ftp.example.com</code> but got a SERVFAIL
   response from their recursive server.  So what's going on?</para>
 
   <para>The answer, in one word, is "caching".  When they looked up
-  <code>www.example.com</code>, as well as retrieving the A record, their
+  <code>www.example.com</code>, as well as retrieving the AAAA record, their
   recursive server
   retrieved and cached a lot of other records.  It cached the NS records for
   <code>com</code> and <code>example.com</code>.  It looked up and cached the
@@ -53,7 +53,7 @@
   addresses, so we went directly to one of those to get the AAAA record for
   <code>ftp.example.com</code> and its associated signature.  But when it came
   to validate the signature, it used the cached copy of the DNSKEY, and that is
-  when our user had the problem.  The recursive server had a copy of the old DNSKEY in
+  when our friend had the problem.  Their recursive server had a copy of the old DNSKEY in
   its cache, but the AAAA record for <code>ftp.example.com</code> was signed
   with the new key.  So not surprisingly, the signature didn't validate.</para>
 
@@ -148,7 +148,7 @@
       <simpara>Basically, the new KSK is added first at the child zone and
       being used to sign DNSKEY, then the DS record is changed, followed by the
       removal of the old KSK. Double-KSK limits the interaction with the parent
-      zone to a minim, but for the duration of the rollover, the size of the
+      zone to a minimum, but for the duration of the rollover, the size of the
       DNSKEY RRset is increased.</simpara>
      </listitem>
   
@@ -180,7 +180,7 @@
      <!-- #1 Double-DNSKEY -->
      <listitem>
       <simpara><emphasis>Double-DS</emphasis>: the new CSK is added to
-      the DNSKEY RRset and the new DS record is assed to the parent zone's
+      the DNSKEY RRset and the new DS record is added to the parent zone's
       DS RRset.  Once the old DS and DNSKEY RRsets have expired from caches,
       the zone is signed with the new key.  After waiting a further amount of
       time for records signed with the old key to expire from caches,
