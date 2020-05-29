@@ -45,7 +45,7 @@
    <para>We have chosen to use the default policy, storing the keys generated for
    the zone in the directory <filename>keys/example.com</filename>. If you wish
    to use a custom policy, then you need to define the policy in the configuration
-   file and select it in the zone statment (as described in
+   file and select it in the zone statement (as described in
    <xlink linkend="signing-custom-policy"/>).</para>
 
    <para>On the slave servers, <filename>named.conf</filename> does not need to

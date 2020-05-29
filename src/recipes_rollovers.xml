@@ -1,21 +1,23 @@
 <section id="recipes-rollovers">
  <title>Rollover Recipes</title>
-
- <!-- === ZSK Rollover === -->
- <section id="recipes-zsk-rollover">
-  <title>ZSK Rollover Recipe</title>
-
   <para>If you are signing your zone using a <code>dnssec-policy</code>
-  statement, you don't really need this section. In the policy statement ~ou
+  statement, you don't really need this section. In the policy statement you
   set how long you want your keys to be valid for, other parameters (such as
   the time taken for information to propagate through your zone, how long it
   takes for your parent zone to register a new DS record etc.) and that's 
   more or less it.
   <command>named</command> takes care of everything for you (apart from
   uploading the new DS records to your parent zone - that is covered in
-  <xref linkend="signing-easy-start-upload-to-parent-zone"/>).  However, it is
+  <xref linkend="signing-easy-start-upload-to-parent-zone"/>, although
+  some screenshots from a session where a KSK is uploaded to the parent zone
+  are presented here).  However, it is
   useful in describing what's happens through the rollover process and what you
   should be monitoring.</para>
+
+ <!-- === ZSK Rollover === -->
+ <section id="recipes-zsk-rollover">
+  <title>ZSK Rollover Recipe</title>
+
 
   <para>This recipe covers how to perform a ZSK rollover using what is known as
   the Pre-Publication method. For other ZSK rolling methods, please see <xref
@@ -269,8 +271,8 @@ example.com.		600 IN RRSIG DNSKEY 8 2 600 (
   method. For other KSK rolling methods, please see <xref
   linkend="ksk-rollover-methods" /> in <xref
   linkend="dnssec-advanced-discussions" />. The registrar used in this recipe
-  is <ulink url="https://www.godaddy.com" > <citetitle>GoDaddy</citetitle>
-  </ulink>. Also for this recipe, we are keeping the number of DS records down
+  is <ulink url="https://www.godaddy.com" > <citetitle>GoDaddy</citetitle></ulink>.
+  Also for this recipe, we are keeping the number of DS records down
   to just one per active set using just SHA-1, for the sake of better clarity,
   although in practice most zone operators choose to upload 2 DS records as we
   have shown in <xref linkend="working-with-parent-zone" />. For more
@@ -428,7 +430,7 @@ example.com.   300 IN RRSIG DNSKEY 7 2 300 (
    until the next day after you have verified that the new DNSKEY record is
    added to the zone. Below are the screenshots from using GoDaddy's web-based
    interface to add a new DS record<footnote><para>The screenshots were taken from
-   GoDaddy's unterface at the time the original version of this guide was published
+   GoDaddy's interface at the time the original version of this guide was published
    (2015).  It may have changed since then.</para></footnote>.</para>
  
    <orderedlist>
