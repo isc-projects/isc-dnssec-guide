@@ -37,4 +37,8 @@ articles owned by ISC:
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
   href="signing_maintenance-tasks.xml" />
 
+  <!-- === Alternative Methods of Signing === -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+  href="signing_alternative-methods.xml" />
+
 </chapter>
