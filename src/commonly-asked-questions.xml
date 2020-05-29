@@ -48,7 +48,7 @@
    when you received the DNS response for www.isc.org over port 53, you know it
    really came from the ISC name servers, and the answers are authentic. But
    that does not mean the web server you visit over port 80 or port 443 is
-   necessarily safe. Further more, 99% of the domain names (as of this writing)
+   necessarily safe. Further more, 98.5% of the domain names (as of this writing)
    have not signed their zones yet, so DNSSEC cannot even validate their
    answers.</para>
    <para>The answer for sometime in the future is, as more and more zones are
@@ -104,6 +104,7 @@
    a domain name doesn't pass the checks, an error message (typically SERVFAIL)
    is returned to the clients, and to most client software today, it looks as
    if the DNS query has failed, or the domain name does not exist.</para>
+
    <para>The longer answer is although you don't have to, you may want to.
    There are more and more client softwares that take advantage of the new
    DNSSEC features and give user better feedback about the domain name they are
@@ -190,9 +191,10 @@
    their own key pairs, while other more "generic" zones can use a
    single key pair for easier management.</para>
 
-   <para>At present (2020), fully-automatic signing (iusing the
+   <para>At present (mid-2020), fully-automatic signing (using the
    <code>dnssec-policy</code> clause in your <command>named</command>
-   configuration file) does not support this.  If you wish
+   configuration file) does not support this except when the same zone appears
+   in multiple views (see next question).  If you wish
    to use the same key for multiple zones, you should sign your zones
    semi-automatically.  Each zone wishing to use the key should point to the
    same key directory.
@@ -200,13 +202,32 @@
   </qandaentry>
 
   <qandaentry>
-   <question><para>How do I sign different instances of a zone within a view?
+   <question><para>How do I sign different instances of a zone that appears in multiple views?
    </para></question>
-   <answer><para>To avoid problems with computers accessing the different
-   instances of a zone (e.g. a laptop moving from your office to a customer site),
-   you should sign the instances with the same key.  This means using the
-   semi-automatic method of signing.
+   <answer><para>Add a <code>dnssec-policy</code> statement to the <code>zone</code>
+   definition in the configuration file.  To avoid problems when a single computer may
+   access different instances of the zone while information is still in its cache (e.g.
+   (e.g. a laptop moving from your office to a customer site),
+   you should sign all instances with the same key.  If you are getting
+   <command>named</command> to sign your zone by putting a
+   <code>dnssec-policy</code> statement in your configuration file, this means:
+   <orderedlist>
+    <listitem>
+     <simpara>Setting the same DNSSEC policy for all instances of the zone.</simpara>
+    </listitem>
+    <listitem>
+     <simpara>Making sure that the key directory is the same for all instances of the zone.</simpara>
+    </listitem>
+   </orderedlist>
    </para></answer>
+  </qandaentry>
+
+  <qandaentry>
+   <question><para>Will there be any problems if I change DNSSEC policy?</para></question>
+   <answer><para>If you are using fully-automatic signing, no.  Just change the
+   parameters in the <code>dnssec-policy</code> statement and reload the
+   configuration file.  <command>named</command> will make a smooth transition to
+   the new policy, ensuring that your zone remains valid at all times.</para></answer>
   </qandaentry>
 
  </qandaset></para>
