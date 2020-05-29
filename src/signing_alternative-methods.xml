@@ -195,6 +195,113 @@ example.com. IN DNSKEY 256 3 8 AwEAAcCV...kdWv4EJx
 ; Delete: 20210701000000 (Thu Jul  1 01:00:00 2021)
 example.com. IN DNSKEY 256 3 8 AwEAAcCV...kdWv4EJx</screen></para>
 
+
+  <para>Below is
+  a complete list of each of the metadata fields, and how it affects your
+  key's behavior:
+
+   <orderedlist>
+    <listitem>
+     <simpara><emphasis>Created</emphasis>: A record of the date on which
+     the key was created.  It is not used in calculations, it is just present
+     for documentation purposes.
+     </simpara>
+    </listitem>
+    <listitem>
+     <simpara><emphasis>Publish</emphasis>: Sets the date on which a key is
+     to be published to the zone. After that date, the key will be included
+     in the zone but will not be used to sign it (yet). This is notifying
+     validating resolvers that we are about to introduce a new key. By
+     default, if not specified during creation time, this is set to the
+     current time, meaning the key will be published as soon as
+     <command>named</command> picks it up.</simpara>
+    </listitem>
+    <listitem>
+     <simpara><emphasis>Activate</emphasis>: Sets the date on which the key
+     is to be activated. After that date, the key will be included in the
+     zone and used to sign it. By default, if not specified during creation
+     time, this is set to the current time, meaning the key will be used to
+     sign data as soon as <command>named</command> picks it up.</simpara>
+    </listitem>
+    <listitem>
+     <simpara><emphasis>Revoke:</emphasis> Sets the date on which the key
+     is to be revoked. After that date, the key will be flagged as revoked.
+     It will be included in the zone and will be used to sign it. This is
+     used to notify validating resolvers that this key is about to be
+     removed or retired from the zone.</simpara>
+    </listitem>
+    <listitem>
+     <simpara><emphasis>Inactive</emphasis>: Sets the date on which the key
+     is to become inactive. After that date, the key will still be included
+     in the zone, but it will not be used to sign it. This sets the
+     "expiration" or "retire" date for a key.</simpara>
+    </listitem>
+    <listitem>
+     <simpara><emphasis>Delete</emphasis>: Sets the date on which the key
+     is to be deleted. After that date, the key will no longer be included
+     in the zone, but it continues to exist on the file system or key
+     repository.</simpara>
+    </listitem>
+   </orderedlist>
+  </para>
+
+  <para>This can be summarized as follows:</para>
+  <para>
+   <table>
+    <title>Key Metadata Comparison</title>
+    <tgroup cols='4' align='left' colsep='0' rowsep='0'>
+     <thead>
+      <row>
+       <entry>Metadata</entry>
+       <entry>Included in Zone File?</entry>
+       <entry>Used to Sign Data?</entry>
+       <entry>Purpose</entry>
+      </row>
+     </thead>
+     <tbody>
+      <row>
+       <entry>Created</entry>
+       <entry>No</entry>
+       <entry>No</entry>
+       <entry>Record of when the keay was created</entry>
+      </row>
+      <row>
+       <entry>Publish</entry>
+       <entry>Yes</entry>
+       <entry>No</entry>
+       <entry>Introducing a key soon to be active</entry>
+      </row>
+      <row>
+       <entry>Activate</entry>
+       <entry>Yes</entry>
+       <entry>Yes</entry>
+       <entry>Activation date for new key</entry>  
+      </row>
+      <row>
+       <entry>Revoke</entry>
+       <entry>Yes</entry>
+       <entry>Yes</entry>
+       <entry>Notifying a key soon to be retired</entry>
+      </row>
+      <row>
+       <entry>Inactive</entry>
+       <entry>Yes</entry>
+       <entry>No</entry>
+       <entry>Inactivate or retire a key</entry>
+      </row>
+      <row>
+       <entry>Delete</entry>
+       <entry>No</entry>
+       <entry>No</entry>
+       <entry>Deletion or removal of key from zone</entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </table>
+  </para>
+
+
+
    <para>The publication date is the date the key is introduced into the zone.  Some time
    later it is activated and is used to sign resource records.  After a period of use BIND
    stops using it to sign records and at some later time it is deleted from the zone.
