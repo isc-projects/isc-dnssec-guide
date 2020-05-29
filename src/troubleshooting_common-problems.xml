@@ -189,7 +189,7 @@ example.com.db	example.com.db.jbk  example.com.db.signed  example.com.db.signed.
   <title>Invalid Trust Anchors</title>
   <para>In most cases, you will never need to explicitly configure trust
   anchors. <command>named</command> is supplied with the current root trust
-  anchor and, with the default setting of <code>dnssec-validation<code>, will
+  anchor and, with the default setting of <code>dnssec-validation</code>, will
   update it on the infrequent occasions on which it is changed.</para>
 
   <para>iHowever, in some circumstances you may need to explicitly configure
