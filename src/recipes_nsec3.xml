@@ -5,8 +5,7 @@
  <section id="recipes-nsec-to-nsec3">
   <title>Migrating from NSEC to NSEC3</title>
   <para>This recipe describes how to go from using NSEC to NSEC3, as described
-  in both <xref linkend="signing-using-nsec3" /> and <xref
-  linkend="advanced-discussions-proof-of-nonexistence" />. This recipe assumes
+  in <xref linkend="advanced-discussions-proof-of-nonexistence" />. This recipe assumes
   that the zones are already signed, and <command>named</command> is
   configured according to the steps described in <xref
   linkend="easy-start-guide-for-authoritative-servers" />.</para>

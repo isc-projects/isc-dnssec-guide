@@ -46,7 +46,7 @@
    the zone in the directory <filename>keys/example.com</filename>. If you wish
    to use a custom policy, then you need to define the policy in the configuration
    file and select it in the zone statement (as described in
-   <xlink linkend="signing-custom-policy"/>).</para>
+   <xref linkend="signing-custom-policy"/>).</para>
 
    <para>On the slave servers, <filename>named.conf</filename> does not need to
    be updated, and it looks like this:</para>

@@ -1,4 +1,4 @@
-<section id="easy-start-guide-for-authoritative-servers-policy">
+<section id="easy-start-guide-for-authoritative-servers">
  <title>Easy Start Guide for Signing Authoritative Zones</title>
  <para>This section provides the minimum amount of information to setup a
  working DNSSEC-enabled authoritative name server. A DNSSEC-enabled zone (or
@@ -50,7 +50,7 @@ zone "example.com" in {
   periodic basic.  The value <code>default</code> selects the default
   policy, which contain values suitable for most situations.  We will
   cover the creation of your own policy in <xref
-  linkend="dnssec-policy-creation"/> but for the moment we will accept
+  linkend="signing-custom-policy"/> but for the moment we will accept
   the default values.</para>
 
   <para>When you are done updating the configuration file, tell

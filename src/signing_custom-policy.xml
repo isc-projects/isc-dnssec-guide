@@ -3,8 +3,8 @@
 "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
 <!ENTITY mdash  "&#x2014;" >
 ]>
- <section id="dnssec-policy-creation">
-  <title>Creating and Setting a DNSSEC Policy</title>
+ <section id="signing-custom-policy">
+  <title>Creating a Custom DNSSEC Policy</title>
 
   <para>The remainder of this section describes the contents of a custom
   DNSSEC policy.  <xref linkend="dnssec-advanced-discussions"/> describes the

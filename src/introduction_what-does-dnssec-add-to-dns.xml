@@ -62,10 +62,10 @@
     cryptography for data authenticity and integrity. There are several keys
     used in DNSSEC, some private, some public. The public keys are published to
     the world as part of the zone data, and they are stored in the DNSKEY
-    record type. In general, there are two categories of keys used in DNSSEC,
-    Zone Signing Key (ZSK) is used to protect all zone data, and Key Signing
-    Key (KSK) is used to protect other keys. We will talk about keys in <xref
-    linkend="signing-generate-keys-explained" />, and again later in <xref
+    record type. In general, there are three categories of keys used in DNSSEC:
+    a Zone Signing Key (ZSK) is used to protect all zone data, a Key Signing
+    Key (KSK) is used to protect other keys, and a Combined Signing Key
+    (CSK) combines the functions of the ZSK and KSK. We will talk about keys in <xref
     linkend="advanced-discussions-key-generation" />.</simpara>
    </listitem>
 

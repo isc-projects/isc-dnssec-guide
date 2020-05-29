@@ -65,8 +65,7 @@ default paths:
  <section id="system-entropy">
   <title>System Entropy</title>
   <para>If you plan on deploying DNSSEC to your authoritative server, you will
-  need to generate cryptographic keys (<xref
-  linkend="signing-generate-keys-explained"/>). The amount of time it takes to
+  need to generate cryptographic keys. The amount of time it takes to
   generate the keys depends on the source of randomness, or entropy, on your
   systems. On some systems (especially virtual machines) with insufficient
   entropy, it may take much longer than one cares to wait to generate

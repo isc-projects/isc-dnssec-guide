@@ -46,7 +46,7 @@
 
    <para>That is a lot of complexity, and it is all handled with the
    single <code>dnssec-policy default</code> statement. We will see
-   later on (in section <xref linkend="dnssec-policy-creation"/>) how the
+   later on (in section <xref linkend="signing-custom-policy"/>) how the
    these actions can be tuned by setting up our own DNSSEC policy with
    customized parameters. In many cases though, the defaults are
    adequate.  After reading the rest of this guide, you may decide that
