@@ -307,10 +307,6 @@ example.com. IN DNSKEY 256 3 8 AwEAAcCV...kdWv4EJx</screen></para>
    stops using it to sign records and at some later time it is deleted from the zone.
    The <command>dnssec-keygen</command> command supports the same set of switches so
    if we had wanted, we could have set the dates when we created the key.</para>
-
-   <para>Be careful when you use these commands.  They don't check whether the dates
-   make any sense so, for example, it is possible to set the publication date of the
-   key to be later than the date it is removed from the zone.</para>
   </section>
 
 
