@@ -241,7 +241,16 @@
   algorithm rollover must be done with care in a stepwise fashion
   to avoid breaking DNSSEC validation.  </para>
 
-  <para> As with other DNSKEY rollovers, when the zone is of type
+  <para>If you are managing DNSSEC by using the <code>dnssec-policy</code>
+  configuration, <command>named</command> will handle the rollover
+  for you.  Just change the algorithm for the relevant keys, and
+  <command>named</command> will use the new algorithm when the
+  key is next rolled.  It will perform a smooth transition to the
+  new algorithm, ensuring that the zone remains valid throughout
+  rollover.</para>
+
+  <para>If you are using Semi-Automatic or Manual signing, you
+  need to do more work.   As with other DNSKEY rollovers, when the zone is of type
   master, an algorithm rollover can be accomplished using dynamic
   updates or automatic key rollovers. For zones of type slave, only
   automatic key rollovers are possible, but the
