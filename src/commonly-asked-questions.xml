@@ -98,22 +98,13 @@
   <qandaentry>
    <question><para>Do I need to have special client software to use
    DNSSEC?</para></question>
-   <answer><para>The short answer is no, DNSSEC only changes the communication
+   <answer><para>No. DNSSEC only changes the communication
    behavior among DNS servers, not DNS server (validating resolver) and client
    (stub resolver). With DNSSEC validation enabled on your recursive server, if
    a domain name doesn't pass the checks, an error message (typically SERVFAIL)
    is returned to the clients, and to most client software today, it looks as
-   if the DNS query has failed, or the domain name does not exist.</para>
-
-   <para>The longer answer is although you don't have to, you may want to.
-   There are more and more client softwares that take advantage of the new
-   DNSSEC features and give user better feedback about the domain name they are
-   visiting. CZ.NIC Labs has created a plugin for several popular web
-   browsers, and Mozilla has created a new web browser Bloodhound that performs
-   DNSSEC validation. </para>
-   <para>As DNSSEC deployment becomes more common place, we are sure to see
-   more and more software libraries and applications be updated to support its
-   features.</para></answer>
+   if the DNS query has failed, or the domain name does not exist.
+   </para></answer>
   </qandaentry>
 
   <qandaentry>
@@ -141,12 +132,8 @@
    result is, to the rest of the world, your zone still appears to be insecure,
    and it will continue to be insecure until your parent zone can host DS
    record(s) for you, effectively telling the rest of the world that your zone
-   is signed. </para>
+   is signed.</para></answer>
 
-   <para>An interim solution is to take advantage of DLV (DNSSEC Look-aside
-   Validation), by submitting your key to a DLV registry such as <ulink
-   url="https://dlv.isc.org/" />, you can still get the benefits of DNSSEC even
-   if your parent zone is not yet supporting it.</para></answer>
   </qandaentry>
 
   <qandaentry>
@@ -195,22 +182,20 @@
    <code>dnssec-policy</code> clause in your <command>named</command>
    configuration file) does not support this except when the same zone appears
    in multiple views (see next question).  If you wish
-   to use the same key for multiple zones, you should sign your zones
-   semi-automatically.  Each zone wishing to use the key should point to the
+   to use the same key for multiple zones, you should sign your zones using
+   semi-automatic signing.  Each zone wishing to use the key should point to the
    same key directory.
    </para></answer>
   </qandaentry>
 
   <qandaentry>
-   <question><para>How do I sign different instances of a zone that appears in multiple views?
+   <question><para>How do I sign the different instances of a zone that appears in multiple views?
    </para></question>
-   <answer><para>Add a <code>dnssec-policy</code> statement to the <code>zone</code>
+   <answer><para>Add a <code>dnssec-policy</code> statement to each <code>zone</code>
    definition in the configuration file.  To avoid problems when a single computer may
    access different instances of the zone while information is still in its cache (e.g.
    (e.g. a laptop moving from your office to a customer site),
-   you should sign all instances with the same key.  If you are getting
-   <command>named</command> to sign your zone by putting a
-   <code>dnssec-policy</code> statement in your configuration file, this means:
+   you should sign all instances with the same key.  This means:
    <orderedlist>
     <listitem>
      <simpara>Setting the same DNSSEC policy for all instances of the zone.</simpara>
@@ -223,7 +208,7 @@
   </qandaentry>
 
   <qandaentry>
-   <question><para>Will there be any problems if I change DNSSEC policy?</para></question>
+   <question><para>Will there be any problems if I change the DNSSEC policy for a zone?</para></question>
    <answer><para>If you are using fully-automatic signing, no.  Just change the
    parameters in the <code>dnssec-policy</code> statement and reload the
    configuration file.  <command>named</command> will make a smooth transition to
