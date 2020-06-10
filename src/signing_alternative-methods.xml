@@ -1,4 +1,4 @@
-<section id="alternative-ways">
+<section id="signing-alternative-ways">
  <title>Alternative Ways of Signing a Zone</title>
  <para>Although use of <code>dnssec-policy</code> is the preferred way to sign
  zones in BIND, there are occasions where a more "hands-on" approach may be

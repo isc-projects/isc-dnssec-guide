@@ -44,7 +44,7 @@
    </listitem>
 
    <listitem>
-    <simpara><emphasis>Enhanced Security (C.Y.A.) </emphasis>: Okay, so the
+    <simpara><emphasis>Enhanced Security</emphasis>: Okay, so the
     big lofty goal of "let's be good" doesn't appeal to you, and you don't have
     any compliance standards to worry about . Here is a more practical reason
     why you should consider DNSSEC: in case of a DNS-based security breach,

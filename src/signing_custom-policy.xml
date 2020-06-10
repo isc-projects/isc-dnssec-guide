@@ -66,7 +66,7 @@
    <para>Another set of time-related parameters are those ending in
    <code>-propagation-delay</code>.  These tell BIND how long it takes for a
    change in zone contents to become available on all slave servers. (This may be
-   non-negligible, for example, if a large zone is downloaded over a slow
+   non-negligible, for example, if a large zone is transferred over a slow
    link.)</para>
   </listitem>
 
@@ -96,6 +96,9 @@
   </listitem>
  </itemizedlist></para>
 
+ <para>(You do not have to specify all the items listed above in your policy
+ definition.  Any that are not set will take the default value.)</para>
+
  <para>Usually, the exact timing of a key roll, or how long a signature remains
  valid is not critical.  For this reason err on the side of caution when setting
  values for the parameters. It is better to have an operation like a key roll
@@ -103,9 +106,12 @@
  roll but have users get validation failures during the process.</para>
 
  <para>Having defined a new policy called "standard", we now need to tell <command>named</command>
- to use it.  Since the policy used can vary on a zone basis, we need to associate
- zones with the policy.  This means modifying the <command>zone</command> statement
- as follows:
+ to use it.  We do this by adding a <code>dnssec-policy standard;</code> statement
+ to the configuration file. Like a number of configuration statements, it can be
+ placed in the <code>options</code> statement (so applying to all zones on the server),
+ a <code>view</code> statement (applying to all zones in the view) or a <code>zone</code>
+ statement (applying only to that zone).  In this example, we'll add it to the
+ <code>zone</code> statement:
 
  <screen>zone "example.net" in {
     ...
@@ -113,7 +119,11 @@
     ...
 };</screen></para>
 
- <para>That's all that is needed: <command>named</command> will now apply the policy
+ <para>Finally, tell <command>named</command> to use the new policy:
+
+  <screen># <userinput>rndc reconfig</userinput></screen></para>
+
+ <para>... and that's it.  <command>named</command> will now apply the policy
  to your zone.</para>
 
  </section>

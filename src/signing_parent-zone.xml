@@ -20,7 +20,7 @@
  automatic DNSSEC maintenance, more or less the first thing it did was
  to create the DNSSEC keys and put them in the key directory you
  specified in the <code>key-directory</code> option in the <code>zone</code>
- statement.  If you look in that directory, you will see two files with
+ statement.  If you look in that directory, you will see three files with
  names like <code>Kexample.com.+013+10376.key</code>,
  <code>Kexample.com.+013+10376.private</code> and
   <code>Kexample.com.+013+10376.state</code>.  The one we are
@@ -36,7 +36,7 @@
   <para>Below is an example of generating a DS record formats from the KSK we
   created earlier (<filename>Kexample.com.+013+10376.key</filename>):</para>
 
-  <screen># <userinput>cd /etc/bind/keys/example.com</userinput>
+  <screen># <userinput>cd /etc/bind</userinput>
  <userinput>dnssec-dsfromkey Kexample.com.+013+10376.key</userinput>
 example.com. IN DS 10376 13 2 B92E22CAE0B41430EC38D3F7EDF1183C3A94F4D4748569250C15EE33B8312EF0</screen>
 
@@ -44,11 +44,6 @@ example.com. IN DS 10376 13 2 B92E22CAE0B41430EC38D3F7EDF1183C3A94F4D4748569250C
   and digest used. In this example, 13 represents the algorithm used, and 2
   represents the digest type (SHA-256).  The key tag or key ID is 10376.</para>
 
-  <para>Alternatively, you could generate it from the DNSKEY records like
-  this:</para>
-
-  <screen>$ <userinput>dig @192.168.1.13 example.com. DNSKEY | dnssec-dsfromkey -f - example.com</userinput>
-example.com. IN DS 10376 13 2 B92E22CAE0B41430EC38D3F7EDF1183C3A94F4D4748569250C15EE33B8312EF0</screen>
 
  </section>
 
@@ -71,18 +66,7 @@ example.com. IN DS 10376 13 2 B92E22CAE0B41430EC38D3F7EDF1183C3A94F4D4748569250C
 ; Created: 20200407150255 (Tue Apr  7 16:02:55 2020)
 ; Publish: 20200407150255 (Tue Apr  7 16:02:55 2020)
 ; Activate: 20200407150255 (Tue Apr  7 16:02:55 2020)
-example.com. 3600 IN DNSKEY <userinput>257</userinput> 3 13 6saiq99qDB...dqp+o0dw==</screen>
-
-  <para>Even though this is a combined-signing key (CSK), the file states that it
-  is a key-signing key (KSK).  The reason for this is explained in section
-  <xref linkend="types-of-keys"/>.  That the
-  record represents a KSK can be seen in the DNSKEY line itself where the highlighted
-  value is 257 (it would be 256 for a zone-signing key).</para>
-
-  <para>Some registrars may ask you to manually specify the type of algorithm
-  used and the key tag number. In our example above, the chosen algorithm is 13,
-  and the key ID is 10376.</para>
-
+example.com. 3600 IN DNSKEY 257 3 13 6saiq99qDB...dqp+o0dw==</screen>
  </section>
 
 

@@ -30,7 +30,7 @@
  <!-- ====== Verisign DNSSEC Debugger ====== -->
  <section id="external-tools-dnssec-debugger">
   <title>Verisign DNSSEC Debugger</title>
-  <para>URL: <ulink url="http://dnssec-debugger.verisignlabs.com/" /></para>
+  <para>URL: <ulink url="https://dnssec-debugger.verisignlabs.com/" /></para>
 
   <para>This tool shows a nice summary of checks performed on your domain
   name, and you can expand to view more details for each of the items checked

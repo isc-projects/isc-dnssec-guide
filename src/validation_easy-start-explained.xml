@@ -231,7 +231,7 @@
   <para>When a validating resolver queries for the A record
   <code>ftp.isc.org</code>, it receives both the A record and the RRSIG record.
   It runs the A record through a hash function (in this example, it would be
-  SHA1 as indicated by the number 5, signifying RSA-SHA1) and produces hash
+  SHA256 as indicated by the number 13, signifying ECDSAP256SHA256) and produces hash
   value X. The resolver also fetches the appropriate DNSKEY record to decrypt
   the signature, and the result of the decryption is hash value Y.</para>
 

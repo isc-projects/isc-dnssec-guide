@@ -59,6 +59,6 @@
    preferred way to run DNSSEC in your zone, it can't do everything
    that you can do with a more "hands on" approach to signing and key
    maintenance.  For this reason, we will be covering alternative signing
-   techniques WHERE?</para>
+   techniques <xref linkend="signing-alternative-ways"/>.</para>
  </section>
 </section>

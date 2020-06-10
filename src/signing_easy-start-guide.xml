@@ -60,6 +60,15 @@ zone "example.com" in {
 
   <para>And that's it - BIND will sign your zone.</para>
 
+  <para>At this point, before you go away and merrily add <code>dnssec-policy</code>
+  statements to all your zones, we should mention that like a number of
+  BIND configuration options, its scope depends on where it is placed.  In
+  the example above, we placed it in a <code>zone</code> clause, so it applied
+  only to the zone in question.  If we had placed it in a <code>view</code>
+  clause, it would have applied to all zones in the view; and if we had placed
+  it in the <code>options</code> clause, it would have applied to all zones
+  served by this instance of BIND.</para>
+
  </section>
 
 
@@ -113,12 +122,12 @@ zone "example.com" in {
   statement in your configuration file's <code>options</code> clause
   and will be named something like <code>Kexample.com.+013.10376.key</code>:</para>
 
-  <screen># <userinput>cp /etc/bind/example.com/Kexample.com.+013+10376.key /tmp/example.key</userinput></screen>
+  <screen># <userinput>cp /etc/bind/Kexample.com.+013+10376.key /tmp/example.key</userinput></screen>
 
   <para>The original key file looks like this (actual key shortened for
   display, and comments omitted):</para>
 
-  <screen># <userinput>cat /etc/bind/keys/example.com/Kexample.com.+013+10376.key</userinput>
+  <screen># <userinput>cat /etc/bind/Kexample.com.+013+10376.key</userinput>
 
 ...
 example.com. 3600 IN DNSKEY 257 3 13 6saiq99qDB...dqp+o0dw==</screen>
@@ -127,7 +136,7 @@ example.com. 3600 IN DNSKEY 257 3 13 6saiq99qDB...dqp+o0dw==</screen>
   format, so that it looks like this:</para>
 
   <screen># <userinput>cat /tmp/example.key</userinput>
-trust anchors {
+trust-anchors {
     example.com. static-key 257 3 13 "6saiq99qDB...dqp+o0dw==";
 };</screen>
 
