@@ -11,14 +11,13 @@
  a query for the associated record will fail DNSSEC validation.  But
  how long should a signature be valid for?</para>
 
- <para>The selection of maximum validity period is determined by the
+ <para>A maximum value for the validity period is determined by the
  impact of a replay attack.  If this is low, the period can be long; if
  this is high, the period should be shorter.  There is no right value,
- but periods of between a few days to a month seem to be common. The
- default policy sets a signature lifetime of 14 days.</para>
+ but periods of between a few days to a month seem to be common.</para>
 
- <para>Deciding the minimum period is probably an easier question to
- answer.  Should something fail (e.g. a hidden master distributing to
+ <para>Deciding a minimum value is probably an easier task.
+ Should something fail (e.g. a hidden master distributing to
  slave servers that actually answer queries), how long will it be
  before the failure is noticed, and how long before it is fixed?  If
  you are a large 24x7 operation with operators always on site, the
@@ -26,9 +25,10 @@
  companies, if the failure occurs just after everyone has gone home for
  a long weekend, the answer might be several days.  </para>
 
- <para>There is no right answer to these questions - the answer depends
- on your circumstances.  At the time of writing, the default policy
- used by BIND sets the signature validity period to 14 days.</para>
+ <para>There are no right answers - they depend on your circumstances.
+ The signature validity period you decide to use should be a value
+ between the two bounds.  At the time of writing, the default policy
+ used by BIND sets a value of 14 days.</para>
 
  <para>Since the signatures expire, to keep the zone valid, the
  signatures must be periodically refreshed, in other words, the zone

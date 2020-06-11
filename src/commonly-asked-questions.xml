@@ -110,7 +110,10 @@
   <qandaentry>
    <question><para>Since DNSSEC uses public key cryptography, do I need Public
    Key Infrastructure (PKI) in order to use DNSSEC?</para></question>
-   <answer><para>No.</para></answer>
+   <answer><para>No, it operates independently of an existing PKI. Public keys
+   are stored within the DNS hierarchy and the trustworthiness of each zone is
+   guaranteed by its parent zone, all the way back to the root zone.  A copy of
+   the trust anchor for the root zone is distributed with BIND.</para></answer>
   </qandaentry>
 
   <qandaentry>

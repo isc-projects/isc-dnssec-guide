@@ -2,10 +2,39 @@
  <title>Rollovers</title>
  <section id="key-rollovers">
   <title>Key Rollovers</title>
-  <para>Just like passwords and underwear, DNSSEC keys should be changed
-  periodically.  This change of keys is known as a "rollover". There are
-  arguments for and against rolling keys, which are discussed elsewhere.
-  </para>
+  <para>A key rollover is where one key in a zone is replaced by a new
+  one.  There are arguments for and against regularly rolling keys.
+  In essence these are:</para>
+
+  <para>Pros</para>
+  <orderedlist>
+    <listitem>
+      <simpara>Regularly changing the key hinders attempts at determination
+      of the private part of the key by cryptanalysis of signatures.</simpara>
+    </listitem>
+    <listitem>
+      <simpara>It gives us practice at changing a key; should it ever need to
+      be changed in an emergency, we would not be doing it for the first time.
+      </simpara>
+    </listitem>
+  </orderedlist>
+
+  <para>Cons</para>
+  <orderedlist>
+    <listitem>
+      <simpara>A lot of effort is required to hack a key, and there are probably
+      easier ways of obtaining it, e.g. by breaking into the systems on which
+      it is stored.</simpara>
+    </listitem>
+    <listitem>
+      <simpara>Rolling the key adds complexity to the system.  We are more likely
+      to have an interruption to our service than if we had not rolled it.</simpara>
+    </listitem>
+  </orderedlist>
+
+  <para>Whether or not you roll the key is up to you.  How serious would the
+  damage be if a key were compromised without you knowing about it?  How
+  serious would a key roll failure be?</para>
 
   <para>Before going any further, it is worth noting that if you sign
   your zone with either the Automatic or Semi-Automatic method, you
@@ -31,7 +60,7 @@
   DNSKEY record and signatures, add new DNSKEY record, and re-sign the zone with it.
   So one minute our server is serving the old DNSKEY and records signed with
   the old key, and the next minute it is serving the new key and records
-  signed with it.  We've achieved out goal - we are serving a zone
+  signed with it.  We've achieved our goal - we are serving a zone
   signed with the new keys and to check this is really the case, we booted up our
   laptop and looked up the AAAA record <code>ftp.example.com</code>. The lookup
   succeeded so all must be well.  Or is it?  Just to be sure, we called
@@ -119,22 +148,8 @@
    methods of rolling the KSK:
 
     <orderedlist>
-     <!-- #1 Double-DS -->
-     <listitem>
-      <simpara><emphasis>Double-DS</emphasis>: the new DS record is published.
-      After waiting for this change to propagate into caches, the KSK is
-      changed.  After a further interval during which the old DNSKEY RRset
-      expires from caches, the old DS record is removed.</simpara>
 
-      <simpara>Double-DS is the reverse of Double-KSK: the new DS is published
-      at the parent first, then the KSK at the child is updated, then remove
-      the old DS at the parent. The benefit is that the size of the DNSKEY
-      RRset is kept to a minimum, but interactions with the parent zone is
-      increased to two events. This is the method that is described in <xref
-      linkend="recipes-ksk-rollover" />. </simpara>
-     </listitem>
-
-     <!-- #2 Double-KSK -->
+     <!-- #1 Double-KSK -->
      <listitem>
       <simpara><emphasis>Double-KSK</emphasis>: the new KSK is added to the
       DNSKEY RRset which is then signed with both the old and new key.  After
@@ -148,6 +163,21 @@
       removal of the old KSK. Double-KSK limits the interaction with the parent
       zone to a minimum, but for the duration of the rollover, the size of the
       DNSKEY RRset is increased.</simpara>
+     </listitem>
+
+     <!-- #2 Double-DS -->
+     <listitem>
+      <simpara><emphasis>Double-DS</emphasis>: the new DS record is published.
+      After waiting for this change to propagate into caches, the KSK is
+      changed.  After a further interval during which the old DNSKEY RRset
+      expires from caches, the old DS record is removed.</simpara>
+
+      <simpara>Double-DS is the reverse of Double-KSK: the new DS is published
+      at the parent first, then the KSK at the child is updated, then remove
+      the old DS at the parent. The benefit is that the size of the DNSKEY
+      RRset is kept to a minimum, but interactions with the parent zone is
+      increased to two events. This is the method that is described in <xref
+      linkend="recipes-ksk-rollover" />. </simpara>
      </listitem>
   
      <!-- #3 Double-RRset -->
@@ -169,26 +199,14 @@
   <!-- ====== CSK Rollover ====== -->
   <section id="csk-rollover-methods">
    <title>CSK Rollover Methods</title>
-   <para>Rolling the CSK is more complex than rolling either the ZSK or
-   KSK, as the timing constraints relating to both the parent zone and
-   the caching of records by downstream recursive servers have to be
-   taken into account.  There is essentially one method:
-
-    <orderedlist>
-     <!-- #1 Double-DNSKEY -->
-     <listitem>
-      <simpara><emphasis>Double-DS</emphasis>: the new CSK is added to
-      the DNSKEY RRset and the new DS record is added to the parent zone's
-      DS RRset.  Once the old DS and DNSKEY RRsets have expired from caches,
-      the zone is signed with the new key.  After waiting a further amount of
-      time for records signed with the old key to expire from caches,
-      the old CSK and DS records are withdrawn from their respective
-      RRsets.</simpara>
-     </listitem>
-    </orderedlist>
-   </para>
-   
+   <para>Rolling the CSK is more complex than rolling either the ZSK or KSK,
+   as the timing constraints relating to both the parent zone and the caching
+   of records by downstream recursive servers have to be taken into account.
+   There are numerous methods that are a combination of ZSK rollover and KSK
+   rollover methods. BIND 9 Automatic signing uses a combination of ZSK
+   Pre-Publication and Double-KSK rollover.</para>
   </section>
+
  </section>
 
  <!-- === Emergency Key Rollovers === -->
@@ -230,9 +248,9 @@
   </ulink>.</para>
  </section>
 
- <!-- === DNSKEY Algorithm Rollovers === -->
+ <!-- === Algorithm Rollovers === -->
  <section id="advanced-discussions-DNSKEY-algorithm-rollovers">
-  <title>DNSKEY Algorithm Rollovers</title>
+  <title>Algorithm Rollovers</title>
 
   <para> From time to time new digital signature algorithms with
   improved security are introduced, and it may be desirable for
@@ -250,7 +268,7 @@
   rollover.</para>
 
   <para>If you are using Semi-Automatic or Manual signing, you
-  need to do more work.   As with other DNSKEY rollovers, when the zone is of type
+  need to do more work.   As with other key rollovers, when the zone is of type
   master, an algorithm rollover can be accomplished using dynamic
   updates or automatic key rollovers. For zones of type slave, only
   automatic key rollovers are possible, but the
@@ -273,7 +291,8 @@
   of type slave, e.g. on a bump-in-the-wire inline signing server,
   <command>nsupdate</command> cannot be used.  </para>
 
-  <para> Once the zone has been signed by the new DNSKEYs, you must
+  <para> Once the zone has been signed by the new DNSKEYs
+  (and you have waiting for at least one TTL), you must
   inform the parent zone and any trust anchor repositories of the
   new KSKs, e.g. you might place DS records in the parent zone
   through your DNS registrar's website.  </para>

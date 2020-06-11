@@ -14,42 +14,42 @@
 
  <para>We are going to use a little story, and tell it three different times to
  illustrate how proof of nonexistence works. In our story, we run a small
- company with three employees: Alice, Edward, and Susan. We list their names in
- a phone directory, and we hired a nameless intern to answer our phone
- calls.</para>
+ company with three employees: Alice, Edward, and Susan. for reasons that are
+ far too complicated to go into, they don't have email accounts; instead, email
+ for them is sent to a single account and a nameless intern passes the message
+ to them.
+ The intern has access to our private DNSSEC key to create signatures for their
+ responses.</para>
 
  <para>If we followed the approach of giving back the same answer no matter
- what was asked, when people called and asked for "Bob", our intern would
- simply answer: "Sorry, that person doesn't work here, and to prove that I am
- not lying, here's the signature: 'deaf coffee beef'". Now this is a legitimate
- answer, but since the signature doesn't change,  an attacker could record this
- message, and when the next person called in asking for Susan, she will hear
- the exact same message: "Sorry, that person doesn't work here, and to prove
- that I am not lying, here's the signature: 'deaf coffee beef'". And this
- answer is verifiable, since the magic signature ("deaf coffee beef" ) can be
- validated <footnote><para>Actually it cannot be verified, read <xref
- linkend="how-are-answers-verified" /> to review why this would not
- work.</para></footnote>. Now the attacker has successfully fooled the caller
- into thinking that Susan doesn't work at our company, and might even be able
- to convince all callers that no one works at this company (no names
- exist).</para>
+ what was asked, when people emailed and asked for the message to be passed to
+ "Bob", our intern would simply answer "Sorry, that person doesn’t work here"
+ and sign this message. This answer can be validated because our intern signed
+ the response with our private DNSSEC key.  However since the signature doesn’t
+ change, an attacker could record this message. If the attacker could intercept
+ our email, when the next person emailed in asking for it to be passed to
+ Susan, the attacker could return the exact same message: "Sorry, that person
+ doesn’t work here" with the same signature. Now the attacker has successfully
+ fooled the caller into thinking that Susan doesn’t work at our company, and
+ might even be able to convince all callers that no one works at this company".
+ </para>
 
- <para>To solve this problem, two different solutions were created, we will
+ <para>To solve this problem, two different solutions were created. We will
  look at the first one, NSEC, next.</para>
 
  
  <!-- === NSEC === -->
  <section id="advanced-discussions-nsec">
   <title>NSEC</title>
-  <para>The NSEC record is used to prove that something really does not exist,
+  <para>The NSEC record is used to prove that something does not exist,
   by providing the name before it, and the name after it. Using our tiny
-  company example, this would be analogous to someone calling for Bob over the
-  phone, and our nameless intern answered the phone with: "I'm sorry, that
+  company example, this would be analogous to someone sending an email for Bob
+  and our nameless intern responding with with: "I'm sorry, that
   person doesn't work here. The name before that is Alice, and the name after
-  that is Edward". Let's say someone called in again for a non-existent person,
-  Oliver, the answer would be: "I'm sorry, that person doesn't work here. The
-  name before that is Edward, and the name after that is Susan". Another caller
-  asked for Todd, and the answer would be: "I'm sorry, that person doesn't work
+  that is Edward". Let's say another email was received for a non-existent person,
+  this time Oliver; our intern would respond "I'm sorry, that person doesn't work here. The
+  name before that is Edward, and the name after that is Susan". If another sender
+  asked for Todd, the answer would be: "I'm sorry, that person doesn't work
   here. The name before that is Susan, and there's no other name after that".
   </para>
 
@@ -61,13 +61,13 @@ edward.example.com. 300	IN	NSEC	susan.example.com.  A RRSIG NSEC
 susan.example.com.  300	IN	NSEC	example.com.        A RRSIG NSEC</screen>
 
   <para>What if the attacker tried to use the same replay method
-  described earlier? If someone called for Edward, none of the four
-  answers would fit.  If attacker played message #2, "I'm sorry,
+  described earlier? If someone sent an email for Edward, none of the four
+  answers would fit.  If attacker replied with message #2, "I'm sorry,
   that person doesn't work here. The name before it is Alice, and the
   name after it is Edward", it is obviously false, since "Edward" is
   in the response; same for #3, Edward and Susan. As for #1 and #4,
   Edward does not fall in range before Alice or after Susan, so the
-  caller can logically deduce that it was an incorrect answer.</para>
+  sender can logically deduce that it was an incorrect answer.</para>
 
   <para>In BIND inline signing, your zone data will be automatically sorted on
   the fly before generating NSEC records, much like how a phone directory is
@@ -86,12 +86,12 @@ susan.example.com.  300	IN	NSEC	example.com.        A RRSIG NSEC</screen>
   <citetitle>RFC 7129</citetitle></ulink>.</para>
 
   <para>Unfortunately, the NSEC solution has a few drawbacks, one of which is
-  trivial "zone walking". A curious person can keep calling back, and our
+  trivial "zone walking". A curious person can keep sending emails, and our
   nameless, gullible intern will keep divulging information about our
-  employees. Imagine if the caller first asked: "Is Bob there?" and received
-  back the names Alice and Edward. The caller can then call back again: "Is
+  employees. Imagine if the sender first asked: "Is Bob there?" and received
+  back the names Alice and Edward. Our sender can then email again: "Is
   Edward A. there?", and will get back Edward and Susan. Repeat the process
-  enough times, the caller will eventually learn every name in our company
+  enough times and the person sending the emails will eventually learn every name in our company
   phone directory. For many of you, this may not be a problem, since the very
   idea of DNS is similar to a public phone book: if you don't want a name to be
   known publicly, don't put it in DNS! Consider using DNS views (split DNS) and
@@ -114,7 +114,9 @@ susan.example.com.  300	IN	NSEC	example.com.        A RRSIG NSEC</screen>
      <simpara>No easy zone enumeration.</simpara>
     </listitem>
     <listitem>
-     <simpara>Provides a mechanism for child zone to opt out.</simpara>
+     <simpara>Provides a mechanism for the parent zone to exclude insecure
+     delegations (i.e. delegations to zones that are not signed) from the
+     proof of non-existence.</simpara>
     </listitem>
    </orderedlist>
   </para>
@@ -137,7 +139,7 @@ susan.example.com.  300	IN	NSEC	example.com.        A RRSIG NSEC</screen>
   out, so the recipients can verify the non-existence, without any knowledge of
   the actual names.</para>
 
-  <para>So let's tell our little phone receptionist story for the third time,
+  <para>So let's tell our little receptionist story for the third time,
   this time with NSEC3. This time, our intern is not given a list of actual
   names, he is given a list of "hashed" names. So instead of Alice, Edward, and
   Susan, the list he is given reads like this (hashes shortened for easier
@@ -147,9 +149,9 @@ susan.example.com.  300	IN	NSEC	example.com.        A RRSIG NSEC</screen>
 JKMA.... (produced from Susan)
 NTQ0.... (produced from Alice)</screen>
 
-  <para>Then, the phone rings, someone's asking for Bob again. Our intern takes
-  the name Bob through a hash function, and the result is L8J2..., so he tells
-  them on the phone: "I'm sorry, that person doesn't work here. The name before
+  <para>Then, an email is received for Bob again. Our intern takes
+  the name Bob through a hash function, and the result is L8J2..., so he replies:
+  "I'm sorry, that person doesn't work here. The name before
   that is JKMA..., and the name after that is NTQ0...". There, we proved Bob
   doesn't exist, without giving away any names! To put that into proper NSEC3
   resource records, they would look like this (again, hashes shortened for
@@ -262,7 +264,7 @@ NTQ0....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  FSK5... A RRSIG</scre
   <code>.com</code> zones are signed.  Basically, without opt-out, if you have
   1,000,000 delegations, only 5 of which are secure, you still have to generate
   NSEC RRset for the other 999,995 delegations; with NSEC3 opt-out, you will
-  have saved yourself 999.995 sets of records.</para>
+  have saved yourself 999,995 sets of records.</para>
 
   <para>For most DNS administrators who do not manage a large number of
   delegations, the decision whether or not to use NSEC3 opt-out is probably not
@@ -315,5 +317,8 @@ NTQ0....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  FSK5... A RRSIG</scre
   administrators, as it relieves the authoritative servers from the additional
   cryptographic operations that NSEC3 requires, and NSEC is comparatively easier to
   troubleshoot than NSEC3.</para>
+
+  <para>As of mid-2020, the non-existence proof used by <code>dnssec-policy</code> (the preferred way
+  to sign the zone) is NSEC; it is not yet possible to specify NSEC3.</para>
  </section>
 </section>

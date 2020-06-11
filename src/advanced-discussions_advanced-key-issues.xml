@@ -6,30 +6,29 @@
    <title>Types of Keys</title>
    <para>The title of this section is a bit of a misnomer - although 
    DNSSEC documentation talks about three types of keys, they are all
-   the same thing.  The types of keys are:</para>
+   the same thing but they have different roles.  The roles are:</para>
 
     <variablelist>
      <varlistentry>
       <term>Zone Signing Key (ZSK)</term>
      <listitem>
       <simpara>This is the key used to sign the zone.  It
-      usually signs all records in the zone apart from the DNSKEY RRset,
-      although some nameserver implementations use it to sign that
-      as well.</simpara>
+      signs all records in the zone apart from the DNSSEC key-related RRsets:
+      DNSKEY, CDS and CDNSKEY.</simpara>
      </listitem>
     </varlistentry>
 
     <varlistentry>
      <term>Key Signing Key (KSK)</term>
      <listitem>
-      <simpara>This is the key used to sign the DNSKEY RRset and is
+      <simpara>This is the key used to sign the DNSSEC key-related RRsets and is
       the key used to link the parent and child zones.  The parent
       zone stores a digest of the KSK.  When a resolver is verifying
       the chain of trust it checks to see that the DS record in the
       parent (which holds the digest of a key) matches a key in the
       DNSKEY RRset, and that it is able to use that key to verify the
       DNSKEY RRset.  If it is able to do that, the resolver knows that
-      it can trust the DNSKEY records, and so can use one of them to
+      it can trust the DNSKEY resource records, and so can use one of them to
       validate the other records in the zone.</simpara>
      </listitem>
     </varlistentry>
@@ -40,7 +39,7 @@
       <simpara>A CSK combines the functionality of a ZSK and a KSK.
       Instead of having one key for signing the zone and one for linking
       the parent and child zones, A CSK is a single key that serves both
-      purposes.</simpara>
+      roles.</simpara>
      </listitem>
     </varlistentry>
    </variablelist>
@@ -107,7 +106,7 @@ example.com.		60 IN DNSKEY <userinput>257</userinput> 3 13 (
    field is only a hint to the software using them as to the role of the
    key: zones can be signed by any key.  The fact that a CSK and KSK
    both have the same flags emphasizes this.  A KSK usually only signs
-   the DNSKEYs in a zone whereas a CSK is used to sign all records in
+   the DNSSEC key-related RRsets in a zone whereas a CSK is used to sign all records in
    the zone.</para>
 
    <para>The original idea of separating the function of the key into
