@@ -6,7 +6,7 @@
   one.  There are arguments for and against regularly rolling keys.
   In essence these are:</para>
 
-  <para>Pros</para>
+  <para>Pros:</para>
   <orderedlist>
     <listitem>
       <simpara>Regularly changing the key hinders attempts at determination
@@ -19,7 +19,7 @@
     </listitem>
   </orderedlist>
 
-  <para>Cons</para>
+  <para>Cons:</para>
   <orderedlist>
     <listitem>
       <simpara>A lot of effort is required to hack a key, and there are probably
@@ -37,10 +37,11 @@
   serious would a key roll failure be?</para>
 
   <para>Before going any further, it is worth noting that if you sign
-  your zone with either the Automatic or Semi-Automatic method, you
+  your zone with either of the fully-automatic methods, you
   don't really need to concern yourself with the details of a key rollover:
-  BIND takes care of it all for you (apart from key creation if using the
-  semi-automatic method).  If you are doing a manual key roll, you do
+  BIND takes care of it all for you.
+  If you are doing a manual key roll or are setting up the keys for a
+  semi-automatic key rollover, you do
   need to concern yourself with the various steps involved and the
   timing details.</para>
 
@@ -267,7 +268,7 @@
   new algorithm, ensuring that the zone remains valid throughout
   rollover.</para>
 
-  <para>If you are using Semi-Automatic or Manual signing, you
+  <para>If you are other methods to sign the zone, you 
   need to do more work.   As with other key rollovers, when the zone is of type
   master, an algorithm rollover can be accomplished using dynamic
   updates or automatic key rollovers. For zones of type slave, only

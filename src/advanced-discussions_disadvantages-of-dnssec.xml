@@ -52,9 +52,9 @@
 
    <listitem>
     <simpara><emphasis>Not enough people are using it today</emphasis>: while
-    it's estimated as of late 2016, that roughly 28% of the global Internet DNS
+    it's estimated as of mid-2020, that roughly 30% of the global Internet DNS
     traffic is validating
-    <footnote><para>based on APNIC statistics at
+    <footnote><para>Based on APNIC statistics at
     <ulink url="http://stats.labs.apnic.net/dnssec/XA" />
     </para></footnote>
     , that doesn't mean that many of the DNS zones are

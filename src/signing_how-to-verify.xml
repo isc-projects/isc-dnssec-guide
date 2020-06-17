@@ -99,7 +99,7 @@ example.com.		600 IN RRSIG SOA 13 2 600 (
   <filename>example.com.db.signed</filename> and in the associated journal
   file.</para>
 
-  <screen># <userinput>cd /etc/bind/db</userinput>
+  <screen># <userinput>cd /etc/bind</userinput>
 # <userinput>ls</userinput>
 example.com.db	example.com.db.jbk  example.com.db.signed  example.com.db.signed.jnl</screen>
 

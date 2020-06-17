@@ -18,9 +18,9 @@
 
 <para>First though, what existing data?  When <command>named</command> turned on
  automatic DNSSEC maintenance, more or less the first thing it did was
- to create the DNSSEC keys and put them in the key directory you
- specified in the <code>key-directory</code> option in the <code>zone</code>
- statement.  If you look in that directory, you will see three files with
+ to create the DNSSEC keys and put them in the directory you
+ specified in the configuration file.
+ If you look in that directory, you will see three files with
  names like <code>Kexample.com.+013+10376.key</code>,
  <code>Kexample.com.+013+10376.private</code> and
   <code>Kexample.com.+013+10376.state</code>.  The one we are
@@ -58,9 +58,9 @@ example.com. IN DS 10376 13 2 B92E22CAE0B41430EC38D3F7EDF1183C3A94F4D4748569250C
   <screen>example.com. 3600 IN DNSKEY 257 3 13 (6saiq99qDB...dqp+o0dw==) ; key id = 10376</screen>
   
   <para>The key itself is easy to find (it's kind of hard to miss that big long
-  base64 string) in the file (again shortened for display).</para>
+  base64 string) in the file (shortened for display).</para>
 
-  <screen># <userinput>cd /etc/bind/keys/example.com</userinput>
+  <screen># <userinput>cd /etc/bind</userinput>
 # <userinput>cat Kexample.com.+013+10376.key</userinput>
 ; This is a key-signing key, keyid <userinput>10376</userinput>, for example.com.
 ; Created: 20200407150255 (Tue Apr  7 16:02:55 2020)

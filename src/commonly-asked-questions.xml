@@ -65,7 +65,7 @@
    majority of the domain names, since most domains names don't have DNSSEC
    yet?</para></question>
    <answer><para>No, DNSSEC is backwards compatible to "standard" DNS. As of
-   this writing, although 99.5% of the .com domains have yet to be signed, a
+   this writing, although 98.5% of the .com domains have yet to be signed, a
    DNSSEC-enabled validating resolver can still lookup all of these domain
    names following the "old fashioned way". There are four (4) categories of
    responses (<ulink url="https://tools.ietf.org/html/rfc4035#section-4.3"><citetitle>RFC 4035 Sec 4.3</citetitle></ulink>):
@@ -179,9 +179,8 @@
    your not-very-important logins. So categorize your zones, high valued
    zones (or zones that have specific key rollover requirements) get
    their own key pairs, while other more "generic" zones can use a
-   single key pair for easier management.</para>
-
-   <para>At present (mid-2020), fully-automatic signing (using the
+   single key pair for easier management.
+   At present (mid-2020), fully-automatic signing (using the
    <code>dnssec-policy</code> clause in your <command>named</command>
    configuration file) does not support this except when the same zone appears
    in multiple views (see next question).  If you wish

@@ -14,7 +14,7 @@
 
  <para>We are going to use a little story, and tell it three different times to
  illustrate how proof of nonexistence works. In our story, we run a small
- company with three employees: Alice, Edward, and Susan. for reasons that are
+ company with three employees: Alice, Edward, and Susan. For reasons that are
  far too complicated to go into, they don't have email accounts; instead, email
  for them is sent to a single account and a nameless intern passes the message
  to them.
@@ -30,8 +30,8 @@
  our email, when the next person emailed in asking for it to be passed to
  Susan, the attacker could return the exact same message: "Sorry, that person
  doesn’t work here" with the same signature. Now the attacker has successfully
- fooled the caller into thinking that Susan doesn’t work at our company, and
- might even be able to convince all callers that no one works at this company".
+ fooled the sender into thinking that Susan doesn’t work at our company, and
+ might even be able to convince all senders that no one works at this company".
  </para>
 
  <para>To solve this problem, two different solutions were created. We will
@@ -145,7 +145,7 @@ susan.example.com.  300	IN	NSEC	example.com.        A RRSIG NSEC</screen>
   Susan, the list he is given reads like this (hashes shortened for easier
   reading):</para>
 
-  <screen>FSK5....  (produced from Edward)
+  <screen>FSK5.... (produced from Edward)
 JKMA.... (produced from Susan)
 NTQ0.... (produced from Alice)</screen>
 
@@ -192,7 +192,7 @@ NTQ0....example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF  FSK5... A RRSIG</scre
   remove it or change it in the zone file and reload the zone, BIND will
   update all other records but will not alter the NSEC3PARAM or the
   mode of signing.  To change NSEC3PARAM parameters or to remove it
-  entirely requires use of RNDC.</para></footnote>; for example:</para>
+  entirely requires use of <command>rndc</command>.</para></footnote>; for example:</para>
 
   <screen># <userinput>rndc signing -nsec3param 1 0 10 1234567890abcdef
   example.com</userinput></screen>

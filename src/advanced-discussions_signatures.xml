@@ -25,7 +25,7 @@
  companies, if the failure occurs just after everyone has gone home for
  a long weekend, the answer might be several days.  </para>
 
- <para>There are no right answers - they depend on your circumstances.
+ <para>There are no right values - they depend on your circumstances.
  The signature validity period you decide to use should be a value
  between the two bounds.  At the time of writing, the default policy
  used by BIND sets a value of 14 days.</para>

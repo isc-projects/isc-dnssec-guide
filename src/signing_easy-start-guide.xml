@@ -104,13 +104,7 @@ zone "example.com" in {
   and when it is finished:
   <screen>Done signing with key 10376/ECDSAP256SHA256</screen></para>
 
-  <para>When you see the second message, you zone is signed. (Strictly
-  speaking, as the zones are periodically re-signed, running <command>rndc
-  signing -list</command> at different times will show either that signing in
-  progress or that signing is complete.  However, since the default DNSSEC
-  policy causes BIND to re-sign the zone every five days, running the command a
-  few minutes after you've activated the DNSSEC policy is a quick check as to
-  whether signing has finished.)</para>
+  <para>When you see the second message, your zone is signed.</para>
 
   <para>Before moving on to the next step of coordinating with your parent
   zone, let's make sure everything looks good using <command>delv</command>.
