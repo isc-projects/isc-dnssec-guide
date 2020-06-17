@@ -79,7 +79,7 @@
   <code>com</code> and <code>example.com</code> zones.  When a query was made
   for <code>ftp.example.com</code>, it had already most of the information we
   needed.  It knew what nameservers served <code>example.com</code> and their
-  addresses, so we went directly to one of those to get the AAAA record for
+  addresses, so went directly to one of those to get the AAAA record for
   <code>ftp.example.com</code> and its associated signature.  But when it came
   to validate the signature, it used the cached copy of the DNSKEY, and that is
   when our friend had the problem.  Their recursive server had a copy of the old DNSKEY in

@@ -15,8 +15,8 @@
  particularly applies to signing and maintaining zones, where different levels
  of automation are available.</para>
 
- <para>The following lists the methods of signing in BIND in the order
- they were introduced into BIND.  This is also the order of decreasing
+ <para>The following lists the available methods of signing in BIND in the order
+ they were introduced.  This is also the order of decreasing
  complexity as far as you are concerned.</para>
 
  <para><variablelist>
@@ -24,21 +24,21 @@
    <term>Manual</term>
    <listitem>
     <para>"Manual" signing was the first method to be introduced into BIND
-    and its name describes it perfectly = you have to do everything.  In the more
-    automated methods, you load an unsigned zone file into BIND and BIND takes
+    and its name describes it perfectly - you have to do everything.  In the more
+    automated methods, you load an unsigned zone file into <command>named</command>, which takes
     care of signing it.  With manual signing, you have provide a signed zone
-    for BIND to serve.</para>
+    for <command>named</command> to serve.</para>
 
-    <para>In practice, this means creating an unsigned zone file as usual,
-    then using the BIND-provided tools <command>dnssec-keygen</command> to
-    create the keys and <command>dnssec-signzone</command> to sign the zone.
-    The signed zone is stored in another file and is the one loaded by BIND.
-    If you want to update the zone, for example to add a resource record, you
-    update the unsigned zone and re-sign it.  The same goes for refreshing
-    signatures or rolling keys - you are responsible for providing the signed
-    zone that BIND serves. (In the case of rolling keys, you are also
-    responsible for ensuring that the keys are added and removed at the
-    correct times.)</para>
+    <para>In practice, this means creating an unsigned zone file as usual, then
+    using the BIND-provided tools <command>dnssec-keygen</command> to create the
+    keys and <command>dnssec-signzone</command> to sign the zone.  The signed
+    zone is stored in another file and is the one you tell BIND to load.  If you
+    want to update the zone (for example to add a resource record) you update
+    the unsigned zone, re-sign it, and tell <command>named</command> to load the
+    updated signed copy.  The same goes for refreshing signatures or rolling
+    keys - you are responsible for providing the signed zone served by <command>named</command>.
+    (In the case of rolling keys, you are also responsible for ensuring that the
+    keys are added and removed at the correct times.)</para>
 
     <para>Why would you want to sign your zone this way?  Well, you probably
     wouldn't in the normal course of events; but as there may be circumstances
@@ -74,8 +74,8 @@
     <para>The obvious question of course is, why would anyone want to use
     this method when fully-automated ones are available?  At the time of
     writing, the fully-automatic methods handle all scenarios,
-    particularly that of having a single key shared between multiple zones.  It
-    also doesn't handle keys stored in Hardware Security Modules (HSMs).
+    particularly that of having a single key shared between multiple zones.  They
+    also don't handle keys stored in Hardware Security Modules (HSMs).
     HSMs are briefly covered in <xref
     linkend="hardware-security-modules"/></para>
    </listitem>
@@ -86,11 +86,11 @@
    <listitem>
     <para>The next step in the automation of DNSSEC operations came with
     BIND 9.11, which introduced the <command>dnssec-keymgr</command> utility.
-    This is a separate program, which is expected to be run on a regular
+    This is a separate program and is expected to be run on a regular
     basis (probably via <command>cron</command>).  It reads a DNSSEC policy
-    from its configuration file, and reads the timing information from the DNSSEC
-    key files.  With this information it is able to determine when to create
-    new keys and what timing information should be placed in them.
+    from its configuration file and reads timing information from the DNSSEC
+    key files.  With this information it creates new key files with
+    timing information in them consistent with the policy.
     <command>named</command> is run as usual, picking up the timing
     information in the key files to determine when to add and remove keys,
     and when to sign with them.
@@ -122,7 +122,7 @@
  adds to semi-automatic signing. Although
  <xref linkend="easy-start-guide-for-authoritative-servers"/> describes
  fully-automatic signing with dnssec-policy, we will note a few differences
- between it and <command>dnssec-keymgr</command>.  Finally, we will describe
+ between it and <command>dnssec-keymgr</command>.  Finally, we will briefly describe
  manual signing.</para>
 
  <section id="semi-automatic-signing">
@@ -145,7 +145,7 @@
 
   <para>So now let's get down to the details. To convert a traditional
   (insecure) DNS zone to a secure one, we need to create various additional
-  records (DNSKEY, RRSIG, NSEC or NSEC3) and, as with Fully-Automatic signing,
+  records (DNSKEY, RRSIG, NSEC or NSEC3) and, as with fully-automatic signing,
   upload verifiable information (such as DS record) to the parent zone to
   complete the chain of trust.</para>
 
@@ -167,12 +167,10 @@
   <section id="generate-keys">
    <title>Generate Keys</title>
    <para>Everything in DNSSEC centers around keys, and we will begin by
-   generating our own keys. In our example, we are keeping all the keys for
-   <code>example.com</code> in its own directory,
-   <filename>/etc/bind/keys/example.com</filename>.</para>
+   generating our own keys.</para>
 
-  <screen># <userinput>mkdir -p /etc/bind/keys/example.com</userinput>
-# <userinput>cd /etc/bind/keys/example.com</userinput>
+  <screen># <userinput>mkdir -p /etc/bind/keys</userinput>
+# <userinput>cd /etc/bind/keys</userinput>
 # <userinput>dnssec-keygen -a RSASHA256 -b 1024 example.com</userinput>
 Generating key pair...........................+++++ ......................+++++ 
 Kexample.com.+008+34371
@@ -180,7 +178,7 @@ Kexample.com.+008+34371
 Generating key pair........................+++ ..................................+++ 
 Kexample.com.+008+00472</screen>
 
-   <para>This generated four key files in <filename>/etc/bind/keys/example.com</filename>:</para>
+   <para>This generated four key files in <filename>/etc/bind/keys</filename>:</para>
    <itemizedlist>
     <listitem><simpara>Kexample.com.+008+34371.key</simpara></listitem>
     <listitem><simpara>Kexample.com.+008+34371.private</simpara></listitem>
@@ -216,9 +214,12 @@ example.com. IN DNSKEY <userinput>257</userinput> 3 <userinput>8</userinput> AwE
    looking at the actual DNSKEY record, we could tell them apart: 256 is ZSK, and
    257 is KSK.</para>
 
-   <para>As you may have guessed, the name of the file tells us something
-   about the contents.  The file names are of the form
-   <code>K&lt;zone-name&gt;+&lt;algorithm-id&gt;+&lt;keyid&gt;</code>.  The
+   <para>As you may have guessed, the name of the file also tells us something
+   about the contents.  The file names are of the form:</para>
+
+   <screen>K&lt;zone-name&gt;+&lt;algorithm-id&gt;+&lt;keyid&gt;</screen>
+
+   <para>The
    zone name is self-explanatory.  The algorithm ID is a number assigned to the
    algorithm used to construct the key: the number appears in the DNSKEY
    resource record (and is highlighted in the example above).  In this case, 8
@@ -248,7 +249,10 @@ example.com. IN DNSKEY <userinput>257</userinput> 3 <userinput>8</userinput> AwE
 
    <para>All the dates are the same and are the date and time that
    <command>dnssec-keygen</command> created the key.  We can use
-   <command>dnssec-settime</command> to modify the dates.  For example, if we
+   <command>dnssec-settime</command> to modify the dates<footnote><para>
+   We could also modify the dates using an editor.  But that is likely
+   to be more error-prone than using <command>dnssec-settime</command>.</para>
+   </footnote>.  For example, if we
    wanted to publish this key in  the zone on 1 July 2020, use it to sign
    records for a year starting on 15 July 2020, and remove it from the zone at
    the end of July 2021, we could use the following command:</para>
@@ -269,7 +273,7 @@ example.com. IN DNSKEY <userinput>257</userinput> 3 <userinput>8</userinput> AwE
 example.com. IN DNSKEY 256 3 8 AwEAAfel66...LqkA7cvn8=</screen>
 
    <para>Below is a complete list of each of the metadata fields, and how each
-   one affects her signing of your zone:</para>
+   one affects the signing of your zone:</para>
 
    <orderedlist>
     <listitem>
@@ -281,7 +285,7 @@ example.com. IN DNSKEY 256 3 8 AwEAAfel66...LqkA7cvn8=</screen>
     <listitem>
      <simpara><emphasis>Publish</emphasis>: Sets the date on which a key is
      to be published to the zone. After that date, the key will be included
-     in the zone but will not be used to sign it (yet). This allows
+     in the zone but will not be used to sign it. This allows
      validating resolvers to get a copy of the new key in their cache before
      any there are any resource records signed with it. By
      default, if not specified during creation time, this is set to the
@@ -302,7 +306,7 @@ example.com. IN DNSKEY 256 3 8 AwEAAfel66...LqkA7cvn8=</screen>
      used to notify validating resolvers that this key is about to be
      removed or retired from the zone. (This state is not used in normal
      day to day operations.
-     See <ulink target="https://tools.ietf.org/html/rfc5011">RFC 5011</ulink>
+     See <ulink url="https://tools.ietf.org/html/rfc5011">RFC 5011</ulink>
      to understand the circumstances where it may be used.)</simpara>
     </listitem>
     <listitem>
@@ -374,8 +378,10 @@ example.com. IN DNSKEY 256 3 8 AwEAAfel66...LqkA7cvn8=</screen>
 
    <para>The publication date is the date the key is introduced into the zone.  Some time
    later it is activated and is used to sign resource records.  After a period of use BIND
-   stops using it to sign records and at some later time it is removed from the zone.
-   The <command>dnssec-keygen</command> command supports the same set of switches so
+   stops using it to sign records and at some later time it is removed from the zone.</para>
+
+   <para>Finally, we should note that the <command>dnssec-keygen</command> command supports
+   the same set of switches so
    if we had wanted, we could have set the dates when we created the key.</para>
   </section>
 
@@ -398,7 +404,7 @@ example.com. IN DNSKEY 256 3 8 AwEAAfel66...LqkA7cvn8=</screen>
 zone "example.com" IN {
     type master;
     file "db/example.com.db";
-    <userinput>key-directory "keys/example.com";
+    <userinput>key-directory "keys";
     auto-dnssec maintain;
     inline-signing yes;</userinput>
 };</screen>
@@ -477,34 +483,36 @@ server reload successful</screen>
   It also creates additional keys as required.</para>
 
   <para><command>dnssec-keymgr</command> is completely separate from
-  <command>named</command>.  As we will see, the policy states a coverage period
-  - <command>dnssec-keymgr</command> will generate enough key files to handle all
+  <command>named</command>.  As we will see, the policy states a coverage period;
+  <command>dnssec-keymgr</command> will generate enough key files to handle all
   rollovers in that period.  However, it is a good idea to schedule it to run on
   a regular basis; that way there is no chance of forgetting to run it when the
   coverage period ends.</para>
 
-  <para>So, down to the detail.  BIND should be set up in exactly the same way
+  <para>So, down to the detail.</para>
+
+  <para>BIND should be set up in exactly the same way
   as described in <xref linkend="semi-automatic-signing"/>; in other words, with
   <option>auto-dnssec</option> set to <option>maintain</option> and
   <option>inline-signing</option> set to <option>true</option>. Then a policy
-  file must be created. The following is an example file:</para>
+  file must be created. The following is an example of such a file:</para>
 
 <screen># <userinput>cat policy.conf</userinput>
 policy standard {
     coverage 1y;
     algorithm RSASHA256;
-    directory "/var/named/keys";
+    directory "/etc/bind/keys";
     keyttl 2h;
 
     key-size ksk 4096;
     roll-period ksk 1y;
-    pre-publish ksk 5d;
-    post-publish ksk 5d;
+    pre-publish ksk 30d;
+    post-publish ksk 30d;
 
     key-size zsk 2048;
     roll-period zsk 90d;
-    pre-publish zsk 5d;
-    post-publish zsk 5d;
+    pre-publish zsk 30d;
+    post-publish zsk 30d;
 };
 
 zone example.com {
@@ -521,12 +529,12 @@ zone example.net {
 
   <para>In the example above, we define a DNSSEC policy called "standard".  Keys are
   created using the RSASHA256 algorithm, assigned a TTL of two hours and are placed
-  in the directory <filename>/var/named/keys</filename>.  KSKs have a key size of
-  4096 bits, are expected to roll once a year; the key is added to the zone five days
-  before it becomes active, and is retained in the zone for five days after it is
-  rolled.  ZSKs have a key size of 2048 bits, a roll period of 90 days, and like
-  the KSKs, are added to the zone five days before they are used for signing, and
-  retained for five days after <command>named</command> ceases to sign with them.</para>
+  in the directory <filename>/etc/bind/keys</filename>.  KSKs have a key size of
+  4096 bits, are expected to roll once a year; the key is added to the zone 30 days
+  before it becomes active, and is retained in the zone for 30 days after it is
+  rolled.  ZSKs have a key size of 2048 bits, will roll every 90 days and, like
+  the KSKs, are added to the zone 30 days before they are used for signing, and
+  retained for 30 days after <command>named</command> ceases to sign with them.</para>
 
   <para>The policy is applied to two zones, <filename>example.com</filename> and
   <filename>example.net</filename>.  The policy is applied unaltered to the
@@ -544,34 +552,87 @@ zone example.net {
   question on the command line.  We will do the latter:</para>
 
 <screen># <userinput>dnssec-keymgr -c policy.conf example.com example.net</userinput>
-# /usr/local/sbin/dnssec-keygen -q -K /var/named/keys -L 7200 -a RSASHA256 -b 2048 example.net
-# /usr/local/sbin/dnssec-keygen -q -K /var/named/keys -L 7200 -fk -a RSASHA256 -b 4096 example.net
-# /usr/local/sbin/dnssec-settime -K /var/named/keys -I 20200914162024 -D 20200919162024 Kexample.net.+008+28480
-# /usr/local/sbin/dnssec-keygen -q -K /var/named/keys -S Kexample.net.+008+28480 -L 7200 -i 432000
-# /usr/local/sbin/dnssec-settime -K /var/named/keys -I 20201213162024 -D 20201218162024 Kexample.net.+008+17800
-# /usr/local/sbin/dnssec-keygen -q -K /var/named/keys -S Kexample.net.+008+17800 -L 7200 -i 432000
-# /usr/local/sbin/dnssec-settime -K /var/named/keys -I 20210313162024 -D 20210318162024 Kexample.net.+008+47269
-# /usr/local/sbin/dnssec-keygen -q -K /var/named/keys -S Kexample.net.+008+47269 -L 7200 -i 432000
-# /usr/local/sbin/dnssec-settime -K /var/named/keys -I 20210611162024 -D 20210616162024 Kexample.net.+008+05923
-# /usr/local/sbin/dnssec-keygen -q -K /var/named/keys -S Kexample.net.+008+05923 -L 7200 -i 432000
-# /usr/local/sbin/dnssec-settime -K /var/named/keys -P 20200616162024 -A 20200616162024 Kexample.net.+008+14647
-# /usr/local/sbin/dnssec-keygen -q -K /var/named/keys -L 7200 -a RSASHA256 -b 2048 example.com
-# /usr/local/sbin/dnssec-keygen -q -K /var/named/keys -L 7200 -fk -a RSASHA256 -b 4096 example.com
-# /usr/local/sbin/dnssec-settime -K /var/named/keys -P 20200616162024 -A 20200616162024 -I 20200914162024 -D 20200919162024 Kexample.com.+008+35121
-# /usr/local/sbin/dnssec-keygen -q -K /var/named/keys -S Kexample.com.+008+35121 -L 7200 -i 432000
-# /usr/local/sbin/dnssec-settime -K /var/named/keys -I 20201213162024 -D 20201218162024 Kexample.com.+008+42348
-# /usr/local/sbin/dnssec-keygen -q -K /var/named/keys -S Kexample.com.+008+42348 -L 7200 -i 432000
-# /usr/local/sbin/dnssec-settime -K /var/named/keys -I 20210313162024 -D 20210318162024 Kexample.com.+008+11233
-# /usr/local/sbin/dnssec-keygen -q -K /var/named/keys -S Kexample.com.+008+11233 -L 7200 -i 432000
-# /usr/local/sbin/dnssec-settime -K /var/named/keys -I 20210611162024 -D 20210616162024 Kexample.com.+008+51313
-# /usr/local/sbin/dnssec-keygen -q -K /var/named/keys -S Kexample.com.+008+51313 -L 7200 -i 432000
-# /usr/local/sbin/dnssec-settime -K /var/named/keys -P 20200616162024 -A 20200616162024 Kexample.com.+008+53386</screen>
+# /usr/local/sbin/dnssec-keygen -q -K /etc/bind/keys -L 7200 -a RSASHA256 -b 2048 example.net
+# /usr/local/sbin/dnssec-keygen -q -K /etc/bind/keys -L 7200 -fk -a RSASHA256 -b 4096 example.net
+# /usr/local/sbin/dnssec-settime -K /etc/bind/keys -I 20200915110318 -D 20201015110318 Kexample.net.+008+31339
+# /usr/local/sbin/dnssec-keygen -q -K /etc/bind/keys -S Kexample.net.+008+31339 -L 7200 -i 2592000
+# /usr/local/sbin/dnssec-settime -K /etc/bind/keys -I 20201214110318 -D 20210113110318 Kexample.net.+008+14526
+# /usr/local/sbin/dnssec-keygen -q -K /etc/bind/keys -S Kexample.net.+008+14526 -L 7200 -i 2592000
+# /usr/local/sbin/dnssec-settime -K /etc/bind/keys -I 20210314110318 -D 20210413110318 Kexample.net.+008+46069
+# /usr/local/sbin/dnssec-keygen -q -K /etc/bind/keys -S Kexample.net.+008+46069 -L 7200 -i 2592000
+# /usr/local/sbin/dnssec-settime -K /etc/bind/keys -I 20210612110318 -D 20210712110318 Kexample.net.+008+13018
+# /usr/local/sbin/dnssec-keygen -q -K /etc/bind/keys -S Kexample.net.+008+13018 -L 7200 -i 2592000
+# /usr/local/sbin/dnssec-settime -K /etc/bind/keys -I 20210617110318 -D 20210717110318 Kexample.net.+008+55237
+# /usr/local/sbin/dnssec-keygen -q -K /etc/bind/keys -S Kexample.net.+008+55237 -L 7200 -i 2592000
+# /usr/local/sbin/dnssec-keygen -q -K /etc/bind/keys -L 7200 -a RSASHA256 -b 2048 example.com
+# /usr/local/sbin/dnssec-keygen -q -K /etc/bind/keys -L 7200 -fk -a RSASHA256 -b 4096 example.com
+# /usr/local/sbin/dnssec-settime -K /etc/bind/keys -P 20200617110318 -A 20200617110318 -I 20200915110318 -D 20201015110318 Kexample.com.+008+31168
+# /usr/local/sbin/dnssec-keygen -q -K /etc/bind/keys -S Kexample.com.+008+31168 -L 7200 -i 2592000
+# /usr/local/sbin/dnssec-settime -K /etc/bind/keys -I 20201214110318 -D 20210113110318 Kexample.com.+008+24199
+# /usr/local/sbin/dnssec-keygen -q -K /etc/bind/keys -S Kexample.com.+008+24199 -L 7200 -i 2592000
+# /usr/local/sbin/dnssec-settime -K /etc/bind/keys -I 20210314110318 -D 20210413110318 Kexample.com.+008+08728
+# /usr/local/sbin/dnssec-keygen -q -K /etc/bind/keys -S Kexample.com.+008+08728 -L 7200 -i 2592000
+# /usr/local/sbin/dnssec-settime -K /etc/bind/keys -I 20210612110318 -D 20210712110318 Kexample.com.+008+12874
+# /usr/local/sbin/dnssec-keygen -q -K /etc/bind/keys -S Kexample.com.+008+12874 -L 7200 -i 2592000
+# /usr/local/sbin/dnssec-settime -K /etc/bind/keys -P 20200617110318 -A 20200617110318 Kexample.com.+008+26186</screen>
 
   <para>This creates enough key files to last for the coverage period, set in
   the policy file to be one year.  The script should be run on a regular basis
   (probably via <command>cron</command>) to keep the reserve of key files topped up.
   With the shortest roll period set to 90 days, every 30 days would be more
   than adequate.</para>
+
+  <para>At any time, you can check chat key changes are coming up and whether the keys and timings
+  are correct by using <command>dnssec-coverage</command>.  For example, to check coverage
+  for the next 60 days:</para>
+
+<screen> # <userinput>dnssec-coverage -d 2h -m 1d -l 60d -K /etc/bind/keys</userinput>
+PHASE 1--Loading keys to check for internal timing problems
+PHASE 2--Scanning future key events for coverage failures
+Checking scheduled KSK events for zone example.net, algorithm RSASHA256...
+  Wed Jun 17 11:03:18 UTC 2020:
+    Publish: example.net/RSASHA256/55237 (KSK)
+    Activate: example.net/RSASHA256/55237 (KSK)
+
+Ignoring events after Sun Aug 16 11:47:24 UTC 2020
+
+No errors found
+
+Checking scheduled ZSK events for zone example.net, algorithm RSASHA256...
+  Wed Jun 17 11:03:18 UTC 2020:
+    Publish: example.net/RSASHA256/31339 (ZSK)
+    Activate: example.net/RSASHA256/31339 (ZSK)
+  Sun Aug 16 11:03:18 UTC 2020:
+    Publish: example.net/RSASHA256/14526 (ZSK)
+
+Ignoring events after Sun Aug 16 11:47:24 UTC 2020
+
+No errors found
+
+Checking scheduled KSK events for zone example.com, algorithm RSASHA256...
+  Wed Jun 17 11:03:18 UTC 2020:
+    Publish: example.com/RSASHA256/26186 (KSK)
+    Activate: example.com/RSASHA256/26186 (KSK)
+
+No errors found
+
+Checking scheduled ZSK events for zone example.com, algorithm RSASHA256...
+  Wed Jun 17 11:03:18 UTC 2020:
+    Publish: example.com/RSASHA256/31168 (ZSK)
+    Activate: example.com/RSASHA256/31168 (ZSK)
+  Sun Aug 16 11:03:18 UTC 2020:
+    Publish: example.com/RSASHA256/24199 (ZSK)
+
+Ignoring events after Sun Aug 16 11:47:24 UTC 2020
+
+No errors found</screen>
+
+  <para>The <code>-d 2h</code> and <code>-m 1d</code> on the command line specify the
+  maximum TTL for the DNSKEYs and other resource records in the zone, in this example
+  two hours and one day respectively.
+  <command>dnssec-coverage</command> needs this information when it checks that the
+  zones will remain secure through key rolls.</para>
+
  </section>
 
  <section id="advanced-discussions-automatic-dnssec-policy">
@@ -583,7 +644,8 @@ zone example.net {
   A few points are worth noting though:</para>
   <itemizedlist>
     <listitem>
-     <simpara><code>dnssec-policy</code> allows control over all aspects of the DNSSEC
+     <simpara>The <code>dnssec-policy</code> statement in the
+     <command>named</command> configuration file describes all aspects of the DNSSEC
      policy, including the signing.  With <command>dnssec-keymgr</command>,
      this is split between two configuration files and two programs.</simpara>
     </listitem>
@@ -593,9 +655,9 @@ zone example.net {
      zone's <code>policy</code> statement implicitly does this.</simpara>
     </listitem>
     <listitem>
-     <simpara>Although it is possible to manage some zones served by an instance of
+     <simpara>It is possible to manage some zones served by an instance of
      BIND through <code>dnssec-policy</code> and others through <command>dnssec-keymgr</command>,
-     it is not recommended.  Although everything should be fine, if you modify the
+     but this is not recommended.  Although everything should be fine, if you modify the
      configuration files and inadvertently specify a zone to be managed by both
      systems, BIND will get seriously confused.</simpara>
     </listitem>
