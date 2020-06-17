@@ -18,7 +18,7 @@
 
  <para>Deciding a minimum value is probably an easier task.
  Should something fail (e.g. a hidden master distributing to
- slave servers that actually answer queries), how long will it be
+ secondary servers that actually answer queries), how long will it be
  before the failure is noticed, and how long before it is fixed?  If
  you are a large 24x7 operation with operators always on site, the
  answer might be less  than an hour.  On the other hand in smaller

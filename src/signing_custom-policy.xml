@@ -65,7 +65,7 @@
   <listitem>
    <para>Another set of time-related parameters are those ending in
    <code>-propagation-delay</code>.  These tell BIND how long it takes for a
-   change in zone contents to become available on all slave servers. (This may be
+   change in zone contents to become available on all secondary servers. (This may be
    non-negligible, for example, if a large zone is transferred over a slow
    link.)</para>
   </listitem>

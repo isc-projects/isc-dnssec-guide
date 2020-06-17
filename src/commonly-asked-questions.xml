@@ -141,24 +141,24 @@
 
   <qandaentry>
    <question><para>Is DNSSEC the same thing as TSIG that I have between my
-   master and slave servers?</para></question>
-   <answer><para>No. TSIG is typically used between master and slave name
+   primary and secondary servers?</para></question>
+   <answer><para>No. TSIG is typically used between primary and secondary name
    servers to secure zone transfers, DNSSEC secures DNS lookup by validating
    answers. Even if you enabled DNSSEC, zone transfers are still not validated,
-   and if you wish to secure the communication between your master and slave
+   and if you wish to secure the communication between your primary and secondary
    name servers, you should consider setting up TSIG or similar secure
    channels.</para></answer>
   </qandaentry>
 
   <qandaentry>
-   <question><para>How are keys copied from master to slave
+   <question><para>How are keys copied from primary to secondary
    server(s)?</para></question>
    <answer><para>DNSSEC uses public cryptography, which results in two
    types of keys: public and private. The public keys are part of the zone
    data, stored as DNSKEY record types. Thus the public keys are
-   synchronized from master to slave server(s) as part of the zone
+   synchronized from primary to secondary server(s) as part of the zone
    transfer. The private keys do not, and should not be stored anywhere
-   else but the master server in a secured fashion. See <xref
+   else but the primary server in a secured fashion. See <xref
    linkend="advanced-discussions-key-storage" /> for more information on
    key storage options and considerations.</para></answer>
   </qandaentry>

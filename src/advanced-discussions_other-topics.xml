@@ -51,28 +51,28 @@
 
    <orderedlist>
     <listitem>
-     <simpara><emphasis>You administer the master server, with zone
-     transfers to other slave servers</emphasis>: This is what most
-     examples in this guide describes, you have control over the master
+     <simpara><emphasis>You administer the primary server, with zone
+     transfers to other secondary servers</emphasis>: This is what most
+     examples in this guide describes, you have control over the primary
      server, you you can follow the instruction in <xref
      linkend="easy-start-guide-for-authoritative-servers" /> to generate
      key pairs and modify <command>named.conf</command>. A signed version
      of the zone is either generated on the fly by inline-signing, and
      zone transfers will take care of synchronizing the signed zone data
-     to all slave name servers.</simpara>
+     to all secondary name servers.</simpara>
     </listitem> 
 
     <listitem>
-     <simpara><emphasis>You cannot easily modify the master sever
-     configuration, but still would like all slave servers to get DNSSEC
-     zones</emphasis>: you can setup a "middle box" that all slave name
+     <simpara><emphasis>You cannot easily modify the primary sever
+     configuration, but still would like all secondary servers to get DNSSEC
+     zones</emphasis>: you can setup a "middle box" that all secondary name
      servers transfer data from, and your middle box gets its zone from
-     the master server. You do not need to modify the master name server
+     the primary server. You do not need to modify the primary name server
      configuration at all, on the middle box, set it up to have inline
      signing enabled, whenever your middle box receives zone transfer
-     (unsigned) from the master server, a signed version is generated on
+     (unsigned) from the primary server, a signed version is generated on
      the fly, and this is the version that will be transferred out to the
-     other slave name servers.</simpara>
+     other secondary name servers.</simpara>
     </listitem>
    </orderedlist>
   </para>

@@ -81,7 +81,7 @@
   signed, with DNSSEC-related configurations in bold:</para>
 
   <screen>zone "example.com" IN {
-    type master;
+    type primary;
     file "db/example.com.db";
     <userinput>key-directory "keys/example.com";</userinput>
     <userinput>inline-signing yes;</userinput>
@@ -93,7 +93,7 @@
   this, then use <command>rndc reload</command> to reload the zone:</para>
 
   <screen>zone "example.com" IN {
-    type master;
+    type primary;
     file "db/example.com.db";
     allow-transfer { any; };
 };</screen>

@@ -269,9 +269,9 @@
   rollover.</para>
 
   <para>If you are other methods to sign the zone, you 
-  need to do more work.   As with other key rollovers, when the zone is of type
-  master, an algorithm rollover can be accomplished using dynamic
-  updates or automatic key rollovers. For zones of type slave, only
+  need to do more work.   As with other key rollovers, when the zone is a
+  primary zone, an algorithm rollover can be accomplished using dynamic
+  updates or automatic key rollovers. For secondary zones, only
   automatic key rollovers are possible, but the
   <command>dnssec-settime</command> utility can be used to control
   the timing of such.  </para>
@@ -286,10 +286,10 @@
   automatically sign the zone with the new keys based on their
   timing metadata when the <option>dnssec-loadkeys-interval</option>
   elapses or you issue the <command>rndc loadkeys</command> command.
-  Otherwise for zones of type master, you can use
+  Otherwise for primary zones, you can use
   <command>nsupdate</command> to add the new DNSKEYs to the zone.
-  This will cause named to use them to sign the zone.  For zones
-  of type slave, e.g. on a bump-in-the-wire inline signing server,
+  This will cause named to use them to sign the zone.  For secondary zones,
+  e.g. on a bump-in-the-wire inline signing server,
   <command>nsupdate</command> cannot be used.  </para>
 
   <para> Once the zone has been signed by the new DNSKEYs
@@ -309,7 +309,7 @@
 
   <para> The next step is to remove the DNSKEYs using the old
   algorithm from your zone. Again this can be accomplished using
-  <command>nsupdate</command> to delete the old DNSKEYs (master
+  <command>nsupdate</command> to delete the old DNSKEYs (primary
   zones only) or by automatic key rollover when
   <option>auto-dnssec</option> is set to <option>maintain</option>.
   You can cause the automatic key rollover to take place immediately

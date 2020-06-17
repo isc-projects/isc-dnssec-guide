@@ -214,7 +214,7 @@ example.com.		600 IN RRSIG SOA 13 2 600 (
  <!-- === So... What Now? === -->
  <section id="signing-easy-start-so-what-now">
   <title>So... What Now?</title>
-  <para>Congratulations, your zone is signed, your slave servers have received
+  <para>Congratulations, your zone is signed, your secondary servers have received
   the new zone data, and the parent zone has accepted your
   upload and published your DS record. Your zone is now officially DNSSEC-enabled.
   What happens next? Well, that is basically it - BIND takes care of everything.
@@ -227,7 +227,7 @@ example.com.		600 IN RRSIG SOA 13 2 600 (
 
   <para>Curious as to what all these commands did to your zone file? Read on to
   <xref linkend="your-zone-before-and-after-dnssec"/> and find out. If you are
-  interested in how you can roll this out to your existing master and slave
+  interested in how you can roll this out to your existing primary and secondary
   name servers, check out <xref linkend="recipes-inline-signing" /> in <xref
   linkend="dnssec-recipes" />.</para>
 

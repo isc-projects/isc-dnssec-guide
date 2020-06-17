@@ -2,22 +2,21 @@
  <title>Inline Signing Recipes</title>
 
  <para>There are two recipes here, the first shows an example of using inline
- signing on the master server, which is what we have covered in this guide thus
+ signing on the primary server, which is what we have covered in this guide thus
  far; the second example shows how to setup a "bump in the wire" between the
- hidden master and the slave servers to seamlessly sign the zone on the
+ hidden primary and the secondary servers to seamlessly sign the zone on the
  fly.</para>
 
- <section id="recipes-inline-signing-master">
+ <section id="recipes-inline-signing-primary">
   <title>Master Server Inline Signing Recipe</title>
    <para>In this recipe, our servers are illustrated as shown in <xref
-   linkend="inline-signing-1" />: we have a master server 192.168.1.1 and three
-   slave servers (192.168.1.2, 192.168.1.3, and 192.168.1.4) that receive zone
-   transfers. In order to get the zone signed, we need to reconfigure the master
+   linkend="inline-signing-1" />: we have a primary server 192.168.1.1 and three
+   secondary servers (192.168.1.2, 192.168.1.3, and 192.168.1.4) that receive zone
+   transfers. In order to get the zone signed, we need to reconfigure the primary
    server,  Once reconfigured, a
    signed version of the zone is generated on the fly by inline-signing, and
    zone transfers will take care of synchronizing the signed zone data to all
-   slave name servers, without configuration or software changes on the slave
-   servers.</para>
+   secondary name servers, without configuration or software changes on them.</para>
  
    <figure id="inline-signing-1">
     <title>Inline Signing Recipe #1</title>
@@ -32,10 +31,10 @@
    <xref linkend="easy-start-guide-for-authoritative-servers"/>, we just need to
    add a <code>dnssec-policy</code> statement to the relevant zone clause.  This
    is what the <filename>named.conf</filename> looks like on the
-   master server, 192.168.1.1:</para>
+   primary server, 192.168.1.1:</para>
 
    <screen>zone "example.com" IN {
-    type master;
+    type primary;
     file "db/example.com.db";
     key-directory "keys/example.com";
     dnssec-policy default;
@@ -48,16 +47,16 @@
    file and select it in the zone statement (as described in
    <xref linkend="signing-custom-policy"/>).</para>
 
-   <para>On the slave servers, <filename>named.conf</filename> does not need to
+   <para>On the secondary servers, <filename>named.conf</filename> does not need to
    be updated, and it looks like this:</para>
 
    <screen>zone "example.com" IN {
-    type slave;
+    type secondary;
     file "db/example.com.db";
     masters { 192.168.1.1; };
 };</screen>
 
-   <para>In fact, the slave servers do not even need to be running BIND, it could be
+   <para>In fact, the secondary servers do not even need to be running BIND, it could be
    running any other DNS product that has DNSSEC support.</para>
  </section>
 
@@ -67,14 +66,14 @@
   <title>"Bump in the Wire" Inline Signing Recipe</title>
   
   <para>In this recipe, we are taking advantage of the power of inline signing
-  by placing an additional name server 192.168.1.5 between the hidden master
-  (192.168.1.1) and the DNS slaves (192.168.1.2, 192.168.1.3, and 192.168.1.4).
+  by placing an additional name server 192.168.1.5 between the hidden primary
+  (192.168.1.1) and the DNS secondaries (192.168.1.2, 192.168.1.3, and 192.168.1.4).
   The additional name server 192.168.1.5 acts as a "bump in the wire", taking
-  unsigned zone from the hidden master on one end, and sending out signed data
-  on the other end to the slave name servers. The steps described in this
+  unsigned zone from the hidden primary on one end, and sending out signed data
+  on the other end to the secondary name servers. The steps described in this
   recipe may be used as part of the DNSSEC deployment strategy, since it
-  requires minimal changes made to the existing hidden DNS master and DNS
-  slaves. </para>
+  requires minimal changes made to the existing hidden DNS primary and DNS
+  secondaries. </para>
 
 
   <figure id="inline-signing-2">
@@ -87,11 +86,11 @@
   </figure>
 
   <para>It is important to remember that 192.168.1.1 in this case is a hidden
-  master not exposed to the world, it must not be listed in the NS RRset.
+  primary not exposed to the world, it must not be listed in the NS RRset.
   Otherwise the world will get conflicting answers, unsigned answers from the
-  hidden master, and signed answers from the other name servers.</para>
+  hidden primary, and signed answers from the other name servers.</para>
 
-  <para>The only configuration change needed on the hidden master 192.168.1.1 is to
+  <para>The only configuration change needed on the hidden primary 192.168.1.1 is to
   make sure it allows our middle box to perform a zone transfer:</para>
 
   <screen>zone "example.com" IN {
@@ -103,14 +102,14 @@
   <para>On the middle box 192.168.1.5, all the tasks described in <xref
   linkend="easy-start-guide-for-authoritative-servers" /> still need to be
   performed, such as generating key pairs and uploading information to parent
-  zone. This server is configured as slave to the hidden master 192.168.1.1,
+  zone. This server is configured as secondary to the hidden primary 192.168.1.1,
   receiving the unsigned data, and then using keys accessible to this middle
   box, sign data on the fly, and send out the signed data via zone transfer to
-  the other three DNS slaves. Its <filename>named.conf</filename> looks like
+  the other three DNS secondaries. Its <filename>named.conf</filename> looks like
   this:</para>
 
   <screen>zone example.com {
-    type slave;
+    type secondary;
     masters { 192.168.1.1; };
     file "db/example.com.db";
     key-directory "keys/example.com";
@@ -122,13 +121,13 @@
   <xref linkend="signing-custom-policy"/> for instructions as to how to define
   and use a custom policy.)</para>
 
-  <para>Finally, on the three slave servers, configuration should be updated to
+  <para>Finally, on the three secondary servers, configuration should be updated to
   receive zone transfer from 192.168.1.5 (middle box) instead of 192.168.1.1
-  (hidden master). If using BIND, the <filename>named.conf</filename> looks
+  (hidden primary). If using BIND, the <filename>named.conf</filename> looks
   like this:</para>
 
   <screen>zone "example.com" IN {
-    type slave;
+    type secondary;
     file "db/example.com.db";
     masters { 192.168.1.5; };   # this was 192.168.1.1 before!
 };</screen>

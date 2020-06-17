@@ -402,7 +402,7 @@ example.com. IN DNSKEY 256 3 8 AwEAAfel66...LqkA7cvn8=</screen>
 };
 
 zone "example.com" IN {
-    type master;
+    type primary;
     file "example.com.db";
     <userinput>auto-dnssec maintain;
     inline-signing yes;</userinput>
@@ -422,7 +422,7 @@ server reload successful</screen>
    with this option alone, BIND is only able to sign the zone if it is
    configured as a dynamic zone.  Unfortunately, this is incompatible with some DNS
    configurations, such as zones which are transferred from a provisioning
-   database, are served from a master server not running BIND 9, or which
+   database, are served from a primary server not running BIND 9, or which
    otherwise need to be static.  <code>inline-signing</code> solves this: with
    this option set, BIND can load or transfer an unsigned zone, and create a signed
    version of it which answers all queries and transfer requests, without
@@ -710,7 +710,7 @@ Runtime in seconds:                      0.055</screen>
   this:</para>
 
   <screen>zone "example.com" IN {
-    type master;
+    type primary;
     file "<userinput>db/example.com.signed.db</userinput>";
 };</screen>
 
