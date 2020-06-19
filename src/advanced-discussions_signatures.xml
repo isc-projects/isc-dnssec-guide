@@ -17,7 +17,7 @@
  but periods of between a few days to a month seem to be common.</para>
 
  <para>Deciding a minimum value is probably an easier task.
- Should something fail (e.g. a hidden master distributing to
+ Should something fail (e.g. a hidden primary distributing to
  secondary servers that actually answer queries), how long will it be
  before the failure is noticed, and how long before it is fixed?  If
  you are a large 24x7 operation with operators always on site, the
