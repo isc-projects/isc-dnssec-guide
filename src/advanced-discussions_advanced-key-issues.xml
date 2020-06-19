@@ -294,7 +294,7 @@ example.com.		60 IN DNSKEY <userinput>257</userinput> 3 13 (
    <para>BIND supports PKCS #11 (Public Key Cryptography Standard #11) for
    communication with HSMs and other cryptographic support devices. For more
    information on how to configure BIND to work with HSMs, please refer to the
-   <ulink url="http://www.isc.org/downloads/bind/doc/">BIND 9 Administrator
+   <ulink url="https://www.isc.org/downloads/bind/doc/">BIND 9 Administrator
    Reference Manual</ulink>.</para>
  
   </section>

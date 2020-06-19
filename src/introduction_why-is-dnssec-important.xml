@@ -32,7 +32,7 @@
     compliant.  ICANN also requires that all new top-level domains support
     DNSSEC.</simpara>
 
-<!-- CITE: http://www.internetsociety.org/deploy360/blog/2013/09/icanns-2013-raa-requires-domain-name-registrars-to-support-dnssec-ipv6A -->
+<!-- CITE: https://www.internetsociety.org/deploy360/blog/2013/09/icanns-2013-raa-requires-domain-name-registrars-to-support-dnssec-ipv6A -->
 <!--
     Removed from V1.3 of this guide is is mention of use of DNSSEC as a 
     requirement for PCI DSS (payment by credit card).  This had been

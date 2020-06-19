@@ -18,7 +18,7 @@
    <!-- #3 -->
 <!--
    <listitem>
-    <simpara>Sec Spider: <ulink url="http://secspider.cs.ucla.edu/"
+    <simpara>Sec Spider: <ulink url="https://secspider.cs.ucla.edu/"
     /></simpara>
    </listitem>
 -->
@@ -49,7 +49,7 @@
  <!-- ====== DNSViz ====== -->
  <section id="external-tools-dnsviz">
   <title>DNSViz</title>
-  <para>URL: <ulink url="http://dnsviz.net/" /></para>
+  <para>URL: <ulink url="https://dnsviz.net/" /></para>
   <para>DNSViz provides a visual analysis of the DNSSEC authentication chain
   for a domain name and its resolution path in the DNS namespace.</para>
 
@@ -67,7 +67,7 @@
  <!--
  <section id="external-tools-secspider">
   <title>Sec Spider</title>
-  <para>URL: <ulink url="http://secspider.cs.ucla.edu/" /></para>
+  <para>URL: <ulink url="https://secspider.cs.ucla.edu/" /></para>
   <para>Similar to DNSViz, with the added bonus of letting users move elements
   on the diagram.</para>
 
