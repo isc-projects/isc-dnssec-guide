@@ -10,7 +10,7 @@
  <section id="enabling-validation">
  <title>Enabling DNSSEC Validation</title>
 
-  <para>So how to we turn on DNSSEC validation?  Well, firstly you may not
+  <para>So how do we turn on DNSSEC validation?  Well, firstly you may not
   need to reconfigure your name server at all, since recent
   versions of BIND packages and distributions have been shipped with DNSSEC
   validation enabled by default. Before making any configuration changes, check
