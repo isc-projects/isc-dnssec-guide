@@ -523,7 +523,7 @@ zone example.net {
     keyttl 300;
 };</screen>
 
-  <para>As can be seen, the syntax is identical to that of the <command>named</command>
+  <para>As can be seen, the syntax is similar to that of the <command>named</command>
   configuration file.</para>
 
   <para>In the example above, we define a DNSSEC policy called "standard".  Keys are

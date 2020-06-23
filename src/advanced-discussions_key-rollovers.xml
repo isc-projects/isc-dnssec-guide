@@ -293,7 +293,7 @@
   <command>nsupdate</command> cannot be used.  </para>
 
   <para> Once the zone has been signed by the new DNSKEYs
-  (and you have waiting for at least one TTL), you must
+  (and you have waited for at least one TTL), you must
   inform the parent zone and any trust anchor repositories of the
   new KSKs, e.g. you might place DS records in the parent zone
   through your DNS registrar's website.  </para>

@@ -64,7 +64,7 @@
     the world as part of the zone data, and they are stored in the DNSKEY
     record type.</para>
 
-    <para> In general, keys used in DNSSEC are used for one or both of the following
+    <para> In general, keys in DNSSEC are used for one or both of the following
     roles: as a Zone
     Signing Key (ZSK), used to protect all zone data; or as a Key Signing Key
     (KSK), used to protect the zone's keys.  A key that is used for both roles

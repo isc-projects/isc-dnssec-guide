@@ -183,7 +183,7 @@
 
   <para>Explicit management of keys was common in the early days of DNSSEC, when
   neither the root zone nor many top-level domains were signed.  Since then,
-  <ulink url="http://stats.research.icann.org/dns/tld_report/">over 90%</ulink>
+  <ulink url="https://stats.research.icann.org/dns/tld_report/">over 90%</ulink>
   of the top-level domains have been signed, including all the largest ones.
   Unless you have a particular need to manage keys yourself, it is best to use
   the BIND defaults and let it manage the root key.</para>

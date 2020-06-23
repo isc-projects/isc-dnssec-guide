@@ -55,7 +55,7 @@
     it's estimated as of mid-2020, that roughly 30% of the global Internet DNS
     traffic is validating
     <footnote><para>Based on APNIC statistics at
-    <ulink url="http://stats.labs.apnic.net/dnssec/XA" />
+    <ulink url="https://stats.labs.apnic.net/dnssec/XA" />
     </para></footnote>
     , that doesn't mean that many of the DNS zones are
     actually signed. What this means is, if you signed your company's zone

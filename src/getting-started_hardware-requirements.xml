@@ -39,8 +39,8 @@
   will be doing what is described in <xref
   linkend="how-does-dnssec-change-dns-lookup" />. However, if your users only
   care about resources in the <code>.com</code> domain which, as of mid-2020,
-  is under 1.5% signed<footnote><para><ulink url="http://rick.eng.br/dnssecstat">
-  http://rick.eng.br/dnssecstat</ulink></para></footnote>, then your recursive name server is
+  is under 1.5% signed<footnote><para><ulink url="https://rick.eng.br/dnssecstat">
+  https://rick.eng.br/dnssecstat</ulink></para></footnote>, then your recursive name server is
   unlikely to experience significant load increase after enabling DNSSEC
   validation.</para>
  </section>
