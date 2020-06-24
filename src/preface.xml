@@ -76,11 +76,13 @@
   <citetitle>RFC 7583</citetitle></ulink>.
   </para>
 
+<!-- TLSA
   <para>The recipe for TLSA self-signed certificate is based on the work of <ulink
   url="https://mailarchive.ietf.org/arch/msg/dane/XA8r2tIuCST6nt_h6dA_Xpu7oN0/4/">
   <citetitle> "A Step-by-Step guide for implementing DANE with a Proof of
   Concept" by Sandoche Balakrichenan, Stephane Bortzmeyer, and Mohsen Souissi
   (April 15, 2013) </citetitle> </ulink>.</para>
+-->
 
   <para>Icons made by <ulink url="https://www.freepik.com/">
   <citetitle>Freepik</citetitle> </ulink> and <ulink
