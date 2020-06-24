@@ -90,7 +90,10 @@ susan.example.com.  300	IN	NSEC	example.com.        A RRSIG NSEC</screen>
   nameless, gullible intern will keep divulging information about our
   employees. Imagine if the sender first asked: "Is Bob there?" and received
   back the names Alice and Edward. Our sender can then email again: "Is
-  Edward A. there?", and will get back Edward and Susan. Repeat the process
+  Edwarda. there?", and will get back Edward and Susan.
+  (No, "Edwarda" is not a real name.  However, it is the first name alphabetically
+  after "Edward" and that is enough to get the intern reply with a message
+  telling us the next valid name after Edward.) Repeat the process
   enough times and the person sending the emails will eventually learn every name in our company
   phone directory. For many of you, this may not be a problem, since the very
   idea of DNS is similar to a public phone book: if you don't want a name to be
