@@ -1,0 +1,24 @@
+.. _who-should-not-read:
+
+Who May Not Want to Read this Guide?
+====================================
+
+If you are already operating a DNSSEC-signed zone, you may not learn
+much from the first half of the document, and you may want to start with
+`??? <#dnssec-advanced-discussions>`__. If you want to learn about
+details of the protocol extension, such as data fields and flags, or the
+new record types, this document can help you get started but it won't
+include all the technical details. If you are experienced in DNSSEC, you
+may find some of the concepts in this document to be overly simplified
+for your taste, and some details may be purposely omitted at times for
+illustration. If you administer a large or complex BIND environment,
+this guide may not provide enough information for you, as it is intended
+to provide the most basic, generic working examples. If you are a TLD
+operator, or administer zones under signed TLDs, this guide can help you
+get started, but does not provide enough details to serve all of your
+needs. If your DNS environment uses DNS products other than (or in
+addition to) BIND, this document may provide some background or
+overlapping information, but you should check each product's vendor
+documentation for specifics. Finally, deploying DNSSEC on internal or
+private networks is not covered in this document, with the exception of
+a brief discussion in `??? <#dnssec-on-private-networks>`__.

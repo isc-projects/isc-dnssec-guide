@@ -1,0 +1,4 @@
+.. _dnssec-validation:
+
+Validation
+==========

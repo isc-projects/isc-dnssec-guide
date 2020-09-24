@@ -1,0 +1,68 @@
+Disadvantages of DNSSEC
+=======================
+
+DNSSEC, like many things in this world, is not without its own problems.
+Below are a few challenges and disadvantages that DNSSEC faces.
+
+1. *Increased, well, everything*: With DNSSEC, signed zones are larger,
+   thus taking up more disk space; for DNSSEC-aware servers, the
+   additional cryptographic computation usually results in increased
+   system load; and the network packets are bigger, possibly putting
+   more strains on the network infrastructure.
+
+2. *Different security considerations*: DNSSEC addresses many security
+   concerns, most notably cache poisoning. But at the same time, it may
+   introduce a set of different security considerations, such as
+   amplification attack and zone enumeration through NSEC. These new
+   concerns are still being identified and addressed by the Internet
+   community.
+
+3. *More complexity*: If you have read this far, you probably already
+   concluded this yourself. With additional resource records, keys,
+   signatures, rotations, DNSSEC adds a lot more moving pieces on top of
+   the existing DNS machine. The job of the DNS administrator changes,
+   as DNS becomes the new secure repository of everything from spam
+   avoidance to encryption keys, and the amount of work involved to
+   troubleshoot a DNS-related issue becomes more challenging.
+
+4. *Increased fragility*: The increased complexity means more
+   opportunities for things to go wrong. In the absence of DNSSEC, DNS
+   was essentially "add something to the zone and forget". With DNSSEC,
+   each new component - re-signing, key rollover, interaction with
+   parent zone, key management - adds more scope for error. It is
+   entirely possible that the failure to validate a name is down to
+   errors on the part of one or more zone operators rather than the
+   result of a deliberate attack on the DNS.
+
+5. *New maintenance tasks*: Even if your new secure DNS infrastructure
+   runs without any hiccups or security breaches, it still requires
+   regular attention, from re-signing to key rollovers. While most of
+   these can be automated, some of the tasks, such as KSK rollover,
+   remain manual for the time being.
+
+6. *Not enough people are using it today*: while it's estimated as of
+   mid-2020, that roughly 30% of the global Internet DNS traffic is
+   validating  [1]_ , that doesn't mean that many of the DNS zones are
+   actually signed. What this means is, if you signed your company's
+   zone today, only less than 30% of the Internet users are taking
+   advantage of this extra security. It gets worse: with less than 1.5%
+   of the .com domains signed, if you enabled DNSSEC validation today,
+   it's not likely to buy you or your users a whole lot more protection
+   until these popular domains names decide to sign their zones.
+
+The last point may have more impact than you realize. Consider this:
+HTTP and HTTPS traffic make up majority of the web. While you may have
+secured your DNS infrastructure through DNSSEC, if your web hosting is
+outsourced to a third party that does not yet support DNSSEC in their
+own domain, or if your web page loads contents and components from
+insecure domains, the end users may experience validation problems when
+trying to access your web page. For example, although I may have signed
+the zone ``isc.org``, but my web address ``www.isc.org`` is actually a
+CNAME to ``foo.random-cloud-provider.com``. As long as
+``random-cloud-provider.com`` remains an insecure DNS zone, users cannot
+fully validate everything when they visit my web page and could be
+redirected elsewhere by a cache poisoning attack.
+
+.. [1]
+   Based on APNIC statistics at
+   ` <https://stats.labs.apnic.net/dnssec/XA>`__
