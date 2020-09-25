@@ -13,6 +13,8 @@ Welcome to ISC's DNSSEC Guide documentation!
    preface
    introduction
    getting-started
+   validation
+   signing
 
 
 
