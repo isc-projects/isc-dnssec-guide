@@ -196,6 +196,8 @@ network is ready for DNSSEC:
 Operational Requirements
 ------------------------
 
+.._parent_zone:
+
 Parent Zone
 ~~~~~~~~~~~
 
@@ -205,6 +207,8 @@ the same entity as your registrar. As you will see later in
 :ref:`working_with_parent_zone`, a crucial step in DNSSEC deployment
 is establishing the parent-child trust relationship. If your parent zone
 does not yet support DNSSEC, contact that administrator to voice your concern.
+
+.. _security_requirements:
 
 Security Requirements
 ~~~~~~~~~~~~~~~~~~~~~
