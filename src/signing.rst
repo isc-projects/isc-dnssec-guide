@@ -1014,38 +1014,27 @@ record) to the parent zone to complete the chain of trust.
 
 .. note::
 
-   For the rest of this chapter we assume all configuration files, key
-   files, and zone files are stored in /etc/bind.
-   Most of the time, our examples show various commands run
-   as the root user. This is arguably not the best setup, but we don't
-   want to distract from what's important here: learning how to sign
-   a zone. There are many best practices for deploying a more secure
-   BIND installation, with techniques such as jailed process and
-   restricted user privileges, but those are not within the scope
-   of this document. We trust you, a responsible DNS
-   administrator, to take the necessary precautions to secure your
-   system.
-   
-   In this chapter, we assume all configuration files, key files, and
-   zone files are stored in `/etc/bind`, and most examples show
-   commands run as the root user. This may not be ideal, but the point is
-   not to distract from what is important here: learning how to sign
+   Again, we assume all configuration files, key
+   files, and zone files are stored in `/etc/bind`, and most examples
+   show commands run
+   as the root user. This may not be ideal, but the point is not
+   to distract from what is important here: learning how to sign
    a zone. There are many best practices for deploying a more secure
    BIND installation, with techniques such as jailed process and
    restricted user privileges, but those are not covered
    in this document. We trust you, a responsible DNS
    administrator, to take the necessary precautions to secure your
    system.
-
-For our examples below, we will be working with the assumption that
-there is an existing insecure zone ``example.com`` that we will be
-converting to a secure version. The secure version will use both a KSK
-and a ZSK.
+   
+   For our examples below, we work with the assumption that
+   there is an existing insecure zone ``example.com`` that we are
+   converting to a secure version. The secure version uses both a KSK
+   and a ZSK.
 
 Generate Keys
-~~~~~~~~~~~~~
+^^^^^^^^^^^^^
 
-Everything in DNSSEC centers around keys, and we will begin by
+Everything in DNSSEC centers around keys, so we begin by
 generating our own keys.
 
 ::
@@ -1058,7 +1047,7 @@ generating our own keys.
    Generating key pair........................+++ ..................................+++ 
    Kexample.com.+008+00472
 
-This generated four key files in ``/etc/bind/keys``:
+This command generates four key files in ``/etc/bind/keys``:
 
 -  Kexample.com.+008+34371.key
 
@@ -1068,14 +1057,14 @@ This generated four key files in ``/etc/bind/keys``:
 
 -  Kexample.com.+008+00472.private
 
-The two files ending in .key are your public keys. These contain the
-DNSKEY resource records that will appear in the zone. The two files
-ending in .private are your private keys, and contain the information
+The two files ending in .key are the public keys. These contain the
+DNSKEY resource records that appear in the zone. The two files
+ending in .private are the private keys, and contain the information
 that ``named`` actually uses to sign the zone.
 
 Of the two pairs, one is the zone-signing key (ZSK), and one is the
-key-signing Key (KSK). We can tell which is which by looking at the file
-contents (actual keys shortened for display):
+key-signing key (KSK). We can tell which is which by looking at the file
+contents (the actual keys are shortened here for ease of display):
 
 ::
 
@@ -1092,48 +1081,46 @@ contents (actual keys shortened for display):
    ; Activate: 20200616104254 (Tue Jun 16 11:42:54 2020)
    example.com. IN DNSKEY 257 3 8 AwEAAbCR6U...l8xPjokVU=
 
-(The keys themselves have been abbreviated for clarity.)
-
-The first line of each file tell us what type of key it is. Also, by
-looking at the actual DNSKEY record, we could tell them apart: 256 is
+The first line of each file tells us what type of key it is. Also, by
+looking at the actual DNSKEY record, we can tell them apart: 256 is
 ZSK, and 257 is KSK.
 
-As you may have guessed, the name of the file also tells us something
+The name of the file also tells us something
 about the contents. The file names are of the form:
 
 ::
 
    K<zone-name>+<algorithm-id>+<keyid>
 
-The zone name is self-explanatory. The algorithm ID is a number assigned
+The "zone name" is self-explanatory. The "algorithm ID" is a number assigned
 to the algorithm used to construct the key: the number appears in the
 DNSKEY resource record (and is highlighted in the example above). In
-this case, 8 means the algorithm RSASHA256. Finally, the keyid is
+our example, 8 means the algorithm RSASHA256. Finally, the "keyid" is
 essentially a hash of the key itself.
 
 Make sure these files are readable by ``named`` and make sure that the
-.private file isn't readable by anyone else.
+.private file is not readable by anyone else.
 
-Refer to `??? <#system-entropy>`__ for information on how you might
+Refer to :ref:`system_entropy` for information on how to
 speed up the key generation process if your random number generator has
 insufficient entropy.
 
 Setting Key Timing Information
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 You may remember that in the above description of this method, we said
 that time information related to rolling keys is stored in the key
 files. This is placed there by ``dnssec-keygen`` when the file is
 created, and it can be modified using ``dnssec-settime``. By default,
 only a limited amount of timing information is included in the file, as
-is illustrated in the examples in the previous section.
+illustrated in the examples in the previous section.
 
-All the dates are the same and are the date and time that
+All the dates are the same, and are the date and time that
 ``dnssec-keygen`` created the key. We can use ``dnssec-settime`` to
-modify the dates [1]_. For example, if we wanted to publish this key in
+modify the dates [1]_. For example, to publish this key in
 the zone on 1 July 2020, use it to sign records for a year starting on
 15 July 2020, and remove it from the zone at the end of July 2021, we
-could use the following command:
+can use the following command:
 
 ::
 
@@ -1153,42 +1140,43 @@ which would set the contents of the key file to:
    ; Delete: 20210731000000 (Sat Jul 31 01:00:00 2021)
    example.com. IN DNSKEY 256 3 8 AwEAAfel66...LqkA7cvn8=
 
+(The actual key is truncated here for to improve readability.)
+
 Below is a complete list of each of the metadata fields, and how each
 one affects the signing of your zone:
 
-1. *Created*: A record of the date on which the key was created. It is
-   not used in calculations, it is just present for documentation
+1. *Created*: This records the date on which the key was created. It is
+   not used in calculations; it is useful simply for documentation
    purposes.
 
-2. *Publish*: Sets the date on which a key is to be published to the
-   zone. After that date, the key will be included in the zone but will
-   not be used to sign it. This allows validating resolvers to get a
+2. *Publish*: This sets the date on which a key is to be published to the
+   zone. After that date, the key is included in the zone but is
+   not used to sign it. This allows validating resolvers to get a
    copy of the new key in their cache before any there are any resource
-   records signed with it. By default, if not specified during creation
-   time, this is set to the current time, meaning the key will be
+   records signed with it. By default, if not specified at creation
+   time, this is set to the current time, meaning the key is
    published as soon as ``named`` picks it up.
 
-3. *Activate*: Sets the date on which the key is to be activated. After
-   that date, resource records will be signed with the key. By default,
+3. *Activate*: This sets the date on which the key is to be activated. After
+   that date, resource records are signed with the key. By default,
    if not specified during creation time, this is set to the current
-   time, meaning the key will be used to sign data as soon as ``named``
+   time, meaning the key is used to sign data as soon as ``named``
    picks it up.
 
-4. *Revoke:* Sets the date on which the key is to be revoked. After that
-   date, the key will be flagged as revoked. It will be included in the
-   zone and will be used to sign it. This is used to notify validating
+4. *Revoke:* This sets the date on which the key is to be revoked. After that
+   date, the key is flagged as revoked. It is still included in the
+   zone and used to sign it. This is used to notify validating
    resolvers that this key is about to be removed or retired from the
-   zone. (This state is not used in normal day to day operations. See
-   `RFC 5011 <https://tools.ietf.org/html/rfc5011>`__ to understand the
-   circumstances where it may be used.)
+   zone. (This state is not used in normal day-to-day operations. See
+   :rfc:`5011` to understand the circumstances where it may be used.)
 
-5. *Inactive*: Sets the date on which the key is to become inactive.
-   After that date, the key will still be included in the zone, but it
-   will not be used to sign it. This sets the "expiration" or "retire"
+5. *Inactive*: This sets the date on which the key is to become inactive.
+   After that date, the key is still included in the zone, but it
+   is no longer used to sign it. This sets the "expiration" or "retire"
    date for a key.
 
-6. *Delete*: Sets the date on which the key is to be deleted. After that
-   date, the key will no longer be included in the zone, but it
+6. *Delete*: This sets the date on which the key is to be deleted. After that
+   date, the key is no longer included in the zone, but it
    continues to exist on the file system or key repository.
 
 This can be summarized as follows:
@@ -1199,48 +1187,47 @@ This can be summarized as follows:
    | Metadata | Included in Zone | Used to Sign     | Purpose          |
    |          | File?            | Data?            |                  |
    +==========+==================+==================+==================+
-   | Created  | No               | No               | Record of when   |
-   |          |                  |                  | the key was      |
-   |          |                  |                  | created          |
+   | Created  | No               | No               | Recording of     |
+   |          |                  |                  | key creation     |
    +----------+------------------+------------------+------------------+
-   | Publish  | Yes              | No               | Introducing a    |
-   |          |                  |                  | key soon to be   |
+   | Publish  | Yes              | No               | Introduction of  |
+   |          |                  |                  | a key soon to be |
    |          |                  |                  | active           |
    +----------+------------------+------------------+------------------+
    | Activate | Yes              | Yes              | Activation date  |
    |          |                  |                  | for new key      |
    +----------+------------------+------------------+------------------+
-   | Revoke   | Yes              | Yes              | Notifying a key  |
-   |          |                  |                  | soon to be       |
+   | Revoke   | Yes              | Yes              | Notification of  |
+   |          |                  |                  | a key soon to be |
    |          |                  |                  | retired          |
    +----------+------------------+------------------+------------------+
-   | Inactive | Yes              | No               | Inactivate or    |
-   |          |                  |                  | retire a key     |
+   | Inactive | Yes              | No               | Inactivation or  |
+   |          |                  |                  | retirement of a  |
+   |          |                  |                  | key              |
    +----------+------------------+------------------+------------------+
    | Delete   | No               | No               | Deletion or      |
-   |          |                  |                  | removal of key   |
-   |          |                  |                  | from zone        |
+   |          |                  |                  | removal of a key |
+   |          |                  |                  | from a zone      |
    +----------+------------------+------------------+------------------+
 
 The publication date is the date the key is introduced into the zone.
-Some time later it is activated and is used to sign resource records.
-After a period of use BIND stops using it to sign records and at some
-later time it is removed from the zone.
+Sometime later it is activated and is used to sign resource records.
+After a specified period, BIND stops using it to sign records, and at some
+other specified later time it is removed from the zone.
 
 Finally, we should note that the ``dnssec-keygen`` command supports the
-same set of switches so if we had wanted, we could have set the dates
+same set of switches so we could have set the dates
 when we created the key.
 
-.. _semi-automatic-signing-reconfigure-bind:
+.. _semi_automatic_signing_reconfigure_bind:
 
-Reconfigure BIND
-~~~~~~~~~~~~~~~~
+Reconfiguring BIND
+^^^^^^^^^^^^^^^^^^
 
-Having the created the keys with the appropriate timing information, the
+Having created the keys with the appropriate timing information, the
 next step is to turn on DNSSEC signing. Below is a very simple
-``named.conf``, in our example environment, this file is
-``/etc/bind/named.conf``. The lines you most likely need to add are in
-bold.
+``named.conf``; in our example environment, this file is
+``/etc/bind/named.conf``.
 
 ::
 
@@ -1257,7 +1244,7 @@ bold.
        inline-signing yes;
    };
 
-When you are done updating the configuration file, tell ``named`` to
+Once the configuration file is updated, tell ``named`` to
 reload:
 
 ::
@@ -1265,53 +1252,52 @@ reload:
    # rndc reload
    server reload successful
 
-.. _semi-automated-signing-verification:
+.. _semi_automated_signing_verification:
 
-Verify that The Zone is Signed Correctly
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Verifying That the Zone Is Signed Correctly
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You should now check that your zone is signed. Follow the steps in
-`??? <#signing-verification>`__
+You should now check that the zone is signed. Follow the steps in
+:ref:`signing_verification`.
 
-.
-.. _semi-automatic-signing-upload-ds:
+.. _semi_automatic_signing_upload_ds:
 
-Upload DS Record to Parent
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Uploading the DS Record to the Parent
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-As described in `??? <#signing-easy-start-upload-to-parent-zone>`__, we
-now have to upload information to the parent zone. The format of the
+As described in :ref:`signing_easy_start_upload_to_parent_zone`, we
+must now upload the new information to the parent zone. The format of the
 information and how to generate it is described in
-`??? <#working-with-parent-zone>`__, although remember that you have to
-use the file holding the KSK that you generated above as input to the
+:ref:`working_with_parent_zone`, although remember that you must
+use the contents of the KSK file that you generated above as part of the
 process.
 
-When the DS record is published in the parent zone, you are fully
+When the DS record is published in the parent zone, your zone is fully
 signed.
 
-Check Your Zone Can Be Validated
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Checking That Your Zone Can Be Validated
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Finally, follow the steps in `??? <#how-to-test-authoritative-server>`__
-to confirm a query will recognize the zone as properly signed and
+Finally, follow the steps in :ref:`how_to_test_authoritative_server`
+to confirm that a query recognizes the zone as properly signed and
 vouched for by the parent zone.
 
 So... What Now?
-~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^
 
-With the zone signed, you need to monitor it. These tasks are described
-in `??? <#signing-maintenance-tasks>`__. However, an additional task is
-that as time comes up for a key roll, you need to create the new key. Of
-course, there is nothing stopping you creating keys for the next fifty
-years all at once and setting key times appropriately. Whether the
+Once the zone is signed, it must be monitored as described
+in :ref:`signing_maintenance_tasks>`. However,
+as the time approaches for a key roll, you must create the new key. Of
+course, it is possible to create keys for the next fifty
+years all at once and set the key times appropriately. Whether the
 increased risk in having the private key files for future keys available
 on disk offsets the overhead of having to remember to create a new key
-before a rollover depends on your security policy.
+before a rollover depends on your organization's security policy.
 
-.. _advanced-discussions-automatic-dnssec-keymgr:
+.. _advanced_discussions_automatic_dnssec-keymgr:
 
-Fully-Automatic Signing With dnssec-keymgr
-------------------------------------------
+Fully Automatic Signing With ``dnssec-keymgr``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ``dnssec-keymgr`` is a program supplied with BIND (versions 9.11 to
 9.16) to help with key rollovers. When run, it compares the timing
@@ -1319,15 +1305,13 @@ information for existing keys with the defined policy, and adjusts it if
 necessary. It also creates additional keys as required.
 
 ``dnssec-keymgr`` is completely separate from ``named``. As we will see,
-the policy states a coverage period; ``dnssec-keymgr`` will generate
+the policy states a coverage period; ``dnssec-keymgr`` generates
 enough key files to handle all rollovers in that period. However, it is
 a good idea to schedule it to run on a regular basis; that way there is
 no chance of forgetting to run it when the coverage period ends.
 
-So, down to the detail.
-
-BIND should be set up in exactly the same way as described in
-`Semi-Automatic Signing <#semi-automatic-signing>`__; in other words,
+BIND should be set up exactly the same way as described in
+:ref:`semi_automatic_signing`, i.e.,
 with ``auto-dnssec`` set to ``maintain`` and ``inline-signing`` set to
 ``true``. Then a policy file must be created. The following is an
 example of such a file:
@@ -1365,14 +1349,14 @@ As can be seen, the syntax is similar to that of the ``named``
 configuration file.
 
 In the example above, we define a DNSSEC policy called "standard". Keys
-are created using the RSASHA256 algorithm, assigned a TTL of two hours
-and are placed in the directory ``/etc/bind``. KSKs have a key size of
-4096 bits, are expected to roll once a year; the key is added to the
+are created using the RSASHA256 algorithm, assigned a TTL of two hours,
+and placed in the directory ``/etc/bind``. KSKs have a key size of
+4096 bits and are expected to roll once a year; the new key is added to the
 zone 30 days before it becomes active, and is retained in the zone for
-30 days after it is rolled. ZSKs have a key size of 2048 bits, will roll
-every 90 days and, like the KSKs, are added to the zone 30 days before
+30 days after it is rolled. ZSKs have a key size of 2048 bits and roll
+every 90 days; like the KSKs, the are added to the zone 30 days before
 they are used for signing, and retained for 30 days after ``named``
-ceases to sign with them.
+ceases signing with them.
 
 The policy is applied to two zones, ``example.com`` and ``example.net``.
 The policy is applied unaltered to the former, but for the latter the
@@ -1381,10 +1365,10 @@ setting for the DNSKEY TTL has been overridden and set to 300 seconds.
 To apply the policy, we need to run ``dnssec-keymgr``. Since this does
 not read the ``named`` configuration file, it relies on the presence of
 at least one key file for a zone to tell it that the zone is
-DNSSEC-enabled. So if they don't already exist, we first need to create
-a key file for each zone. We can do that either by running
+DNSSEC-enabled. If a key file does not already exist, we first need to create
+one for each zone. We can do that either by running
 ``dnssec-keygen`` to create a key file for each zone [2]_, or by
-specifying the zones in question on the command line. We will do the
+specifying the zones in question on the command line. Here, we do the
 latter:
 
 ::
@@ -1417,10 +1401,10 @@ latter:
 This creates enough key files to last for the coverage period, set in
 the policy file to be one year. The script should be run on a regular
 basis (probably via ``cron``) to keep the reserve of key files topped
-up. With the shortest roll period set to 90 days, every 30 days would be
+up. With the shortest roll period set to 90 days, every 30 days is
 more than adequate.
 
-At any time, you can check chat key changes are coming up and whether
+At any time, you can check what key changes are coming up and whether
 the keys and timings are correct by using ``dnssec-coverage``. For
 example, to check coverage for the next 60 days:
 
@@ -1468,21 +1452,21 @@ example, to check coverage for the next 60 days:
    No errors found
 
 The ``-d 2h`` and ``-m 1d`` on the command line specify the maximum TTL
-for the DNSKEYs and other resource records in the zone, in this example
-two hours and one day respectively. ``dnssec-coverage`` needs this
+for the DNSKEYs and other resource records in the zone: in this example
+two hours and one day, respectively. ``dnssec-coverage`` needs this
 information when it checks that the zones will remain secure through key
 rolls.
 
-.. _advanced-discussions-automatic-dnssec-policy:
+.. _advanced_discussions_automatic_dnssec-policy:
 
-Fully-Automatic Signing With dnssec-policy
-------------------------------------------
+Fully Automatic Signing With ``dnssec-policy``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The latest development of DNSSEC key management appeared with BIND 9.16,
+The latest development in DNSSEC key management appeared with BIND 9.16,
 and is the full integration of key management into ``named``. Managing
 the signing process and rolling of these keys has been described in
-`??? <#easy-start-guide-for-authoritative-servers>`__, and will not be
-repeated here. A few points are worth noting though:
+:ref:`easy_start_guide_for_authoritative_servers` and is not
+repeated here. A few points are worth noting, though:
 
 -  The ``dnssec-policy`` statement in the ``named`` configuration file
    describes all aspects of the DNSSEC policy, including the signing.
@@ -1495,28 +1479,26 @@ repeated here. A few points are worth noting though:
 
 -  It is possible to manage some zones served by an instance of BIND
    through ``dnssec-policy`` and others through ``dnssec-keymgr``, but
-   this is not recommended. Although everything should be fine, if you
+   this is not recommended. Although it should work, if you
    modify the configuration files and inadvertently specify a zone to be
-   managed by both systems, BIND will get seriously confused.
+   managed by both systems, BIND will not operate properly.
 
-.. _advanced-discussions-manual-key-management-and-signing:
+.. _advanced_discussions_manual_key_management_and_signing:
 
 Manual Signing
---------------
+~~~~~~~~~~~~~~
 
 Manual signing of a zone was the first method of signing introduced into
-BIND and has, as the name suggests, no automation. In short, you have to
-do everything: create the keys, to sign the zone file with them, load
-the signed zone, periodically re-sign the zone, handle key rolls,
-including interaction with the parent. Certainly you could so all this,
-although you would probably write scripts to handle it - in which case,
-why not use one of the automated methods? Nevertheless, as a one-off way
-of signing the zone, perhaps for test purposes, it may be useful so it
-will be briefly covered here.
+BIND and offers, as the name suggests, no automation. The user must
+handle everything: create the keys, sign the zone file with them, load
+the signed zone, periodically re-sign the zone, and manage key rolls,
+including interaction with the parent. A user certainly can do all this,
+but why not use one of the automated methods? Nevertheless, it may
+be useful for test purposes, so we cover it briefly here.
 
-The first step is to create the keys as described in `Generate
-Keys <#generate-keys>`__. You must then edit the zone file to make sure
-the proper DNSKEY entries are included in your zone file, then use the
+The first step is to create the keys as described in :ref:`generate-keys`.
+Then, edit the zone file to make sure
+the proper DNSKEY entries are included in your zone file. Finally, use the
 command ``dnssec-signzone``:
 
 ::
@@ -1539,14 +1521,14 @@ command ``dnssec-signzone``:
    Runtime in seconds:                      0.055
 
 The -o switch explicitly defines the domain name (``example.com`` in
-this case), -f switch specifies the output file name. The second line
-has 3 parameters, they are the unsigned zone name
-(``/etc/bind/db/example.com.db``), ZSK, and KSK file names. This
-generated a plain text file ``/etc/bind/db/example.com.signed.db``,
+this case), while the -f switch specifies the output file name. The second line
+has three parameters: the unsigned zone name
+(``/etc/bind/db/example.com.db``), the ZSK file name, and the KSK file name. This
+also generates a plain text file ``/etc/bind/db/example.com.signed.db``,
 which you can verify for correctness.
 
 Finally, you'll need to update ``named.conf`` to load the signed version
-of the zone, so it looks something like this:
+of the zone, which looks something like this:
 
 ::
 
@@ -1555,22 +1537,23 @@ of the zone, so it looks something like this:
        file "db/example.com.signed.db";
    };
 
-After issuing a ``rndc reconfig`` command, BIND will be serving a signed
+Once the ``rndc reconfig`` command is issued, BIND serves a signed
 zone. The file ``dsset-example.com`` (created by ``dnssec-signzone``
 when it signed the ``example.com`` zone) contains the DS record for the
-zones KSK. You will need to pass that to the administrator of the parent
-zone for them to place it in the zone.
+zone's KSK. You will need to pass that to the administrator of the parent
+zone, to be placed in the zone.
 
-You will need to re-sign periodically as well as every time the zone
+Since this is a manual process, you will need to re-sign periodically,
+as well as every time the zone
 data changes. You will also need to manually roll the keys by adding and
 removing DNSKEY records (and interacting with the parent) at the
 appropriate times.
 
 .. [1]
-   We could also modify the dates using an editor. But that is likely to
+   The dates can also be modified using an editor, but that is likely to
    be more error-prone than using ``dnssec-settime``.
 
 .. [2]
    Only one key file - for either a KSK or ZSK - is needed to signal the
-   presence of the zone. ``dnssec-keygen`` will create files of both
+   presence of the zone. ``dnssec-keygen`` creates files of both
    types as needed.
