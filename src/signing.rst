@@ -843,7 +843,7 @@ the time of this writing (mid-2020) BIND does not check for the presence of a
 DS record in the parent zone before completing the KSK or CSK rollover
 and withdrawing the old key. Instead, it assumes that the operation will
 complete within the time period set by the ``parent-registration-delay``
-value in the DNSSEC policy [1]_.
+value in the DNSSEC policy [2]_.
 
 If your parent zone doesn't support CDS/CDNSKEY, you will have to supply
 the DNSKEY or DS record to the parent zone manually when a new KSK appears in
@@ -870,7 +870,7 @@ and you are just telling BIND that this is the case. The next time BIND
 does any check related to the rollover, it uses the new value in its
 calculation of when the old key can be revoked.
 
-.. [1]
+.. [2]
    If the parent zone supports CDS/CDNSKEY, why did we have to
    manually upload the DS record when we first signed the zone? Why
    couldn't we have added a CDS record to our zone and allowed the
@@ -1117,7 +1117,7 @@ illustrated in the examples in the previous section.
 
 All the dates are the same, and are the date and time that
 ``dnssec-keygen`` created the key. We can use ``dnssec-settime`` to
-modify the dates [1]_. For example, to publish this key in
+modify the dates [3]_. For example, to publish this key in
 the zone on 1 July 2020, use it to sign records for a year starting on
 15 July 2020, and remove it from the zone at the end of July 2021, we
 can use the following command:
@@ -1367,7 +1367,7 @@ not read the ``named`` configuration file, it relies on the presence of
 at least one key file for a zone to tell it that the zone is
 DNSSEC-enabled. If a key file does not already exist, we first need to create
 one for each zone. We can do that either by running
-``dnssec-keygen`` to create a key file for each zone [2]_, or by
+``dnssec-keygen`` to create a key file for each zone [4]_, or by
 specifying the zones in question on the command line. Here, we do the
 latter:
 
@@ -1549,11 +1549,11 @@ data changes. You will also need to manually roll the keys by adding and
 removing DNSKEY records (and interacting with the parent) at the
 appropriate times.
 
-.. [1]
+.. [3]
    The dates can also be modified using an editor, but that is likely to
    be more error-prone than using ``dnssec-settime``.
 
-.. [2]
+.. [4]
    Only one key file - for either a KSK or ZSK - is needed to signal the
    presence of the zone. ``dnssec-keygen`` creates files of both
    types as needed.
