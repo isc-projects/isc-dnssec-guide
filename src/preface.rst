@@ -68,6 +68,6 @@ subsequently published as :rfc:`7583`.
 
 Icons made by `Freepik <https://www.freepik.com/>`__ and
 `SimpleIcon <https://www.simpleicon.com/>`__ from
-` <https://www.flaticon.com>`__, licensed under `Creative Commons BY
+` Flaticon <https://www.flaticon.com>`__, licensed under `Creative Commons BY
 3.0 <https://creativecommons.org/licenses/by/3.0/>`__.
 
