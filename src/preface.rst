@@ -64,8 +64,7 @@ Young, Tony Finch, Timothe Litt, and Dr. Jeffry A. Spain.
 The sections on key rollover and key timing metadata borrowed heavily
 from the Internet Engineering Task Force draft titled "DNSSEC Key Timing
 Considerations" by S. Morris, J. Ihren, J. Dickinson, and W. Mekking,
-subsequently published as `RFC
-7583 <https://tools.ietf.org/html/rfc7583>`__.
+subsequently published as :rfc:`7583`.
 
 Icons made by `Freepik <https://www.freepik.com/>`__ and
 `SimpleIcon <https://www.simpleicon.com/>`__ from
