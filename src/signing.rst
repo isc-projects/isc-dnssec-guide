@@ -581,7 +581,7 @@ Maintaining a signed zone comprises a set of ongoing tasks:
 
 That is quite complex, and it is all handled in BIND 9 with the single
 ``dnssec-policy default`` statement. We will see later on (in the
-:ref:`signing_custom-policy` section) how these actions can be tuned, by
+:ref:`signing_custom_policy` section) how these actions can be tuned, by
 setting up our own DNSSEC policy with customized parameters. However, in many
 cases the defaults are adequate.
 
@@ -671,7 +671,7 @@ Creating a Custom DNSSEC Policy
 -------------------------------
 
 The remainder of this section describes the contents of a custom DNSSEC
-policy. :ref:`dnssec-advanced-discussions` describes the concepts
+policy. :ref:`dnssec_advanced_discussions` describes the concepts
 involved here and the pros and cons of choosing particular values. If
 you are not already familiar with DNSSEC, it may be worth reading that chapter
 first.
@@ -823,7 +823,7 @@ signed by a valid key for the zone. If the record(s) successfully
 validate, the parent zone's DS RRset for the child zone is changed to
 correspond to the CDS (or CDNSKEY) records. (For more
 information on how the signaling works and the issues surrounding it,
-the details can be found in :rfc:`7344` and :ref:`8078`.)
+the details can be found in :rfc:`7344` and :rfc:`8078`.)
 
 .. _working_with_the_parent_2:
 
@@ -1286,7 +1286,7 @@ So... What Now?
 ^^^^^^^^^^^^^^^
 
 Once the zone is signed, it must be monitored as described
-in :ref:`signing_maintenance_tasks>`. However,
+in :ref:`signing_maintenance_tasks`. However,
 as the time approaches for a key roll, you must create the new key. Of
 course, it is possible to create keys for the next fifty
 years all at once and set the key times appropriately. Whether the
@@ -1496,7 +1496,7 @@ including interaction with the parent. A user certainly can do all this,
 but why not use one of the automated methods? Nevertheless, it may
 be useful for test purposes, so we cover it briefly here.
 
-The first step is to create the keys as described in :ref:`generate-keys`.
+The first step is to create the keys as described in :ref:`generate_keys`.
 Then, edit the zone file to make sure
 the proper DNSKEY entries are included in your zone file. Finally, use the
 command ``dnssec-signzone``:
