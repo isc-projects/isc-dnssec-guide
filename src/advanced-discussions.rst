@@ -739,7 +739,7 @@ ZSK Rollover Methods
 
 The ZSK can be rolled in one of the following two ways:
 
-1. *Pre-publication*: Publish the new ZSK into zone data before it is
+1. *Pre-Publication*: Publish the new ZSK into zone data before it is
    actually used. Wait at least one TTL interval, so the world's recursive servers
    know about both keys, then stop using the old key and generate a new
    RRSIG using the new key. Wait at least another TTL, so the cached old
