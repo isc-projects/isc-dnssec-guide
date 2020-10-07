@@ -1,4 +1,4 @@
-.. _Getting_Started:
+.. _getting_started:
 
 Getting Started
 ===============
@@ -160,9 +160,8 @@ enhancements for an authoritative server with signed zones:
 One of the factors to consider, but over which you really have no control, is
 the number of users who query your domain name who have DNSSEC enabled. It was
 estimated in late 2014 that roughly 10% to 15% of the Internet DNS
-queries were DNSSEC-aware. Estimates by _`APNIC <https://www.apnic.net/>`__ 
-suggest that in 2020 about _`one
-third <https://stats.labs.apnic.net/dnssec>`__ of all queries are
+queries were DNSSEC-aware. Estimates by `APNIC <https://www.apnic.net/>`__
+suggest that in 2020 about `one-third <https://stats.labs.apnic.net/dnssec>`__ of all queries are
 validating queries, although the percentage varies widely on a
 per-country basis. This means that more DNS queries for your domain will
 take advantage of the additional security features, which will result in the
