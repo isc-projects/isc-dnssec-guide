@@ -632,7 +632,7 @@ BIND supports Public Key Cryptography Standard #11 (PKCS #11) for
 communication with HSMs and other cryptographic support devices. For
 more information on how to configure BIND to work with an HSM, please
 refer to the `BIND 9 Administrator Reference
-Manual <https://bind9.readthedocs.io/en/latest/index.html>`__.
+Manual `<https://bind9.readthedocs.io/en/latest/index.html>`__.
 
 .. _advanced_discussions_key_management:
 
@@ -1060,4 +1060,4 @@ redirected elsewhere by a cache poisoning attack.
 
 .. [1]
    Based on APNIC statistics at
-   ` <https://stats.labs.apnic.net/dnssec/XA>`__
+   `<https://stats.labs.apnic.net/dnssec/XA>`__
