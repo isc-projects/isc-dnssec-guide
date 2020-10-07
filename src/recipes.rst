@@ -1025,9 +1025,9 @@ Reverting to Unsigned Recipe
 This recipe describes how to revert from a signed zone (DNSSEC) back to
 an unsigned (DNS) zone.
 
-Whether the world thinks your zone is signed really comes down to
-the DS records hosted by your parent zone; if there are no DS records,
-the world sees your zone is unsigned. So reverting to unsigned is as
+Whether the world thinks your zone is signed is determined by the
+presence of DS records hosted by your parent zone; if there are no DS records,
+the world sees your zone as unsigned. So reverting to unsigned is as
 easy as removing all DS records from the parent zone.
 
 Below is an example showing how to remove DS records using the
