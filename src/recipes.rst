@@ -404,7 +404,7 @@ This recipe describes how to perform KSK rollover using the Double-DS
 method. For other KSK rolling methods, please see
 :ref:`ksk_rollover_methods` in
 :ref:`dnssec_advanced_discussions`. The registrar used in this
-recipe is .. _GoDaddy: https://www.godaddy.com. Also for this recipe,
+recipe is `GoDaddy <https://www.godaddy.com>`__. Also for this recipe,
 we are keeping the number of DS records down to just one per active set
 using just SHA-1, for the sake of better clarity, although in practice
 most zone operators choose to upload two DS records as shown in
@@ -1031,7 +1031,7 @@ the world sees your zone as unsigned. So reverting to unsigned is as
 easy as removing all DS records from the parent zone.
 
 Below is an example showing how to remove DS records using the
-.. _GoDaddy: https://www.godaddy.com web-based interface:
+`GoDaddy <https://www.godaddy.com>`__ web-based interface:
 
 1. After logging in, click the green "Launch" button next to the domain
    name you want to manage.
