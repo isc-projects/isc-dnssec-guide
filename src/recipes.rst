@@ -754,3 +754,356 @@ point, but they do not have to be.
    The screenshots were taken from GoDaddy's interface at the time the
    original version of this guide was published (2015). It may have
    changed since then.
+
+.. _recipes_nsec3:
+
+NSEC and NSEC3 Recipes
+----------------------
+
+.. _recipes_nsec_to_nsec3:
+
+Migrating from NSEC to NSEC3
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This recipe describes how to transition from using NSEC to NSEC3, as described
+in :ref:`advanced_discussions_proof_of_nonexistence`. This recipe
+assumes that the zones are already signed, and that ``named`` is configured
+according to the steps described in
+:ref:`easy_start_guide_for_authoritative_servers`.
+
+.. warning::
+
+   If your zone is signed with RSASHA1 (algorithm 5), you cannot migrate
+   to NSEC3 without also performing an
+   algorithm rollover
+   to RSASHA1-NSEC3-SHA1 (algorithm 7), as described in
+   :ref:`advanced_discussions_DNSKEY_algorithm_rollovers`. This
+   ensures that older validating resolvers that do not understand
+   NSEC3 will fall back to treating the zone as unsecured (rather than
+   "bogus") as described in Section 2 of :rfc:`5155`.
+
+The command below enables NSEC3 for the zone ``example.com``, using a
+pseudo-random string "1234567890abcdef" as its salt:
+
+::
+
+   # rndc signing -nsec3param 1 0 10 1234567890abcdef example.com
+
+You can tell that it worked if you see the following log messages:
+
+::
+
+   Oct 21 13:47:21 received control channel command 'signing -nsec3param 1 0 10 1234567890abcdef example.com'
+   Oct 21 13:47:21 zone example.com/IN (signed): zone_addnsec3chain(1,CREATE,10,1234567890ABCDEF)
+
+You can also verify that it worked by querying for a name that you know
+does not exist, and checking for the presence of the NSEC3 record.
+For example:
+
+::
+
+   $ dig @192.168.1.13 thereisnowaythisexists.example.com. A +dnssec +multiline
+
+   ...
+   TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com. 300 IN NSEC3 1 0 10 1234567890ABCDEF (
+                   TQ9QBEGA6CROHEOC8KIH1A2C06IVQ5ER
+                   NS SOA RRSIG DNSKEY NSEC3PARAM )
+   ...
+
+Our example used four parameters: 1, 0, 10, and 1234567890ABCDEF, in the
+order they appeared. 1 represents the algorithm, 0 represents the
+opt-out flag, 10 represents the number of iterations, and
+1234567890abcdef is the salt. To learn more about each of these
+parameters, please see :ref:`advanced_discussions_nsec3param`.
+
+To create an NSEC3 chain using the SHA-1 hash algorithm, no
+opt-out flag, 10 iterations, and a salt value of "FFFF", use:
+
+::
+
+   # rndc signing -nsec3param 1 0 10 FFFF example.com
+
+To set the opt-out flag, 15 iterations, and no salt, use:
+
+::
+
+   # rndc signing -nsec3param 1 1 15 - example.com
+
+.. _recipes_nsec3_to_nsec:
+
+Migrating from NSEC3 to NSEC
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This recipe describes how to migrate from NSEC3 to NSEC.
+
+Migrating from NSEC3 back to NSEC is easy; just use the ``rndc`` command
+like this:
+
+::
+
+   $ rndc signing -nsec3param none example.com
+
+You can tell that it worked if you see these messages in the log:
+
+::
+
+   named[14093]: received control channel command 'signing -nsec3param none example.com'
+   named[14093]: zone example.com/IN: zone_addnsec3chain(1,REMOVE,10,1234567890ABCDEF)
+
+You can also query for a name that you know does not exist,
+and you should no longer see any traces of NSEC3 records.
+
+::
+
+   $ dig @192.168.1.13 reieiergiuhewhiouwe.example.com. A +dnssec +multiline
+
+   ...
+   example.com.        300 IN NSEC aaa.example.com. NS SOA RRSIG NSEC DNSKEY
+   ...
+   ns1.example.com.    300 IN NSEC web.example.com. A RRSIG NSEC
+   ...
+
+.. _recipes_nsec3_salt:
+
+Changing the NSEC3 Salt Recipe
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In :ref:`advanced_discussions_nsec3_salt`, we discuss the
+reasons why you may want to change your salt periodically for better
+privacy. In this recipe, we look at what command to execute to
+actually change the salt, and how to verify that it has been changed.
+
+To change your NSEC3 salt to "fedcba0987654321", run the
+``rndc signing`` command like this:
+
+::
+
+   # rndc signing -nsec3param 1 1 10 fedcba0987654321 example.com
+
+You should see the following messages in the log, assuming your old salt was
+"1234567890abcdef":
+
+::
+
+   named[15848]: zone example.com/IN: zone_addnsec3chain(1,REMOVE,10,1234567890ABCDEF)
+   named[15848]: zone example.com/IN: zone_addnsec3chain(1,CREATE|OPTOUT,10,FEDCBA0987654321)
+
+To verify that it worked, you can query the name server (192.168.1.13 in our
+example) for a name that you know does not exist, and check the NSEC3 record
+returned:
+
+::
+
+   $ dig @192.168.1.13 thereisnowaythisexists.example.com. A +dnssec +multiline
+
+   ...
+   TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com. 300 IN NSEC3 1 0 10 FEDCBA0987654321 (
+                   TQ9QBEGA6CROHEOC8KIH1A2C06IVQ5ER
+                   NS SOA RRSIG DNSKEY NSEC3PARAM )
+   ...
+
+.. note::
+
+   You can use a pseudo-random source to create the salt for you. Here
+   is an example on Linux to create a 16-character hex string:
+
+   ::
+
+      # rndc signing -nsec3param 1 0 10 $(head -c 300 /dev/random | sha1sum | cut -b 1-16) example.com
+
+BIND versions 9.10 and newer provide the keyword “auto”, which may be used in
+place of the salt field for ``named`` to generate a random salt.
+
+.. _recipes_nsec3_optout:
+
+NSEC3 Opt-out Recipe
+~~~~~~~~~~~~~~~~~~~~
+
+This recipe discusses how to enable and disable NSEC3 opt-out, and how to show
+the results of each action. As discussed in
+:ref:`advanced_discussions_nsec3_optout`, NSEC3 opt-out is a feature
+that can help conserve resources on parent zones with many
+delegations that have not yet been signed.
+
+For this recipe we assume the zone ``example.com``
+has the following four entries (for this example, it is not relevant what
+record types these entries are):
+
+-  ns1.example.com
+
+-  ftp.example.com
+
+-  www.example.com
+
+-  web.example.com
+
+And the zone example.com has five delegations to five subdomains, only one of
+which is signed and has a valid DS RRset:
+
+-  aaa.example.com, not signed
+
+-  bbb.example.com, signed
+
+-  ccc.example.com, not signed
+
+-  ddd.example.com, not signed
+
+-  eee.example.com, not signed
+
+Before enabling NSEC3 opt-out, the zone ``example.com`` contains ten
+NSEC3 records; below is the list with the plain text name before the actual
+NSEC3 record:
+
+-  *aaa.example.com*: 9NE0VJGTRTMJOS171EC3EDL6I6GT4P1Q.example.com.
+
+-  *bbb.example.com*: AESO0NT3N44OOSDQS3PSL0HACHUE1O0U.example.com.
+
+-  *ccc.example.com*: SF3J3VR29LDDO3ONT1PM6HAPHV372F37.example.com.
+
+-  *ddd.example.com*: TQ9QBEGA6CROHEOC8KIH1A2C06IVQ5ER.example.com.
+
+-  *eee.example.com*: L16L08NEH48IFQIEIPS1HNRMQ523MJ8G.example.com.
+
+-  *ftp.example.com*: JKMAVHL8V7EMCL8JHIEN8KBOAB0MGUK2.example.com.
+
+-  *ns1.example.com*: FSK5TK9964BNE7BPHN0QMMD68IUDKT8I.example.com.
+
+-  *web.example.com*: D65CIIG0GTRKQ26Q774DVMRCNHQO6F81.example.com.
+
+-  *www.example.com*: NTQ0CQEJHM0S17POMCUSLG5IOQQEDTBJ.example.com.
+
+-  *example.com*: TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com.
+
+We can enable NSEC3 opt-out with the ``rndc`` command, changing the opt-out bit
+(the second of the four parameters, all of which are discussed in
+:ref:`advanced_discussions_nsec3param`) from 0 to 1:
+
+::
+
+   # rndc signing -nsec3param 1 1 10 1234567890abcdef example.com
+
+After NSEC3 opt-out is enabled, the number of NSEC3 records is reduced.
+Notice that the unsigned delegations ``aaa``, ``ccc``, ``ddd``, and
+``eee`` no longer have corresponding NSEC3 records.
+
+-  *bbb.example.com*: AESO0NT3N44OOSDQS3PSL0HACHUE1O0U.example.com.
+
+-  *ftp.example.com*: JKMAVHL8V7EMCL8JHIEN8KBOAB0MGUK2.example.com.
+
+-  *ns1.example.com*: FSK5TK9964BNE7BPHN0QMMD68IUDKT8I.example.com.
+
+-  *web.example.com*: D65CIIG0GTRKQ26Q774DVMRCNHQO6F81.example.com.
+
+-  *www.example.com*: NTQ0CQEJHM0S17POMCUSLG5IOQQEDTBJ.example.com.
+
+-  *example.com*: TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com.
+
+To undo NSEC3 opt-out, run the same ``rndc`` command with the opt-out
+bit set to 0:
+
+::
+
+   # rndc signing -nsec3param 1 0 10 1234567890abcdef example.com
+
+.. note::
+
+   NSEC3 hashes the plain text domain name, and we can compute our own
+   hashes using the tool ``nsec3hash``. For example, to compute the
+   hashed name for "www.example.com" using the parameters we listed
+   above, we can execute this command:
+
+   ::
+
+      # nsec3hash 1234567890ABCDEF 1 10 www.example.com.
+      NTQ0CQEJHM0S17POMCUSLG5IOQQEDTBJ (salt=1234567890ABCDEF, hash=1, iterations=10)
+
+.. _revert_to_unsigned:
+
+Reverting to Unsigned Recipe
+----------------------------
+
+This recipe describes how to revert from a signed zone (DNSSEC) back to
+an unsigned (DNS) zone.
+
+Whether the world thinks your zone is signed really comes down to
+the DS records hosted by your parent zone; if there are no DS records,
+the world sees your zone is unsigned. So reverting to unsigned is as
+easy as removing all DS records from the parent zone.
+
+Below is an example showing how to remove DS records using the
+.. _GoDaddy: https://www.godaddy.com web-based interface:
+
+1. After logging in, click the green "Launch" button next to the domain
+   name you want to manage.
+
+.. _unsign-1:
+
+   .. figure:: ../img/unsign-1.png
+      :alt: Revert to Unsigned Step #1
+      :width: 60.0%
+
+      Revert to Unsigned Step #1
+
+2. Scroll down to the "DS Records" section and click Manage.
+
+.. _unsign-2:
+
+   .. figure:: ../img/unsign-2.png
+      :alt: Revert to Unsigned Step #2
+      :width: 40.0%
+
+      Revert to Unsigned Step #2
+
+3. A dialog appears, displaying all current keys. Use the far right-hand
+   X button to remove each key.
+
+.. _unsign-3:
+
+   .. figure:: ../img/unsign-3.png
+      :alt: Revert to Unsigned Step #3
+      :width: 70.0%
+
+      Revert to Unsigned Step #3
+
+4. Click Save.
+
+.. _unsign-4:
+
+   .. figure:: ../img/unsign-4.png
+      :alt: Revert to Unsigned Step #4
+      :width: 70.0%
+
+      Revert to Unsigned Step #4
+
+To be on the safe side, wait a while before actually deleting
+all signed data from your zone, just in case some validating resolvers
+have cached information. After you are certain that all cached
+information has expired (usually this means one TTL interval has passed), you may
+reconfigure your zone.
+
+Here is what ``named.conf`` looks like when it is signed:
+
+::
+
+   zone "example.com" IN {
+       type primary;
+       file "db/example.com.db";
+       key-directory "keys/example.com";
+       inline-signing yes;
+       auto-dnssec maintain;
+       allow-transfer { any; };
+   };
+
+Remove the three DNSSEC-related lines so your ``named.conf`` looks like this:
+
+::
+
+   zone "example.com" IN {
+       type primary;
+       file "db/example.com.db";
+       allow-transfer { any; };
+   };
+
+Then use ``rndc reload`` to reload the zone.
+
+Your zone is now reverted back to the traditional, insecure DNS format.
