@@ -1,4 +1,4 @@
-.. _DNSSEC_Validation:
+.. _DNSSEC_validation:
 
 Validation
 ==========
@@ -117,7 +117,7 @@ While ``nslookup`` is popular, partly because it comes pre-installed on
 most systems, it is not DNSSEC-aware. ``dig``, on the other hand, fully
 supports the DNSSEC standard and comes as a part of BIND. If you do not
 have ``dig`` already installed on your system, install it by downloading
-it from ISC's .. _website: https://www.isc.org/download . ISC provides pre-compiled
+it from ISC's `website <https://www.isc.org/download>`__. ISC provides pre-compiled
 Windows versions on its website.
 
 ``dig`` is a flexible tool for interrogating DNS name servers. It
@@ -662,7 +662,7 @@ to <yes> rather than <auto>:
    };
 
 Then, download the root key manually from a trustworthy source, such as
-.. __: https://www.isc.org/bind-keys . Finally, take the root key you
+`<https://www.isc.org/bind-keys>`__. Finally, take the root key you
 manually downloaded and put it into a ``trust-anchors`` statement as
 shown below:
 
@@ -703,7 +703,7 @@ process. Thereafter, BIND uses the managed keys database
 
 Explicit management of keys was common in the early days of DNSSEC, when
 neither the root zone nor many top-level domains were signed. Since
-then, .. _over 90%: https://stats.research.icann.org/dns/tld_report/ of
+then, `over 90% <https://stats.research.icann.org/dns/tld_report/>`__ of
 the top-level domains have been signed, including all the largest ones.
 Unless you have a particular need to manage keys yourself, it is best to
 use the BIND defaults and let the software manage the root key.
@@ -785,7 +785,7 @@ size it allows with this ``dig`` command:
 
 There is a helpful testing tool available (provided by DNS-OARC) that
 you can use to verify resolver behavior regarding EDNS support:
-.. __: https://www.dns-oarc.net/oarc/services/replysizetest/ .
+`<https://www.dns-oarc.net/oarc/services/replysizetest/>`__ .
 
 Once you've verified that your name servers have EDNS enabled, that should be the
 end of the story, right? Unfortunately, EDNS is a hop-by-hop extension
