@@ -9,8 +9,7 @@ questions you may have and (hopefully) some answers that help.
 Do I need IPv6 to have DNSSEC?
    No. DNSSEC can be deployed without IPv6.
 
-Does DNSSEC encrypt my DNS traffic, so others cannot eavesdrop on
-my DNS queries?
+Does DNSSEC encrypt my DNS traffic, so others cannot eavesdrop on my DNS queries?
    No. Although cryptographic keys and digital signatures
    are used in DNSSEC, they only provide authenticity and integrity, not
    privacy. Someone who sniffs network traffic can still see all the DNS
@@ -30,7 +29,7 @@ Does DNSSEC secure zone transfers?
    No. You should consider using TSIG to secure zone transfers among your
    name servers.
 
-Does DNSSEC protect my network from malicious web sites?
+Does DNSSEC protect my network from malicious websites?
    The answer, in the early stages of DNSSEC deployment is, unfortunately,
    no. DNSSEC is designed to provide
    confidence that when you receive a DNS response for www.company.com over
@@ -44,14 +43,13 @@ Does DNSSEC protect my network from malicious web sites?
    the future is that, as more zones are signed and more
    recursive servers validate, DNSSEC will make it much more
    difficult for attackers to spoof DNS responses or perform cache
-   poisoning. It will still not protect against users who visit a malicious web
-   site that an attacker owns and operates, or prevent users from
+   poisoning. It will still not protect against users who visit a malicious
+   website that an attacker owns and operates, or prevent users from
    mis-typing a domain name; it will just become less likely that an attacker can
    hijack other domain names.
 
-If I enable DNSSEC validation, will it break DNS lookup, since most domain names
-do not yet use DNSSEC?
-   No, DNSSEC is backwards compatible to "standard"
+If I enable DNSSEC validation, will it break DNS lookup, since most domain names do not yet use DNSSEC?
+   No, DNSSEC is backwards-compatible to "standard"
    DNS. As of this writing (in mid-2020), although 98.5% of the .com domains have yet to
    be signed, a DNSSEC-enabled validating resolver can still look up all of
    these domain names as it always has under standard DNS.
@@ -85,15 +83,13 @@ Do I need to have special client software to use DNSSEC?
    software today, it appears that the DNS query has failed or that the domain
    name does not exist.
 
-Since DNSSEC uses public key cryptography, do I need Public Key Infrastructure
-(PKI) in order to use DNSSEC?
+Since DNSSEC uses public key cryptography, do I need Public Key Infrastructure (PKI) in order to use DNSSEC?
    No, DNSSEC does not depend on an existing PKI. Public keys are stored within
    the DNS hierarchy; the trustworthiness of each zone is guaranteed by
    its parent zone, all the way back to the root zone. A copy of the trust
    anchor for the root zone is distributed with BIND 9.
 
-Do I need to purchase
-SSL certificates from a Certificate Authority (CA) to use DNSSEC?
+Do I need to purchase SSL certificates from a Certificate Authority (CA) to use DNSSEC?
    No. With DNSSEC, you generate and publish your own keys, and sign your own
    data as well. There is no need to pay someone else to do it for you.
 
@@ -108,8 +104,7 @@ My parent zone does not support DNSSEC; can I still sign my zone?
    host DS record(s) for you and tell the rest of the world
    that your zone is signed.
 
-Is DNSSEC the same thing as TSIG that I have between my primary and
-secondary servers?
+Is DNSSEC the same thing as TSIG that I have between my primary and secondary servers?
    No. TSIG is typically used
    between primary and secondary name servers to secure zone transfers,
    while DNSSEC secures DNS lookup by validating answers. Even if you enable
