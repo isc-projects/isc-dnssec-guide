@@ -69,12 +69,12 @@ that the page cannot be displayed. For example, if root name
 servers were misconfigured with the wrong information about ``.org``, it
 could cause all validation for ``.org`` domains to fail. To the end
 users, it would appear that no one could get to any ``.org`` web
-sites [1]_. Should you encounter DNSSEC-related problems, don't be
+sites [3]_. Should you encounter DNSSEC-related problems, don't be
 tempted to disable validation; there is almost certainly a solution that
 leaves validation enabled. A basic troubleshooting guide can be found in
 :ref:`dnssec_troubleshooting`.
 
-.. [1]
+.. [3]
    Of course, something like this could happen for reasons other than
    DNSSEC: for example, the root publishing the wrong addresses for the
    ``.org`` nameservers.
@@ -390,7 +390,7 @@ Let's discuss the difference between <yes> and <auto>. If set to
 using the ``trust-anchors`` statement (with either the ``static-key`` or
 ``static-ds`` modifier) in the configuration file; if set to
 <auto> (the default, and as shown in the example), then no further
-action should be required as BIND includes a copy [1]_ of the root key.
+action should be required as BIND includes a copy [4]_ of the root key.
 When set to <auto>, BIND automatically keeps the keys (also known as
 trust anchors, which we look at in :ref:`trust_anchors`)
 up-to-date without intervention from the DNS administrator.
@@ -550,7 +550,7 @@ validated and the authenticated data (``ad``) bit is set, and the response
 is sent to the client; if it does not verify, a SERVFAIL is returned to
 the client.
 
-.. [1]
+.. [4]
    BIND technically includes two copies of the root key: one is in
    ``bind.keys.h`` and is built into the executable, and one is in
    ``bind.keys`` as a ``trust-anchors`` statement. The two copies of the
@@ -636,7 +636,7 @@ If you followed the recommendation in
 ``dnssec-validation`` to <auto>, then there is nothing left to do.
 BIND already includes a copy of the root key (in the file
 ``bind.keys``), and automatically updates it when the root key
-changes. [1]_ It looks something like this:
+changes. [5]_ It looks something like this:
 
 ::
 
@@ -708,7 +708,7 @@ the top-level domains have been signed, including all the largest ones.
 Unless you have a particular need to manage keys yourself, it is best to
 use the BIND defaults and let the software manage the root key.
 
-.. [1]
+.. [5]
    The root zone was signed in July 2010 and, as at the time of this writing
    (mid-2020), the key has been changed once, in October 2018. The intention going
    forward is to roll the key once every five years.
