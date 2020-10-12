@@ -36,7 +36,6 @@ on them.
 
 .. figure:: ../img/dnssec-inline-signing-1.png
    :alt: Inline Signing Recipe #1
-   :name: inline-signing-1
    :width: 80.0%
 
    Inline Signing Recipe #1
@@ -95,7 +94,6 @@ the existing hidden DNS primary and DNS secondaries.
 
 .. figure:: ../img/dnssec-inline-signing-2.png
    :alt: Inline Signing Scenario #2
-   :name: inline-signing-2
    :width: 100.0%
 
    Inline Signing Scenario #2
