@@ -12,13 +12,13 @@ Welcome to ISC's DNSSEC Guide documentation!
 
    preface
    introduction
-   getting_started
+   getting-started
    validation
    signing
    troubleshooting
-   advanced_discussions
+   advanced-discussions
    recipes
-   commonly_asked_questions
+   commonly-asked-questions
 
 
 
