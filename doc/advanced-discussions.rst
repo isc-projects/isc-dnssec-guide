@@ -978,6 +978,8 @@ avoids problems that can occur when machines (e.g., laptops) move
 between accessing the internal and external zones, when it is possible
 that they may have cached records from the wrong zone.
 
+.. _introduction_to_dane:
+
 Introduction to DANE
 ~~~~~~~~~~~~~~~~~~~~
 
