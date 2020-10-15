@@ -1,4 +1,4 @@
-.. introduction:
+.. _introduction:
 
 Introduction
 ============
@@ -8,15 +8,15 @@ Introduction
 Who Should Read this Guide?
 ---------------------------
 
-This guide is intended to be an introduction to DNSSEC for the DNS
-administrator who is comfortable working with the existing BIND and DNS
-infrastructure. He or she might be curious about DNSSEC, but has not had the
-time to read up about what DNSSEC is (or is not), whether DNSSEC should
-be a part of his or her environment, and what it means to deploy it in the
+This guide is intended as an introduction to DNSSEC for the DNS
+administrator who is already comfortable working with the existing BIND and DNS
+infrastructure. He or she might be curious about DNSSEC, but may not have had the
+time to investigate DNSSEC, to learn whether DNSSEC should
+be a part of his or her environment, and understand what it means to deploy it in the
 field.
 
 This guide provides basic information on how to configure DNSSEC using
-BIND 9.16.0 or later. Most of the information (and examples) in this guide also
+BIND 9.16.0 or later. Most of the information and examples in this guide also
 apply to versions of BIND later than 9.9.0, but some of the key features described here
 were only introduced in version 9.16.0. Readers are assumed to have basic
 working knowledge of the Domain Name System (DNS) and related network
@@ -34,17 +34,27 @@ much from the first half of this document, and you may want to start with
 :ref:`dnssec_advanced_discussions`. If you want to
 learn about details of the protocol extension, such as data fields and flags,
 or the new record types, this document can help you get started but it
-won't include all the technical details. If you are experienced in DNSSEC, you
+does not include all the technical details.
+
+If you are experienced in DNSSEC, you
 may find some of the concepts in this document to be overly simplified for
-your taste, and some details may be purposely omitted at times for
-illustration. If you administer a large or complex BIND environment, this
+your taste, and some details are intentionally omitted at times for ease of
+illustration.
+
+If you administer a large or complex BIND environment, this
 guide may not provide enough information for you, as it is intended to provide
-the most basic, generic working examples. If you are a top-level domain (TLD) operator, or
+only basic, generic working examples.
+
+If you are a top-level domain (TLD) operator, or
 administer zones under signed TLDs, this guide can
 help you get started, but it does not provide enough details to serve all of your
-needs. If your DNS environment uses DNS products other than (or in addition to)
+needs.
+
+If your DNS environment uses DNS products other than (or in addition to)
 BIND, this document may provide some background or overlapping information, but you
-should check each product's vendor documentation for specifics. Finally, deploying
+should check each product's vendor documentation for specifics.
+
+Finally, deploying
 DNSSEC on internal or private networks is not covered in this document, with the
 exception of a brief discussion in :ref:`dnssec_on_private_networks`.
 
@@ -72,32 +82,32 @@ without impacting "old" unsecured domain names.
 DNSSEC is deployed on the three major components of the DNS
 infrastructure:
 
--  *Recursive Server*: People use recursive servers to lookup external
-   domain names such as `www.example.com`. Operators of recursive servers
+-  *Recursive Servers*: People use recursive servers to lookup external
+   domain names such as ``www.example.com``. Operators of recursive servers
    need to enable DNSSEC validation. With validation enabled, recursive
    servers carry out additional tasks on each DNS response they
    receive to ensure its authenticity.
 
--  *Authoritative Server*: People who publish DNS data on their name
+-  *Authoritative Servers*: People who publish DNS data on their name
    servers need to sign that data. This entails creating additional
    resource records, and publishing them to parent domains where
    necessary. With DNSSEC enabled, authoritative servers respond to
    queries with additional DNS data, such as digital signatures and
    keys, in addition to the standard answers.
 
--  *Application*: This component lives on every client machine, from web
+-  *Applications*: This component lives on every client machine, from web
    servers to smart phones. This includes resolver libraries on different
    operating systems, and applications such as web browsers.
 
 In this guide, we focus on the first two components, Recursive
-Server and Authoritative Server, and only lightly touch on the third
+Servers and Authoritative Servers, and only lightly touch on the third
 component. We look at how DNSSEC works, how to configure a
 validating resolver, how to sign DNS zone data, and other operational
 tasks and considerations.
 
 .. _what_does_dnssec_add_to_dns:
 
-What does DNSSEC Add to DNS?
+What Does DNSSEC Add to DNS?
 ----------------------------
 
 .. note::
@@ -113,7 +123,7 @@ What does DNSSEC Add to DNS?
 
 DNSSEC introduces eight new resource record types:
 
--  RRSIG (digital signature)
+-  RRSIG (digital resource record signature)
 
 -  DNSKEY (public key)
 
@@ -134,8 +144,8 @@ type; the details are left for the reader to research and explore.
 Below is a short introduction on each of the new record types:
 
 -  *RRSIG*: With DNSSEC enabled, just about every DNS answer (A, PTR,
-   MX, SOA, DNSKEY, etc.) comes with at least one RRSIG, or resource
-   record signature. These signatures are used by recursive name
+   MX, SOA, DNSKEY, etc.) comes with at least one resource
+   record signature, or RRSIG. These signatures are used by recursive name
    servers, also known as validating resolvers, to verify the answers
    received. To learn how digital signatures are generated and used, see
    :ref:`how_are_answers_verified`.
@@ -179,7 +189,7 @@ Traditional (insecure) DNS lookup is simple: a recursive name server
 receives a query from a client to lookup a name like ``www.isc.org``. The
 recursive name server tracks down the authoritative name server(s)
 responsible, sends the query to one of the authoritative name servers,
-and waits for the authoritative name server to respond with the answer.
+and waits for it to respond with the answer.
 
 With DNSSEC validation enabled, a validating recursive name server
 (a.k.a. a *validating resolver*) asks for additional resource
@@ -187,10 +197,10 @@ records in its query, hoping the remote authoritative name servers
 respond with more than just the answer to the query, but some proof to
 go along with the answer as well. If DNSSEC responses are received, the
 validating resolver performs cryptographic computation to verify the
-authenticity (origin of the data) and integrity (data was not altered
+authenticity (the origin of the data) and integrity (that the data was not altered
 during transit) of the answers, and even asks the parent zone as part of
 the verification. It repeats this process of get-key, validate,
-ask-parent, parent, and its parent, and its parent, all the way until
+ask-parent, and its parent, and its parent, all the way until
 the validating resolver reaches a key that it trusts. In the ideal,
 fully deployed world of DNSSEC, all validating resolvers only need to
 trust one key: the root key.
@@ -203,16 +213,15 @@ the name ``www.isc.org`` at a very high level:
     the name server for ``isc.org``, and sends it a DNS query to ask for the
     A record of ``www.isc.org``. But since this is a DNSSEC-enabled
     resolver, the outgoing query has a bit set indicating it wants
-    DNSSEC answers, hoping the name server who receives it speaks DNSSEC
+    DNSSEC answers, hoping the name server that receives it is DNSSEC-enabled
     and can honor this secure request.
 
-2.  The ``isc.org`` name server is DNSSEC-enabled, so responds with both
+2.  The ``isc.org`` name server is DNSSEC-enabled, so it responds with both
     the answer (in this case, an A record) and a digital signature for
     verification purposes.
 
-3.  For the validating resolver to be able to verify the
-    digital signature, it requires cryptographic keys, so it asks the
-    ``isc.org`` name server for those keys.
+3.  The validating resolver requires cryptographic keys to be able to verify the
+    digital signature, so it asks the ``isc.org`` name server for those keys.
 
 4.  The ``isc.org`` name server responds with the cryptographic keys
     (and digital signatures of the keys) used to generate the digital
@@ -221,15 +230,15 @@ the name ``www.isc.org`` at a very high level:
     #2.
 
     Let's take a quick break here and look at what we've got so far...
-    how could we trust this answer? If a clever attacker had taken over
+    how can our server trust this answer? If a clever attacker had taken over
     the ``isc.org`` name server(s), or course she would send matching
     keys and signatures. We need to ask someone else to have confidence
     that we are really talking to the real ``isc.org`` name server. This
     is a critical part of DNSSEC: at some point, the DNS administrators
     at ``isc.org`` uploaded some cryptographic information to its
     parent, ``.org``, maybe through a secure web form, maybe
-    through an email exchange, or perhaps in person. No
-    matter the case, at some point some verifiable information about the
+    through an email exchange, or perhaps in person. In
+    any event, at some point some verifiable information about the
     child (``isc.org``) was sent to the parent (``.org``) for
     safekeeping.
 
@@ -238,30 +247,29 @@ the name ``www.isc.org`` at a very high level:
 
 6.  Verifiable information is sent from the ``.org`` server. At this
     point, the validating resolver compares this to the answer it received
-    in #4, and the two of them should match, proving the authenticity of
+    in #4; if the two of them match, it proves the authenticity of
     ``isc.org``.
 
-    Let's examine this process. You might be thinking to yourself, well,
+    Let's examine this process. You might be thinking to yourself,
     what if the clever attacker that took over ``isc.org`` also
     compromised the ``.org`` servers? Of course all this information
     would match! That's why we turn our attention now to the
     ``.org`` server, interrogate it for its cryptographic keys, and
-    move on one level up to ``.org``'s parent, root.
+    move one level up to ``.org``'s parent, root.
 
 7.  The validating resolver asks the ``.org`` authoritative name server for
-    its cryptographic keys, for the purpose of verifying the answers
-    received in #6.
+    its cryptographic keys, to verify the answers received in #6.
 
 8.  The ``.org`` name server responds with the answer (in this case,
     keys and signatures). At this point, the validating resolver can
     verify the answers received in #6.
 
-9.  The validating resolver asks root (``.org``'s parent) for verifiable
+9.  The validating resolver asks root (``.org``'s parent) for the verifiable
     information it keeps on its child, ``.org``.
 
 10. The root name server sends back the verifiable information it keeps
-    on ``.org``. The validating resolver now takes this information and
-    uses it to verify the answers received in #8.
+    on ``.org``. The validating resolver uses this information
+    to verify the answers received in #8.
 
     So at this point, both ``isc.org`` and ``.org`` check out. But
     what about root? What if this attacker is really clever and somehow
@@ -276,16 +284,18 @@ the name ``www.isc.org`` at a very high level:
 12. The root name server sends its keys; at this point, the validating
     resolver can verify the answer(s) received in #10.
 
+.. _chain_of_trust:
+
 Chain of Trust
 ~~~~~~~~~~~~~~
 
 But what about the root server itself? Who do we go to verify root's
 keys? There's no parent zone for root. In security, you have to trust
-someone, and in the perfectly protected world of DNSSEC (we talk
-about the current imperfect state later and ways to work around it),
+someone, and in the perfectly protected world of DNSSEC (we talk later
+about the current imperfect state and ways to work around it),
 each validating resolver would only have to trust one entity, that is,
 the root name server. The validating resolver already has the root key
-on file (and we talk later about how we got the root key file). So
+on file (we discuss later how we got the root key file). So
 after the answer in #12 is received, the validating resolver compares it
 to the key it already has on file. Providing one of the keys in the
 answer matches the one on file, we can trust the answer from root. Thus
@@ -306,17 +316,17 @@ wonderful, but why should I care? Below are some reasons why you may
 want to consider deploying DNSSEC:
 
 1. *Being a good netizen*: By enabling DNSSEC validation (as described in
-   :ref:`dnssec-validation`) on your DNS servers, you're protecting
+   :ref:`dnssec_validation`) on your DNS servers, you're protecting
    your users and yourself a little more by checking answers returned to
    you; by signing your zones (as described in
-   :ref:`dnssec-signing`), you are making it possible for other
+   :ref:`dnssec_signing`), you are making it possible for other
    people to verify your zone data. As more people adopt DNSSEC, the
    Internet as a whole becomes more secure for everyone.
 
 2. *Compliance*: You may not even get a say in
    implementing DNSSEC, if your organization is subject to compliance
    standards that mandate it. For example, the US government set a
-   deadline, back in 2008, to have all ``.gov`` subdomains signed by
+   deadline in 2008 to have all ``.gov`` subdomains signed by
    December 2009  [1]_. So if you operate a subdomain in ``.gov``, you
    must implement DNSSEC to be compliant. ICANN also requires
    that all new top-level domains support DNSSEC.
@@ -331,13 +341,13 @@ want to consider deploying DNSSEC:
    of this like having your website only available via HTTP but not
    HTTPS.
 
-4. *New Features*: DNSSEC brings not only enhanced security, but with
-   that new level of security, a whole new suite of features. Once DNS
+4. *New Features*: DNSSEC brings not only enhanced security, but also
+   a whole new suite of features. Once DNS
    can be trusted completely, it becomes possible to publish SSL
    certificates in DNS, or PGP keys for fully automatic cross-platform
-   email encryption, or SSH fingerprints.... People are still coming up
-   with new features, but this all relies on a trustworthy DNS
-   infrastructure. To take a peek at these next generation DNS features,
+   email encryption, or SSH fingerprints.... New features are still
+   being developed, but they all rely on a trustworthy DNS
+   infrastructure. To take a peek at these next-generation DNS features,
    check out :ref:`introduction_to_dane`.
 
 .. [1]
@@ -351,15 +361,15 @@ want to consider deploying DNSSEC:
 
 .. _how_does_dnssec_change_my_job:
 
-How does DNSSEC Change My Job as a DNS Administrator?
+How Does DNSSEC Change My Job as a DNS Administrator?
 -----------------------------------------------------
 
 With this protocol extension, some of the things you were used to in DNS
 have changed. As the DNS administrator, you have new maintenance
 tasks to perform on a regular basis (as described in
-:ref:`signing_maintenance_tasks`); when there's a DNS resolution
+:ref:`signing_maintenance_tasks`); when there is a DNS resolution
 problem, you have new troubleshooting techniques and tools to use (as
-described in :ref:`dnssec_troubleshooting`). BIND tries its best to
+described in :ref:`dnssec_troubleshooting`). BIND 9 tries its best to
 make these things as transparent and seamless as possible. In this
 guide, we try to use configuration examples that result in the least
-amount of work for DNS administrators.
+amount of work for BIND 9 DNS administrators.
