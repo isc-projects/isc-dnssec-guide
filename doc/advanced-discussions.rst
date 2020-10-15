@@ -953,6 +953,8 @@ with a DNSSEC zone that changes frequently, every time the zone
 changes your system is executing a series of cryptographic operations
 to (re)generate signatures and NSEC or NSEC3 records.
 
+.. _dnssec_on_private_networks:
+
 DNSSEC on Private Networks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
