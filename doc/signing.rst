@@ -8,8 +8,8 @@ Signing
 Easy Start Guide for Signing Authoritative Zones
 ------------------------------------------------
 
-This section provides the basic information to set up a
-working DNSSEC-enabled authoritative name server. A DNSSEC-enabled (or
+This section provides the basic information needed to set up a
+DNSSEC-enabled authoritative name server. A DNSSEC-enabled (or
 "signed") zone contains additional resource records that are used to
 verify the authenticity of its zone information.
 
@@ -22,7 +22,7 @@ records, please see :ref:`what_does_dnssec_add_to_dns`.
 .. note::
 
    In this chapter, we assume all configuration files, key files, and
-   zone files are stored in `/etc/bind`, and most examples show
+   zone files are stored in ``/etc/bind``, and most examples show
    commands run as the root user. This may not be ideal, but the point is
    not to distract from what is important here: learning how to sign
    a zone. There are many best practices for deploying a more secure
@@ -32,7 +32,7 @@ records, please see :ref:`what_does_dnssec_add_to_dns`.
    administrator, to take the necessary precautions to secure your
    system.
 
-For the examples below, we are working with the assumption that
+For the examples below, we work with the assumption that
 there is an existing insecure zone ``example.com`` that we are
 converting to a secure zone.
 
@@ -41,7 +41,7 @@ converting to a secure zone.
 Enabling Automated DNSSEC Zone Maintenance and Key Generation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To sign a zone, you need to add the following statement to its
+To sign a zone, add the following statement to its
 ``zone`` clause in the BIND 9 configuration file:
 
 ::
@@ -62,12 +62,12 @@ The ``dnssec-policy`` statement causes the zone to be signed and turns
 on automatic maintenance for the zone. This includes re-signing the zone
 as signatures expire and replacing keys on a periodic basis. The value
 ``default`` selects the default policy, which contains values suitable
-for most situations. We cover the creation of your own policy in
+for most situations. We cover the creation of a custom policy in
 :ref:`signing_custom_policy`, but for the moment we are accepting the
 default values.
 
 When the configuration file is updated, tell ``named`` to
-reload the configuration file:
+reload the configuration file by running ``rndc reconfig``:
 
 ::
 
@@ -76,8 +76,8 @@ reload the configuration file:
 And that's it - BIND signs your zone.
 
 At this point, before you go away and merrily add ``dnssec-policy``
-statements to all your zones, we should mention that like a number of
-BIND configuration options, its scope depends on where it is placed. In
+statements to all your zones, we should mention that, like a number of
+other BIND configuration options, its scope depends on where it is placed. In
 the example above, we placed it in a ``zone`` clause, so it applied only
 to the zone in question. If we had placed it in a ``view`` clause, it
 would have applied to all zones in the view; and if we had placed it in
@@ -124,7 +124,7 @@ and when it is finished:
 
    Done signing with key 10376/ECDSAP256SHA256
 
-When the second message appears, your zone is signed.
+When the second message appears, the zone is signed.
 
 Before moving on to the next step of coordinating with the parent zone,
 let's make sure everything looks good using ``delv``. We want to
@@ -140,7 +140,7 @@ like ``Kexample.com.+013.10376.key``:
 
    # cp /etc/bind/Kexample.com.+013+10376.key /tmp/example.key
 
-The original key file looks like this (actual key shortened for display,
+The original key file looks like this (with the actual key shortened for ease of display,
 and comments omitted):
 
 ::
@@ -187,9 +187,9 @@ Uploading Information to the Parent Zone
 
 Once everything is complete on our name server, we need to generate some
 information to be uploaded to the parent zone to complete the chain of
-trust. The formats and the upload methods are actually dictated by your
+trust. The format and the upload methods are actually dictated by your
 parent zone's administrator, so contact your registrar or parent zone
-administrator to find out what the actual format should be, and how to
+administrator to find out what the actual format should be and how to
 deliver or upload the information to the parent zone.
 
 What about your zone between the time you signed it and the time your
@@ -198,7 +198,7 @@ zone still appears to be insecure, because if a validating
 resolver attempts to validate your domain name via
 your parent zone, your parent zone will indicate that you are
 not yet signed (as far as it knows). The validating resolver will then
-give up attempting to validate your domain name, and fall back to the
+give up attempting to validate your domain name, and will fall back to the
 insecure DNS. Until you complete this final step with your
 parent zone, your zone remains insecure.
 
@@ -212,10 +212,10 @@ parent zone, your zone remains insecure.
 
 Here are some examples of what you may upload to your parent zone, with
 the DNSKEY/DS data shortened for display. Note that no matter what
-formats may be required, the end result is the parent zone
+format may be required, the end result is the parent zone
 publishing DS record(s) based on the information you upload. Again,
-contact your parent zone administrator(s) to find out what is the
-correct format for you.
+contact your parent zone administrator(s) to find out the
+correct format for their system.
 
 1. DS record format:
 
@@ -255,7 +255,7 @@ Curious as to what all these commands did to your zone file? Read on to
 :ref:`your_zone_before_and_after_dnssec` and find out. If you are
 interested in how to roll this out to your existing primary and
 secondary name servers, check out :ref:`recipes_inline_signing` in
-:ref:`dnssec_recipes`.
+the :ref:`dnssec_recipes` chapter.
 
 .. _your_zone_before_and_after_dnssec:
 
@@ -426,7 +426,7 @@ Look for Signatures in Your Zone
 
 Another way to see if your zone data is signed is to check for the
 presence of a signature. With DNSSEC, every record [1]_ now comes with at
-least one corresponding signature, known as RRSIG.
+least one corresponding signature, known as an RRSIG.
 
 ::
 
@@ -460,7 +460,7 @@ least one corresponding signature, known as RRSIG.
                    oq4yBQumOhO5WX61LjA17l1DuLWcd/ASwlUZWFGCYQ== )
 
 The serial number was automatically incremented from the old, unsigned
-version. `named` keeps track of the serial number of the signed version of
+version. ``named`` keeps track of the serial number of the signed version of
 the zone independently of the unsigned version. If the unsigned zone is
 updated with a new serial number that is higher than the one in the
 signed copy, then the signed copy is increased to match it;
@@ -471,7 +471,7 @@ otherwise, the two are kept separate.
 Examine the Zone File
 ~~~~~~~~~~~~~~~~~~~~~
 
-Our original zone file ``example.com.db`` remains untouched, and `named` has
+Our original zone file ``example.com.db`` remains untouched, and ``named`` has
 generated three additional files automatically for us (shown below). The
 signed DNS data is stored in ``example.com.db.signed`` and in the
 associated journal file.
@@ -492,7 +492,7 @@ A quick description of each of the files:
 
 These files are stored in raw (binary) format for faster loading. To
 reveal the human-readable version, use ``named-compilezone``
-as shown below. In the example below, we are running the command on the
+as shown below. In the example below, we run the command on the
 raw format zone ``example.com.db.signed`` to produce a text version of
 the zone ``example.com.text``:
 
@@ -595,7 +595,7 @@ reason, we cover alternative signing techniques in
 
 .. _working_with_parent_zone:
 
-Working with the Parent Zone
+Working With the Parent Zone
 ----------------------------
 
 As mentioned in :ref:`signing_easy_start_upload_to_parent_zone`,
@@ -606,7 +606,7 @@ by your parent zone administrator. The two main formats are:
 
 2. DNSKEY format
 
-You should check with your parent zone to see which format they require.
+Check with your parent zone to see which format they require.
 
 But how can you get each of the formats from your existing data?
 
@@ -715,7 +715,7 @@ The policy has multiple parts:
    that is never changed.)
 
 -  The parameters ending in ``-ttl`` are, as expected, the TTLs of the
-   associated records. Remember that we said that during a key rollover,
+   associated records. Remember that during a key rollover,
    we have to wait for records to expire from caches? The values
    here tell BIND 9 the maximum amount of time it has to wait for this to
    happen. Values can be set for the DNSKEY records in your zone, the
@@ -741,7 +741,7 @@ The policy has multiple parts:
 -  Finally, the parameters ending in ``-safety`` are there to give
    you a bit of leeway in case a key roll doesn't go to plan. When
    introduced into the zone, the ``publish-safety`` time is the amount
-   of additional time over and above that calculated from the other
+   of additional time, over and above that calculated from the other
    parameters, during which the new key is in the zone but before BIND starts
    to sign records with it. Similarly, the ``retire-safety`` is the
    amount of additional time, over and above that calculated from the
@@ -795,9 +795,9 @@ follow the 12-step process as described in
 :ref:`how_does_dnssec_change_dns_lookup_revisited` and verify the
 authenticity and integrity of the answers.
 
-There is not that much left for you to do, as the DNS administrator, at
+There is not that much left for you, as the DNS administrator, to do on
 an ongoing basis. Whenever you update your zone, BIND automatically
-re-signs your zone with new RRSIG and NSEC or NSEC3 records, and even
+re-signs your zone with new RRSIG and NSEC/NSEC3 records, and even
 increments the serial number for you. If you choose to split your keys
 into a KSK and ZSK, the rolling of the ZSK is completely automatic.
 Rolling of a KSK or CSK may require some manual intervention, though,
@@ -823,14 +823,14 @@ signed by a valid key for the zone. If the record(s) successfully
 validate, the parent zone's DS RRset for the child zone is changed to
 correspond to the CDS (or CDNSKEY) records. (For more
 information on how the signaling works and the issues surrounding it,
-the details can be found in :rfc:`7344` and :rfc:`8078`.)
+please refer to :rfc:`7344` and :rfc:`8078`.)
 
 .. _working_with_the_parent_2:
 
 Working with the Parent Zone (2)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Once you have signed your zone, the only required manual tasks are
+Once the zone is signed, the only required manual tasks are
 to monitor KSK or CSK key rolls and pass the new DS record to the
 parent zone. However, if the parent can process CDS or CDNSKEY records,
 you may not even have to do that.
@@ -848,7 +848,7 @@ value in the DNSSEC policy [2]_.
 If your parent zone doesn't support CDS/CDNSKEY, you will have to supply
 the DNSKEY or DS record to the parent zone manually when a new KSK appears in
 your zone, presumably using the same mechanism you used to upload the
-records for the first time. Again, BIND assumes that the DS record will
+records the first time. Again, BIND assumes that the DS record will
 appear in the parent zone within the time set by
 ``parent-registration-delay``.
 
@@ -878,38 +878,38 @@ calculation of when the old key can be revoked.
    signed, the parent cannot be sure that a CDS or CDNSKEY record
    it finds by querying our zone really comes from our zone. Thus it
    needs to use some other form of secure transfer to obtain the
-   information.
+   information initially.
 
 .. _signing_alternative_ways:
 
-Alternative Ways of Signing a Zone
-----------------------------------
+Alternate Ways of Signing a Zone
+--------------------------------
 
 Although use of the automatic ``dnssec-policy`` is the preferred way to sign zones in
 BIND, there are occasions where a more manual approach may be
 needed, such as when external hardware is used to
-generate and sign the zone. ``dnssec-policy`` currently does not support
+generate and sign the zone. ``dnssec-policy`` does not currently support
 the use of external hardware, so if your security policy requires it, you
 need to use one of the methods described here.
 
 The idea of DNSSEC was first discussed in the 1990s and has been
 extensively developed over the intervening years. BIND has tracked the
-development of this technology, often being the first nameserver
+development of this technology, often being the first name server
 implementation to introduce new features. However, for compatibility reasons, BIND
 retained older ways of doing things even when new ways were added. This
 particularly applies to signing and maintaining zones, where different
 levels of automation are available.
 
-The following lists the available methods of signing in BIND, in the
-order they were introduced - and in order of decreasing
+The following is a list of the available methods of signing in BIND, in the
+order that they were introduced - and in order of decreasing
 complexity.
 
 Manual
    "Manual" signing was the first method to be introduced into BIND and
-   its name describes it perfectly - the user needs to do everything. In the
-   more automated methods, you load an unsigned zone file into
+   its name describes it perfectly: the user needs to do everything. In the
+   more-automated methods, you load an unsigned zone file into
    ``named``, which takes care of signing it. With manual signing, you
-   have provide a signed zone for ``named`` to serve.
+   have to provide a signed zone for ``named`` to serve.
 
    In practice, this means creating an unsigned zone file as usual, then
    using the BIND-provided tools ``dnssec-keygen`` to create the keys
@@ -943,12 +943,12 @@ Semi-Automatic
    unsigned zone is updated and the zone reloaded, ``named`` detects the
    changes and updates the signed copy of the zone.
 
-   This mode of signing has been termed "Semi-Automatic" in this
+   This mode of signing has been termed "semi-automatic" in this
    document because keys still have to be manually created (and deleted
    when appropriate). Although not an onerous task, it is still
    additional work.
 
-   The obvious question is, why would anyone want to use this
+   Why would anyone want to use this
    method when fully automated ones are available? At the time of
    this writing (mid-2020), the fully automatic methods cannot handle all scenarios,
    particularly that of having a single key shared among multiple
@@ -972,7 +972,7 @@ Fully Automatic with ``dnssec-keymgr``
    configuration file.
 
 Fully Automatic with ``dnssec-policy``
-   Introduced in BIND 9.16, ``dnssec-policy`` replaces ``dnssec-keymgr`` from BIND
+   Introduced a BIND 9.16, ``dnssec-policy`` replaces ``dnssec-keymgr`` from BIND
    9.17 onwards and avoids the need to run a separate program. It also
    handles the creation of keys if a zone is added (``dnssec-keymgr``
    requires an initial key) and deletes old key files as they are
@@ -987,6 +987,8 @@ touch on fully automatic signing with ``dnssec-policy``. Since this has
 already been described in
 :ref:`easy_start_guide_for_authoritative_servers`, we will just
 mention a few additional points. Finally, we briefly describe manual signing.
+
+.. _semi_automatic_signing:
 
 Semi-Automatic Signing
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -1008,14 +1010,14 @@ the same key for multiple zones.
 
 To convert a traditional
 (insecure) DNS zone to a secure one, we need to create various
-additional records (DNSKEY, RRSIG, NSEC or NSEC3) and, as with
+additional records (DNSKEY, RRSIG, NSEC/NSEC3) and, as with
 fully automatic signing, to upload verifiable information (such as a DS
 record) to the parent zone to complete the chain of trust.
 
 .. note::
 
    Again, we assume all configuration files, key
-   files, and zone files are stored in `/etc/bind`, and most examples
+   files, and zone files are stored in ``/etc/bind``, and most examples
    show commands run
    as the root user. This may not be ideal, but the point is not
    to distract from what is important here: learning how to sign
@@ -1030,6 +1032,8 @@ record) to the parent zone to complete the chain of trust.
    there is an existing insecure zone ``example.com`` that we are
    converting to a secure version. The secure version uses both a KSK
    and a ZSK.
+
+.. _generate_keys:
 
 Generate Keys
 ^^^^^^^^^^^^^
@@ -1057,9 +1061,9 @@ This command generates four key files in ``/etc/bind/keys``:
 
 -  Kexample.com.+008+00472.private
 
-The two files ending in .key are the public keys. These contain the
+The two files ending in ``.key`` are the public keys. These contain the
 DNSKEY resource records that appear in the zone. The two files
-ending in .private are the private keys, and contain the information
+ending in ``.private`` are the private keys, and contain the information
 that ``named`` actually uses to sign the zone.
 
 Of the two pairs, one is the zone-signing key (ZSK), and one is the
@@ -1094,12 +1098,12 @@ about the contents. The file names are of the form:
 
 The "zone name" is self-explanatory. The "algorithm ID" is a number assigned
 to the algorithm used to construct the key: the number appears in the
-DNSKEY resource record (and is highlighted in the example above). In
+DNSKEY resource record. In
 our example, 8 means the algorithm RSASHA256. Finally, the "keyid" is
 essentially a hash of the key itself.
 
 Make sure these files are readable by ``named`` and make sure that the
-.private file is not readable by anyone else.
+``.private`` files are not readable by anyone else.
 
 Refer to :ref:`system_entropy` for information on how to
 speed up the key generation process if your random number generator has
@@ -1140,7 +1144,7 @@ which would set the contents of the key file to:
    ; Delete: 20210731000000 (Sat Jul 31 01:00:00 2021)
    example.com. IN DNSKEY 256 3 8 AwEAAfel66...LqkA7cvn8=
 
-(The actual key is truncated here for to improve readability.)
+(The actual key is truncated here to improve readability.)
 
 Below is a complete list of each of the metadata fields, and how each
 one affects the signing of your zone:
@@ -1152,7 +1156,7 @@ one affects the signing of your zone:
 2. *Publish*: This sets the date on which a key is to be published to the
    zone. After that date, the key is included in the zone but is
    not used to sign it. This allows validating resolvers to get a
-   copy of the new key in their cache before any there are any resource
+   copy of the new key in their cache before there are any resource
    records signed with it. By default, if not specified at creation
    time, this is set to the current time, meaning the key is
    published as soon as ``named`` picks it up.
@@ -1164,7 +1168,7 @@ one affects the signing of your zone:
    picks it up.
 
 4. *Revoke:* This sets the date on which the key is to be revoked. After that
-   date, the key is flagged as revoked. It is still included in the
+   date, the key is flagged as revoked, although it is still included in the
    zone and used to sign it. This is used to notify validating
    resolvers that this key is about to be removed or retired from the
    zone. (This state is not used in normal day-to-day operations. See
@@ -1268,7 +1272,7 @@ Uploading the DS Record to the Parent
 As described in :ref:`signing_easy_start_upload_to_parent_zone`, we
 must now upload the new information to the parent zone. The format of the
 information and how to generate it is described in
-:ref:`working_with_parent_zone`, although remember that you must
+:ref:`working_with_parent_zone`, although it is important to remember that you must
 use the contents of the KSK file that you generated above as part of the
 process.
 
