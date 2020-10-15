@@ -205,8 +205,13 @@ the validating resolver reaches a key that it trusts. In the ideal,
 fully deployed world of DNSSEC, all validating resolvers only need to
 trust one key: the root key.
 
-The following example shows the DNSSEC validating process of looking up
-the name ``www.isc.org`` at a very high level:
+.. _dnssec_12_steps:
+
+The 12-Step DNSSEC Validation Process (Simplified)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The following example shows the 12 steps of the DNSSEC validating process 
+at a very high level, looking up the name ``www.isc.org`` :
 
 1.  Upon receiving a DNS query from a client to resolve ``www.isc.org``,
     the validating resolver follows standard DNS protocol to track down
