@@ -1,3 +1,14 @@
+############################################################################
+# Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, you can obtain one at https://mozilla.org/MPL/2.0/.
+#
+# See the COPYRIGHT file distributed with this work for additional
+# information regarding copyright ownership.
+############################################################################
+
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
@@ -20,10 +31,6 @@
 project = 'ISC DNSSEC Guide'
 copyright = '2020, Internet Systems Consortium'
 author = 'Internet Systems Consortium'
-
-# The full version, including alpha/beta/rc tags
-release = '2020'
-
 
 # -- General configuration ---------------------------------------------------
 
@@ -49,9 +56,13 @@ master_doc = 'index'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = 'sphinx_rtd_theme'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+# -- Options for EPUB output -------------------------------------------------
+
+epub_basename = 'DNSSECGuide'
