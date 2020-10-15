@@ -8,7 +8,7 @@ Validation
 Easy-Start Guide for Recursive Servers
 --------------------------------------
 
-This section provides the basic information to set up a
+This section provides the basic information needed to set up a
 working DNSSEC-aware recursive server, also known as a validating
 resolver. A validating resolver performs validation for each remote
 response received, following the chain of trust to verify that the answers it
@@ -21,14 +21,13 @@ Enabling DNSSEC Validation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 So how do we turn on DNSSEC validation? It turns out that you may not need
-to reconfigure your name server at all, since recent versions of BIND
-packages and distributions have shipped with DNSSEC validation
+to reconfigure your name server at all, since the most recent versions of BIND 9 -
+including packages and distributions - have shipped with DNSSEC validation
 enabled by default. Before making any configuration changes, check
-whether you already have DNSSEC validation by following the steps
+whether you already have DNSSEC validation enabled by following the steps
 described in :ref:`how_to_test_recursive_server`.
 
-In earlier versions of BIND, including - at the time of this writing
-(mid-2020) - the current extended support version (9.11), DNSSEC
+In earlier versions of BIND, including 9.11-ESV, DNSSEC
 validation must be explicitly enabled. To do this, you only need to
 add one line to the ``options`` section of your configuration file:
 
@@ -40,7 +39,7 @@ add one line to the ``options`` section of your configuration file:
         ...
     };
 
-Restart ``named`` or use ``rndc reconfig``, and your recursive server is
+Restart ``named`` or run ``rndc reconfig``, and your recursive server is
 now happily validating each DNS response. If this does not work for you,
 and you have already verified DNSSEC support as described in
 :ref:`dnssec_support_in_bind`, you may have some other
@@ -54,9 +53,9 @@ Effects of Enabling DNSSEC Validation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Once DNSSEC validation is enabled, any DNS response that does not pass
-the validation checks results in the domain name not getting
-resolved (often a SERVFAIL status seen by the client). If everything has
-been configured properly, this is good; it means that an end user has
+the validation checks results in a failure to resolve the domain name
+(often a SERVFAIL status seen by the client). If everything has
+been configured properly, this is the correct result; it means that an end user has
 been protected against a malicious attack.
 
 However, if there is a DNSSEC configuration issue (sometimes outside of
@@ -67,9 +66,9 @@ as name resolution being slow or failing altogether; some parts of a URL
 not loading; or the web browser returning an error message indicating
 that the page cannot be displayed. For example, if root name
 servers were misconfigured with the wrong information about ``.org``, it
-could cause all validation for ``.org`` domains to fail. To the end
-users, it would appear that no one could get to any ``.org`` web
-sites [3]_. Should you encounter DNSSEC-related problems, don't be
+could cause all validation for ``.org`` domains to fail. To end
+users, it would appear that all ``.org`` web
+sites were out of service [3]_. Should you encounter DNSSEC-related problems, don't be
 tempted to disable validation; there is almost certainly a solution that
 leaves validation enabled. A basic troubleshooting guide can be found in
 :ref:`dnssec_troubleshooting`.
@@ -81,13 +80,13 @@ leaves validation enabled. A basic troubleshooting guide can be found in
 
 .. _how_to_test_recursive_server:
 
-How To Test A Recursive Server (So You Think You Are Validating)
+So You Think You Are Validating (How To Test A Recursive Server)
 ----------------------------------------------------------------
 
-Okay, so now that you have reconfigured your recursive server and
+Now that you have reconfigured your recursive server and
 restarted it, how do you know that your recursive name server is
 actually verifying each DNS query? There are several ways to check, and
-we've listed a couple of suggestions below.
+we've listed a few of them below.
 
 .. _using_web_based_tests_to_verify:
 
@@ -96,21 +95,21 @@ Using Web-Based Tools to Verify
 
 For most people, the simplest way to check if a recursive name server
 is indeed validating DNS queries is to use one of the many web-based
-tools.
+tools available via a simple online search.
 
 Configure your client computer to use the newly reconfigured recursive
-server for DNS resolution; then you can use any one of these
+server for DNS resolution; then use any one of these
 web-based tests to confirm that it is in fact validating DNS
 responses.
 
 .. _using_dig_to_verify:
 
-Using `dig` to Verify
-~~~~~~~~~~~~~~~~~~~~~
+Using ``dig`` to Verify
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Web-based DNSSEC-verification tools often employ JavaScript. If you don't trust the
 JavaScript magic that the web-based tools rely on, you can take matters
-into your own hands and use a command line DNS tool to check your
+into your own hands and use a command-line DNS tool to check your
 validating resolver yourself.
 
 While ``nslookup`` is popular, partly because it comes pre-installed on
@@ -122,11 +121,11 @@ Windows versions on its website.
 
 ``dig`` is a flexible tool for interrogating DNS name servers. It
 performs DNS lookups and displays the answers that are returned from the
-name server(s) that were queried. Most seasoned DNS administrators use
+name servers that were queried. Most seasoned DNS administrators use
 ``dig`` to troubleshoot DNS problems because of its flexibility, ease of
 use, and clarity of output.
 
-The example below shows using ``dig`` to query the name server 10.53.0.1
+The example below shows how to use ``dig`` to query the name server 10.53.0.1
 for the A record for ``ftp.isc.org`` when DNSSEC validation is enabled
 (i.e. the default). The address 10.53.0.1 is only used as an example;
 replace it with the actual address or host name of your
@@ -163,7 +162,7 @@ recursive name server.
 
 The important detail in this output is the presence of the ``ad`` flag
 in the header. This signifies that BIND has retrieved all related DNSSEC
-information related to the target of the query (ftp.isc.org) and that
+information related to the target of the query (``ftp.isc.org``) and that
 the answer received has passed the validation process described in
 :ref:`how_are_answers_verified`. We can have confidence in the
 authenticity and integrity of the answer, that ``ftp.isc.org`` really
@@ -227,7 +226,7 @@ file) before continuing.
 
 .. _verifying_protection_from_bad_domains:
 
-Verifying Protection from Bad Domain Names
+Verifying Protection From Bad Domain Names
 ------------------------------------------
 
 It is also important to make sure that DNSSEC is protecting your network from
@@ -242,7 +241,7 @@ domain name specifically set up to fail DNSSEC validation,
 ``www.dnssec-failed.org``.
 
 With DNSSEC validation enabled (the default), an attempt to look up that
-name will fail:
+name fails:
 
 ::
 
@@ -298,7 +297,7 @@ configuration file), the lookup succeeds:
 
 Do not be tempted to disable DNSSEC validation just because some names
 are failing to resolve. Remember, DNSSEC protects your DNS lookup from
-hacking. The next section describes how you can quickly check whether
+hacking. The next section describes how to quickly check whether
 the failure to successfully look up a name is due to a validation
 failure.
 
@@ -308,10 +307,10 @@ How Do I Know I Have a Validation Problem?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Since all DNSSEC validation failures result in a general ``SERVFAIL``
-message, how do we know if it was related to validation in the first
-place? Fortunately, there is a flag in ``dig``, (``+cd``, for "checking
+message, how do we know if it was really a validation error?
+Fortunately, there is a flag in ``dig``, (``+cd``, for "checking
 disabled") which tells the server to disable DNSSEC validation. If
-you received a ``SERVFAIL`` message, re-run the query a second time
+you receive a ``SERVFAIL`` message, re-run the query a second time
 and set the ``+cd`` flag. If the query succeeds with ``+cd``, but
 ends in ``SERVFAIL`` without it, you know you are dealing with a
 validation problem. So using the previous example of
@@ -359,8 +358,8 @@ take a closer look at what DNSSEC validation actually does, and some other optio
 
 .. _dnssec_validation_explained:
 
-`dnssec-validation`
-~~~~~~~~~~~~~~~~~~~
+``dnssec-validation``
+~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -374,28 +373,28 @@ configuration is needed. There are three possible choices for the
 ``dnssec-validation`` option:
 
 -  *yes*: DNSSEC validation is enabled, but a trust anchor must be
-   manually configured. No validation actually takes place until you
-   have manually configured at least one trusted key.
+   manually configured. No validation actually takes place until
+   at least one trusted key has been manually configured.
 
 -  *no*: DNSSEC validation is disabled, and the recursive server behaves
    in the "old-fashioned" way of performing insecure DNS lookups.
 
 -  *auto*: DNSSEC validation is enabled, and a default trust anchor
-   (included as part of BIND) for the DNS root zone is used. This is the
+   (included as part of BIND 9) for the DNS root zone is used. This is the
    default; BIND automatically does this if there is no
    ``dnssec-validation`` line in the configuration file.
 
-Let's discuss the difference between <yes> and <auto>. If set to
-<yes>, the trust anchor must be manually defined and maintained
+Let's discuss the difference between *yes* and *auto*. If set to
+*yes*, the trust anchor must be manually defined and maintained
 using the ``trust-anchors`` statement (with either the ``static-key`` or
 ``static-ds`` modifier) in the configuration file; if set to
-<auto> (the default, and as shown in the example), then no further
+*auto* (the default, and as shown in the example), then no further
 action should be required as BIND includes a copy [4]_ of the root key.
-When set to <auto>, BIND automatically keeps the keys (also known as
-trust anchors, which we look at in :ref:`trust_anchors`)
+When set to *auto*, BIND automatically keeps the keys (also known as
+trust anchors, discussed in :ref:`trust_anchors`)
 up-to-date without intervention from the DNS administrator.
 
-We recommend using the default <auto> unless there is a good reason to
+We recommend using the default *auto* unless there is a good reason to
 require a manual trust anchor. To learn more about trust anchors,
 please refer to :ref:`trusted_keys_and_managed_keys`.
 
@@ -404,13 +403,13 @@ please refer to :ref:`trusted_keys_and_managed_keys`.
 How Does DNSSEC Change DNS Lookup (Revisited)?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-So by now you've enabled validation on your recursive name server, and
+Now you've enabled validation on your recursive name server and
 verified that it works. What exactly changed? In
-:ref:`how_does_dnssec_change_dns_lookup` we looked at the very
-high-level, simplified 12 steps of DNSSEC validation process. Let's revisit
+:ref:`how_does_dnssec_change_dns_lookup` we looked at a very
+high-level, simplified version of the 12 steps of the DNSSEC validation process. Let's revisit
 that process now and see what your validating resolver is doing in more
 detail. Again, as an example we are looking up the A record for the
-domain name ``www.isc.org`` (:ref:`dnssec_12_steps`):
+domain name ``www.isc.org`` (see :ref:`dnssec_12_steps`):
 
 1.  The validating resolver queries the ``isc.org`` name servers for the
     A record of ``www.isc.org``. This query has the ``DNSSEC
@@ -455,9 +454,9 @@ the received key can be trusted. We talk about these locally
 configured keys, or trust anchors, in :ref:`trust_anchors`.
 
 With DNSSEC, every response includes not just the
-answer, but a digital signature (RRSIG) as well. This is so the
-validating resolver can verify the answer received, and that's what we
-will look at in the next section, :ref:`how_are_answers_verified`.
+answer, but a digital signature (RRSIG) as well, so the
+validating resolver can verify the answer received. That is what we
+look at in the next section, :ref:`how_are_answers_verified`.
 
 .. _how_are_answers_verified:
 
@@ -466,16 +465,15 @@ How Are Answers Verified?
 
 .. note::
 
-   Keep in mind as you read this section, that although words like
+   Keep in mind, as you read this section, that although words like
    "encryption" and "decryption"
    are used here from time to time, DNSSEC does not provide privacy.
-   Public key cryptography is used to provide data *authenticity* (who
+   Public key cryptography is used to verify data *authenticity* (who
    sent it) and data *integrity* (it did not change during transit), but
    any eavesdropper can still see DNS requests and responses in
    clear text, even when DNSSEC is enabled.
 
-So how exactly are DNSSEC answers verified? Before we can talk about how
-they are verified, let's first see how verifiable information is
+So how exactly are DNSSEC answers verified? Let's first see how verifiable information is
 generated. On the authoritative server, each DNS record (or message) is
 run through a hash function, and this hashed value is then encrypted by a
 private key. This encrypted hash value is the digital signature.
@@ -580,7 +578,7 @@ trust it. The key we have on file is called a trust anchor, sometimes
 also known as a trust key, trust point, or secure entry point.
 
 The 12-step lookup process describes the DNSSEC lookup in the ideal
-world where every single domain name is signed and properly delegated,
+world, where every single domain name is signed and properly delegated,
 and where each validating resolver only needs to have one trust anchor - that
 is, the root's public key. But there is no restriction that the
 validating resolver must only have one trust anchor. In fact, in the
@@ -620,7 +618,7 @@ we saw earlier. Once the validating resolver receives the DNSKEY file in
 DS record for ``.gov``, or ask the root name servers for their DNSKEY.
 
 In fact, whenever the validating resolver receives a DNSKEY, it checks
-to see if this is a configured trusted key, to decide whether it
+to see if this is a configured trusted key to decide whether it
 needs to continue chasing down the validation chain.
 
 .. _trusted_keys_and_managed_keys:
@@ -628,12 +626,12 @@ needs to continue chasing down the validation chain.
 Trusted Keys and Managed Keys
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-So, since the resolver is validating, we must have at least one key (trust
+Since the resolver is validating, we must have at least one key (trust
 anchor) configured. How did it get here, and how do we maintain it?
 
 If you followed the recommendation in
 :ref:`easy_start_guide_for_recursive_servers`, by setting
-``dnssec-validation`` to <auto>, then there is nothing left to do.
+``dnssec-validation`` to *auto*, there is nothing left to do.
 BIND already includes a copy of the root key (in the file
 ``bind.keys``), and automatically updates it when the root key
 changes. [5]_ It looks something like this:
@@ -651,9 +649,9 @@ changes. [5]_ It looks something like this:
                    R1AkUTV74bU=";
    };
 
-You could, of course, decide to manage this key manually yourself.
-First, you need to make sure that your ``dnssec-validation`` is set
-to <yes> rather than <auto>:
+You can, of course, decide to manage this key manually yourself.
+First, you need to make sure that ``dnssec-validation`` is set
+to *yes* rather than *auto*:
 
 ::
 
@@ -694,7 +692,7 @@ process. Thereafter, BIND uses the managed keys database
 
    Remember, if you choose to manage the keys on your own, whenever the
    key changes (which, for most zones, happens on a periodic basis),
-   the configuration needs to be updated manually. Failing to do so will
+   the configuration needs to be updated manually. Failure to do so will
    result in breaking nearly all DNS queries for the subdomain of the
    key. So if you are manually managing ``.gov``, all domain names in
    the ``.gov`` space may become unresolvable; if you are manually
@@ -749,8 +747,8 @@ EDNS on DNS Servers
 ~~~~~~~~~~~~~~~~~~~
 
 For many years, BIND has had EDNS enabled by default,
-and the UDP packet size is set to a maximum of 4096 bytes. As the DNS
-administrator, there should not be any reconfiguration needed. You can
+and the UDP packet size is set to a maximum of 4096 bytes. The DNS
+administrator should not need to perform any reconfiguration. You can
 use ``dig`` to verify that your server supports EDNS and see the UDP packet
 size it allows with this ``dig`` command:
 
@@ -806,15 +804,15 @@ packets have to traverse the network, the network infrastructure
 itself must allow them to pass.
 
 When data is physically transmitted over a network, it has to be broken
-down into chunks. The size of the data chunk is known as Maximum
-Transmission Units (MTU), and it can be different from network to
+down into chunks. The size of the data chunk is known as the Maximum
+Transmission Unit (MTU), and it can differ from network to
 network. IP fragmentation occurs when a large data packet needs to be
-broken down into smaller chunks so that each chunk is smaller than the
-MTU, and these smaller chunks need to be reassembled back into the large
-data packet. IP fragmentation is not necessarily a bad thing; it most
+broken down into chunks smaller than the
+MTU; these smaller chunks then need to be reassembled back into the large
+data packet at their destination. IP fragmentation is not necessarily a bad thing, and it most
 likely occurs on your network today.
 
-Some network equipment, such as firewalls, may make assumptions about
+Some network equipment, such as a firewall, may make assumptions about
 DNS traffic. One of these assumptions may be how large each DNS packet
 is. When a firewall sees a larger DNS packet than it expects, it may either
 reject the large packet or drop its fragments because the firewall
@@ -827,10 +825,9 @@ it often results in the larger packets being rejected, and to the
 end user it looks like the queries go unanswered. Or in the case of
 fragmentation, only a part of the answer makes it to the validating
 resolver, and your validating resolver may need to re-ask the question
-again and again, creating the appearance that the "DNS/network is really slow"
-for end users.
+again and again, creating the appearance for end users that the DNS/network is slow.
 
-And while you're updating the configuration on your network equipment, make
+While you are updating the configuration on your network equipment, make
 sure TCP port 53 is also allowed for DNS traffic.
 
 .. _dns_uses_tcp:
@@ -846,6 +843,6 @@ records such as AAAA, increases the chance that DNS data will be
 transmitted via TCP.
 
 Due to the increased packet size, DNSSEC may fall back to TCP more often
-than traditional (insecure) DNS. If your network is blocking or
-filtering TCP port 53 today, you may already experience instability with
+than traditional (insecure) DNS. If your network blocks or
+filters TCP port 53 today, you may already experience instability with
 DNS resolution, before even deploying DNSSEC.
