@@ -29,11 +29,11 @@ DNSSEC Support in BIND
 ~~~~~~~~~~~~~~~~~~~~~~
 
 All versions of BIND 9 since BIND 9.7 can support DNSSEC, as currently
-deployed in the global DNS. The BIND software you are running most
-likely already supports DNSSEC as shipped. Run the command ``named -V``
+deployed in the global DNS, so the BIND software you are running most
+likely already supports DNSSEC. Run the command ``named -V``
 to see what flags it was built with. If it was built with OpenSSL
 (``--with-openssl``), then it supports DNSSEC. Below is an example
-screenshot of running ``named -V``:
+of the output from running ``named -V``:
 
 ::
 
@@ -79,7 +79,7 @@ insufficient entropy, it may take much longer than one cares to wait to
 generate keys.
 
 There are software packages, such as ``haveged`` for Linux, that
-provide additional entropy for your system. Once installed, they
+provide additional entropy for a system. Once installed, they
 significantly reduce the time needed to generate keys.
 
 The more entropy there is, the better pseudo-random numbers you get, and
@@ -97,8 +97,8 @@ Hardware Requirements
 Recursive Server Hardware
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Enabling DNSSEC validation on a recursive server makes it a validating
-resolver. The job of a validating resolver is to fetch additional
+Enabling DNSSEC validation on a recursive server makes it a *validating
+resolver*. The job of a validating resolver is to fetch additional
 information that can be used to computationally verify the answer set.
 Below are the areas that should be considered for possible hardware
 enhancement for a validating resolver:
@@ -108,17 +108,17 @@ enhancement for a validating resolver:
    unless your recursive server has built-in hardware to perform
    cryptographic computations.
 
-2. *System memory*: DNSSEC leads to larger answer sets, and occupies
+2. *System memory*: DNSSEC leads to larger answer sets and occupies
    more memory space.
 
 3. *Network interfaces*: although DNSSEC does increase the amount of DNS
    traffic overall, it is unlikely that you need to upgrade your network
-   interface card (NIC) on the name server, unless you have some truly
+   interface card (NIC) on the name server unless you have some truly
    outdated hardware.
 
-One of the factors to consider is the destinations of your current DNS
+One factor to consider is the destinations of your current DNS
 traffic. If your current users spend a lot of time visiting ``.gov`` 
-websites, you should expect a bigger jump in all of the above
+websites, you should expect a jump in all of the above
 categories when validation is enabled, because ``.gov`` is more than 90%
 signed. This means that more than 90% of the time, your validating resolver
 will be doing what is described in
@@ -140,13 +140,13 @@ enhancements for an authoritative server with signed zones:
 
 1. *CPU*: a DNSSEC-signed zone requires periodic re-signing, which is a
    cryptographic function that is CPU-intensive. If your DNS zone is
-   dynamic or changes frequently, it also adds to higher CPU loads.
+   dynamic or changes frequently, that also adds to higher CPU loads.
 
 2. *System storage*: A signed zone is definitely larger than an unsigned
    zone. How much larger? See
    :ref:`your_zone_before_and_after_dnssec` for a comparison
-   example. Roughly speaking, you should expect your zone file to grow at
-   least three times as large, usually more.
+   example. Roughly speaking, you should expect your zone file to grow by at
+   least three times, and frequently more.
 
 3. *System memory*: Larger DNS zone files take up not only more storage
    space on the file system, but also more space when they are loaded
@@ -154,17 +154,17 @@ enhancements for an authoritative server with signed zones:
 
 4. *Network interfaces*: While your authoritative name servers will
    begin sending back larger responses, it is unlikely that you need to
-   upgrade your network interface card (NIC) on the name server, unless
+   upgrade your network interface card (NIC) on the name server unless
    you have some truly outdated hardware.
 
-One of the factors to consider, but over which you really have no control, is
-the number of users who query your domain name who have DNSSEC enabled. It was
+One factor to consider, but over which you really have no control, is
+the number of users who query your domain name who themselves have DNSSEC enabled. It was
 estimated in late 2014 that roughly 10% to 15% of the Internet DNS
 queries were DNSSEC-aware. Estimates by `APNIC <https://www.apnic.net/>`__
 suggest that in 2020 about `one-third <https://stats.labs.apnic.net/dnssec>`__ of all queries are
 validating queries, although the percentage varies widely on a
 per-country basis. This means that more DNS queries for your domain will
-take advantage of the additional security features, which will result in the
+take advantage of the additional security features, which will result in
 increased system load and possibly network traffic.
 
 .. [1]
@@ -177,7 +177,7 @@ Network Requirements
 
 From a network perspective, DNS and DNSSEC packets are very similar;
 DNSSEC packets are just bigger, which means DNS is more likely to use
-TCP. You should test for the following two items, to make sure your
+TCP. You should test for the following two items to make sure your
 network is ready for DNSSEC:
 
 1. *DNS over TCP*: Verify network connectivity over TCP port 53, which
@@ -195,7 +195,7 @@ network is ready for DNSSEC:
 Operational Requirements
 ------------------------
 
-.._parent_zone:
+.. _parent_zone:
 
 Parent Zone
 ~~~~~~~~~~~
@@ -205,7 +205,7 @@ administrators to make sure they support DNSSEC. This may or may not be
 the same entity as your registrar. As you will see later in
 :ref:`working_with_parent_zone`, a crucial step in DNSSEC deployment
 is establishing the parent-child trust relationship. If your parent zone
-does not yet support DNSSEC, contact that administrator to voice your concern.
+does not yet support DNSSEC, contact that administrator to voice your concerns.
 
 .. _security_requirements:
 
@@ -214,7 +214,7 @@ Security Requirements
 
 Some organizations may be subject to stricter security requirements than
 others. Check to see if your organization requires stronger
-cryptographic keys be generated and stored, or how often keys need to be
+cryptographic keys be generated and stored, and how often keys need to be
 rotated. The examples presented in this document are not intended for
 high-value zones. We cover some of these security considerations in
 :ref:`dnssec_advanced_discussions`.
