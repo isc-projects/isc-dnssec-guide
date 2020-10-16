@@ -17,13 +17,13 @@ signature be valid for?
 The maximum value for the validity period should be determined by the impact of a
 replay attack: if this is low, the period can be long; if high,
 the period should be shorter. There is no "right" value, but periods of
-between a few days to a month seem to be common.
+between a few days to a month are common.
 
 Deciding a minimum value is probably an easier task. Should something
 fail (e.g., a hidden primary distributing to secondary servers that
 actually answer queries), how long will it take before the failure is
 noticed, and how long before it is fixed? If you are a large 24x7
-operation with operators always on site, the answer might be less than
+operation with operators always on-site, the answer might be less than
 an hour. In smaller companies, if the failure occurs
 just after everyone has gone home for a long weekend, the answer might
 be several days.
@@ -39,10 +39,10 @@ re-signed. The frequency of the re-signing depends on your network's
 individual needs. For example, signing puts a load on your server, so if
 the server is very highly loaded, a lower re-signing frequency is better. Another
 consideration is the signature lifetime: obviously the intervals between
-signings must not be longer that the signature validity period. But if
+signings must not be longer than the signature validity period. But if
 you have set a signature lifetime close to the minimum (see above), the
 signing interval must be much shorter. What would happen if the system
-failed just before the zone is re-signed?
+failed just before the zone was re-signed?
 
 Again, there is no single "right" answer; it depends on your circumstances. The
 BIND 9 default policy sets the signature refresh interval to 5 days.
@@ -78,10 +78,10 @@ passed to "Bob," our intern would simply answer "Sorry, that person
 doesn’t work here" and sign this message. This answer could be validated
 because our intern signed the response with our private DNSSEC key.
 However, since the signature doesn’t change, an attacker could record
-this message. If the attacker could intercept our email, when the next
+this message. If the attacker were able to intercept our email, when the next
 person emailed asking for the message to be passed to Susan, the attacker
 could return the exact same message: "Sorry, that person doesn’t work
-here" with the same signature. Now the attacker has successfully fooled
+here," with the same signature. Now the attacker has successfully fooled
 the sender into thinking that Susan doesn’t work at our company, and
 might even be able to convince all senders that no one works at this
 company.
@@ -95,7 +95,7 @@ NSEC
 ~~~~
 
 The NSEC record is used to prove that something does not exist, by
-providing the name before it, and the name after it. Using our tiny
+providing the name before it and the name after it. Using our tiny
 company example, this would be analogous to someone sending an email for
 Bob and our nameless intern responding with with: "I'm sorry, that
 person doesn't work here. The name before the location where 'Bob'
@@ -137,7 +137,7 @@ doesn't (for that name), the signed NSEC record returned lists all of
 the record types that *do* exist for the requested domain name.
 
 NSEC records can also be used to show whether a record was generated as
-the result of a wildcard expansion or not. The details of this are not
+the result of a wildcard expansion. The details of this are not
 within the scope of this document, but are described well in
 :rfc:`7129`.
 
@@ -155,7 +155,7 @@ learns every name in our company phone directory. For many of you, this
 may not be a problem, since the very idea of DNS is similar to a public
 phone book: if you don't want a name to be known publicly, don't put it
 in DNS! Consider using DNS views (split DNS) and only display your
-sensitive names to a selective audience.
+sensitive names to a select audience.
 
 The second drawback of NSEC is actually increased operational
 overhead: there is no opt-out mechanism for insecure child zones. This generally
@@ -176,8 +176,8 @@ NSEC3 adds two additional features that NSEC does not have:
    delegations (i.e., delegations to zones that are not signed) from the
    proof of non-existence.
 
-Recall, in :ref:`advanced_discussions_nsec`, we provided a range of
-names to prove that something really does not exist. But as it turns
+Recall that in :ref:`advanced_discussions_nsec` we provided a range of
+names to prove that something does not exist. But as it turns
 out, even disclosing these ranges of names becomes a problem: this made
 it very easy for the curious-minded to look at our entire zone. Not
 only that, unlike a zone transfer, this "zone walking" is more
@@ -191,7 +191,7 @@ predictable shape and size of ground meat (hash) with a somewhat unique
 pattern. No matter how hard you try, you cannot turn the ground meat
 back into the ribeye steak: that's what we call a one-way hash.
 
-NSEC3 basically runs the names through a one-way hash, before giving them
+NSEC3 basically runs the names through a one-way hash before giving them
 out, so the recipients can verify the non-existence without any
 knowledge of the actual names.
 
@@ -256,7 +256,7 @@ parameters for a zone [1]_, for example:
 the number of iterations, and 1234567890abcedf is the salt. Let's look
 at how each one can be configured:
 
--  *Algorithm*: The only defined value currently is 1 for SHA-1.
+-  *Algorithm*: The only currently defined value is 1 for SHA-1.
 
 -  *Opt-out*: Set this to 1 for NSEC3 opt-out, which we
    discuss in :ref:`advanced_discussions_nsec3_optout`.
@@ -306,7 +306,7 @@ delegations are not yet DNSSEC-aware, meaning they are still insecure or
 unsigned, generating DNSSEC-records for their NS and glue records is not
 a good use of your precious name server resources.
 
-The resources may not seem like a lot, but imagine if you are the
+The resources may not seem like a lot, but imagine that you are the
 operator of busy top-level domains such as ``.com`` or ``.net``, with
 millions of insecure delegated domain names: it quickly
 adds up. As of mid-2020, less than 1.5% of all ``.com`` zones are
@@ -334,7 +334,7 @@ an offline attack. All that is required is running through all the
 combinations to construct a database of plaintext names to hashed names,
 also known as a "rainbow table."
 
-There is one more features NSEC3 gives us to provide additional
+There is one more feature NSEC3 gives us to provide additional
 protection: salt. Basically, salt gives us the ability to introduce further
 randomness into the hashed results. Whenever the salt is changed, any
 pre-computed rainbow table is rendered useless, and a new rainbow table
@@ -343,7 +343,7 @@ becomes difficult to construct a useful rainbow table, and thus difficult to
 walk the DNS zone data programmatically. How often you want to change
 your NSEC3 salt is up to you.
 
-To learn more about what steps to take to change NSEC3, please see
+To learn more about the steps to take to change NSEC3, please see
 :ref:`recipes_nsec3_salt`.
 
 .. _advanced_discussions_nsec_or_nsec3:
@@ -406,7 +406,7 @@ Key-Signing Key (KSK)
    digest of the KSK. When a resolver verifies the chain of trust it
    checks to see that the DS record in the parent (which holds the
    digest of a key) matches a key in the DNSKEY RRset, and that it is
-   able to use that key to verify the DNSKEY RRset. If it is able to do
+   able to use that key to verify the DNSKEY RRset. If it can do
    that, the resolver knows that it can trust the DNSKEY resource
    records, and so can use one of them to validate the other records in
    the zone.
@@ -478,7 +478,7 @@ and ZSK:
 The only visible difference between the records (apart from the key data
 itself) is the value of the flags fields; this is 256
 for a ZSK and 257 for a KSK or CSK. Even then, the flags field is only a
-hint to the software using them as to the role of the key: zones can be
+hint to the software using it as to the role of the key: zones can be
 signed by any key. The fact that a CSK and KSK both have the same flags
 emphasizes this. A KSK usually only signs the DNSSEC key-related RRsets
 in a zone, whereas a CSK is used to sign all records in the zone.
@@ -524,12 +524,14 @@ All are supported in BIND 9, but only RSA and ECDSA (specifically
 RSASHA256 and ECDSAP256SHA256) are mandatory to implement in DNSSEC.
 However, RSA is a little long in the tooth, and ECDSA/EdDSA are emerging
 as the next new cryptographic standards. In fact, the US federal
-government recommended not using RSA altogether by September 2015,
+government recommended discontinuing RSA use altogether by September 2015
 and migrating to using ECDSA or similar algorithms.
 
 For now, use ECDSAP256SHA256 but keep abreast of developments in this
 area. For details about rolling over DNSKEYs to a new algorithm, see
 :ref:`advanced_discussions_DNSKEY_algorithm_rollovers`.
+
+.. _key_sizes:
 
 Key Sizes
 ~~~~~~~~~
@@ -612,10 +614,10 @@ For more information on changing keys, please see
 
 .. _hardware_security_modules:
 
-Hardware Security Modules (HSM)
+Hardware Security Modules (HSMs)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A Hardware Security Modules (HSM) may come in different shapes and sizes,
+A Hardware Security Module (HSM) may come in different shapes and sizes,
 but as the name indicates, it is a physical device or devices, usually
 with some or all of the following features:
 
@@ -639,6 +641,8 @@ Manual <https://bind9.readthedocs.io/en/latest/index.html>`_.
 Rollovers
 ---------
 
+.. _key_rollovers:
+
 Key Rollovers
 ~~~~~~~~~~~~~
 
@@ -652,7 +656,7 @@ Pros:
    private part of the key by cryptanalysis of signatures.
 
 2. It gives administrators practice at changing a key; should a key ever need to be
-   changed in an emergency, we would not be doing it for the first time.
+   changed in an emergency, they would not be doing it for the first time.
 
 Cons:
 
@@ -660,7 +664,8 @@ Cons:
    easier ways of obtaining it, e.g., by breaking into the systems on
    which it is stored.
 
-2. Rolling the key adds complexity to the system. We are more likely to
+2. Rolling the key adds complexity to the system and introduces the
+   possibility of error. We are more likely to
    have an interruption to our service than if we had not rolled it.
 
 Whether and when to roll the key is up to you. How serious would the
@@ -668,7 +673,8 @@ damage be if a key were compromised without you knowing about it? How
 serious would a key roll failure be?
 
 Before going any further, it is worth noting that if you sign your zone
-with either of the fully-automatic methods, you don't really need to
+with either of the fully automatic methods (described in ref:`signing_alternative_ways`),
+you don't really need to
 concern yourself with the details of a key rollover: BIND 9 takes care of
 it all for you. If you are doing a manual key roll or are setting up the
 keys for a semi-automatic key rollover, you do need to familiarize yourself
@@ -683,7 +689,7 @@ resolution process (described in
 looks up the keys for the ``example.com`` zone and uses them to verify
 the signature associated with the AAAA record. We'll assume that the
 records validated successfully, so they can use the
-address to visit example.com's website.
+address to visit ``example.com``'s website.
 
 Let's also assume that immediately after the lookup, we want to roll the ZSK
 for ``example.com``. Our first attempt at this is to remove the old
@@ -699,10 +705,10 @@ tried to lookup ``ftp.example.com`` but got a SERVFAIL response from
 their recursive server. What's going on?
 
 The answer, in a word, is "caching." When our friend looked up
-``www.example.com``, as well as retrieving the AAAA record, their
-recursive server retrieved and cached a lot of other records. It cached
+``www.example.com``, their recursive server retrieved and cached
+not only the AAAA record, but also a lot of other records. It cached
 the NS records for ``com`` and ``example.com``, as well as
-the AAAA (and A) records for those nameservers (and this action may have
+the AAAA (and A) records for those name servers (and this action may, in turn, have
 caused the lookup and caching of other NS and AAAA/A records). Most
 importantly for this example, it also looked up and cached the DNSKEY
 records for the root, ``com``, and ``example.com`` zones. When a query
@@ -743,7 +749,7 @@ The ZSK can be rolled in one of the following two ways:
    actually used. Wait at least one TTL interval, so the world's recursive servers
    know about both keys, then stop using the old key and generate a new
    RRSIG using the new key. Wait at least another TTL, so the cached old
-   key data is expunged from world's recursive servers, and then remove
+   key data is expunged from the world's recursive servers, and then remove
    the old key.
 
    The benefit of the pre-publication approach is it does not
@@ -753,11 +759,11 @@ The ZSK can be rolled in one of the following two ways:
    new RRSIG records are published, and validation may fail. This is the
    method described in :ref:`recipes_zsk_rollover`.
 
-2. *Double Signature*: Publish the new ZSK and new RRSIG, essentially
+2. *Double-Signature*: Publish the new ZSK and new RRSIG, essentially
    doubling the size of the zone. Wait at least one TTL interval, and then remove
    the old ZSK and old RRSIG.
 
-   The benefit of the double signature approach is that it is easier to
+   The benefit of the double-signature approach is that it is easier to
    understand and execute, but it causes a significantly increased zone size
    during a rollover event.
 
@@ -771,7 +777,7 @@ three methods of rolling the KSK:
 1. *Double-KSK*: Add the new KSK to the DNSKEY RRset, which is then
    signed with both the old and new keys. After waiting for the old RRset
    to expire from caches, change the DS record in the parent zone.
-   After waiting a further interval for this change to be reflected in
+   After waiting a further TTL interval for this change to be reflected in
    caches, remove the old key from the RRset.
 
    Basically, the new KSK is added first at the child zone and
@@ -781,7 +787,7 @@ three methods of rolling the KSK:
    size of the DNSKEY RRset is increased.
 
 2. *Double-DS*: Publish the new DS record. After waiting for this
-   change to propagate into caches, change the KSK. After a further
+   change to propagate into caches, change the KSK. After a further TTL
    interval during which the old DNSKEY RRset expires from caches, remove the
    old DS record.
 
@@ -808,7 +814,7 @@ CSK Rollover Methods
 Rolling the CSK is more complex than rolling either the ZSK or KSK, as
 the timing constraints relating to both the parent zone and the caching
 of records by downstream recursive servers must be taken into
-account. There are numerous methods that are a combination of ZSK
+account. There are numerous possible methods that are a combination of ZSK
 rollover and KSK rollover methods. BIND 9 automatic signing uses a
 combination of ZSK Pre-Publication and Double-KSK rollover.
 
@@ -846,7 +852,7 @@ With a KSK emergency rollover, you also need to consider factors
 related to your parent zone, such as how quickly they can remove the old
 DS records and publish the new ones.
 
-As with many other facets of DNSSEC, there are many aspects to take into
+As with many other facets of DNSSEC, there are multiple aspects to take into
 account when it comes to emergency key rollovers. For more in-depth
 considerations, please check out :rfc:`7583`.
 
@@ -887,7 +893,7 @@ to use them to sign the zone. For secondary zones, e.g., on a
 bump-in-the-wire inline signing server, ``nsupdate`` cannot be used.
 
 Once the zone has been signed by the new DNSKEYs (and you have waited
-for at least one TTL), you must inform the parent zone and any trust
+for at least one TTL period), you must inform the parent zone and any trust
 anchor repositories of the new KSKs, e.g., you might place DS records in
 the parent zone through your DNS registrar's website.
 
@@ -924,7 +930,7 @@ DNSSEC and Dynamic Updates
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Dynamic DNS (DDNS) is actually independent of DNSSEC. DDNS provides a
-mechanism, other than editing the zone file or zone database, to edit DNS
+mechanism, separate from editing the zone file or zone database, to edit DNS
 data. Most DNS clients and servers are able to handle dynamic
 updates, and DDNS can also be integrated as part of your DHCP
 environment.
@@ -969,7 +975,7 @@ that is offered to the world, and its names most likely resolve to
 publicly reachable IP addresses. You may also have an internal version
 of ``example.com`` that is only accessible when you are on the company's
 private networks or via a VPN connection. These private networks typically
-fall under 10.0.0.0/8, 172.16.0.0.0/12, or 192.168.0.0.0/16 for IPv4.
+fall under 10.0.0.0/8, 172.16.0.0/12, or 192.168.0.0/16 for IPv4.
 
 So what if you want to offer DNSSEC for your internal version of
 ``example.com``? This can be done: the golden rule is to use the same
@@ -995,7 +1001,7 @@ number of ways, including:
 
 -  Improved security for clients connecting to mail servers (:rfc:`7672`).
 
--  As a secure way of getting public PGP keys (:rfc:`7929`).
+-  A secure way of getting public PGP keys (:rfc:`7929`).
 
 Disadvantages of DNSSEC
 -----------------------
@@ -1029,7 +1035,7 @@ Below are a few challenges and disadvantages that DNSSEC faces.
    was essentially "add something to the zone and forget it." With DNSSEC,
    each new component - re-signing, key rollover, interaction with
    parent zone, key management - adds more opportunity for error. It is
-   entirely possible that a failure to validate a name is down to
+   entirely possible that a failure to validate a name may come down to
    errors on the part of one or more zone operators rather than the
    result of a deliberate attack on the DNS.
 
@@ -1042,7 +1048,7 @@ Below are a few challenges and disadvantages that DNSSEC faces.
 6. *Not enough people are using it today*: While it's estimated (as of
    mid-2020) that roughly 30% of the global Internet DNS traffic is
    validating  [2]_ , that doesn't mean that many of the DNS zones are
-   actually signed. What this means is, if your company's zone is
+   actually signed. What this means is, even if your company's zone is
    signed today, fewer than 30% of the Internet's servers are taking
    advantage of this extra security. It gets worse: with less than 1.5%
    of the ``.com`` domains signed, even if your DNSSEC validation is enabled today,
