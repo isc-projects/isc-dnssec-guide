@@ -22,7 +22,7 @@ End clients, such as laptop computers or mobile phones, are configured
 to talk to a recursive name server, and the recursive name server may in
 turn forward requests on to other recursive name servers before arriving at the
 authoritative name server. The giveaway is the presence of the
-Authoritative Answer (``aa``) flag: when present, we know we are talking
+Authoritative Answer (``aa``) flag in a query response: when present, we know we are talking
 to the authoritative server; when missing, we are talking to a recursive
 server. The example below shows an answer to a query for
 ``www.example.com`` without the Authoritative Answer flag:
@@ -53,7 +53,7 @@ server. The example below shows an answer to a query for
    ;; MSG SIZE  rcvd: 88
 
 Not only do we not see the ``aa`` flag, we see an ``ra``
-flag, which represents Recursion Available. This indicates that the
+flag, which indicates Recursion Available. This indicates that the
 server we are talking to (10.53.0.3 in this example) is a recursive name
 server: although we were able to get an answer for
 ``www.example.com``, we know that the answer came from somewhere else.
@@ -91,13 +91,13 @@ After determining the query path, it is necessary to
 determine whether the problem is actually related to DNSSEC
 validation. You can use the ``+cd`` flag in ``dig`` to disable
 validation, as described in
-:ref:`how_do_i_know_i_have_a_validation_problem`.
+:ref:`how_do_i_know_validation_problem`.
 
 When there is indeed a DNSSEC validation problem, the visible symptoms,
 unfortunately, are very limited. With DNSSEC validation enabled, if a
 DNS response is not fully validated, it results in a generic
 SERVFAIL message, as shown below when querying against a recursive name
-server 192.168.1.7:
+server at 192.168.1.7:
 
 ::
 
@@ -158,8 +158,7 @@ BIND DNSSEC Debug Logging
 
 A word of caution: before you enable debug logging, be aware that this
 may dramatically increase the load on your name servers. Enabling debug
-logging is not recommended for production servers, as it
-increases load on the server.
+logging is thus not recommended for production servers.
 
 With that said, sometimes it may become necessary to temporarily enable
 BIND debug logging to see more details of how and whether DNSSEC is
@@ -243,10 +242,9 @@ successfully looking up and validating the domain name ``ftp.isc.org``.
    validating ftp.isc.org/A: verify rdataset (keyid=27566): success
    validating ftp.isc.org/A: marking as secure, noqname proof not needed
 
-Note that these log messages indicate that [A VALID DS AND DNSKEY HAVE
-BEEN RECEIVED, OR WHATEVER - IF THE VALIDATION OF FTP.ISC.ORG HAD FAILED,
-THE LOG WOULD HAVE GIVEN SOME INDICATION OF THE SOURCE OF THE PROBLEM. SOME
-KIND OF CONCLUSION IS NEEDED HERE TO WRAP UP THE LOGGING SECTION].
+Note that these log messages indicate that the chain of trust has been
+established and ``ftp.isc.org`` has been successfully validated. [BUT
+WHAT WOULD IT LOOK LIKE IF IT HAD FAILED?]
 
 .. _troubleshooting_common_problems:
 
@@ -259,16 +257,16 @@ Security Lameness
 ~~~~~~~~~~~~~~~~~
 
 Similar to lame delegation in traditional DNS, security lameness refers to the
-symptom when the parent zone holds a set of DS records that point to
+condition when the parent zone holds a set of DS records that point to
 something that does not exist in the child zone. As a result,
 the entire child zone may "disappear," having been marked as bogus by
 validating resolvers.
 
 Below is an example attempting to resolve the A record for a test domain
 name ``www.example.net``. From the user's perspective, as described in
-:ref:`how_do_i_know_i_have_a_validation_problem`, only a SERVFAIL
+:ref:`how_do_i_know_validation_problem`, only a SERVFAIL
 message is returned. On the validating resolver, we see the
-following messages in syslog:
+following messages in ``syslog``:
 
 ::
 
@@ -307,8 +305,8 @@ shortened for ease of display):
 
 Next, we query for the DNSKEY and RRSIG of ``example.net`` to see if
 there's anything wrong. Since we are having trouble validating, we
-can use the ``+cd`` option to disable checking for now to get the
-results back, even though they do not pass the validation tests. The
+can use the ``+cd`` option to temporarily disable checking and return
+results, even though they do not pass the validation tests. The
 ``+multiline`` option tells ``dig`` to print the type, algorithm type,
 and key id for DNSKEY records. Again,
 some long strings are shortened for ease of display:
@@ -451,14 +449,14 @@ Invalid Trust Anchors
 ~~~~~~~~~~~~~~~~~~~~~
 
 In most cases, you never need to explicitly configure trust
-anchors. ``named`` is supplied with the current root trust anchor and,
+anchors. ``named`` supplies the current root trust anchor and,
 with the default setting of ``dnssec-validation``, updates it on the
 infrequent occasions when it is changed.
 
 However, in some circumstances you may need to explicitly configure
 your own trust anchor. As we saw in the
-:ref:`trust-anchors` section, whenever a DNSKEY is received by the
-validating resolver, it is actually compared to the list of keys the
+:ref:`trust_anchors` section, whenever a DNSKEY is received by the
+validating resolver, it is compared to the list of keys the
 resolver explicitly trusts to see if further action is needed. If
 the two keys match, the validating resolver stops performing further
 verification and returns the answer(s) as validated.
@@ -475,7 +473,7 @@ start and you will likely find this error message in syslog:
    named[18235]: /etc/bind/named.conf.options:29: bad base64 encoding
    named[18235]: loading configuration: failure
 
-If the key is a valid base64 string, but the key algorithm is incorrect,
+If the key is a valid base64 string but the key algorithm is incorrect,
 or if the wrong key is installed, the first thing you will notice is
 that virtually all of your DNS lookups result in SERVFAIL, even when
 you are looking up domain names that have not been DNSSEC-enabled. Below
