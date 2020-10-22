@@ -740,6 +740,8 @@ for the recursive servers to remove old records from caches when they
 reach their TTL. How exactly we do this depends on whether we are trying
 to roll a ZSK, a KSK, or a CSK.
 
+.. _zsk_rollover_methods:
+
 ZSK Rollover Methods
 ^^^^^^^^^^^^^^^^^^^^
 
@@ -766,6 +768,8 @@ The ZSK can be rolled in one of the following two ways:
    The benefit of the double-signature approach is that it is easier to
    understand and execute, but it causes a significantly increased zone size
    during a rollover event.
+
+.. _ksk_rollover_methods:
 
 KSK Rollover Methods
 ^^^^^^^^^^^^^^^^^^^^
@@ -807,6 +811,8 @@ three methods of rolling the KSK:
    Double-RRset is the fastest way to roll the KSK (i.e., it has the shortest rollover
    time), but has the drawbacks of both of the other methods: a larger
    DNSKEY RRset and two interactions with the parent.
+
+.. _csk_rollover_methods:
 
 CSK Rollover Methods
 ^^^^^^^^^^^^^^^^^^^^
