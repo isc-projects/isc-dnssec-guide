@@ -30,7 +30,7 @@ Does DNSSEC secure zone transfers?
    name servers.
 
 Does DNSSEC protect my network from malicious websites?
-   The answer, in the early stages of DNSSEC deployment is, unfortunately,
+   The answer in the early stages of DNSSEC deployment is, unfortunately,
    no. DNSSEC is designed to provide
    confidence that when you receive a DNS response for www.company.com over
    port 53, it really came from Company's name servers and the
@@ -45,7 +45,7 @@ Does DNSSEC protect my network from malicious websites?
    difficult for attackers to spoof DNS responses or perform cache
    poisoning. It will still not protect against users who visit a malicious
    website that an attacker owns and operates, or prevent users from
-   mis-typing a domain name; it will just become less likely that an attacker can
+   mistyping a domain name; it will just become less likely that an attacker can
    hijack other domain names.
 
 If I enable DNSSEC validation, will it break DNS lookup, since most domain names do not yet use DNSSEC?
@@ -66,7 +66,7 @@ If I enable DNSSEC validation, will it break DNS lookup, since most domain names
       Domains that have deployed DNSSEC but have done it incorrectly.
    
    *Indeterminate*:
-      Unable to determine whether these domains use DNSSEC.
+      Domains for which it is not possible to determine whether these domains use DNSSEC.
 
    A DNSSEC-enabled validating resolver still resolves #1 and #2; only #3
    and #4 result in a SERVFAIL. You may already be using DNSSEC
@@ -101,10 +101,10 @@ My parent zone does not support DNSSEC; can I still sign my zone?
    (traditional) zone, and no actual verification is carried out.
    To the rest of the world, your zone still appears to be
    insecure, and it will continue to be insecure until your parent zone can
-   host DS record(s) for you and tell the rest of the world
+   host the DS record(s) for you and tell the rest of the world
    that your zone is signed.
 
-Is DNSSEC the same thing as TSIG that I have between my primary and secondary servers?
+Is DNSSEC the same thing as TSIG?
    No. TSIG is typically used
    between primary and secondary name servers to secure zone transfers,
    while DNSSEC secures DNS lookup by validating answers. Even if you enable
