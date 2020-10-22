@@ -15,20 +15,20 @@ There are two recipes here: the first shows an example using inline
 signing on the primary server, which has been covered in this
 guide; the second shows how to setup a "bump in the
 wire" between a hidden primary and the secondary servers to seamlessly
-sign the zone on the fly.
+sign the zone "on the fly."
 
 .. _recipes_inline_signing_primary:
 
-Master Server Inline Signing Recipe
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Primary Server Inline Signing Recipe
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In this recipe, our servers are illustrated as shown in
 :ref:`inline-signing-1`: we have a primary server
 (192.168.1.1) and three secondary servers (192.168.1.2, 192.168.1.3, and
 192.168.1.4) that receive zone transfers. To get the zone
 signed, we need to reconfigure the primary server. Once reconfigured, a
-signed version of the zone is generated on the fly by inline signing,
-and zone transfers take care of synchronizing the signed zone data
+signed version of the zone is generated on the fly by inline signing;
+zone transfers take care of synchronizing the signed zone data
 to all secondary name servers, without configuration or software changes
 on them.
 
@@ -43,7 +43,7 @@ on them.
 Using the method described in
 :ref:`easy_start_guide_for_authoritative_servers`, we just need to
 add a ``dnssec-policy`` statement to the relevant zone clause. This is
-what the ``named.conf`` looks like on the primary server, 192.168.1.1:
+what the ``named.conf`` zone statement looks like on the primary server, 192.168.1.1:
 
 ::
 
@@ -73,7 +73,7 @@ and it looks like this:
    };
 
 In fact, the secondary servers do not even need to be running BIND; they
-can be running any other DNS product that has DNSSEC support.
+can run any DNS product that supports DNSSEC.
 
 .. _recipes_inline_signing_bump_in_the_wire:
 
@@ -84,10 +84,10 @@ In this recipe, we take advantage of the power of inline signing
 by placing an additional name server (192.168.1.5) between the hidden
 primary (192.168.1.1) and the DNS secondaries (192.168.1.2, 192.168.1.3,
 and 192.168.1.4). The additional name server, 192.168.1.5, acts as a "bump
-in the wire," taking an unsigned zone from the hidden primary on one end,
+in the wire," taking an unsigned zone from the hidden primary,
 and sending out signed data on the other end to the secondary name
 servers. The steps described in this recipe may be used as part of a
-DNSSEC deployment strategy, since it requires minimal changes made to
+DNSSEC deployment strategy, since it requires only minimal changes made to
 the existing hidden DNS primary and DNS secondaries.
 
 .. _inline-signing-2:
@@ -118,10 +118,10 @@ On the middle box, 192.168.1.5, all the tasks described in
 :ref:`easy_start_guide_for_authoritative_servers` still need to be
 performed, such as generating key pairs and uploading information to
 the parent zone. This server is configured as secondary to the hidden
-primary 192.168.1.1 - to receive the unsigned data; then, using keys
-accessible to this middle box, to sign data on the fly; and to send out the
+primary 192.168.1.1 to receive the unsigned data; then, using keys
+accessible to this middle box, to sign data on the fly; and finally, to send out the
 signed data via zone transfer to the other three DNS secondaries. Its
-``named.conf`` looks like this:
+``named.conf`` zone statement looks like this:
 
 ::
 
@@ -140,7 +140,7 @@ and use a custom policy.)
 
 Finally, on the three secondary servers, the configuration should be updated
 to receive a zone transfer from 192.168.1.5 (the middle box) instead of
-from 192.168.1.1 (the hidden primary). If using BIND, the ``named.conf`` looks
+from 192.168.1.1 (the hidden primary). If using BIND, the ``named.conf`` file looks
 like this:
 
 ::
@@ -156,12 +156,12 @@ like this:
 Rollover Recipes
 ----------------
 
-If you are signing your zone using a ``dnssec-policy`` statement, you
-don't really need this section. In the policy statement, you set how long
+If you are signing your zone using a ``dnssec-policy`` statement, this
+section is not really relevant to you. In the policy statement, you set how long
 you want your keys to be valid for, the time
 taken for information to propagate through your zone, the time it takes
 for your parent zone to register a new DS record, etc., and that's more
-or less it. ``named`` takes care of everything for you, apart from
+or less it. ``named`` implements everything for you automatically, apart from
 uploading the new DS records to your parent zone - which is covered in
 :ref:`signing_easy_start_upload_to_parent_zone`. (Some
 screenshots from a session where a KSK is uploaded to the parent zone
@@ -180,23 +180,23 @@ the Pre-Publication method. For other ZSK rolling methods, please see
 
 Below is a sample timeline for a ZSK rollover to occur on January 1, 2021:
 
-1. December 1, 2020, a month before rollover
+1. December 1, 2020 (one month before rollover)
 
    -  Generate new ZSK
 
    -  Add DNSKEY for new ZSK to zone
 
-2. January 1, 2021, day of rollover
+2. January 1, 2021 (day of rollover)
 
    -  New ZSK used to replace RRSIGs for the bulk of the zone
 
-3. February 1, 2021
+3. February 1, 2021 (one month after rollover)
 
    -  Remove old ZSK DNSKEY RRset from zone
 
    -  DNSKEY signatures made with KSK are changed
 
-The current active ZSK has the ID 17694 in this example. For more
+The current active ZSK has the ID 17694 in the example below. For more
 information on key management and rollovers, please see
 :ref:`advanced_discussions_key_management`.
 
@@ -223,13 +223,13 @@ The first command gets us into the key directory
 ``/etc/bind/keys/example.com/``, where keys for ``example.com`` are
 stored.
 
-The second, ``dnssec-settime``, sets an inactive (-I) date of January 1,
-2021, and a deletion (-D) date of February 1, 2021, for the current ZSK
-(Kexample.com.+008+17694).
+The second, ``dnssec-settime``, sets an inactive (``-I``) date of January 1,
+2021, and a deletion (``-D``) date of February 1, 2021, for the current ZSK
+(``Kexample.com.+008+17694``).
 
 The third command, ``dnssec-keygen``, creates a successor key, using
 the exact same parameters (algorithms, key sizes, etc.) as the current
-ZSK. The new ZSK created in our example is Kexample.com.+008+51623.
+ZSK. The new ZSK created in our example is ``Kexample.com.+008+51623``.
 
 Make sure the successor keys are readable by ``named``.
 
@@ -255,7 +255,8 @@ file:
    ; Activate: 20210101000000 (Sun Jan  1 08:00:00 2021)
    ...
 
-Since the publish date is set to the morning of December 2, the next
+Since the publish date is set to the morning of December 2, and our example
+scenario takes place on December 1, the next
 morning you will notice that your zone has gained a new DNSKEY record,
 but the new ZSK is not yet being used to generate signatures. Below is
 the abbreviated output - with shortened DNSKEY and RRSIG - when querying the
@@ -284,7 +285,7 @@ authoritative name server, 192.168.1.13:
                    HK4EBbbOpj...n5V6nvAkI= )
    ...
 
-And for good measure, let's take a look at the SOA record and its
+For good measure, let's take a look at the SOA record and its
 signature for this zone. Notice the RRSIG is signed by the current ZSK,
 17694. This will come in handy later when you want to verify whether
 the new ZSK is in effect:
@@ -312,7 +313,7 @@ the new ZSK is in effect:
 These are all the manual tasks you need to perform for a ZSK rollover.
 If you have followed the configuration examples in this guide of using
 ``inline-signing`` and ``auto-dnssec``, everything else is automated for
-you.
+you by BIND.
 
 Day of ZSK Rollover
 ^^^^^^^^^^^^^^^^^^^
@@ -321,7 +322,7 @@ On the actual day of the rollover, although there is technically nothing
 for you to do, you should still keep an eye on the zone to make sure new
 signatures are being generated by the new ZSK (51623 in this example).
 The easiest way is to query the authoritative name server 192.168.1.13
-for the SOA record like you did a month ago:
+for the SOA record as you did a month ago:
 
 ::
 
@@ -344,7 +345,7 @@ for the SOA record like you did a month ago:
                    y5nkGqf83OXTK26IfnjU1jqiUKSzg6QR7+XpLk0= )
    ...
 
-As you can see, the signature generated by the old ZSK (17694)
+As you can see, the signature generated by the old ZSK (17694) has
 disappeared, replaced by a new signature generated from the new ZSK
 (51623).
 
@@ -352,17 +353,17 @@ disappeared, replaced by a new signature generated from the new ZSK
 
    Not all signatures will disappear magically on the same day;
    it depends on when each one was generated. In the worst-case scenario,
-   a new signature could have been signed by the old ZSK (17695) moments
-   before the ZSK was deactivated, meaning that the signature could live for almost
+   a new signature could have been signed by the old ZSK (17694) moments
+   before it was deactivated, meaning that the signature could live for almost
    30 more days, until just before February 1.
 
-   This is why it is important that you should keep the old ZSK in the
+   This is why it is important to keep the old ZSK in the
    zone and not delete it right away.
 
 One Month After ZSK Rollover
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Again, technically there should be nothing you need to do on this day,
+Again, technically there is nothing you need to do on this day,
 but it doesn't hurt to verify that the old ZSK (17694) is now completely
 gone from your zone. ``named`` will not touch
 ``Kexample.com.+008+17694.private`` and ``Kexample.com.+008+17694.key``
@@ -390,7 +391,7 @@ suffice:
    ...
 
 Congratulations, the ZSK rollover is complete! As for the actual key
-files (the ``.key`` and ``.private`` files), they may be deleted at this
+files (the files ending in ``.key`` and ``.private``), they may be deleted at this
 point, but they do not have to be.
 
 .. _recipes_ksk_rollover:
@@ -412,7 +413,7 @@ please see :ref:`advanced_discussions_key_management`.
 
 Below is a sample timeline for a KSK rollover to occur on January 1, 2021:
 
-1. December 1, 2020, a month before rollover
+1. December 1, 2020 (one month before rollover)
 
    -  Change timer on the current KSK
 
@@ -422,7 +423,7 @@ Below is a sample timeline for a KSK rollover to occur on January 1, 2021:
 
    -  Upload new DS records to parent zone
 
-2. January 1, 2021, day of rollover
+2. January 1, 2021 (day of rollover)
 
    -  Use the new KSK to sign all DNSKEY RRsets, which generates new
       RRSIGs
@@ -433,7 +434,7 @@ Below is a sample timeline for a KSK rollover to occur on January 1, 2021:
 
    -  Start using the new KSK to sign DNSKEY
 
-3. February 1, 2021
+3. February 1, 2021 (one month after rollover)
 
    -  Remove the old KSK DNSKEY from zone
 
@@ -475,13 +476,13 @@ The first command gets us into the key directory
 ``/etc/bind/keys/example.com/``, where keys for ``example.com`` are
 stored.
 
-The second, ``dnssec-settime``, sets an inactive (-I) date of January 1,
-2021, and a deletion (-D) date of February 1, 2021 for the current KSK
-(Kexample.com.+007+24848).
+The second, ``dnssec-settime``, sets an inactive (``-I``) date of January 1,
+2021, and a deletion (``-D``) date of February 1, 2021 for the current KSK
+(``Kexample.com.+007+24848``).
 
 The third command, ``dnssec-keygen``, creates a successor key, using
 the exact same parameters (algorithms, key sizes, etc.) as the current
-KSK. The new key pair created in our example is Kexample.com.+007+23550.
+KSK. The new key pair created in our example is ``Kexample.com.+007+23550``.
 
 The fourth and final command, ``dnssec-dsfromkey``, creates a DS record
 from the new KSK (23550), using SHA-1 as the digest type. Again, in
@@ -511,7 +512,8 @@ file:
    ; Activate: 20210101000000 (Sun Jan  1 08:00:00 2021)
    ...
 
-Since the publish date is set to the morning of December 2, the next
+Since the publish date is set to the morning of December 2, and our example
+scenario takes place on December 1, the next
 morning you will notice that your zone has gained a new DNSKEY record
 based on your new KSK, but with no corresponding RRSIG yet. Below is the
 abbreviated output - with shortened DNSKEY and RRSIG - when querying the
@@ -630,7 +632,7 @@ record of your zone. In the example below, the Google public DNS server
 
 You can also query your parent zone's authoritative name servers
 directly to see if these records have been published. DS records will
-not show up on your own authoritative zone, so do not query your own
+not show up on your own authoritative zone, so you cannot query your own
 name servers for them. In this recipe, the parent zone is ``.com``, so
 querying a few of the ``.com`` name servers is another appropriate
 verification.
@@ -644,7 +646,7 @@ technically nothing you need to do manually on the actual day of the
 rollover. However, you should still keep an eye on the zone to make sure
 new signature(s) are being generated by the new KSK (23550 in this
 example). The easiest way is to query the authoritative name server
-192.168.1.13 for the same DNSKEY and signatures, like you did a month
+192.168.1.13 for the same DNSKEY and signatures, as you did a month
 ago:
 
 ::
@@ -670,7 +672,7 @@ ago:
                    VY5URQA2/d...OVKr1+KX8= )
    ...
 
-As you can see, the signature generated by the old KSK (24828)
+As you can see, the signature generated by the old KSK (24828) has
 disappeared, replaced by a new signature generated from the new KSK
 (23550).
 
@@ -706,12 +708,12 @@ the key with an ID of 24828:
 Since the key with the ID 24828 is gone, you can now remove the old DS
 record for that key from our parent zone.
 Be careful to remove the correct DS record. If you accidentally remove
-the new DS record(s) of key ID 23550, it could lead to a problem called
+the new DS record(s) with key ID 23550, it could lead to a problem called
 "security lameness," as discussed in
 :ref:`troubleshooting_security_lameness`, and may cause users to be unable
 to resolve any names in the zone.
 
-1. After logging in and launching the domain, scroll down to the "DS
+1. After logging in (again, GoDaddy.com in our example) and launching the domain, scroll down to the "DS
    Records" section and click Manage.
 
    .. _remove-ds-1:
@@ -745,7 +747,7 @@ to resolve any names in the zone.
       Remove DS Record Step #3
 
 Congratulations, the KSK rollover is complete! As for the actual key
-files (the ``.key`` and ``.private`` files), they may be deleted at this
+files (ending in ``.key`` and ``.private``), they may be deleted at this
 point, but they do not have to be.
 
 .. [1]
@@ -778,7 +780,7 @@ according to the steps described in
    :ref:`advanced_discussions_DNSKEY_algorithm_rollovers`. This
    ensures that older validating resolvers that do not understand
    NSEC3 will fall back to treating the zone as unsecured (rather than
-   "bogus") as described in Section 2 of :rfc:`5155`.
+   "bogus"), as described in Section 2 of :rfc:`5155`.
 
 The command below enables NSEC3 for the zone ``example.com``, using a
 pseudo-random string "1234567890abcdef" as its salt:
@@ -808,8 +810,8 @@ For example:
                    NS SOA RRSIG DNSKEY NSEC3PARAM )
    ...
 
-Our example used four parameters: 1, 0, 10, and 1234567890ABCDEF, in the
-order they appeared. 1 represents the algorithm, 0 represents the
+Our example used four parameters: 1, 0, 10, and 1234567890ABCDEF, in
+order. 1 represents the algorithm, 0 represents the
 opt-out flag, 10 represents the number of iterations, and
 1234567890abcdef is the salt. To learn more about each of these
 parameters, please see :ref:`advanced_discussions_nsec3param`.
@@ -821,7 +823,7 @@ opt-out flag, 10 iterations, and a salt value of "FFFF", use:
 
    # rndc signing -nsec3param 1 0 10 FFFF example.com
 
-To set the opt-out flag, 15 iterations, and no salt, use:
+To use the SHA-1 hash algorithm, set the opt-out flag, 15 iterations, and no salt, use:
 
 ::
 
@@ -909,12 +911,12 @@ returned:
 
       # rndc signing -nsec3param 1 0 10 $(head -c 300 /dev/random | sha1sum | cut -b 1-16) example.com
 
-BIND versions 9.10 and newer provide the keyword “auto”, which may be used in
+BIND versions 9.10 and newer provide the keyword ``auto``, which may be used in
 place of the salt field for ``named`` to generate a random salt.
 
 .. _recipes_nsec3_optout:
 
-NSEC3 Opt-out Recipe
+NSEC3 Opt-Out Recipe
 ~~~~~~~~~~~~~~~~~~~~
 
 This recipe discusses how to enable and disable NSEC3 opt-out, and how to show
@@ -927,26 +929,26 @@ For this recipe we assume the zone ``example.com``
 has the following four entries (for this example, it is not relevant what
 record types these entries are):
 
--  ns1.example.com
+-  ``ns1.example.com``
 
--  ftp.example.com
+-  ``ftp.example.com``
 
--  www.example.com
+-  ``www.example.com``
 
--  web.example.com
+-  ``web.example.com``
 
-And the zone example.com has five delegations to five subdomains, only one of
+And the zone ``example.com`` has five delegations to five subdomains, only one of
 which is signed and has a valid DS RRset:
 
--  aaa.example.com, not signed
+-  ``aaa.example.com``, not signed
 
--  bbb.example.com, signed
+-  ``bbb.example.com``, signed
 
--  ccc.example.com, not signed
+-  ``ccc.example.com``, not signed
 
--  ddd.example.com, not signed
+-  ``ddd.example.com``, not signed
 
--  eee.example.com, not signed
+-  ``eee.example.com``, not signed
 
 Before enabling NSEC3 opt-out, the zone ``example.com`` contains ten
 NSEC3 records; below is the list with the plain text name before the actual
@@ -1007,7 +1009,7 @@ bit set to 0:
 
    NSEC3 hashes the plain text domain name, and we can compute our own
    hashes using the tool ``nsec3hash``. For example, to compute the
-   hashed name for "www.example.com" using the parameters we listed
+   hashed name for ``www.example.com`` using the parameters we listed
    above, we can execute this command:
 
    ::
