@@ -20,11 +20,3 @@ Welcome to ISC's DNSSEC Guide documentation!
    recipes
    commonly-asked-questions
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
