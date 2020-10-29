@@ -246,7 +246,7 @@ metadata when the ``dnssec-loadkeys-interval`` elapses or you issue the
 ``rndc loadkeys`` command. Otherwise for primary zones, you can use
 ``nsupdate`` to add the new DNSKEYs to the zone. This will cause named
 to use them to sign the zone. For secondary zones, e.g. on a
-bump-in-the-wire inline signing server, ``nsupdate`` cannot be used.
+bump-in-the-wire signing server, ``nsupdate`` cannot be used.
 
 Once the zone has been signed by the new DNSKEYs (and you have waited
 for at least one TTL), you must inform the parent zone and any trust

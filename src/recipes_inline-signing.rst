@@ -1,35 +1,35 @@
-.. _recipes-inline-signing:
+.. _recipes-dnssec-signing:
 
-Inline Signing Recipes
+DNSSEC Signing Recipes
 ======================
 
-There are two recipes here, the first shows an example of using inline
+There are two recipes here, the first shows an example of using DNSSEC
 signing on the primary server, which is what we have covered in this
 guide thus far; the second example shows how to setup a "bump in the
 wire" between the hidden primary and the secondary servers to seamlessly
 sign the zone on the fly.
 
-.. _recipes-inline-signing-primary:
+.. _recipes-dnssec-signing-primary:
 
-Master Server Inline Signing Recipe
+Master Server DNSSEC Signing Recipe
 -----------------------------------
 
 In this recipe, our servers are illustrated as shown in
-`figure_title <#inline-signing-1>`__: we have a primary server
+`figure_title <#dnssec-signing-1>`__: we have a primary server
 192.168.1.1 and three secondary servers (192.168.1.2, 192.168.1.3, and
 192.168.1.4) that receive zone transfers. In order to get the zone
 signed, we need to reconfigure the primary server, Once reconfigured, a
-signed version of the zone is generated on the fly by inline-signing,
+signed version of the zone is generated on the fly,
 and zone transfers will take care of synchronizing the signed zone data
 to all secondary name servers, without configuration or software changes
 on them.
 
 .. figure:: ../img/dnssec-inline-signing-1.png
-   :alt: Inline Signing Recipe #1
-   :name: inline-signing-1
+   :alt: DNSSEC Signing Recipe #1
+   :name: dnssec-signing-1
    :width: 80.0%
 
-   Inline Signing Recipe #1
+   DNSSEC Signing Recipe #1
 
 Using the method described in
 `??? <#easy-start-guide-for-authoritative-servers>`__, we just need to
@@ -66,12 +66,12 @@ and it looks like this:
 In fact, the secondary servers do not even need to be running BIND, it
 could be running any other DNS product that has DNSSEC support.
 
-.. _recipes-inline-signing-bump-in-the-wire:
+.. _recipes-dnssec-signing-bump-in-the-wire:
 
-"Bump in the Wire" Inline Signing Recipe
+"Bump in the Wire" Signing Recipe
 ----------------------------------------
 
-In this recipe, we are taking advantage of the power of inline signing
+In this recipe, we are taking advantage of the power of automated signing
 by placing an additional name server 192.168.1.5 between the hidden
 primary (192.168.1.1) and the DNS secondaries (192.168.1.2, 192.168.1.3,
 and 192.168.1.4). The additional name server 192.168.1.5 acts as a "bump
@@ -82,11 +82,11 @@ DNSSEC deployment strategy, since it requires minimal changes made to
 the existing hidden DNS primary and DNS secondaries.
 
 .. figure:: ../img/dnssec-inline-signing-2.png
-   :alt: Inline Signing Scenario #2
-   :name: inline-signing-2
+   :alt: DNSSEC Signing Scenario #2
+   :name: dnssec-signing-2
    :width: 100.0%
 
-   Inline Signing Scenario #2
+   DNSSEC Signing Scenario #2
 
 It is important to remember that 192.168.1.1 in this case is a hidden
 primary not exposed to the world, it must not be listed in the NS RRset.

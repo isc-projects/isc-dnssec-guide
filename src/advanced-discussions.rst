@@ -127,7 +127,7 @@ goes for #3, Edward and Susan. As for #1 and #4, Edward does not fall in
 the alphabetical range before Alice or after Susan, so the sender can logically deduce
 that it was an incorrect answer.
 
-With BIND inline signing, your zone data is automatically sorted on
+When BIND signs your zone, the zone data is automatically sorted on
 the fly before generating NSEC records, much like how a phone directory
 is sorted.
 
@@ -884,7 +884,7 @@ metadata when the ``dnssec-loadkeys-interval`` elapses or when you issue the
 ``rndc loadkeys`` command. Otherwise, for primary zones, you can use
 ``nsupdate`` to add the new DNSKEYs to the zone; this causes ``named``
 to use them to sign the zone. For secondary zones, e.g., on a
-bump-in-the-wire inline signing server, ``nsupdate`` cannot be used.
+bump-in-the-wire signing server, ``nsupdate`` cannot be used.
 
 Once the zone has been signed by the new DNSKEYs (and you have waited
 for at least one TTL), you must inform the parent zone and any trust

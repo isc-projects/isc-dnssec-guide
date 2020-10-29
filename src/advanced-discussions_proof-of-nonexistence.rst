@@ -75,7 +75,7 @@ for #3, Edward and Susan. As for #1 and #4, Edward does not fall in
 range before Alice or after Susan, so the sender can logically deduce
 that it was an incorrect answer.
 
-In BIND inline signing, your zone data will be automatically sorted on
+When BIND signs your zone, the zone data will be automatically sorted on
 the fly before generating NSEC records, much like how a phone directory
 is sorted.
 

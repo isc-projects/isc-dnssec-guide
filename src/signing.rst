@@ -254,7 +254,7 @@ version automatically.
 Curious as to what all these commands did to your zone file? Read on to
 :ref:`your_zone_before_and_after_dnssec` and find out. If you are
 interested in how to roll this out to your existing primary and
-secondary name servers, check out :ref:`recipes_inline_signing` in
+secondary name servers, check out :ref:`recipes_dnssec_signing` in
 :ref:`dnssec_recipes`.
 
 .. _your_zone_before_and_after_dnssec:
