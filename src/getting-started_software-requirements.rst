@@ -4,7 +4,7 @@ Software Requirement
 BIND Version
 ------------
 
-The configuration examples given in this document require BIND version
+Most configuration examples given in this document require BIND version
 9.16.0 or newer (although many should work with all versions of BIND
 later than 9.9). To check the version of ``named`` you have installed,
 use the ``-v`` switch as shown below:
@@ -13,6 +13,13 @@ use the ``-v`` switch as shown below:
 
    # named -v
    BIND 9.16.0 (Stable Release) <id:6270e602ea>
+
+Some configuration examples are added in BIND version 9.17 and backported
+to 9.16. For example, NSEC3 configuration requires BIND version 9.16.9.
+
+It is recommended to run the latest stable version to get the most rich
+DNSSEC configuration, as well as the latest security fixes.
+
 
 DNSSEC Support in BIND
 ----------------------
