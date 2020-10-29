@@ -25,7 +25,6 @@ keys. The following is an example of such a clause:
        max-zone-ttl 600;
        parent-ds-ttl 600;
        parent-propagation-delay 2h;
-       parent-registration-delay 3d;
        publish-safety 7d;
        retire-safety 7d;
        signatures-refresh 5d;
@@ -64,12 +63,6 @@ The various parts of the policy are:
 -  The policy also sets values for the various signature parameters: how
    long the signatures on the DNSKEY and non-DNSKEY records are valid,
    and how often BIND should re-sign the zone.
-
--  When a new KSK or CSK appears in the zone, the associated DS record
-   needs to be included in the parent zone. That time is represented by
-   the ``parent-registration-delay`` option. Getting the record into the
-   parent zone may still require manual intervention, so we will look at
-   this in more detail in section `??? <#working-with-the-parent-2>`__.
 
 -  Finally, the parameters ending in ``-safety`` are are there to give
    you a bit of leeway in case a key roll doesn't go to plan. When

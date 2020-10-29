@@ -51,7 +51,7 @@ Working with the Parent Zone (2)
 Once you have signed your zone the only manual tasks for you to do are
 to monitor KSK or CSK key rolls rolls and pass the new DS record to the
 parent zone. However, if the parent can process CDS or CDNSKEY records,
-you may not even have to do that.
+you may not even have to do that [1]_.
 
 When the time approaches for the roll of a KSK or CSK, BIND will add a
 CDS and a CDNSKEY record for the key in question to the apex of the
@@ -59,41 +59,22 @@ zone. If your parent zone supports polling for CDS/CDNSKEY records, they
 will be uploaded and the DS record published in the parent - we hope. At
 the time of writing (mid 2020) BIND does not check for the presence of a
 DS record in the parent zone before completing the KSK or CSK rollover
-and withdrawing the old key. Instead, it assumes that the operation will
-complete within the time period set by the ``parent-registration-delay``
-value in the DNSSEC policy  [1]_.
+and withdrawing the old key. Instead, you will have to use the ``rndc`` tool
+to tell ``named`` that the DS record has been published, for example:
+
+::
+
+   # rndc dnssec -checkds published example.net
 
 If your parent doesn't support CDS/CDNSKEY, when a new KSK appears in
 your zone, you will have to supply the DNSKEY or DS record to the parent
 zone manually, probably using the same mechanism you used to upload the
-records for the first time. Again, BIND assumes that the DS record will
-appear in the parent zone within the time set by
-``parent-registration-delay``.
-
-Of course, the obvious question prompted by the preceding two paragraphs
-is: "What do I do if the DS record has not appeared in the parent
-zone?". The answer is that, apart from contacting the administration of
-your parent zone and asking them about the delay, you will need to delay
-the removal of the old key from your zone else the zone will become
-bogus; the DS record in the parent zone will not match the DNSKEY record
-in your zone and users will receive SERVFAILs when they query for a name
-in it.
-
-The easiest way to do this is to modify the ``dnssec-policy`` for your
-zone to increase the value of the registration delay value (set by
-``parent-registration-delay``) and reload the configuration. In doing
-this, you are just reflecting what is actually happening: your parent
-zone is taking longer than anticipated to register the new DS record,
-and you are just telling BIND that this is the case. The next time BIND
-does any check related to the rollover, it will use the new value in its
-calculation of when the old key can be revoked.
+records for the first time. Again, you will have to use the ``rndc`` tool
+to tell ``named`` that the DS record has been published.
 
 .. [1]
-   So if the parent zone supports CDS/CDNSKEY, why did we have to
-   manually upload the DS record when we first signed the zone? Why
-   couldn't we have added a CDS record to our zone and allowed the
-   parent to find it? The answer is down to security. Until our zone was
-   signed, the parent couldn't be sure that a CDS or CDNSKEY record it
-   it found by querying our zone really did come from our zone. So it
-   needs to use some other form of secure transfer to obtain the
-   information.
+   For security reasons, a parent zone that supports CDS/CDNSKEY may require
+   the DS record to be  manually uploaded when we first sign the zone:
+   until our zone is signed, the parent cannot be sure that a CDS or CDNSKEY
+   record it finds by querying our zone really comes from our zone. Thus it
+   needs to use some other form of secure transfer to obtain the information.
