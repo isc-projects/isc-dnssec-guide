@@ -8,8 +8,8 @@ DNSSEC configurations.
 
 .. _recipes_inline_signing:
 
-Inline Signing Recipes
-----------------------
+Inline Signing
+--------------
 
 There are two recipes here: the first shows an example using inline
 signing on the primary server, which has been covered in this
@@ -19,8 +19,8 @@ sign the zone "on the fly."
 
 .. _recipes_inline_signing_primary:
 
-Primary Server Inline Signing Recipe
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Primary Server Inline Signing
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In this recipe, our servers are illustrated as shown in
 :ref:`inline-signing-1`: we have a primary server
@@ -77,8 +77,8 @@ can run any DNS product that supports DNSSEC.
 
 .. _recipes_inline_signing_bump_in_the_wire:
 
-"Bump in the Wire" Inline Signing Recipe
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+"Bump in the Wire" Inline Signing
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In this recipe, we take advantage of the power of inline signing
 by placing an additional name server (192.168.1.5) between the hidden
@@ -153,8 +153,8 @@ like this:
 
 .. _recipes_rollovers:
 
-Rollover Recipes
-----------------
+Rollovers
+---------
 
 If you are signing your zone using a ``dnssec-policy`` statement, this
 section is not really relevant to you. In the policy statement, you set how long
@@ -171,8 +171,8 @@ through the rollover process and what you should be monitoring.
 
 .. _recipes_zsk_rollover:
 
-ZSK Rollover Recipe
-~~~~~~~~~~~~~~~~~~~
+ZSK Rollover
+~~~~~~~~~~~~
 
 This recipe covers how to perform a ZSK rollover using what is known as
 the Pre-Publication method. For other ZSK rolling methods, please see
@@ -396,8 +396,8 @@ point, but they do not have to be.
 
 .. _recipes_ksk_rollover:
 
-KSK Rollover Recipe
-~~~~~~~~~~~~~~~~~~~
+KSK Rollover
+~~~~~~~~~~~~
 
 This recipe describes how to perform KSK rollover using the Double-DS
 method. For other KSK rolling methods, please see
@@ -757,8 +757,8 @@ point, but they do not have to be.
 
 .. _recipes_nsec3:
 
-NSEC and NSEC3 Recipes
-----------------------
+NSEC and NSEC3
+--------------
 
 .. _recipes_nsec_to_nsec3:
 
@@ -865,8 +865,8 @@ and you should no longer see any traces of NSEC3 records.
 
 .. _recipes_nsec3_salt:
 
-Changing the NSEC3 Salt Recipe
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Changing the NSEC3 Salt
+~~~~~~~~~~~~~~~~~~~~~~~
 
 In :ref:`advanced_discussions_nsec3_salt`, we discuss the
 reasons why you may want to change your salt periodically for better
@@ -916,8 +916,8 @@ place of the salt field for ``named`` to generate a random salt.
 
 .. _recipes_nsec3_optout:
 
-NSEC3 Opt-Out Recipe
-~~~~~~~~~~~~~~~~~~~~
+NSEC3 Opt-Out
+~~~~~~~~~~~~~
 
 This recipe discusses how to enable and disable NSEC3 opt-out, and how to show
 the results of each action. As discussed in
@@ -1019,8 +1019,8 @@ bit set to 0:
 
 .. _revert_to_unsigned:
 
-Reverting to Unsigned Recipe
-----------------------------
+Reverting to Unsigned
+---------------------
 
 This recipe describes how to revert from a signed zone (DNSSEC) back to
 an unsigned (DNS) zone.
