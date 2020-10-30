@@ -5,7 +5,7 @@ Signing
 
 .. _easy_start_guide_for_authoritative_servers:
 
-Easy Start Guide for Signing Authoritative Zones
+Easy-Start Guide for Signing Authoritative Zones
 ------------------------------------------------
 
 This section provides the basic information needed to set up a
