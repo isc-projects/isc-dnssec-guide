@@ -782,18 +782,23 @@ according to the steps described in
    NSEC3 will fall back to treating the zone as unsecured (rather than
    "bogus") as described in Section 2 of :rfc:`5155`.
 
-The command below enables NSEC3 for the zone ``example.com``, using a
-pseudo-random string "1234567890abcdef" as its salt:
+To enable NSEC3, update your ``dnssec-policy`` and add the desired NSEC3
+parameters. The example below enables NSEC3 for zones with the ``standard``
+DNSSEC policy, using 10 iterations, no opt-out, and a random string that is
+16 characters long:
 
 ::
 
-   # rndc signing -nsec3param 1 0 10 1234567890abcdef example.com
+    dnssec-policy "standard" {
+        nsec3param iterations optout no salt-length 16;
+    };
 
-You can tell that it worked if you see the following log messages:
+Then reconfigure the server with ``rndc``. You can tell that it worked if you
+see the following debug log messages:
 
 ::
 
-   Oct 21 13:47:21 received control channel command 'signing -nsec3param 1 0 10 1234567890abcdef example.com'
+   Oct 21 13:47:21 received control channel command 'reconfig'
    Oct 21 13:47:21 zone example.com/IN (signed): zone_addnsec3chain(1,CREATE,10,1234567890ABCDEF)
 
 You can also verify that it worked by querying for a name that you know
@@ -813,21 +818,8 @@ For example:
 Our example used four parameters: 1, 0, 10, and 1234567890ABCDEF, in the
 order they appeared. 1 represents the algorithm, 0 represents the
 opt-out flag, 10 represents the number of iterations, and
-1234567890abcdef is the salt. To learn more about each of these
+1234567890ABCDEF is the salt. To learn more about each of these
 parameters, please see :ref:`advanced_discussions_nsec3param`.
-
-To create an NSEC3 chain using the SHA-1 hash algorithm, no
-opt-out flag, 10 iterations, and a salt value of "FFFF", use:
-
-::
-
-   # rndc signing -nsec3param 1 0 10 FFFF example.com
-
-To set the opt-out flag, 15 iterations, and no salt, use:
-
-::
-
-   # rndc signing -nsec3param 1 1 15 - example.com
 
 .. _recipes_nsec3_to_nsec:
 
@@ -836,18 +828,13 @@ Migrating from NSEC3 to NSEC
 
 This recipe describes how to migrate from NSEC3 to NSEC.
 
-Migrating from NSEC3 back to NSEC is easy; just use the ``rndc`` command
-like this:
+Migrating from NSEC3 back to NSEC is easy; just remove the ``nsec3param``
+configuration option from your ``dnssec-policy`` and reconfigure the name
+server. You can tell that it worked if you see these messages in the log:
 
 ::
 
-   $ rndc signing -nsec3param none example.com
-
-You can tell that it worked if you see these messages in the log:
-
-::
-
-   named[14093]: received control channel command 'signing -nsec3param none example.com'
+   named[14093]: received control channel command 'reconfig'
    named[14093]: zone example.com/IN: zone_addnsec3chain(1,REMOVE,10,1234567890ABCDEF)
 
 You can also query for a name that you know does not exist,
@@ -873,15 +860,12 @@ reasons why you may want to change your salt periodically for better
 privacy. In this recipe, we look at what command to execute to
 actually change the salt, and how to verify that it has been changed.
 
-To change your NSEC3 salt to "fedcba0987654321", run the
-``rndc signing`` command like this:
-
-::
-
-   # rndc signing -nsec3param 1 1 10 fedcba0987654321 example.com
-
-You should see the following messages in the log, assuming your old salt was
-"1234567890abcdef":
+The ``dnssec-policy`` currently has no easy way to re-salt using the
+same salt length, so to change your NSEC3 salt you have to change the
+``salt-length`` value, then reconfigure your server. You should see
+the following messages in the log, assuming your old salt was
+"1234567890ABCDEF" and ``named`` created "FEDCBA09" (salt length 8)
+as the new salt:
 
 ::
 
@@ -897,22 +881,14 @@ returned:
    $ dig @192.168.1.13 thereisnowaythisexists.example.com. A +dnssec +multiline
 
    ...
-   TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com. 300 IN NSEC3 1 0 10 FEDCBA0987654321 (
+   TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com. 300 IN NSEC3 1 0 10 FEDCBA09 (
                    TQ9QBEGA6CROHEOC8KIH1A2C06IVQ5ER
                    NS SOA RRSIG DNSKEY NSEC3PARAM )
    ...
 
-.. note::
+If you want to use the same salt length, you can repeat the above steps and
+go back to your original length value.
 
-   You can use a pseudo-random source to create the salt for you. Here
-   is an example on Linux to create a 16-character hex string:
-
-   ::
-
-      # rndc signing -nsec3param 1 0 10 $(head -c 300 /dev/random | sha1sum | cut -b 1-16) example.com
-
-BIND versions 9.10 and newer provide the keyword “auto”, which may be used in
-place of the salt field for ``named`` to generate a random salt.
 
 .. _recipes_nsec3_optout:
 
@@ -924,6 +900,12 @@ the results of each action. As discussed in
 :ref:`advanced_discussions_nsec3_optout`, NSEC3 opt-out is a feature
 that can help conserve resources on parent zones with many
 delegations that have not yet been signed.
+
+Because the NSEC3PARAM record does not keep track of whether opt-out is used,
+it is hard to check if changes need to be made to the NSEC3 chain if the flag
+is changed. Similar to changing the NSEC3 salt, your best way is to change
+the value of ``optout`` together with another NSEC3 parameter, for example
+``iterations`` and in a following step restore the ``iterations`` value.
 
 For this recipe we assume the zone ``example.com``
 has the following four entries (for this example, it is not relevant what
@@ -974,13 +956,14 @@ NSEC3 record:
 
 -  *example.com*: TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com.
 
-We can enable NSEC3 opt-out with the ``rndc`` command, changing the opt-out bit
-(the second of the four parameters, all of which are discussed in
-:ref:`advanced_discussions_nsec3param`) from 0 to 1:
+We can enable NSEC3 opt-out with the following configuration, changing the
+the ``optout`` configuration value from ``no`` to ``yes``:
 
 ::
 
-   # rndc signing -nsec3param 1 1 10 1234567890abcdef example.com
+   dnssec-policy "standard" {
+       nsec3param iterations 10 optout yes salt-length 16;
+   };
 
 After NSEC3 opt-out is enabled, the number of NSEC3 records is reduced.
 Notice that the unsigned delegations ``aaa``, ``ccc``, ``ddd``, and
@@ -998,12 +981,14 @@ Notice that the unsigned delegations ``aaa``, ``ccc``, ``ddd``, and
 
 -  *example.com*: TOM10UQBL336NFAQB3P6MOO53LSVG8UI.example.com.
 
-To undo NSEC3 opt-out, run the same ``rndc`` command with the opt-out
-bit set to 0:
+To undo NSEC3 opt-out, change the configuration again:
 
 ::
 
-   # rndc signing -nsec3param 1 0 10 1234567890abcdef example.com
+   dnssec-policy "standard" {
+       nsec3param iterations 10 optout no salt-length 16;
+   };
+
 
 .. note::
 
