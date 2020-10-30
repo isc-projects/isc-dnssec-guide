@@ -61,13 +61,11 @@ with DNSSEC-related configurations in bold:
    zone "example.com" IN {
        type primary;
        file "db/example.com.db";
-       key-directory "keys/example.com";
-       inline-signing yes;
-       auto-dnssec maintain;
        allow-transfer { any; };
+       dnssec-policy "default";
    };
 
-Remove the 3 lines so your ``named.conf`` looks like this, then use
+Remove the ``dnssec-policy`` line so your ``named.conf`` looks like this, then use
 ``rndc reload`` to reload the zone:
 
 ::
