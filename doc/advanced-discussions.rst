@@ -244,19 +244,12 @@ NSEC3PARAM
 ^^^^^^^^^^
 
 The above NSEC3 examples used four parameters: 1, 0, 10, and
-1234567890ABCDEF. The ``rndc`` tool may be used to set the NSEC3
-parameters for a zone [1]_, for example:
+1234567890ABCDEF. 1 represents the algorithm, 0 represents the opt-out
+flag, 10 represents the number of iterations, and 1234567890ABCDEF is the
+salt. Let's look at how each one can be configured:
 
-::
-
-   # rndc signing -nsec3param 1 0 10 1234567890abcdef
-     example.com
-
-1 represents the algorithm, 0 represents the opt-out flag, 10 represents
-the number of iterations, and 1234567890abcedf is the salt. Let's look
-at how each one can be configured:
-
--  *Algorithm*: The only currently defined value is 1 for SHA-1.
+-  *Algorithm*: The only currently defined value is 1 for SHA-1, so there
+   is no configuration field for it.
 
 -  *Opt-out*: Set this to 1 for NSEC3 opt-out, which we
    discuss in :ref:`advanced_discussions_nsec3_optout`.
@@ -268,31 +261,30 @@ at how each one can be configured:
    here are similar to those seen in :ref:`key_sizes`, of
    security versus resources.
 
--  *Salt*: The salt is a string of data expressed in hexadecimal, or a
-   hyphen ('-') if no salt is to be used. We learn more about salt
-   in :ref:`advanced_discussions_nsec3_salt`.
+-  *Salt*: The salt cannot be configured explicitly, but you can provide
+   a salt length and ``named`` generates a random salt of the given length.
+   We learn more about salt in :ref:`advanced_discussions_nsec3_salt`.
 
-For example, to create an NSEC3 chain using the SHA-1 hash algorithm, with no
-opt-out flag, 10 iterations, and a salt value of "FFFF", use:
+If you want to use these NSEC3 parameters for a zone, you can add the
+following configuration to your ``dnssec-policy``. For example, to create an
+NSEC3 chain using the SHA-1 hash algorithm, with no opt-out flag,
+5 iterations, and a salt that is 8 characters long, use:
 
 ::
 
-   # rndc signing -nsec3param 1 0 10 FFFF example.com
+   dnssec-policy "nsec3" {
+       ...
+       nsec3param iterations 5 optout no salt-length 8;
+   };
 
 To set the opt-out flag, 15 iterations, and no salt, use:
 
 ::
 
-   # rndc signing -nsec3param 1 1 15 - example.com
-
-Note the use of ``rndc`` to enable NSEC3. If you put an NSEC3PARAM
-record into your zone and you are using automatic or semi-automatic
-signing, the first time that the zone is loaded NSEC3 is used as
-proof of non-existence. Because of the way that BIND handles NSEC3, you
-cannot then revert to NSEC by removing the record; nor can you change the
-NSEC3 parameters by replacing it. You would need to remove the zone from
-BIND then add it again. For this reason, ``rndc`` is the preferred way
-of handling NSEC3.
+   dnssec-policy "nsec3" {
+       ...
+       nsec3param iterations 15 optout yes salt-length 0;
+   };
 
 .. _advanced_discussions_nsec3_optout:
 
@@ -369,19 +361,8 @@ administrators, as it relieves the authoritative servers of the
 additional cryptographic operations that NSEC3 requires, and NSEC is
 comparatively easier to troubleshoot than NSEC3.
 
-As of mid-2020, the non-existence proof used by ``dnssec-policy`` (the
-preferred way to sign the zone) in BIND 9 is NSEC; it is not yet possible to
-specify NSEC3.
-
-.. [1]
-   It is possible to add an NSEC3PARAM RR to your zone file. The first
-   time a zone is signed, it uses NSEC3 if the zone
-   contains an NSEC3PARAM record. However, as a result of the way BIND
-   processes NSEC3PARAM, removing it or changing is is not
-   straightforward: if you merely remove it or change it in the zone
-   file and reload the zone, BIND updates all other records but does
-   not alter the NSEC3PARAM or the mode of signing. To change NSEC3PARAM
-   parameters or to remove it entirely requires the use of ``rndc``.
+NSEC3 in conjunction with ``dnssec-policy`` is supported in BIND
+as of version 9.16.9.
 
 .. _advanced_discussions_key_generation:
 
