@@ -243,8 +243,10 @@ successfully looking up and validating the domain name ``ftp.isc.org``.
    validating ftp.isc.org/A: marking as secure, noqname proof not needed
 
 Note that these log messages indicate that the chain of trust has been
-established and ``ftp.isc.org`` has been successfully validated. [BUT
-WHAT WOULD IT LOOK LIKE IF IT HAD FAILED?]
+established and ``ftp.isc.org`` has been successfully validated.
+
+If validation had failed, you would see log messages indicating errors.
+We cover some of the most validation problems in the next section.
 
 .. _troubleshooting_common_problems:
 
