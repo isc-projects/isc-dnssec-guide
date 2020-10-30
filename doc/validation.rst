@@ -95,12 +95,47 @@ Using Web-Based Tools to Verify
 
 For most people, the simplest way to check if a recursive name server
 is indeed validating DNS queries is to use one of the many web-based
-tools available via a simple online search.
+tools available. We recommend two tools, below: Verisign DNSSEC
+Debugger and DNSViz. Others can be found via a simple online search.
+These excellent online tools are an easy way to verify that your
+domain name is fully secured.
 
 Configure your client computer to use the newly reconfigured recursive
-server for DNS resolution; then use any one of these
+server for DNS resolution; then use one of these
 web-based tests to confirm that it is in fact validating DNS
 responses.
+
+.. _external-tools-dnssec-debugger:
+
+Verisign DNSSEC Debugger
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+URL: `<https://dnssec-debugger.verisignlabs.com/>`__
+
+This tool shows a nice summary of checks performed on your domain name.
+You can expand it to view more details for each of the items checked, to
+get a detailed report.
+
+.. figure:: ../img/verisign-dnssec-debugger-example.png
+   :alt: Verisign DNSSEC Debugger
+
+   Verisign DNSSEC Debugger
+
+.. _external-tools-dnsviz:
+
+DNSViz
+^^^^^^
+
+URL: `<https://dnsviz.net/>`__
+
+DNSViz provides a visual analysis of the DNSSEC authentication chain for
+a domain name and its resolution path in the DNS namespace.
+
+.. figure:: ../img/dnsviz-example-small.png
+   :alt: DNSViz
+   :width: 80.0%
+
+   DNSViz
 
 .. _using_dig_to_verify:
 
