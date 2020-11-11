@@ -93,10 +93,10 @@ the existing hidden DNS primary and DNS secondaries.
 .. _dnssec-signing-2:
 
 .. figure:: ../img/dnssec-inline-signing-2.png
-   :alt: DNSSEC Signing Scenario #2
+   :alt: DNSSEC Signing Recipe #2
    :width: 100.0%
 
-   DNSSEC Signing Scenario #2
+   DNSSEC Signing Recipe #2
 
 It is important to remember that 192.168.1.1 in this case is a hidden
 primary not exposed to the world, and it must not be listed in the NS RRset.
