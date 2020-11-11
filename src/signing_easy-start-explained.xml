@@ -1,263 +1,64 @@
 <section id="signing-easy-start-explained">
  <title>Signing Easy Start Explained</title> 
 
- <!-- === Generate Keys Explained === -->
- <section id="signing-generate-keys-explained">
-  <title>Generate Keys Explained</title>
-  <para>In <xref linkend="signing-easy-start-generate-keys"/>, we generated two
-  pairs of keys: a pair of Zone Signing Keys (ZSK) and a pair of Key Signing
-  Keys (KSK). To quickly summarize, ZSKs sign the bulk of the zone,
-  but KSKs only sign the DNSKEYs. This makes ZSKs easier to change
-  (since you can do so without updating the parent).  We generated
-  keys by running these commands:</para>
-
-  <screen># <userinput>cd /etc/bind/keys/example.com</userinput>
-# <userinput>dnssec-keygen -a RSASHA256 -b 1024 example.com</userinput>
-Generating key pair...++++++ .............++++++ 
-Kexample.com.+008+17694
-# <userinput>dnssec-keygen -a RSASHA256 -b 2048 -f KSK example.com</userinput>
-Generating key pair........................+++ ..................................+++ 
-Kexample.com.+008+06817</screen>
-
-  <para>With these commands, we generated NSEC3-compatible key pairs (see <xref
-  linkend="advanced-discussions-nsec3"/> to learn more about NSEC3). In the
-  end, four key files were created in
-  <filename>/etc/bind/keys/example.com</filename>:
+ <!-- === Enable Automatic Maintenance Explained === -->
+ <section id="enable-automatic-maintenance-explained">
+  <title>Enable Automatic DNSSEC Maintenance Explained</title>
+  <para>Signing a zone requires a number of separate steps:</para>
 
    <itemizedlist>
     <listitem>
-     <simpara><filename>Kexample.com.+008+06817.key</filename></simpara>
+     <simpara>Generation of the keys to sign the zone.</simpara>
     </listitem>
     <listitem>
-     <simpara><filename>Kexample.com.+008+06817.private</filename></simpara>
+     <simpara>Inclusion of the keys into the zone.</simpara>
     </listitem>
     <listitem>
-     <simpara><filename>Kexample.com.+008+17694.key</filename></simpara>
-    </listitem>
-    <listitem>
-     <simpara><filename>Kexample.com.+008+17694.private</filename></simpara>
+     <simpara>Signing of the records in the file (including the
+     generation of the NSEC or NSEC3 records).</simpara>
     </listitem>
    </itemizedlist>
-   
-  </para>
 
-  <para>The two files ending in <code>.private</code> need to be kept, well,
-  private. These are your private keys, guard them carefully. You should at the
-  very least protect them via file permission settings. Please see <xref
-  linkend="advanced-discussions-key-storage"/> for more information about how
-  to store your keys.</para>
+  <para>Maintaining it comprises a set of ongoing tasks:</para>
 
-  <para>The two files ending in <code>.key</code> are your public keys. One is
-  the zone-signing key (ZSK), and one is the key-signing Key (KSK). We can tell
-  which is which by looking at the actual file contents (actual keys shortened
-  for display):</para>
+   <itemizedlist>
+    <listitem>
+     <simpara>Re-signing the zone as signatures approach expiration.</simpara>
+    </listitem>
+    <listitem>
+     <simpara>Generation of new keys as the time approaches for a key roll.</simpara>
+    </listitem>
+    <listitem>
+     <simpara>Inclusion of new keys into the zone when the rollover starts.</simpara>
+    </listitem>
+    <listitem>
+     <simpara>Transition from signing the zone with the old set of keys to signing
+     the zone with the new set of keys.</simpara>
+    </listitem>
+    <listitem>
+     <simpara>Waiting the appropriate interval before removing the old keys
+     from the zone.</simpara>
+    </listitem>
+    <listitem>
+     <simpara>Deleting the old keys.</simpara>
+    </listitem>
+   </itemizedlist>
 
-  <screen># <userinput>cat Kexample.com.+008+06817.key
-; This is a key-signing key, keyid 6817, for example.com.</userinput>
-; Created: 20141120094612 (Thu Nov 20 17:46:12 2014)
-; Publish: 20141120094612 (Thu Nov 20 17:46:12 2014)
-; Activate: 20141120094612 (Thu Nov 20 17:46:12 2014)
-example.com. IN DNSKEY 257 3 8 AwEAAcWDps...lM3NRn/G/R
-# <userinput>cat Kexample.com.+008+17694.key
-; This is a zone-signing key, keyid 17694, for example.com.</userinput>
-; Created: 20141120094536 (Thu Nov 20 17:45:36 2014)
-; Publish: 20141120094536 (Thu Nov 20 17:45:36 2014)
-; Activate: 20141120094536 (Thu Nov 20 17:45:36 2014)
-example.com. IN DNSKEY 256 3 8 AwEAAcjGaU...zuu55If5</screen>
+   <para>That is a lot of complexity, and it is all handled with the
+   single <code>dnssec-policy default</code> statement. We will see
+   later on (in section <xref linkend="signing-custom-policy"/>) how the
+   these actions can be tuned by setting up our own DNSSEC policy with
+   customized parameters. In many cases though, the defaults are
+   adequate.  After reading the rest of this guide, you may decide that
+   you do need to tweak the parameters or use an alternative signing
+   method.  But if not, that's it - you can forget about DNSSEC, there
+   is nothing more to do.</para>
 
-  <para>The first line of each file tell us what type of key it is. Also, by
-  looking at the actual DNSKEY record, we could tell them apart: 256 is ZSK,
-  and 257 is KSK.</para>
-
-  <para>So, this is a ZSK:
-   <screen># <userinput>cat Kexample.com.+008+17694.key</userinput>
-...
-example.com. IN DNSKEY <userinput>256</userinput> 3 8 AwEAAcjGaU...zuu55If5</screen>
-
-  </para>
-
-  <para>And this is a KSK:
-   <screen># <userinput>cat Kexample.com.+008+06817.key</userinput>
-...
-example.com. IN DNSKEY <userinput>257</userinput> 3 8 AwEAAcWDps...lM3NRn/G/R</screen>
-
-  </para>
-
-  <para>The parameters we showed in the example, algorithm of RSASHA256, key
-  length of 1024 and 2048, and the use of NSEC3 are just suggestions, you need
-  to evaluate what values work best for your environment. To learn more about
-  key generation, different algorithm choices, and key sizes, see <xref
-  linkend="advanced-discussions-key-generation"/>.</para>
-
-  <para>The table below summarizes the usage and frequency of use for each of
-  the keys.  <table id="zsk-ksk-comparison">
-    <title>ZSK KSK Comparison</title>
-    <tgroup cols='3' align='left' colsep='0' rowsep='0'>
-     <thead>
-      <row>
-       <entry>Key</entry>
-       <entry>Usage</entry>
-       <entry>Frequency of Use</entry>
-      </row>
-     </thead>
-     <tbody>
-      <row>
-       <entry>ZSK Private</entry>
-       <entry>Used by authoritative server to create RRSIG for zone
-       data</entry>
-       <entry>Used somewhat frequently depending on the zone, whenever
-       authoritative zone data changes or re-signing is needed</entry>
-      </row>
-      <row>
-       <entry>ZSK Public</entry>
-       <entry>Used by recursive server to validate zone data RRset</entry>
-       <entry>Used very frequently, whenever recursive server validates a
-       response</entry>
-      </row>
-      <row>
-       <entry>KSK Private</entry>
-       <entry>Used by authoritative server to create RRSIG for ZSK and KSK
-       Public (DNSKEY)</entry>
-       <entry>Very infrequently, whenever ZSK's or KSK's change (every
-       year or every five years in our examples)</entry>
-      </row>
-      <row>
-       <entry>KSK Public</entry>
-       <entry>Used by recursive server to validate DNSKEY RRset</entry>
-       <entry>Used very frequently, whenever recursive server validates a
-       DNSKEY RRset</entry>
-      </row>
-     </tbody>
-    </tgroup>
-   </table>
-  </para>
-
- </section>
-
-
- <!-- === Reconfigure BIND Explained === -->
- <section id="signing-reconfigure-bind-explained">
-  <title>Reconfigure BIND Explained</title>
-  <para>In <xref linkend="signing-easy-start-reconfigure-bind"/>, we
-  highlighted a few lines, let's explain what each one of them does.
-
-   <screen>options {
-    directory "/etc/bind";
-    recursion no;
-    minimal-responses yes;
-    <userinput>dnssec-enable yes;</userinput>
-};
-
-zone "example.com" IN {
-    type master;
-    file "db/example.com.db";
-    <userinput>key-directory "keys/example.com";
-    inline-signing yes;
-    auto-dnssec maintain;</userinput>
-};</screen>
-
-  </para>
-
-  <!-- ====== dnssec-enable ====== -->
-  <section id="signing-dnssec-enable-explained">
-   <title>dnssec-enable</title>
-   <para>DNSSEC support is enabled in <command>named</command> by
-   default.  If the <option>dnssec-enable</option> option is turned
-   off, <command>named</command> will be unable to serve signed
-   zones.</para>
-
-  </section>
-
-  <!-- ====== key-directory ====== -->
-  <section id="signing-key-directory-explained">
-   <title>key-directory</title>
-   <screen>zone "example.com" IN {
-    key-directory "keys/example.com";
-};</screen>
-   <para>This specifies where <command>named</command> should look for public
-   and private DNSSEC key files. The default is <command>named</command>'s
-   working directory.
-   In our example, we organized keys based on zone names, and placed all keys
-   for <code>example.com</code> under one directory
-   <filename>/etc/bind/keys/example.com</filename>.</para>
-
-  </section>
- 
-  <!-- ====== inline-signing ====== -->
-  <section id="signing-inline-signing-explained">
-   <title>inline-signing</title>
-   <screen>zone "example.com" IN {
-    inline-signing yes;
-};</screen>
-   <para>This option is disabled by default. When enabled, BIND converts
-   traditional (insecure) zone data to signed (secure) data automatically and
-   transparently, using keys found in <varname>key-directory</varname>.</para>
-
-   <para>This feature alleviates the burden of re-signing zone data put on
-   DNSSEC zone administrators. As the zone administrator, you can continue to
-   manually maintain the unsigned version of the zone just like before, and
-   <command>named</command> automatically creates an internal copy of the
-   zone, signs it on the fly, and increments the serial number for the signed
-   zone. The unsigned version of the zone is left intact. With this feature
-   enabled, whenever <command>named</command> detects that your zone needs to
-   be signed, either due to a new record being added, removed, or signature
-   expiration, it will automatically re-sign the zone data.</para>
-
-   <para>Inline signing can also be used as a strategy to aid DNSSEC
-   deployment in the case where the master zone cannot be easily modified
-   To learn more about inline signing, please see <xref
-   linkend="dnssec-and-inline-signing" />.</para>
-
-  </section>
-
-  <!-- ====== auto-dnssec ====== -->
-  <section id="signing-auto-dnssec-explained">
-   <title>auto-dnssec</title>
-   <screen>zone "example.com" IN {
-    auto-dnssec maintain;
-};</screen>
-   <para>With keys, comes the burden of key management.
-   <varname>auto-dnssec</varname> provides varying levels of automatic key
-   management. There are three possible settings:
-
-    <orderedlist>
-     <!-- #1 -->
-     <listitem>
-      <simpara><emphasis>off</emphasis>: this is the default, key management is
-      done manually</simpara>
-     </listitem>
-
-     <!-- #2 -->
-     <listitem>
-      <simpara><emphasis>allow</emphasis>: permits keys to be updated and the
-      zone fully re-signed whenever the user issues the command <command>rndc
-      sign [zonename]</command>.</simpara>
-     </listitem>
-
-     <!-- #3 -->
-     <listitem>
-      <simpara><emphasis>maintain</emphasis>: includes what "allow" has, but
-      also automatically adjusts the zone's DNSSEC keys on schedule, according
-      to the key's timing metadata.</simpara>
-     </listitem>
-    </orderedlist>
-   </para>
-
-   <para>We have opted for the "maintain" mode in our example, which provides
-   the most automated key management. With this option enabled, BIND will
-   periodically check to see if new keys are available, or old keys need to be
-   retired, and automatically add or remove the appropriate DNSKEY records from
-   the zone. The frequency of the check can be controlled via
-   <varname>dnssec-loadkeys-interval</varname>, default is 60 minutes (1
-   hour).</para>
-
-  </section>
-
-  <note>
-   <para><command>auto-dnssec</command> is a feature to automate many of the
-   key management tasks, which we discuss in more detail in <xref
-   linkend="advanced-discussions-manual-key-management-and-signing" />, to
-   cover topics such as manual signing and key timing metadata.</para>
-  </note>
+   <para>At the time of writing (April 2020), <code>dnssec-policy</code> is
+   still a relatively new feature in BIND.  As such, although it is the
+   preferred way to run DNSSEC in your zone, it can't do everything
+   that you can do with a more "hands on" approach to signing and key
+   maintenance.  For this reason, we will be covering alternative signing
+   techniques in <xref linkend="signing-alternative-ways"/>.</para>
  </section>
 </section>

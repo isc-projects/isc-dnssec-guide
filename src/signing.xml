@@ -29,12 +29,16 @@ articles owned by ISC:
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
   href="signing_parent-zone.xml" />
 
-  <!-- === Using NSEC3 === -->
+  <!-- === Custom DNSSEC Policy === -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
-  href="signing_using-nsec3.xml" />
+  href="signing_custom-policy.xml" />
 
-  <!-- === Maintenance Tasks === -->
+  <!-- === Zone Maintenance === -->
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
   href="signing_maintenance-tasks.xml" />
+
+  <!-- === Alternative Methods of Signing === -->
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+  href="signing_alternative-methods.xml" />
 
 </chapter>

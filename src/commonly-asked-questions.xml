@@ -48,7 +48,7 @@
    when you received the DNS response for www.isc.org over port 53, you know it
    really came from the ISC name servers, and the answers are authentic. But
    that does not mean the web server you visit over port 80 or port 443 is
-   necessarily safe. Further more, 99% of the domain names (as of this writing)
+   necessarily safe. Further more, 98.5% of the domain names (as of this writing)
    have not signed their zones yet, so DNSSEC cannot even validate their
    answers.</para>
    <para>The answer for sometime in the future is, as more and more zones are
@@ -65,7 +65,7 @@
    majority of the domain names, since most domains names don't have DNSSEC
    yet?</para></question>
    <answer><para>No, DNSSEC is backwards compatible to "standard" DNS. As of
-   this writing, although 99.5% of the .com domains have yet to be signed, a
+   this writing, although 98.5% of the .com domains have yet to be signed, a
    DNSSEC-enabled validating resolver can still lookup all of these domain
    names following the "old fashioned way". There are four (4) categories of
    responses (<ulink url="https://tools.ietf.org/html/rfc4035#section-4.3"><citetitle>RFC 4035 Sec 4.3</citetitle></ulink>):
@@ -98,27 +98,22 @@
   <qandaentry>
    <question><para>Do I need to have special client software to use
    DNSSEC?</para></question>
-   <answer><para>The short answer is no, DNSSEC only changes the communication
+   <answer><para>No. DNSSEC only changes the communication
    behavior among DNS servers, not DNS server (validating resolver) and client
    (stub resolver). With DNSSEC validation enabled on your recursive server, if
    a domain name doesn't pass the checks, an error message (typically SERVFAIL)
    is returned to the clients, and to most client software today, it looks as
-   if the DNS query has failed, or the domain name does not exist.</para>
-   <para>The longer answer is although you don't have to, you may want to.
-   There are more and more client softwares that take advantage of the new
-   DNSSEC features and give user better feedback about the domain name they are
-   visiting. CZ.NIC Labs has created a plugin for several popular web
-   browsers, and Mozilla has created a new web browser Bloodhound that performs
-   DNSSEC validation. </para>
-   <para>As DNSSEC deployment becomes more common place, we are sure to see
-   more and more software libraries and applications be updated to support its
-   features.</para></answer>
+   if the DNS query has failed, or the domain name does not exist.
+   </para></answer>
   </qandaentry>
 
   <qandaentry>
    <question><para>Since DNSSEC uses public key cryptography, do I need Public
    Key Infrastructure (PKI) in order to use DNSSEC?</para></question>
-   <answer><para>No.</para></answer>
+   <answer><para>No, it operates independently of an existing PKI. Public keys
+   are stored within the DNS hierarchy and the trustworthiness of each zone is
+   guaranteed by its parent zone, all the way back to the root zone.  A copy of
+   the trust anchor for the root zone is distributed with BIND.</para></answer>
   </qandaentry>
 
   <qandaentry>
@@ -140,37 +135,88 @@
    result is, to the rest of the world, your zone still appears to be insecure,
    and it will continue to be insecure until your parent zone can host DS
    record(s) for you, effectively telling the rest of the world that your zone
-   is signed. </para>
+   is signed.</para></answer>
 
-   <para>An interim solution is to take advantage of DLV (DNSSEC Look-aside
-   Validation), by submitting your key to a DLV registry such as <ulink
-   url="https://dlv.isc.org/" />, you can still get the benefits of DNSSEC even
-   if your parent zone is not yet supporting it.</para></answer>
   </qandaentry>
 
   <qandaentry>
    <question><para>Is DNSSEC the same thing as TSIG that I have between my
-   master and slave servers?</para></question>
-   <answer><para>No. TSIG is typically used between master and slave name
+   primary and secondary servers?</para></question>
+   <answer><para>No. TSIG is typically used between primary and secondary name
    servers to secure zone transfers, DNSSEC secures DNS lookup by validating
    answers. Even if you enabled DNSSEC, zone transfers are still not validated,
-   and if you wish to secure the communication between your master and slave
+   and if you wish to secure the communication between your primary and secondary
    name servers, you should consider setting up TSIG or similar secure
    channels.</para></answer>
   </qandaentry>
 
   <qandaentry>
-   <question><para>How are keys copied from master to slave
+   <question><para>How are keys copied from primary to secondary
    server(s)?</para></question>
    <answer><para>DNSSEC uses public cryptography, which results in two
    types of keys: public and private. The public keys are part of the zone
    data, stored as DNSKEY record types. Thus the public keys are
-   synchronized from master to slave server(s) as part of the zone
+   synchronized from primary to secondary server(s) as part of the zone
    transfer. The private keys do not, and should not be stored anywhere
-   else but the master server in a secured fashion. See <xref
+   else but the primary server in a secured fashion. See <xref
    linkend="advanced-discussions-key-storage" /> for more information on
    key storage options and considerations.</para></answer>
   </qandaentry>
+
+  <qandaentry>
+   <question><para>Can I use the same key for multiple zones?
+   </para></question>
+   <answer><para>Yes and no. Good security practice suggests that you
+   should use unique key pairs for each zone, just like how you should
+   have different passwords for your email account, social media login,
+   and online banking credentials. On a technical level, this is
+   completely feasible, but then multiple zones are at risk when one key
+   pair is compromised. If you have hundreds or thousands (or even
+   hundreds of thousands) of zones to administer, a single key pair for
+   all might be less error-prone to manage. You may choose to use the
+   same approach to password management: use unique passwords for your
+   bank accounts and shopping sites, but use a standard password for
+   your not-very-important logins. So categorize your zones, high valued
+   zones (or zones that have specific key rollover requirements) get
+   their own key pairs, while other more "generic" zones can use a
+   single key pair for easier management.
+   At present (mid-2020), fully-automatic signing (using the
+   <code>dnssec-policy</code> clause in your <command>named</command>
+   configuration file) does not support this except when the same zone appears
+   in multiple views (see next question).  If you wish
+   to use the same key for multiple zones, you should sign your zones using
+   semi-automatic signing.  Each zone wishing to use the key should point to the
+   same key directory.
+   </para></answer>
+  </qandaentry>
+
+  <qandaentry>
+   <question><para>How do I sign the different instances of a zone that appears in multiple views?
+   </para></question>
+   <answer><para>Add a <code>dnssec-policy</code> statement to each <code>zone</code>
+   definition in the configuration file.  To avoid problems when a single computer may
+   access different instances of the zone while information is still in its cache (e.g.
+   (e.g. a laptop moving from your office to a customer site),
+   you should sign all instances with the same key.  This means:
+   <orderedlist>
+    <listitem>
+     <simpara>Setting the same DNSSEC policy for all instances of the zone.</simpara>
+    </listitem>
+    <listitem>
+     <simpara>Making sure that the key directory is the same for all instances of the zone.</simpara>
+    </listitem>
+   </orderedlist>
+   </para></answer>
+  </qandaentry>
+
+  <qandaentry>
+   <question><para>Will there be any problems if I change the DNSSEC policy for a zone?</para></question>
+   <answer><para>If you are using fully-automatic signing, no.  Just change the
+   parameters in the <code>dnssec-policy</code> statement and reload the
+   configuration file.  <command>named</command> will make a smooth transition to
+   the new policy, ensuring that your zone remains valid at all times.</para></answer>
+  </qandaentry>
+
  </qandaset></para>
 
 </chapter>

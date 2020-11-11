@@ -7,19 +7,18 @@
   <orderedlist>
    <!-- #1 -->
    <listitem>
-    <simpara>Verisign Labs DNSSEC Debugger: <ulink
-    url="http://dnssec-debugger.verisignlabs.com/" /></simpara>
+    <simpara>Verisign Labs DNSSEC Debugger</simpara>
    </listitem>
 
    <!-- #2 -->
    <listitem>
-    <simpara>DNSViz: <ulink url="http://dnsviz.net/" /></simpara>
+    <simpara>DNSViz</simpara>
    </listitem>
 
    <!-- #3 -->
 <!--
    <listitem>
-    <simpara>Sec Spider: <ulink url="http://secspider.cs.ucla.edu/"
+    <simpara>Sec Spider: <ulink url="https://secspider.cs.ucla.edu/"
     /></simpara>
    </listitem>
 -->
@@ -31,7 +30,7 @@
  <!-- ====== Verisign DNSSEC Debugger ====== -->
  <section id="external-tools-dnssec-debugger">
   <title>Verisign DNSSEC Debugger</title>
-  <para>URL: <ulink url="http://dnssec-debugger.verisignlabs.com/" /></para>
+  <para>URL: <ulink url="https://dnssec-debugger.verisignlabs.com/" /></para>
 
   <para>This tool shows a nice summary of checks performed on your domain
   name, and you can expand to view more details for each of the items checked
@@ -41,7 +40,7 @@
    <title>Verisign DNSSEC Debugger</title>
    <mediaobject>
     <imageobject>
-     <imagedata fileref="../img/verisign-dnssec-debugger-example.png" scalefit="1"/>
+     <imagedata fileref="../img/verisign-dnssec-debugger-example.png" scale="50"/>
     </imageobject>
    </mediaobject>
   </figure>
@@ -50,7 +49,7 @@
  <!-- ====== DNSViz ====== -->
  <section id="external-tools-dnsviz">
   <title>DNSViz</title>
-  <para>URL: <ulink url="http://dnsviz.net/" /></para>
+  <para>URL: <ulink url="https://dnsviz.net/" /></para>
   <para>DNSViz provides a visual analysis of the DNSSEC authentication chain
   for a domain name and its resolution path in the DNS namespace.</para>
 
@@ -68,7 +67,7 @@
  <!--
  <section id="external-tools-secspider">
   <title>Sec Spider</title>
-  <para>URL: <ulink url="http://secspider.cs.ucla.edu/" /></para>
+  <para>URL: <ulink url="https://secspider.cs.ucla.edu/" /></para>
   <para>Similar to DNSViz, with the added bonus of letting users move elements
   on the diagram.</para>
 

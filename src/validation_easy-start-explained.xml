@@ -24,7 +24,7 @@
      <simpara><emphasis>yes</emphasis>: DNSSEC validation is enabled, but a
      trust anchor must be manually configured. No validation will
      actually take place until you have manually configured at
-     least one trusted key. This is the default.</simpara> </listitem>
+     least one trusted key.</simpara> </listitem>
 
     <listitem>
      <simpara><emphasis>no</emphasis>: DNSSEC validation is disabled, and
@@ -35,36 +35,34 @@
     <listitem>
      <simpara><emphasis>auto</emphasis>: DNSSEC validation is enabled, and a
      default trust anchor (included as part of BIND) for the DNS root zone is
-     used.</simpara>
+     used. This is the default, being what BIND will do if you don't include a
+     <code>dnssec-validation</code> line in your configuration file.</simpara>
     </listitem>
    </itemizedlist>
   </para>
 
   <para>Let's discuss the difference between <replaceable>yes</replaceable> and
   <replaceable>auto</replaceable>. If you set it to
-  <replaceable>yes</replaceable> (the default), the trust anchor will need to
-  be manually defined and maintained using the <code>trusted-keys</code>
-  statement in the configuration file; if you set it to
-  <replaceable>auto</replaceable> (as shown in the example), then no further
+  <replaceable>yes</replaceable> the trust anchor will need to
+  be manually defined and maintained using the <code>trust-anchors</code>
+  statement (with either the <code>static-key</code> or <code>static-ds</code>
+  modifier) in the configuration file; if you set it to
+  <replaceable>auto</replaceable> (the default, and as shown in the example), then no further
   action should be required as BIND includes a copy<footnote><para>BIND
   technically includes two copies of the root key, one is in
   <filename>bind.keys.h</filename> and is built into the executable, and one is
-  in <filename>bind.keys</filename> as a <varname>managed-keys</varname>
+  in <filename>bind.keys</filename> as a <varname>trust-anchors</varname>
   statement. The two copies of the key are identical.</para></footnote> of the
   root key. When set to <replaceable>auto</replaceable>, BIND will
   automatically keep the keys (also known as trust anchors, which we will look
   at in <xref linkend="trust-anchors" />) up-to-date without intervention from
   the DNS administrator.</para>
   
-  <para>We recommend <replaceable>auto</replaceable> unless you
+  <para>We recommend using the default <replaceable>auto</replaceable> unless you
   have a good reason for requiring a manual trust anchor. To learn
   more about trust anchors, please refer to <xref
   linkend="trusted-keys-and-managed-keys"/>.</para>
 
-  <note>
-   <varname>dnssec-enable</varname> needs to be set to yes (default value is
-   yes) in order for <varname>dnssec-validation</varname> to be effective.
-  </note>
  </section>
 
 
@@ -83,7 +81,7 @@
   <orderedlist>
    <!-- #1 -->
    <listitem>
-    <simpara>Validating resolver queries <code>isc.org</code> name servers for
+    <simpara>The validating resolver queries the <code>isc.org</code> name servers for
     the A record of <code>www.isc.org</code>. This query has the <code>DNSSEC
     OK</code> (<code>do</code>) bit set to 1, notifying the remote
     authoritative server that DNSSEC answers are desired.</simpara>
@@ -91,69 +89,69 @@
 
    <!-- #2 -->
    <listitem>
-    <simpara>The zone <code>isc.org</code> is signed, and its name servers are
-    DNSSEC-aware, thus it responds with the answer to the A record query plus
+    <simpara>As the zone <code>isc.org</code> is signed, and its name servers are
+    DNSSEC-aware, it responds with the answer to the A record query plus
     the RRSIG for the A record.</simpara>
    </listitem>
 
    <!-- #3 -->
    <listitem>
-    <simpara>Validating resolver queries for the DNSKEY for
+    <simpara>The validating resolver queries for the DNSKEY for
     <code>isc.org</code>.</simpara>
    </listitem>
 
    <!-- #4 -->
    <listitem>
-    <simpara><code>isc.org</code> name server responds with the DNSKEY and
+    <simpara>The <code>isc.org</code> name server responds with the DNSKEY and
     RRSIG records. The DNSKEY is used to verify the answers received in
     #2.</simpara>
    </listitem>
 
    <!-- #5 -->
    <listitem>
-    <simpara>Validating resolver queries the parent (<code>.org</code>) for the
+    <simpara>The validating resolver queries the parent (<code>.org</code>) for the
     DS record for <code>isc.org</code>.</simpara>
    </listitem>
 
    <!-- #6 -->
    <listitem>
-    <simpara><code>.org</code> name server responds with the DS and RRSIG
-    records. The DS record is used to verify the answers received in
+    <simpara>The <code>.org</code> name server is also DNSSEC-aware, so responds with
+    the DS and RRSIG records. The DS record is used to verify the answers received in
     #4.</simpara>
    </listitem>
 
    <!-- #7 -->
    <listitem>
-    <simpara>Validating resolver queries for the DNSKEY for
+    <simpara>The validating resolver queries for the DNSKEY for
     <code>.org</code>.</simpara>
    </listitem>
 
    <!-- #8 -->
    <listitem>
-    <simpara><code>.org</code> name server responds with DNSKEY and RRSIG. The
+    <simpara>The <code>.org</code> name server responds with DNSKEY and RRSIG. The
     DNSKEY is used to verify the answers received in #6.</simpara>
    </listitem>
 
    <!-- #9 -->
    <listitem>
-    <simpara>Validating resolver queries the parent (root) for the DS record
+    <simpara>The validating resolver queries the parent (root) for the DS record
     for <code>.org</code>.</simpara>
    </listitem>
 
    <!-- #10 -->
    <listitem>
-    <simpara>Root name server responds with DS and RRSIG records. The DS record
-    is used to verify the answers received in #8.</simpara>
+    <simpara>The root name server, being DNSSEC-aware, responds with DS and RRSIG
+    records. The DS record is used to verify the answers received in #8.</simpara>
    </listitem>
 
    <!-- #11 -->
    <listitem>
-    <simpara>Validating resolver queries for the DNSKEY for root.</simpara>
+    <simpara>The validating resolver queries for the DNSKEY for root.</simpara>
    </listitem>
 
    <!-- #12 -->
    <listitem>
-    <simpara>Root name server responds with DNSKEY and RRSIG. The DNSKEY is
+    <simpara>The root name server responds with DNSKEY and RRSIG. The DNSKEY is
     used to verify the answers received in #10.</simpara>
    </listitem>
   </orderedlist></para>
@@ -167,7 +165,6 @@
   answer, but a digital signature (RRSIG) as well. This is so the validating
   resolver can verify the answer received, and that's what we will look at in
   the next section, <xref linkend="how-are-answers-verified"/>.</para>
-
  </section>
 
 
@@ -219,24 +216,22 @@
    </mediaobject>
   </figure>
     
-  <para>Take the A record <code>www.isc.org</code> for example, the plain text
+  <para>Take the A record <code>ftp.isc.org</code> for example, the plain text
   is:
-   <screen>www.isc.org.		4 IN A	149.20.64.69</screen>
+   <screen>ftp.isc.org.		4 IN A	149.20.1.49</screen>
   </para>
 
   <para>The digital signature portion is:
-   <screen>www.isc.org.		4 IN RRSIG A 5 3 60 (
-				<userinput>20141029233238 20140929233238</userinput> 4521 isc.org.
-				DX5BaGVd4KzU2AIH911Kar/UmdmkARyPhJVLr0oyPZaq
-				5zoobGqFI4efvzL0mcpncuUg3BSU5Q48WdBu92xinMdb
-				E75zl+adgEBOsFgFQR/zqM3myt/8SngWm4+TQ3XFh9eN
-				jqExHZZuZ268Ntlxqgf9OmKRRv8X8YigaPShuyU= )</screen>
+  <screen>ftp.isc.org.		300 IN RRSIG A 13 3 300 (
+				<userinput>20200401191851 20200302184340</userinput> 27566 isc.org.
+				e9Vkb6/6aHMQk/t23Im71ioiDUhB06sncsduoW9+Asl4
+				L3TZtpLvZ5+zudTJC2coI4D/D9AXte1cD6FV6iS6PQ== )</screen>
   </para>
 
   <para>When a validating resolver queries for the A record
-  <code>www.isc.org</code>, it receives both the A record and the RRSIG record.
+  <code>ftp.isc.org</code>, it receives both the A record and the RRSIG record.
   It runs the A record through a hash function (in this example, it would be
-  SHA1 as indicated by the number 5, signifying RSA-SHA1) and produces hash
+  SHA256 as indicated by the number 13, signifying ECDSAP256SHA256) and produces hash
   value X. The resolver also fetches the appropriate DNSKEY record to decrypt
   the signature, and the result of the decryption is hash value Y.</para>
 
@@ -246,13 +241,13 @@
   highlighted timestamps in our example above, the two timestamps are:
 
    <itemizedlist>
-    <listitem><simpara>Signature Expiration: 20141029233238</simpara></listitem>
-    <listitem><simpara>Signature Inception: 20140929233238</simpara></listitem>
+    <listitem><simpara>Signature Expiration: 20200401191851</simpara></listitem>
+    <listitem><simpara>Signature Inception: 20200302184340</simpara></listitem>
    </itemizedlist></para>
 
-  <para>This tells us that this signature was generated UTC September 29th,
-  2014, at 11:32:38PM (20140929233238), and it is good until UTC October 29th,
-  2014, 11:32:38PM (20141029233238). And the validating resolver's current
+  <para>This tells us that this signature was generated UTC March 2nd, 2020,
+  at 6:43:40 PM (20200302184340), and it is good until UTC April 1st, 2020,
+  7:18:51 PM (20200401191851). And the validating resolver's current
   system time needs to fall between these two timestamps. Otherwise the
   validation fails, because it could be an attacker replaying an old captured
   answer set from the past, or feeding us a crafted one with incorrect future

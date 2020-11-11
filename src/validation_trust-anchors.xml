@@ -25,7 +25,7 @@
   adoption, it was not unusual for a validating resolver to have more than one
   trust anchor.</para>
 
-  <para>For instance, before the root zone was signed (prior to the year 2010),
+  <para>For instance, before the root zone was signed (July 2010),
   some validating resolvers that wish to validate domain names in the
   <code>.gov</code> zone needed to obtain and install the key for
   <code>.gov</code>. A sample lookup process for <code>www.fbi.gov</code> would
@@ -45,47 +45,47 @@
 
     <!-- #1 -->
     <listitem>
-     <simpara>Validating resolver queries <code>fbi.gov</code> name server for
+     <simpara>The validating resolver queries <code>fbi.gov</code> name server for
      the A record of <code>www.fbi.gov</code>.</simpara>
     </listitem>
 
     <!-- #2 -->
     <listitem>
-     <simpara>FBI's name server responds with answer and RRSIG.</simpara>
+     <simpara>The FBI's name server responds with the answer and its RRSIG.</simpara>
     </listitem>
 
     <!-- #3 -->
     <listitem>
-     <simpara>Validating resolver queries FBI's name server for
+     <simpara>The validating resolver queries FBI's name server for its
      DNSKEY.</simpara>
     </listitem>
 
     <!-- #4 -->
     <listitem>
-     <simpara>FBI's name server responds with DNSKEY and RRSIG.</simpara>
+     <simpara>The FBI's name server responds with the DNSKEY and its RRSIG.</simpara>
     </listitem>
 
     <!-- #5 -->
     <listitem>
-     <simpara>Validating resolver queries <code>.gov</code> name server for DS
+     <simpara>The validating resolver queries a <code>.gov</code> name server for the DS
      record of <code>fbi.gov</code>.</simpara>
     </listitem>
 
     <!-- #6 -->
     <listitem>
-     <simpara><code>.gov</code> name server responds with DS record and RRSIG
+     <simpara>The <code>.gov</code> name server responds with the DS record and the associated RRSIG
      for <code>fbi.gov</code>.</simpara>
     </listitem>
     
     <!-- #7 -->
     <listitem>
-     <simpara>Validating resolver queries <code>.gov</code> name server for
+     <simpara>The validating resolver queries <code>.gov</code> name server for its
      DNSKEY.</simpara>
     </listitem>
     
     <!-- #8 -->
     <listitem>
-     <simpara><code>.gov</code> name server responds with DNSKEY and
+     <simpara>The <code>.gov</code> name server responds with its DNSKEY and the associated
      RRSIG.</simpara>
     </listitem>
    </orderedlist>
@@ -112,18 +112,24 @@
   <para>If you followed the recommendation in <xref
   linkend="easy-start-guide-for-recursive-servers"/>, by setting
   <varname>dnssec-validation</varname> to <replaceable>auto</replaceable>, then
-  there is nothing you need to do. BIND already includes a default key (in the
-  file <filename>bind.keys</filename>), that will automatically update itself.
+  there is nothing you need to do. BIND already includes a copy of the root key (in the
+  file <filename>bind.keys</filename>), and will automatically update it when
+  the root key changes.<footnote>
+  <para>The root zone was signed in July 2010 and, as at the time of writing, the
+  key has been changed once, in October 2018.  The intention going forwards is to
+  roll the key once every five years.</para>
+  </footnote>
   It looks something like this:</para>
 
-  <screen>managed-keys {
-    . initial-key 257 3 8 "AwEAAagAIKlVZrpC6Ia7gEzahOR+9W29euxhJhVVLOyQbSEW0O8gcCjF
-    FVQUTf6v58fLjwBd0YI0EzrAcQqBGCzh/RStIoO8g0NfnfL2MTJRkxoX
-    bfDaUeVPQuYEhg37NZWAJQ9VnMVDxP/VHL496M/QZxkjf5/Efucp2gaD
-    X6RS6CXpoY68LsvPVjR0ZSwzz1apAzvN9dlzEheX7ICJBBtuA6G3LQpz
-    W5hOA2hzCTMjJPJ8LbqF6dsV6DoBQzgul0sGIcGOYl7OyQdXfZ57relS
-    Qageu+ipAdTTJ25AsRTAoub8ONGcLmqrAmRLKBP1dfwhYB4N7knNnulq
-    QxA+Uk1ihz0=";
+  <screen>trust-anchors {
+        # This key (20326) was published in the root zone in 2017.
+        . initial-key 257 3 8 "AwEAAaz/tAm8yTn4Mfeh5eyI96WSVexTBAvkMgJzkKTOiW1vkIbzxeF3
+                +/4RgWOq7HrxRixHlFlExOLAJr5emLvN7SWXgnLh4+B5xQlNVz8Og8kv
+                ArMtNROxVQuCaSnIDdD5LKyWbRd2n9WGe2R8PzgCmr3EgVLrjyBxWezF
+                0jLHwVN8efS3rCj/EWgvIWgb9tarpVUDK/b58Da+sqqls3eNbuv7pr+e
+                oZG+SrDK6nWeL3c6H5Apxz7LjVc1uTIdsIXxuOLYA4/ilBmSVIzuDWfd
+                RUfhHdY6+cn8HFRm+2hM8AnXGXws9555KrUB5qihylGa8subX2Nn6UwN
+                R1AkUTV74bU=";
 };</screen>
 
   <para>You could, of course, decide to manage this key on your own by hand.
@@ -137,58 +143,50 @@
 
   <para>Then, download the root key manually from a trustworthy source, such as
   <ulink url="https://www.isc.org/bind-keys"/>. Finally, take the root key you
-  manually downloaded, and put it into a <varname>trusted-keys</varname>
+  manually downloaded, and put it into a <varname>trust-anchors</varname>
   statement as shown below:</para>
 
-  <screen>trusted-keys {
-    . 257 3 8 "AwEAAagAIKlVZrpC6Ia7gEzahOR+9W29euxhJhVVLOyQbSEW0O8gcCjF
-    FVQUTf6v58fLjwBd0YI0EzrAcQqBGCzh/RStIoO8g0NfnfL2MTJRkxoX
-    bfDaUeVPQuYEhg37NZWAJQ9VnMVDxP/VHL496M/QZxkjf5/Efucp2gaD
-    X6RS6CXpoY68LsvPVjR0ZSwzz1apAzvN9dlzEheX7ICJBBtuA6G3LQpz
-    W5hOA2hzCTMjJPJ8LbqF6dsV6DoBQzgul0sGIcGOYl7OyQdXfZ57relS
-    Qageu+ipAdTTJ25AsRTAoub8ONGcLmqrAmRLKBP1dfwhYB4N7knNnulq
-    QxA+Uk1ihz0=";
+  <screen>trust-anchors {
+        # This key (20326) was published in the root zone in 2017.
+        . static-key 257 3 8 "AwEAAaz/tAm8yTn4Mfeh5eyI96WSVexTBAvkMgJzkKTOiW1vkIbzxeF3
+                +/4RgWOq7HrxRixHlFlExOLAJr5emLvN7SWXgnLh4+B5xQlNVz8Og8kv
+                ArMtNROxVQuCaSnIDdD5LKyWbRd2n9WGe2R8PzgCmr3EgVLrjyBxWezF
+                0jLHwVN8efS3rCj/EWgvIWgb9tarpVUDK/b58Da+sqqls3eNbuv7pr+e
+                oZG+SrDK6nWeL3c6H5Apxz7LjVc1uTIdsIXxuOLYA4/ilBmSVIzuDWfd
+                RUfhHdY6+cn8HFRm+2hM8AnXGXws9555KrUB5qihylGa8subX2Nn6UwN
+                R1AkUTV74bU=";
 };</screen>
 
-  <para>Looking back at the example in <xref
-  linkend="how-trust-anchors-are-used"/>, if you wanted to explicitly trust
-  <code>.gov</code> and only validate domain names under <code>.gov</code>,
-  your <varname>trusted-keys</varname> statement would look something like
-  this:</para>
-
-  <screen>trusted-keys {
-    gov. 257 3 8 "AQO8daaz7B+yshOfL60rytKd9aOSujgponEw3fwBMEC3
-    /+e9XzHw2k+VKnbJTZ+QaVtpfUd1q9HKZIv/ck83Gl5T
-    jYKE5jtUZ2kpEDZfVNGv6yx0smtWAXv1nCJS9ohnyOTd
-    397eMojGDHqkEC+uojEScZheEkMxzgCZwDAs+/CSU7mS
-    uHtCRZn19xlZUd5Gv7yDQ3mbOUwuy30oSk0z1Q5UUPpo
-    ihOugIZHFX6Jk7NLiW2wlqfq9qhV4zj7TiBiJY0mCc4z
-    HN8/aq2VKDHp2Na7mWzvKyTy+SYQkBQ/08LbPwj9YMc+
-    uCzKL6sU/ObHv17EFhD8aPDftTHZvV9L+OZr";
-};</screen>
-
-  <para>As the name <varname>trusted-keys</varname> suggests, it is possible to
-  have more than one key configured. You could also leverage <xref
-  linkend="dlv" /> as part of your trust-anchor management strategy.</para>
-
-  <para>While <varname>trusted-keys</varname> and
-  <varname>managed-keys</varname> appear similar, there is an
-  important difference: <varname>trusted-keys</varname> are always
-  trusted, until they are deleted from <filename>named.conf</filename>;
-  <varname>managed-keys</varname> (specifically,
-  <varname>initial-key</varname>, which is the only supported type
-  currently) are only trusted once: for as long as it takes to load
-  the managed key database and start the key maintenance process.</para>
+  <para>While this <code>trust-anchors</code> statement and the one in the
+  <filename>bind.keys</filename> file appear similar, the definition of the key in
+  <filename>bind.keys</filename>
+  has the <code>initial-key</code> modifier, whereas in the statement in the
+  configuration file, that
+  is replaced by <code>static-key</code>.  There is an important difference
+  between the two: a key defined with <code>static-key</code> is always trusted
+  until it is deleted from the configuration file.  With the
+  <code>initial-key</code> modified, keys are only trusted once: for as long as
+  it takes to load the managed key database and start the key maintenance
+  process.  Thereafter BIND will use the managed keys database
+  (<filename>managed-keys.bind.jnl</filename>) as the source of key information.</para>
 
   <warning>
   <simpara>Remember, if you choose to manage the keys on your own, whenever the
-  key changes, the configuration needs to be updated manually. Failing to do so
+  key changes (which, for most zones, will happen on a periodic basis), the
+  configuration needs to be updated manually. Failing to do so
   will result in breaking nearly all DNS queries for the sub domain of the key.
   So if you are manually managing <code>.gov</code>, all domain names in the
   <code>.gov</code> space may become unresolvable; if you are manually managing
   the root key, you could break all DNS requests made to your recursive name
   server.</simpara>
   </warning>
+
+  <para>Explicit management of keys was common in the early days of DNSSEC, when
+  neither the root zone nor many top-level domains were signed.  Since then,
+  <ulink url="https://stats.research.icann.org/dns/tld_report/">over 90%</ulink>
+  of the top-level domains have been signed, including all the largest ones.
+  Unless you have a particular need to manage keys yourself, it is best to use
+  the BIND defaults and let it manage the root key.</para>
 
 <!-- TODO: better explain how RFC 5011 automatic trust
 anchor maintenance differs from static trusted-keys. Explain what

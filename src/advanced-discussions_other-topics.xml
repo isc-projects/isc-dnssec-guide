@@ -35,7 +35,7 @@
   (re)generate signatures and NSEC or NSEC3 records.</para>
  </section>
 
- <!-- === DNSSEC and Inline Signing === -->
+ <!-- === DNSSEC and Inline Signing ===
  <section id="dnssec-and-inline-signing">
   <title>DNSSEC and Inline Signing</title>
 
@@ -51,28 +51,28 @@
 
    <orderedlist>
     <listitem>
-     <simpara><emphasis>You administer the master server, with zone
-     transfers to other slave servers</emphasis>: This is what most
-     examples in this guide describes, you have control over the master
+     <simpara><emphasis>You administer the primary server, with zone
+     transfers to other secondary servers</emphasis>: This is what most
+     examples in this guide describes, you have control over the primary
      server, you you can follow the instruction in <xref
      linkend="easy-start-guide-for-authoritative-servers" /> to generate
      key pairs and modify <command>named.conf</command>. A signed version
      of the zone is either generated on the fly by inline-signing, and
      zone transfers will take care of synchronizing the signed zone data
-     to all slave name servers.</simpara>
+     to all secondary name servers.</simpara>
     </listitem> 
 
     <listitem>
-     <simpara><emphasis>You cannot easily modify the master sever
-     configuration, but still would like all slave servers to get DNSSEC
-     zones</emphasis>: you can setup a "middle box" that all slave name
+     <simpara><emphasis>You cannot easily modify the primary sever
+     configuration, but still would like all secondary servers to get DNSSEC
+     zones</emphasis>: you can setup a "middle box" that all secondary name
      servers transfer data from, and your middle box gets its zone from
-     the master server. You do not need to modify the master name server
+     the primary server. You do not need to modify the primary name server
      configuration at all, on the middle box, set it up to have inline
      signing enabled, whenever your middle box receives zone transfer
-     (unsigned) from the master server, a signed version is generated on
+     (unsigned) from the primary server, a signed version is generated on
      the fly, and this is the version that will be transferred out to the
-     other slave name servers.</simpara>
+     other secondary name servers.</simpara>
     </listitem>
    </orderedlist>
   </para>
@@ -81,50 +81,8 @@
   please see <xref linkend="recipes-inline-signing" />.</para>
  </section>
 
-
- <!-- === DNSSEC Look-aside Validation === -->
- <section id="dlv">
-  <title>DNSSEC Look-aside Validation (DLV)</title>
-
-<!--
-  <para>First of all, if you are running older versions of BIND 9 on your
-  validating resolver, specifically, older than 9.4.3-P2, 9.5.1-P2, or
-  9.6.1, <varname>dnssec-lookaside</varname> is not supported.</para>
+Commented out as this is covered elsewhere.
 -->
-  
-  <para>DNSSEC Look-aside Validation (DLV) is an extension
-  to the DNSSEC protocol. It was designed to assist in early DNSSEC
-  adoption by simplifying the configuration of recursive servers and
-  lessen the burden of key management for the administrators. Without DLV,
-  in the absence of a fully signed path from root to a zone,
-  administrators wishing to enable DNSSEC validation would have to
-  configure and maintain multiple trust anchors or managed keys in their
-  configuration.</para>
-
-  <para>DLV removes the need for manual key management by identifying a
-  trusted repository through which those keys can be securely retrieved by
-  the validating resolver when it needs them. Basically, someone else (in
-  this case, ISC) is performing the tedious task of trust anchor
-  management, and your validating resolver just needs to trust that that
-  someone else is doing a good job maintaining these
-  trust anchors for you.</para>
-
-  <para>To enable DLV on your validating resolver, place this line in your
-  configuration file and reload <command>named</command>:</para>
-
-  <screen>dnssec-lookaside auto;</screen>
-
-  <warning>
-   <para>DNSSEC deployment has matured to a stage where most
-   top level domains are signed and more and more registrars are
-   DNSSEC-ready. If you are currently relying on DLV service provided
-   by ISC, be aware that the service will not be available forever.
-   ISC stopped accepting new zones into the DLV registry in July 2016
-   and plans to discontinue the DLV service in early 2017.</para>
-  </warning>
-
- </section>
-
 
  <!-- === DNSSEC on Private Networks === -->
  <section id="dnssec-on-private-networks">
@@ -146,6 +104,15 @@
   connection. These private networks typical fall under 10.0.0.0/8,
   172.16.0.0.0/12, or 192.168.0.0.0/16 for IPv4.</para>
 
+  <para>So what if you want to offer DNSSEC for your internal version of
+  <code>example.com</code>? This can be done: the golden rule is to use the
+  same key for both the internal and external versions of the zones. This
+  will get rid of problems that will occur when machines (e.g. laptops)
+  move between accessing the internal and external zones (when it is
+  possible that that may have cached records from the wrong zone).
+  </para>
+
+<!--
   <para>So what if you want to offer DNSSEC for your internal version of
   <code>example.com</code>? This is actually a more involving question,
   and we can only cover this topic briefly in this document.</para>
@@ -208,7 +175,7 @@
     the recursive server and the application.  These efforts also
     provide a degree of protection for applications that are not
     DNSSEC-aware.</para>
-
+-->
  </section>
 
 
@@ -219,33 +186,29 @@
   <para>With your DNS infrastructure now secured with DNSSEC, information can
   now be stored in DNS and its integrity and authenticity can be proved. One of
   the new features that takes advantage of this is the DNS-Based Authentication
-  of Named Entities, or DANE.  Below is a list of features currently being
-  developed and tested by the DANE community:</para>
+  of Named Entities, or DANE.  This improves security in a number of ways,
+  e.g.</para>
 
   <itemizedlist>
    <listitem>
-    <simpara>Use DANE as a verification mechanism to verify SSL/TLS
-    certificates received over HTTPS for added security. You can see a
-    live demonstration here: <ulink url="http://dane.verisignlabs.com/"
-    />.</simpara>
+    <simpara>Store self-signed X.509 certificates, bypass having to pay a third party (such
+    as a Certificate Authority) to sign the certificates
+    (<ulink url="https://tools.ietf.org/html/rfc6698"><citetitle>RFC 6698</citetitle></ulink>).
+    </simpara>
    </listitem>
 
    <listitem>
-    <simpara>Store self-signed X.509 certificates, bypass having to pay a
-    third party (such as a Certificate Authority) to sign the
-    certificates.</simpara>
+    <simpara>Improved security for clients connecting to mail servers
+    (<ulink url="https://tools.ietf.org/html/rfc7672"><citetitle>RFC 7672</citetitle></ulink>).
+    </simpara>
    </listitem>
 
    <listitem>
-    <simpara>Integrate with Mail Transfer Agents (MTA) to provide seamless
-    email encryption.</simpara>
+    <simpara>As a secure way of getting public PGP keys
+    (<ulink url="https://tools.ietf.org/html/rfc7929"><citetitle>RFC 7929</citetitle></ulink>).
+    </simpara>
    </listitem>
   </itemizedlist>
 
-  <para>DANE is an exciting area for DNS administrators.  If you would like
-  to learn more about the standards being proposed or new features being
-  discussed, check out the DANE working group:  <ulink
-  url="https://datatracker.ietf.org/wg/dane/charter/" />. You can also check
-  out <xref linkend="recipes-tlsa" />.</para>
  </section>
 </section>

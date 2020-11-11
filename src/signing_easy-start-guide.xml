@@ -21,105 +21,117 @@
  document. We are trusting you, a responsible DNS administrator, to take the
  necessary precautions to secure your system.</note>
 
-<!-- TODO: maybe explicitly explain about that if named is not
-running as root you will need to chgrp named (or group name) and
-chmod g+r the private key files.  Maybe share example of error
-related to this.  -->
-
  <para>For our examples below, we will be working with the assumption that
  there is an existing insecure zone <code>example.com</code> that we will be
  converting to a secure version.</para>
 
- <!-- === #1 Generate Keys === -->
- <section id="signing-easy-start-generate-keys">
-  <title>Generate Keys</title>
-  <para>Everything in DNSSEC centers around keys, and we will begin by
-  generating our own keys. In our example, we are keeping all the keys for
-  <code>example.com</code> in its own directory,
-  <filename>/etc/bind/keys/example.com</filename>.
+<!-- === #1 Activate dnssec-policy and wait for completion === -->
+ <section id="signing-easy-start-policy-enable">
+  <title>Enable Automated DNSSEC Zone Maintenance and Key Generation</title>
+  <para>To sign your zone, you need to add the following statement
+  to its <code>zone</code> clause in the configuration file:
 
-   <screen># <userinput>mkdir -p /etc/bind/keys/example.com</userinput>
-# <userinput>cd /etc/bind/keys/example.com</userinput>
-# <userinput>dnssec-keygen -a RSASHA256 -b 1024 example.com</userinput>
-Generating key pair...++++++ .............++++++ 
-Kexample.com.+008+17694
-# <userinput>dnssec-keygen -a RSASHA256 -b 2048 -f KSK example.com</userinput>
-Generating key pair........................+++ ..................................+++ 
-Kexample.com.+008+06817</screen>
-
-  </para>
-
-  <para>This generated four key files in
-  <filename>/etc/bind/keys/example.com</filename>, and the only one we care
-  about for now is the KSK key,
-  <filename>Kexample.com.+008+06817.key</filename>. Remember this file name: we
-  will need it again shortly. Make sure these files are readable by
-  <command>named</command>.</para>
-
-  <para>Refer to <xref linkend="system-entropy"/> for information on how you
-  might speed up the key generation process if your random number generator
-  has insufficient entropy.</para>
-
- </section>
-
- <!-- === #2 Reconfigure BIND === -->
- <section id="signing-easy-start-reconfigure-bind">
-  <title>Reconfigure BIND</title>
-  <para>Below is a very simple <filename>named.conf</filename>, in our example
-  environment, this file is <filename>/etc/bind/named.conf</filename>. The
-  lines you most likely need to add are in bold.
-
-   <screen>options {
+  <screen>
+options {
     directory "/etc/bind";
     recursion no;
-    minimal-responses yes;
+    ...
 };
 
-zone "example.com" IN {
-    type master;
-    file "db/example.com.db";
-    <userinput>key-directory "keys/example.com";
-    inline-signing yes;
-    auto-dnssec maintain;</userinput>
-};</screen>
+zone "example.com" in {
+    ...
+    <userinput>dnssec-policy default;</userinput>
+    ...
+};</screen></para>
 
-  </para>
+  <para>The <code>dnssec-policy</code> statement causes the zone to be
+  signed and turns on automatic maintenance for the zone.  This includes
+  re-signing the zone as signatures expire and replacing keys on a
+  periodic basic.  The value <code>default</code> selects the default
+  policy, which contain values suitable for most situations.  We will
+  cover the creation of your own policy in <xref
+  linkend="signing-custom-policy"/> but for the moment we will accept
+  the default values.</para>
 
   <para>When you are done updating the configuration file, tell
-  <command>named</command> to reload:
+  <command>named</command> to reload the configuration file:
 
-   <screen># <userinput>rndc reload</userinput>
-server reload successful</screen></para>
+  <screen># <userinput>rndc reconfig</userinput></screen></para>
+
+  <para>And that's it - BIND will sign your zone.</para>
+
+  <para>At this point, before you go away and merrily add <code>dnssec-policy</code>
+  statements to all your zones, we should mention that like a number of
+  BIND configuration options, its scope depends on where it is placed.  In
+  the example above, we placed it in a <code>zone</code> clause, so it applied
+  only to the zone in question.  If we had placed it in a <code>view</code>
+  clause, it would have applied to all zones in the view; and if we had placed
+  it in the <code>options</code> clause, it would have applied to all zones
+  served by this instance of BIND.</para>
+
  </section>
 
- <!-- === #3 Verification === -->
+
+ <!-- === #2 Verification === -->
  <section id="signing-verification">
   <title>Verification</title>
 
-  <para>Your zone is now signed. Before moving on to the next step of
-  coordinating with your parent zone, let's make sure everything looks good
-  using <command>delv</command>. What we want to do is to simulate what a
-  validating resolver would check, by telling <command>delv</command> to use a
-  specific trust anchor.</para>
+  <para>When BIND was reconfigured, it started the process of signing the
+  zone.  The first thing it did was to generate a key for the zone and include
+  it in the published zone.  This is marked by messages similar to the following
+  appearing in the log file:
 
-  <para>First of all, we need to make a copy of the key
-  Kexample.com.+008+06817.key for editing:</para>
+<screen>
+07-Apr-2020 16:02:55.045 zone example.com/IN (signed): reconfiguring zone keys
+07-Apr-2020 16:02:55.045 reloading configuration succeeded
+07-Apr-2020 16:02:55.046 keymgr: DNSKEY example.com/ECDSAP256SHA256/10376 (CSK) created for policy default
+07-Apr-2020 16:02:55.046 Fetching example.com/ECDSAP256SHA256/10376 (CSK) from key repository.
+07-Apr-2020 16:02:55.046 DNSKEY example.com/ECDSAP256SHA256/10376 (CSK) is now published
+07-Apr-2020 16:02:55.046 DNSKEY example.com/ECDSAP256SHA256/10376 (CSK) is now active
+07-Apr-2020 16:02:55.048 zone example.com/IN (signed): next key event: 07-Apr-2020 18:07:55.045
+</screen></para>
 
-  <screen># <userinput>cp /etc/bind/keys/example.com/Kexample.com.+008+06817.key /tmp/example.key</userinput></screen>
+  <para>It then started signing the zone.  How long this takes depends on
+  the size of your zone, the speed of the server, and how much activity
+  is taking place.  We can check what is happening by using <command>rndc</command>.
+  Just enter the command
+
+  <screen># <userinput>rndc signing -list example.com</userinput></screen>
+
+  While the signing is in progress, the output will be something like:
+  <screen>Signing with key 10376/ECDSAP256SHA256</screen>
+
+  and when it is finished:
+  <screen>Done signing with key 10376/ECDSAP256SHA256</screen></para>
+
+  <para>When you see the second message, your zone is signed.</para>
+
+  <para>Before moving on to the next step of coordinating with your parent
+  zone, let's make sure everything looks good using <command>delv</command>.
+  What we want to do is to simulate what a validating resolver would check, by
+  telling <command>delv</command> to use a specific trust anchor.</para>
+
+  <para>First of all, we need to make a copy of the key created by BIND.
+  This will be in the directory you set with the <code>directory</code>
+  statement in your configuration file's <code>options</code> clause
+  and will be named something like <code>Kexample.com.+013.10376.key</code>:</para>
+
+  <screen># <userinput>cp /etc/bind/Kexample.com.+013+10376.key /tmp/example.key</userinput></screen>
 
   <para>The original key file looks like this (actual key shortened for
   display, and comments omitted):</para>
 
-  <screen># <userinput>cat /etc/bind/keys/example.com/Kexample.com.+008+06817.key</userinput>
-...
-example.com. IN DNSKEY 257 3 8 AwEAAcWDps...lM3NRn/G/R</screen>
+  <screen># <userinput>cat /etc/bind/Kexample.com.+013+10376.key</userinput>
 
-  <para>We want to edit the copy to the be the <varname>trusted-keys</varname>
+...
+example.com. 3600 IN DNSKEY 257 3 13 6saiq99qDB...dqp+o0dw==</screen>
+
+  <para>We want to edit the copy to be in the <varname>trust-anchors</varname>
   format, so that it looks like this:</para>
 
   <screen># <userinput>cat /tmp/example.key</userinput>
-trusted-keys {
-    example.com. 257 3 8 "AwEAAcWDps...lM3NRn/G/R";
+trust-anchors {
+    example.com. static-key 257 3 13 "6saiq99qDB...dqp+o0dw==";
 };</screen>
 
   <para>Now we can run the <command>delv</command> command and point it to
@@ -129,22 +141,20 @@ trusted-keys {
   <screen>$ <userinput>delv @192.168.1.13 -a /tmp/example.key +root=example.com example.com. SOA +multiline</userinput>
 ; fully validated
 example.com.		600 IN SOA ns1.example.com. admin.example.com. (
-				2014112007 ; serial
+				2020040703 ; serial
 				1800       ; refresh (30 minutes)
 				900        ; retry (15 minutes)
 				2419200    ; expire (4 weeks)
 				300        ; minimum (5 minutes)
 				)
-example.com.		600 IN RRSIG SOA 8 2 600 (
-				20150107091559 20141208081559 17694 example.com.
-				LwG0rLOm9Q1Lu9bgIz1O+PTCwcCSs1Ev8Eqkqqd3gUJK
-				qo0FSVv//axNVJFH2Lz8VLgFypD8xARWj1XQBD/9DIf6
-				A3ncnrFymKdKze+2ghvTUxpwqctK4RF66mhu93e33+Ir
-				QJVJgdHJVHudQWICA1AbIBYYzLGkKlp7JAJcgBM= )</screen>
+example.com.		600 IN RRSIG SOA 13 2 600 (
+				20200421150255 20200407140255 10376 example.com.
+				jBsz92zwAcGMNV/yu167aKQZvFyC7BiQe1WEnlogdLTF
+				oq4yBQumOhO5WX61LjA17l1DuLWcd/ASwlUZWFGCYQ== )</screen>
 
  </section>
 
- <!-- === #4 Upload to Parent Zone === -->
+ <!-- === #3 Upload to Parent Zone === -->
  <section id="signing-easy-start-upload-to-parent-zone">
   <title>Upload to Parent Zone</title>
   <para>Everything is done on our name server, now we need to generate some
@@ -172,7 +182,7 @@ example.com.		600 IN RRSIG SOA 8 2 600 (
   will not resolve your domain name.</note>
 
   <para>Here are some examples of what you may upload to your parent zone,
-  actual keys shortened for display. Note that no matter what formats may be
+  with the DNSKEY/DS data shortened for display. Note that no matter what formats may be
   required, the end result will be the parent zone publishing DS record(s)
   based on the information you upload. Again, contact your parent zone
   administrator(s) to find out what is the correct format for you.
@@ -180,23 +190,20 @@ example.com.		600 IN RRSIG SOA 8 2 600 (
    <orderedlist>
     <!-- #1 DS Record -->
     <listitem>
-     <simpara>DS Record Format: <code>example.com. IN DS 6817 8 1
-     59194A835ACD78D25D538D5F35CA043A8F3F4446</code></simpara>
+     <simpara>DS Record Format:
+      <screen>example.com. 3600 IN DS 10376 13 2 B92E22CAE0...33B8312EF0</screen>
+     </simpara>
     </listitem>
     <!-- #2 DNSKEY -->
     <listitem>
-     <simpara>DNSKEY Format: <code>example.com. 172800 IN DNSKEY 257 3 8
-     (AwEAAcjGaU...zuu55If5) ; key id = 06817</code></simpara>
-    </listitem>
-    <!-- #3 trust-key -->
-    <listitem>
-     <simpara>Trusted Key Format: <code>"example.com." 257 3 8
-     "AwEAAcjGaU...zuu55If5";</code></simpara>
+     <simpara>DNSKEY Format:
+      <screen>example.com. 3600 IN DNSKEY 257 3 13 6saiq99qDB...dqp+o0dw==</screen>
+     </simpara>
     </listitem>
    </orderedlist>
   </para>
 
-  <para>The DS record format may be generated using the
+  <para>The DS record format may be generated from the DNSKEY using the
   <command>dnssec-dsfromkey</command> tool which is covered in
   <xref linkend="parent-ds-record-format"/>. For more details and
   examples on how to work with your parent zone, please see <xref
@@ -204,16 +211,14 @@ example.com.		600 IN RRSIG SOA 8 2 600 (
 
  </section>
 
-
  <!-- === So... What Now? === -->
  <section id="signing-easy-start-so-what-now">
   <title>So... What Now?</title>
-  <para>Congratulations, your zone is signed, your slave servers have received
+  <para>Congratulations, your zone is signed, your secondary servers have received
   the new zone data, and the parent zone has accepted your
   upload and published your DS record. Your zone is now officially DNSSEC-enabled.
-  What happens next? Well, there are a few maintenance
-  tasks you need to do on a regular basis, which you can find in <xref
-  linkend="signing-maintenance-tasks"/>. As for updating your zone file, you
+  What happens next? Well, that is basically it - BIND takes care of everything.
+  As for updating your zone file, you
   can continue to update them the same way you have been prior to signing your
   zone, the normal work flow of editing zone file and using the
   <command>rndc</command> command to reload the zone still works the same, and
@@ -222,7 +227,7 @@ example.com.		600 IN RRSIG SOA 8 2 600 (
 
   <para>Curious as to what all these commands did to your zone file? Read on to
   <xref linkend="your-zone-before-and-after-dnssec"/> and find out. If you are
-  interested in how you can roll this out to your existing master and slave
+  interested in how you can roll this out to your existing primary and secondary
   name servers, check out <xref linkend="recipes-inline-signing" /> in <xref
   linkend="dnssec-recipes" />.</para>
 
@@ -231,19 +236,18 @@ example.com.		600 IN RRSIG SOA 8 2 600 (
  <!-- === Your Zone, Before and After DNSSEC === -->
  <section id="your-zone-before-and-after-dnssec">
   <title>Your Zone, Before and After DNSSEC</title>
-  <para>In the previous section <xref
-  linkend="easy-start-guide-for-authoritative-servers"/>, we provided the
-  minimal amount of information to essentially convert a traditional DNS zone
-  into a DNSSEC-enabled zone. This is what the zone looked like before we
-  started: 
+  <para>When we assigned the default DNSSEC policy to the zone, we
+  provided the minimal amount of information to essentially convert a
+  traditional DNS zone into a DNSSEC-enabled zone. This is what the zone
+  looked like before we started:
 
    <screen>$ <userinput>dig @192.168.1.13 example.com. AXFR +multiline +onesoa</userinput>
 
-; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.13 example.com. AXFR +multiline +onesoa
+; &lt;&lt;&gt;&gt; DiG 9.16.0 &lt;&lt;&gt;&gt; @192.168.1.13 example.com AXFR +multiline +onesoa
 ; (1 server found)
 ;; global options: +cmd
 example.com.		600 IN SOA ns1.example.com. admin.example.com. (
-				2014102100 ; serial
+				2020040700 ; serial
 				1800       ; refresh (30 minutes)
 				900        ; retry (15 minutes)
 				2419200    ; expire (4 weeks)
@@ -263,132 +267,84 @@ www.example.com.	600 IN A 192.168.1.100</screen>
 
    <screen># <userinput>dig @192.168.1.13 example.com. AXFR +multiline +onesoa</userinput>
 
-; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.13 example.com. AXFR +multiline +onesoa
+; &lt;&lt;&gt;&gt; DiG 9.16.0 &lt;&lt;&gt;&gt; @192.168.1.13 example.com AXFR +multiline +onesoa
 ; (1 server found)
 ;; global options: +cmd
 example.com.		600 IN SOA ns1.example.com. admin.example.com. (
-				2014102104 ; serial
+				2020040703 ; serial
 				1800       ; refresh (30 minutes)
 				900        ; retry (15 minutes)
 				2419200    ; expire (4 weeks)
 				300        ; minimum (5 minutes)
 				)
-example.com.		300 IN RRSIG NSEC 8 2 300 (
-				20141126120153 20141027112239 60798 example.com.
-				U1je2BEXY7S/u4An8sKEp2Cb8b90+9mNBoFb9nXgkTvC
-				cJkT/4OIUIaO7EbsIASmlzjDwJEKSO/nPDFg3y6tsR0m
-				GT7H7AYAouwBhUlIrDrGQpxqRLJXA1kPkxboX4M2JGx4
-				rBcBsN/7lG5CGbjtLW3PMnJRELE5fBJBLZM1KLo= )
+example.com.		300 IN RRSIG NSEC 13 2 300 (
+				20200413050536 20200407140255 10376 example.com.
+				drtV1rJbo5OMi65OJtu7Jmg/thgpdTWrzr6O3Pzt12+B
+				oCxMAv3orWWYjfP2n9w5wj0rx2Mt2ev7MOOG8IOUCA== )
 example.com.		300 IN NSEC ftp.example.com. NS SOA RRSIG NSEC DNSKEY TYPE65534
-example.com.		600 IN RRSIG NS 8 2 600 (
-				20141126115318 20141027112239 60798 example.com.
-				TGC1gAksxHHDoltjJ8ETJ9qdr5MzFjA05vEllSNWBFe7
-				O71Payf8o4MISHNeUoZpu7Ys4zBiTRLqUaLeI0oSEnzM
-				r2QJkrfUHl1k8D/wCWApEUhMa1GxLIKMsEfgd3D5nK52
-				6LAVNihx5BKC1YxuYZXhhBMYQm7bIlUXFvxl3uE= )
-example.com.		600 IN RRSIG SOA 8 2 600 (
-				20141126122239 20141027112239 60798 example.com.
-				0ntLprFpg9bKWs5ArGvpZq8uFa9QPEfl6bOmfIwbNnEp
-				9PgBS97icRs27JDgIXGM4dWxXiPVX6sZ8jFulSp2mi2v
-				4dhtqMfb4S/rfxSmCphIz5PA+bngKSr5fhRI6tTM8fW1
-				l5V3zfKCPFracE0CgdcWIt0xViEs56Axj942f5w= )
-example.com.		0 IN RRSIG TYPE65534 8 2 0 (
-				20141126120153 20141027112239 60798 example.com.
-				Sv+7vfHXz4zlLSEuWs5Bt5boqSDVCK2GcOgAzVXnW9/0
-				zgk3v8VwSXRTRnwdsvl3SK6YsM9S/HNXk32AQs2PjXf4
-				2/cmv6VCOGSVGin/L5k4KWjpy0ESV2iY0hIIyeXWqUdB
-				ZUCu1+2GhHiA5+gKODn/8sg6x04g+lZe6wuhU44= )
-example.com.		600 IN RRSIG DNSKEY 8 2 600 (
-				20141126122239 20141027112239 45319 example.com.
-				F2vrBJqvloP5yNE6X1+b1XJ4gY6DlH1oyJz6pSULmGgQ
-				FFztyrCJoV4MI6TeFRXJKLTePewjcTzKlaRKJHZRElcM
-				QaClWr6RdZ2Uc1fFOBgYocrDZtGWdTVg7XCiLJ/ubrDH
-				7et9rSexmKEwI44T4Vf7w3e+kUQSzMBGfA9Z5Q8WnnBW
-				IDn4QFqRx0B02bVLV4giJbVp649ukIApVoHSpJvhrWq8
-				eSSdP2ojymzr4gAuQZzmZUJnxp7Q3ktuQgIokhLG4FDH
-				/O9qnhnOkUZFsxbBaDYVn5TIl1Kkmn3LH98JQE0z8a7D
-				WfqAPAFy0rKHkvyOA8FlimDW09OYeJS00A== )
-example.com.		600 IN RRSIG DNSKEY 8 2 600 (
-				20141126122239 20141027112239 60798 example.com.
-				PoUdallJO0ZF3iFmRoGoKh/iLAJVn52ABVEVku9LK34C
-				oh4Y29rgK4jd3DwxU7zDLadVs0Fo3JFHp2jdYCEm03BS
-				XE6d0cijZP5aFt8rO/grO/qbkdv+ScEi1kOhCKcvt3Kg
-				1mXhiZt4Jx3LeisUpD9mGa+m9ehcPYlAHPKoZMg= )
-example.com.		0 IN TYPE65534 \# 5 ( 08B1070001 )
-example.com.		0 IN TYPE65534 \# 5 ( 08ED7E0001 )
-example.com.		600 IN DNSKEY 256 3 8 (
-				AwEAAfbc/0ESumm1mPVkm025PfHKHNYW62yx0wyLN5LE
-				4DifN6FzIVSKSGdMOdq+z6vFGxzzjPDz7QZdeC6ttIUA
-				Bo4tG7dDrsWK+tG5cm4vuylsEVbnnW5i+gFG/02+RYmZ
-				ZT9AobXB5bVjfXl9SDBgpBluB35WUCAnK9WkRRUS08lf
-				) ; ZSK; alg = RSASHA256; key id = 60798
-example.com.		600 IN DNSKEY 257 3 8 (
-				AwEAAb4N53kPbdRTAwvJT8OYVeVhQIldwppMy7KBJ+8k
-				Uggx2PU3yP/qlq4Zjl0MMmqRiJhD/S+z9cJLNTZ9tHz1
-				7aZQjFyGAyuU3DGW16xfMolcIn+c8TpPCzBOFhxk6jvO
-				VLlz+Wgyi1ES+t29FjYYv5cVNRPmxXLRjlHFdO1DzX3N
-				dmcUoZ+VVJCvaML9+6UpL/6jitNsoU8JHnxT9B2CGKcw
-				N7VaK4l9Ida2BqY3/4UVqWzhj03/M5LK6cn1pEQbQMtY
-				R0TNJURBKdK8bH663h98i23tVX0/85IsCVBL4Dd2boa3
-				/7HPp7uZN1AjDvcRsOh1mqixwUGmVm1EskDIMy8=
-				) ; KSK; alg = RSASHA256; key id = 45319
+example.com.		600 IN RRSIG NS 13 2 600 (
+				20200413130638 20200407140255 10376 example.com.
+				2ipmzm1Ei6vfE9OLowPMsxLBCbjrCpWPgWJ0ekwZBbux
+				MLffZOXn8clt0Ql2U9iCPdyoQryuJCiojHSE2d6nrw== )
+example.com.		600 IN RRSIG SOA 13 2 600 (
+				20200421150255 20200407140255 10376 example.com.
+				jBsz92zwAcGMNV/yu167aKQZvFyC7BiQe1WEnlogdLTF
+				oq4yBQumOhO5WX61LjA17l1DuLWcd/ASwlUZWFGCYQ== )
+example.com.		0 IN RRSIG TYPE65534 13 2 0 (
+				20200413050536 20200407140255 10376 example.com.
+				Xjkom24N6qeCJjg9BMUfuWf+euLeZB169DHvLYZPZNlm
+				GgM2czUDPio6VpQbUw6JE5DSNjuGjgpgXC5SipC42g== )
+example.com.		3600 IN	RRSIG DNSKEY 13 2 3600 (
+				20200421150255 20200407140255 10376 example.com.
+				maK75+28oUyDtci3V7wjTsuhgkLUZW+Q++q46Lea6bKn
+				Xj77kXcLNogNdUOr5am/6O6cnPeJKJWsnmTLISm62g== )
+example.com.		0 IN TYPE65534 \# 5 ( 0D28880001 )
+example.com.		3600 IN	DNSKEY 257 3 13 (
+				6saiq99qDBb5b4G4cx13cPjFTrIvUs3NW44SvbbHorHb
+				kXwOzeGAWyPORN+pwEV/LP9+FHAF/JzAJYdqp+o0dw==
+				) ; KSK; alg = ECDSAP256SHA256 ; key id = 10376
 example.com.		600 IN NS ns1.example.com.
-ftp.example.com.	600 IN RRSIG A 8 3 600 (
-				20141126115318 20141027112239 60798 example.com.
-				PNATas8HPjc6tm7Ldfk7P61IlRVSQW085P9lDw8qwITc
-				TghDdAXHJBkCTXaDRWPyQZbGI5fNcxWLkf/HRbKREzQs
-				eyztZj2OBnBnnK0t8SWLyM4+OMsGH17z4ZvBmPO/Wgju
-				iSm98reH7J87yRlUMQHdPSwAP6q5tZeJbwpSkao= )
-ftp.example.com.	300 IN RRSIG NSEC 8 3 300 (
-				20141126115318 20141027112239 60798 example.com.
-				ohuvpkqlNR+TYOG79JizEV+SFjVbUKSB3hEfHOJszCIr
-				bcdPKTS0GgQS62N4ISwfvb735oQzc8pI5R+f+8MMn5c9
-				/yRnArTpPJOKDnyIiMaMLBU5sEp5wI+OLsLFMkLef4iK
-				gn+j608Qnoo7dXtWWQPv85FyaT9j3C+EV6rglCk= )
+ftp.example.com.	600 IN RRSIG A 13 3 600 (
+				20200413130638 20200407140255 10376 example.com.
+				UYo1njeUA49VhKnPSS3JO4G+/Xd2PD4m3Vaacnd191yz
+				BIoouEBAGPcrEM2BNrgR0op1EWSus9tG86SM1ZHGuQ== )
+ftp.example.com.	300 IN RRSIG NSEC 13 3 300 (
+				20200413130638 20200407140255 10376 example.com.
+				rPADrAMAPIPSF3S45OSY8kXBTYMS3nrZg4Awj7qRL+/b
+				sOKy6044MbIbjg+YWL69dBjKoTSeEGSCSt73uIxrYA== )
 ftp.example.com.	300 IN NSEC ns1.example.com. A RRSIG NSEC
 ftp.example.com.	600 IN A 192.168.1.200
-ns1.example.com.	600 IN RRSIG A 8 3 600 (
-				20141126115318 20141027112239 60798 example.com.
-				z1rnlU9oVnIhwxQey3Zo6ENYmWXtf97RiZng3u6VkE0n
-				yUC5S3sseZgD8Vc+uJsKVAvafM/k7NgS+P3pe5gN01Ln
-				+geKEMZ3pCHpzHG4UgJj4Xw/iuWOVAFURD26GNnPppDK
-				RNYPWIhA/9FF18vI3V9evNcHGxN+7rOOXF8Qbss= )
-ns1.example.com.	300 IN RRSIG NSEC 8 3 300 (
-				20141126115318 20141027112239 60798 example.com.
-				chH7c6aW6Qk14d4LB866jva9OcH52pJkeHpdslVmUbJ2
-				OkJQNhbpOekSjsroxDU4av3/Y49Dtg0lqoISvMMqwE5X
-				5sKmn+CMKFfMmi22ui+RsPXyDqjkx+JOsi/7kCx7DFJz
-				jF0a6KcsTWNV2QfZjQ50RyrSBBOkw6aqdUC3oF8= )
+ns1.example.com.	600 IN RRSIG A 13 3 600 (
+				20200413130638 20200407140255 10376 example.com.
+				Yeojg7qrJmxL6uLTnALwKU5byNldZ9Ggj5XjcbpPvujQ
+				ocG/ovGBg6pdugXC9UxE39bCDl8dua1frjDcRCCZAA== )
+ns1.example.com.	300 IN RRSIG NSEC 13 3 300 (
+				20200413130638 20200407140255 10376 example.com.
+				vukgQme6k7JwCf/mJOOzHXbE3fKtSro+Kc10T6dHMdsc
+				oM1/oXioZvgBZ9cKrQhIAUt7r1KUnrUwM6Je36wWFA== )
 ns1.example.com.	300 IN NSEC web.example.com. A RRSIG NSEC
 ns1.example.com.	600 IN A 192.168.1.1
-web.example.com.	600 IN RRSIG CNAME 8 3 600 (
-				20141126115318 20141027112239 60798 example.com.
-				VgHPC0WllAlHY56xMF3j8FI7MsxDhLJJBDBMSVSQpQkA
-				z81kfInYQL4YpAt25WrH7xt4pCmjVl3kUcDGAWWuSiQy
-				nh2O4CoY/tSqQ7Sr9UnE5SIvpW5yws8iROOHvJYuKAmu
-				8B3gYw1gp9xCMS4iBOIXTTq1KV2OHwo0cPXVyfI= )
-web.example.com.	300 IN RRSIG NSEC 8 3 300 (
-				20141126115318 20141027112239 60798 example.com.
-				zh+9fnIQlfpvc0oFRnNIPJoL/S5RQF4HuGwmLxoCxRVp
-				FCQoZbzNB0IVvaA+0XEslcHq3v4+0j9EeKKQw7xORaGu
-				TrzcoRGbjuKZlpvnVlxYkjCiEKVbkXd5yEMnbgolFkhH
-				NjFlozSyzypY0TY0UVRPXWhZ2shASae/ImqFiug= )
+web.example.com.	600 IN RRSIG CNAME 13 3 600 (
+				20200413130638 20200407140255 10376 example.com.
+				JXi4WYypofD5geUowVqlqJyHzvcRnsvU/ONhTBaUCw5Y
+				XtifKAXRHWrUL1HIwt37JYPLf5uYu90RfkWLj0GqTQ== )
+web.example.com.	300 IN RRSIG NSEC 13 3 300 (
+				20200413130638 20200407140255 10376 example.com.
+				XF4Hsd58dalL+s6Qu99bG80PQyMf7ZrHEzDiEflRuykP
+				DfBRuf34z27vj70LO1lp2ZiX4BB1ahcEK2ae9ASAmA== )
 web.example.com.	300 IN NSEC www.example.com. CNAME RRSIG NSEC
 web.example.com.	600 IN CNAME www.example.com.
-www.example.com.	600 IN RRSIG A 8 3 600 (
-				20141126120153 20141027112239 60798 example.com.
-				TLkMRs7I3QW8HRS3trNG307Y0/drO4k8uG8Bv8856qPo
-				33rbEajV49XBBQ+w8jynfKwxMNDfJhpSG0gxo7+0m75Y
-				HRBZ9Xe3EAMNt2/iu0CL6NHyN99qF9TPNbYnD2Zw077L
-				GSDOua1KFMxDqFU7rU0+YlKRGbSk1rqAJBqKEH4= )
-www.example.com.	300 IN RRSIG NSEC 8 3 300 (
-				20141126120153 20141027112239 60798 example.com.
-				GSyFVBgMROqDuoSJoDegX3EkdqA90skBTvi9tkPxoQPo
-				i8LlaD+wRmcXpYKE3vf/y0WpOOVQXbasyfFk8wGzFsde
-				fqpFsscbz3OYgnkwYcTvGXZF9802ytiC5txli9uxUqjc
-				lGL+SDl0woYhecwJD63fTDIMszlVR/eptIL9dLc= )
+www.example.com.	600 IN RRSIG A 13 3 600 (
+				20200413050536 20200407140255 10376 example.com.
+				mACKXrDOF5JMWqncSiQ3pYWA6abyGDJ4wgGCumjLXhPy
+				0cMzJmKv2s7G6+tW3TsA6BK3UoMfv30oblY2Mnl4/A== )
+www.example.com.	300 IN RRSIG NSEC 13 3 300 (
+				20200413050536 20200407140255 10376 example.com.
+				1YQ22odVt0TeP5gbNJwkvS684ipDmx6sEOsF0eCizhCv
+				x8osuOATdlPjIEztt+rveaErZ2nsoLor5k1nQAHsbQ== )
 www.example.com.	300 IN NSEC example.com. A RRSIG NSEC
-www.example.com.	600 IN A 192.168.1.100</screen>
+www.example.com.	600 IN A 192.168.1.100
+</screen>
 
   </para>
   

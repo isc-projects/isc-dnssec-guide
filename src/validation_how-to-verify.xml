@@ -4,7 +4,7 @@
  <para>Okay, so now that you have reconfigured your recursive server and
  restarted it, how do you know that your recursive name server is actually
  verifying each DNS query? There are several ways to check, and we've listed a
- few suggestions below, starting with the easiest.</para>
+ couple of suggestions below.</para>
 
 
  <!-- ====== Using Web-based Tools to Verify ===== -->
@@ -21,20 +21,17 @@
 
    <itemizedlist>
     <listitem>
-     <ulink url="http://en.conn.internet.nl/connection/" />
+     <ulink url="https://en.internet.nl/connection/" />
     </listitem>
     <listitem>
-     <ulink url="http://www.dnssec-tools.org/" />
-    </listitem>
-    <listitem>
-     <ulink url="http://dnssec.vs.uni-due.de/" />
+     <ulink url="https://dnssec.vs.uni-due.de/" />
     </listitem>
    </itemizedlist>
   </para>
 
 <!--
   <para>For example, opening the URL <ulink
-  url="http://dnssectest.sidnlabs.nl/" /> in your web browser will show the
+  url="https://dnssectest.sidnlabs.nl/" /> in your web browser will show the
   following before (left) and after (right) DNSSEC validation is enabled:</para>
 
   <figure>
@@ -58,10 +55,10 @@
   can take matters into your own hands and use a command line DNS
   tool to check your validating resolver yourself.</para>
 
-  <para>While nslookup is popular, partly because it comes pre-installed on
-  most systems, it is not DNSSEC-aware. The Domain Information Groper
-  (<command>dig</command>), on the other hand, fully supports the DNSSEC
-  standard, and comes as a part of BIND. If you do not have dig already
+  <para>While <command>nslookup</command> is popular, partly because it comes pre-installed on
+  most systems, it is not DNSSEC-aware. <command>dig</command>,
+  on the other hand, fully supports the DNSSEC
+  standard and comes as a part of BIND. If you do not have <command>dig</command> already
   installed on your system, install it by downloading it from ISC's web site.
   ISC provides pre-compiled Windows versions on its web site.</para>
   
@@ -71,155 +68,100 @@
   use <command>dig</command> to troubleshoot DNS problems because of its
   flexibility, ease of use, and clarity of output.</para>
 
-  <para>The example below shows using dig to query the name server 192.168.1.7
-  for the A record for <code>www.isc.org</code> if DNSSEC is disabled.
-  The address 192.168.1.7 is only used as an example, you should
-  replace this address with the actual address or host name of your recursive
-  name server. Notice although we specifically used the <option>+dnssec</option>
-  command line option, we do not see the DNSSEC OK (<code>do</code>) bit
-  in the response, nor do we see any DNSSEC resource records.</para>
+  <para>The example below shows using <command>dig</command> to query the name
+  server 10.53.0.1 for the A record for <code>ftp.isc.org</code> when DNSSEC
+  validation is enabled (i.e.  the default.) The address 10.53.0.1 is only used as
+  an example, you should replace it with the actual address or host
+  name of your recursive name server.</para>
 
-  <screen>$ <userinput>dig @192.168.1.7 www.isc.org. A +dnssec +multiline</userinput>
-; &lt;&lt;>> DiG 9.10.0-P2 &lt;&lt;>> @192.168.1.7 www.isc.org. A +dnssec +multiline
+  <screen>$ <userinput>dig @10.53.0.1 ftp.isc.org. A +dnssec +multiline</userinput>
+
+; &lt;&lt;&gt;&gt; DiG 9.16.0 &lt;&lt;&gt;&gt; @10.53.0.1 ftp.isc.org a +dnssec +multiline
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 20416
-;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
-
-;; OPT PSEUDOSECTION:
-; EDNS: version: 0, flags:; udp: 4096
-;; QUESTION SECTION:
-;www.isc.org.			IN	A
-
-;; ANSWER SECTION:
-www.isc.org.		60	IN	A	149.20.64.69</screen>
-
-  <para>Below shows what the results look like querying the same server
-  (192.168.1.7) after enabling DNSSEC validation. The exact same command is
-  run, and this time notice three key differences:
-   <orderedlist>
-    <listitem>
-     <simpara>The presence of the Authenticated Data (<code>ad</code>) flag in
-     the header</simpara>
-    </listitem>
-    <listitem>
-     <simpara>The DNSSEC OK (<code>do</code>) flag indicating the recursive
-     server is DNSSEC-aware</simpara>
-    </listitem>
-    <listitem>
-     <simpara>An additional resource record of type RRSIG, with the same name
-     as the A record.</simpara>
-    </listitem>
-   </orderedlist>
-  </para>
-
-  <para>The DNSSEC OK (<code>do</code>) flag tells us that the recursive server
-  we are querying (192.168.1.7 in this example) is DNSSEC-aware but not
-  necessarily that it is configured to perform DNSSEC validation.
-  The Authenticated Data (<code>ad</code>) flag tells us that the answer
-  received has passed the validation process as described in <xref
-  linkend="how-are-answers-verified" />. We can have confidence in the
-  authenticity and integrity of the answer that <code>www.isc.org</code> really
-  points to the IP address 149.20.64.69, and it was not a spoofed answer from a
-  clever attacker.</para>
-
-  <screen>$ <userinput>dig @192.168.1.7 www.isc.org. A +dnssec +multiline</userinput>
-
-; &lt;&lt;>> DiG 9.10.0-P2 &lt;&lt;>> @192.168.1.7 www.isc.org. A +dnssec +multiline
-; (1 server found)
-;; global options: +cmd
-;; Got answer:
-;; ->>HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 32472
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 48742
 ;; flags: qr rd ra <userinput>ad</userinput>; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
 
 ;; OPT PSEUDOSECTION:
-; EDNS: version: 0, <userinput>flags: do</userinput>; udp: 4096
+; EDNS: version: 0, flags: do; udp: 4096
+; COOKIE: 29a9705c2160b08c010000005e67a4a102b9ae079c1b24c8 (good)
 ;; QUESTION SECTION:
-;www.isc.org.		IN A
+;ftp.isc.org.		IN A
 
 ;; ANSWER SECTION:
-www.isc.org.		4 IN A	149.20.64.69
-<userinput>www.isc.org.		4 IN RRSIG A 5 3 60 (
-				20141029233238 20140929233238 4521 isc.org.
-				DX5BaGVd4KzU2AIH911Kar/UmdmkARyPhJVLr0oyPZaq
-				5zoobGqFI4efvzL0mcpncuUg3BSU5Q48WdBu92xinMdb
-				E75zl+adgEBOsFgFQR/zqM3myt/8SngWm4+TQ3XFh9eN
-				jqExHZZuZ268Ntlxqgf9OmKRRv8X8YigaPShuyU= )</userinput>
+ftp.isc.org.		300 IN A 149.20.1.49
+ftp.isc.org.		300 IN RRSIG A 13 3 300 (
+				20200401191851 20200302184340 27566 isc.org.
+				e9Vkb6/6aHMQk/t23Im71ioiDUhB06sncsduoW9+Asl4
+				L3TZtpLvZ5+zudTJC2coI4D/D9AXte1cD6FV6iS6PQ== )
 
-;; Query time: 3 msec
-;; SERVER: 192.168.1.7#53(192.168.1.7)
-;; WHEN: Fri Oct 03 16:40:04 CST 2014
-;; MSG SIZE  rcvd: 223</screen>
+;; Query time: 452 msec
+;; SERVER: 10.53.0.1#53(10.53.0.1)
+;; WHEN: Tue Mar 10 14:30:57 GMT 2020
+;; MSG SIZE  rcvd: 187</screen>
 
- </section>
+  <para>The important detail in this output is the presence of the
+  <code>ad</code> flag in the header.  This signifies that BIND has retrieved
+  all related DNSSEC information related to the target of the query
+  (ftp.isc.org) and that the answer received has passed the validation process
+  described in <xref linkend="how-are-answers-verified" />.  We can have
+  confidence in the authenticity and integrity of the answer, that
+  <code>ftp.isc.org</code> really points to the IP address 149.20.1.49, and it
+  was not a spoofed answer from a clever attacker.</para>
 
+  <para>Unlike earlier versions of BIND, the current versions of BIND always
+  request DNSSEC records (by setting the <code>do</code> bit in the query they
+  make to upstream servers), regardless of DNSSEC settings.  However, with
+  validation disabled, the returned signature is not checked. This can be seen
+  by explicitly disabling DNSSEC validation. To do this, add the line
+  <code>dnssec-validation no;</code> to the "options" section of the
+  configuration file, i.e.</para>
 
- <!-- ====== Using delv to Verify ===== -->
- <section id="using-delv-to-verify">
-  <title>Using delv to Verify</title>
-  <para>If you have BIND 9.10 or later, you can use Domain Entity Lookup &amp;
-  Validation (<command>delv</command>) to validate your setup. This program is
-  similar to <command>dig</command>, but is specifically tailored for
-  DNSSEC.</para>
+   <screen>
+options {
+    ...
+    dnssec-validation no;
+    ...
+};</screen>
 
-<!-- TODO: redo or expand on this example and explanation
-since it is not using default named server that has dnssec enabled
-but it is actually off so clears CD and DO. In a default configuration
-of named,  delv will still be able to validate www.isc.org if you point it at
-a non-validating named, since its built-in validation works with
-dnssec-aware resolvers. -->
+  <para>If the server is re-started (to ensure a clean cache) and the same
+  <command>dig</command> command executed, the result is very similar:</para>
 
-  <para>Without DNSSEC:</para>
-  <screen>$ <userinput>delv @192.168.1.7 www.isc.org. A</userinput>
-;; no valid RRSIG resolving 'org/DS/IN': 192.168.1.7#53
-;; no valid DS resolving 'www.isc.org/A/IN': 192.168.1.7#53
-;; resolution failed: no valid DS</screen>
+  <screen>$ <userinput>dig @10.53.0.1 ftp.isc.org. A +dnssec +multiline</userinput>
 
-  <para><command>delv</command> also comes with a handy
-  <option>+rtrace</option> (trace resolver fetches) switch that shows a little
-  more information on what was fetched:</para>
+; &lt;&lt;&gt;&gt; DiG 9.16.0 &lt;&lt;&gt;&gt; @10.53.0.1 ftp.isc.org a +dnssec +multiline
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 39050
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
 
-  <screen>$ <userinput> delv @192.168.1.7 www.isc.org. A +rtrace</userinput>
-;; fetch: www.isc.org/A
-;; fetch: org/DS
-;; no valid RRSIG resolving 'org/DS/IN': 192.168.1.7#53
-;; no valid DS resolving 'www.isc.org/A/IN': 192.168.1.7#53
-;; resolution failed: no valid DS</screen>
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 4096
+; COOKIE: a8dc9d1b9ec45e75010000005e67a8a69399741fdbe126f2 (good)
+;; QUESTION SECTION:
+;ftp.isc.org.		IN A
 
-  <para>After enabling DNSSEC validation, re-running the exact same codes show
-  us the following results:</para>
+;; ANSWER SECTION:
+ftp.isc.org.		300 IN A 149.20.1.49
+ftp.isc.org.		300 IN RRSIG A 13 3 300 (
+				20200401191851 20200302184340 27566 isc.org.
+				e9Vkb6/6aHMQk/t23Im71ioiDUhB06sncsduoW9+Asl4
+				L3TZtpLvZ5+zudTJC2coI4D/D9AXte1cD6FV6iS6PQ== )
 
-  <screen>$ <userinput>delv @192.168.1.7 www.isc.org. A +multiline</userinput>
-; fully validated
-www.isc.org.		60 IN A	149.20.64.69
-www.isc.org.		60 IN RRSIG A 5 3 60 (
-				20141029233238 20140929233238 4521 isc.org.
-				DX5BaGVd4KzU2AIH911Kar/UmdmkARyPhJVLr0oyPZaq
-				5zoobGqFI4efvzL0mcpncuUg3BSU5Q48WdBu92xinMdb
-				E75zl+adgEBOsFgFQR/zqM3myt/8SngWm4+TQ3XFh9eN
-				jqExHZZuZ268Ntlxqgf9OmKRRv8X8YigaPShuyU= )</screen>
+;; Query time: 261 msec
+;; SERVER: 10.53.0.1#53(10.53.0.1)
+;; WHEN: Tue Mar 10 14:48:06 GMT 2020
+;; MSG SIZE  rcvd: 187</screen>
 
-  <para>And <option>+rtrace</option> shows all the glory of what records were
-  fetched to validate this answer:</para>
-
-  <screen>$ <userinput>delv @192.168.1.7 www.isc.org +rtrace +multiline</userinput>
-;; fetch: www.isc.org/A
-;; fetch: isc.org/DNSKEY
-;; fetch: isc.org/DS
-;; fetch: org/DNSKEY
-;; fetch: org/DS
-;; fetch: ./DNSKEY
-; fully validated
-www.isc.org.		19 IN A	149.20.64.69
-www.isc.org.		19 IN RRSIG A 5 3 60 (
-				20141029233238 20140929233238 4521 isc.org.
-				DX5BaGVd4KzU2AIH911Kar/UmdmkARyPhJVLr0oyPZaq
-				5zoobGqFI4efvzL0mcpncuUg3BSU5Q48WdBu92xinMdb
-				E75zl+adgEBOsFgFQR/zqM3myt/8SngWm4+TQ3XFh9eN
-				jqExHZZuZ268Ntlxqgf9OmKRRv8X8YigaPShuyU= )</screen>
-
- </section>
+  <para>However this time there is no <code>ad</code> flag in the header.
+  Although <command>dig</command> is still returning the DNSSEC-related 
+  resource records, it is not checking them, so cannot vouch for the
+  authenticity of the answer.  If you do carry out this test, remember to
+  re-enable DNSSEC validation (by removing the <code>dnssec-validation no;</code>
+  line from the configuration file) before continuing.</para>
+</section>
 
 
  <!-- ====== Verifying Protection from Bad Domain Names ====== -->
@@ -233,28 +175,47 @@ www.isc.org.		19 IN RRSIG A 5 3 60 (
   network attack that has expired; or maybe the child zone has been compromised
   along with its keys, and the parent zone's information is telling us that
   things don't add up.  There is a domain name specifically setup to purposely
-  fail DNSSEC validation, <code>www.dnssec-failed.org</code>.  Prior to
-  enabling DNSSEC validation, you should have no trouble visiting the URL
-  <ulink url="http://www.dnssec-failed.org/" /> in your web browser:</para>
+  fail DNSSEC validation, <code>www.dnssec-failed.org</code>.</para>
 
-  <simpara>
-   <imagedata fileref="../img/dnssec-failed-org-example.png" />
-  </simpara>
+  <para>With DNSSEC validation enabled (the default), an attempt to look up the
+  name will fail:</para>
 
-  <para>And no problem resolving the domain name as shown below using
-  <command>dig</command>:</para>
+  <screen>$ <userinput>dig @10.53.0.1 www.dnssec-failed.org. A</userinput>
 
-  <screen>$ <userinput>dig @192.168.1.7 www.dnssec-failed.org. A</userinput>
-
-; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.7 www.dnssec-failed.org. A
+; &lt;&lt;&gt;&gt; DiG 9.16.0 &lt;&lt;&gt;&gt; @10.53.0.1 www.dnssec-failed.org. A
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 28878
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: SERVFAIL, id: 22667
+;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 69c3083144854587010000005e67bb57f5f90ff2688e455d (good)
+;; QUESTION SECTION:
+;www.dnssec-failed.org.		IN	A
+
+;; Query time: 2763 msec
+;; SERVER: 10.53.0.1#53(10.53.0.1)
+;; WHEN: Tue Mar 10 16:07:51 GMT 2020
+;; MSG SIZE  rcvd: 78</screen>
+
+<para>On the other hand, if DNSSEC validation is disabled (by adding
+the statement <code>dnssec-validation no;</code> to the <code>options</code>
+clause in the configuration file), the lookup succeeds:</para>
+
+  <screen>$ <userinput>dig @10.53.0.1 www.dnssec-failed.org. A</userinput>
+
+; &lt;&lt;&gt;&gt; DiG 9.16.0 &lt;&lt;&gt;&gt; @10.53.0.1 www.dnssec-failed.org. A
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 54704
 ;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
 
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 251eee58208917f9010000005e67bb6829f6dabc5ae6b7b9 (good)
 ;; QUESTION SECTION:
 ;www.dnssec-failed.org.		IN	A
 
@@ -262,38 +223,18 @@ www.isc.org.		19 IN RRSIG A 5 3 60 (
 www.dnssec-failed.org.	7200	IN	A	68.87.109.242
 www.dnssec-failed.org.	7200	IN	A	69.252.193.191
 
-;; Query time: 955 msec
-;; SERVER: 192.168.1.7#53(192.168.1.7)
-;; WHEN: Fri Oct 17 07:42:50 CST 2014
-;; MSG SIZE  rcvd: 82</screen>
+;; Query time: 439 msec
+;; SERVER: 10.53.0.1#53(10.53.0.1)
+;; WHEN: Tue Mar 10 16:08:08 GMT 2020
+;; MSG SIZE  rcvd: 110
+</screen>
 
-<!-- TODO: redo or reexplain these examples, as this server is
-not default, but probably configured with dnssec-enable no. -->
-
-  <para>After DNSSEC validation is enabled, any attempt to loading the URL
-  should result in some kind of "Sorry, this page cannot be displayed" error
-  message from your web browser. And looking up this domain name using
-  <command>dig</command> should result in SERVFAIL, as shown below:</para>
-
-  <screen>$ <userinput>dig @192.168.1.7 www.dnssec-failed.org. A</userinput>
-
-; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.7 www.dnssec-failed.org. A
-; (1 server found)
-;; global options: +cmd
-;; Got answer:
-;; ->>HEADER&lt;&lt;- opcode: QUERY, status: <userinput>SERVFAIL</userinput>, id: 46592
-;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
-
-;; OPT PSEUDOSECTION:
-; EDNS: version: 0, flags:; udp: 4096
-;; QUESTION SECTION:
-;www.dnssec-failed.org.		IN	A
-
-;; Query time: 2435 msec
-;; SERVER: 192.168.1.7#53(192.168.1.7)
-;; WHEN: Fri Oct 17 07:44:56 CST 2014
-;; MSG SIZE  rcvd: 50</screen>
-
+  <para>Do not be tempted to disable DNSSEC validation just because some
+  names are failing to resolve.  Remember, DNSSEC protects your DNS lookup
+  from hacking. The next section describes how you can quickly check whether
+  the failure to successfully look up a name is due to a validation
+  failure.</para>
+ 
  </section>
 
 
@@ -308,24 +249,34 @@ not default, but probably configured with dnssec-enable no. -->
   When you've received a <code>SERVFAIL</code> message, re-run the
   query one more time, and throw in the <option>+cd</option> flag. If the query
   succeeds with <option>+cd</option>, but ends in <code>SERVFAIL</code> without
-  it, then you know you are dealing with a validation problem.</para>
+  it, then you know you are dealing with a validation problem. So using the
+  previous example of <code>www.dnssec-failed.org</code> and with DNSSEC
+  validation enabled in the resolver:</para>
 
-  <screen>$ <userinput>dig @192.168.1.7 www.isc.org. A +cd</userinput>
+  <screen>$ <userinput>dig @10.53.0.1 www.dnssec-failed.org A +cd</userinput>
 
-; &lt;&lt;>> DiG 9.10.1 &lt;&lt;>> @192.168.1.7 www.isc.org. A +cd
+; &lt;&lt;&gt;&gt; DiG 9.16.0 &lt;&lt;&gt;&gt; @10.53.0.1 www.dnssec-failed.org. A +cd
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 33590
-;; flags: qr rd ra cd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 62313
+;; flags: qr rd ra cd; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
 
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 73ca1be3a74dd2cf010000005e67c8c8e6df64b519cd87fd (good)
 ;; QUESTION SECTION:
-;www.isc.org.			IN	A
+;www.dnssec-failed.org.		IN	A
 
 ;; ANSWER SECTION:
-www.isc.org.		30	IN	A	149.20.64.69</screen>
+www.dnssec-failed.org.	7197	IN	A	68.87.109.242
+www.dnssec-failed.org.	7197	IN	A	69.252.193.191
+
+;; Query time: 0 msec
+;; SERVER: 10.53.0.1#53(10.53.0.1)
+;; WHEN: Tue Mar 10 17:05:12 GMT 2020
+;; MSG SIZE  rcvd: 110
+</screen>
 
   <para>For more information on troubleshooting, please see <xref
   linkend="dnssec-troubleshooting"/>.</para>

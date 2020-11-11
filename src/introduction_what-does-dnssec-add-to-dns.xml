@@ -34,6 +34,12 @@
    <listitem>
     <simpara>NSEC3PARAM (proof of nonexistence)</simpara>
    </listitem>
+   <listitem>
+    <simpara>CDS (child-parent signaling)</simpara>
+   </listitem>
+   <listitem>
+    <simpara>CDNSKEY (child-parent signaling)</simpara>
+   </listitem>
   </itemizedlist>
  </para>
 
@@ -52,15 +58,18 @@
    </listitem>
 
    <listitem>
-    <simpara><emphasis>DNSKEY</emphasis>: DNSSEC relies on public key
+    <para><emphasis>DNSKEY</emphasis>: DNSSEC relies on public key
     cryptography for data authenticity and integrity. There are several keys
     used in DNSSEC, some private, some public. The public keys are published to
     the world as part of the zone data, and they are stored in the DNSKEY
-    record type. In general, there are two categories of keys used in DNSSEC,
-    Zone Signing Key (ZSK) is used to protect all zone data, and Key Signing
-    Key (KSK) is used to protect other keys. We will talk about keys in <xref
-    linkend="signing-generate-keys-explained" />, and again later in <xref
-    linkend="advanced-discussions-key-generation" />.</simpara>
+    record type.</para>
+
+    <para> In general, keys in DNSSEC are used for one or both of the following
+    roles: as a Zone
+    Signing Key (ZSK), used to protect all zone data; or as a Key Signing Key
+    (KSK), used to protect the zone's keys.  A key that is used for both roles
+    is referred to as a Combined Signing Key (CSK).  We will talk about keys in
+    more detail in <xref linkend="advanced-discussions-key-generation" />.</para>
    </listitem>
 
    <listitem>
@@ -70,12 +79,22 @@
     parent zone publishes about its child as part of the chain of trust. To learn more
     about the Chain of Trust, see <xref linkend="chain-of-trust" />.</simpara>
    </listitem>
-  </itemizedlist></para>
 
- <para>The NSEC, NSEC3, and NSEC3PARAM resource records all deal with a very
- interesting problem: proving that something really does not exist.  We will
- look at these record types in more detail in <xref
- linkend="advanced-discussions-proof-of-nonexistence" />.</para>
+   <listitem>
+    <simpara><emphasis>NSEC, NSEC3, NSEC3PARAM</emphasis>: These resource
+    records all deal with a very interesting problem: proving that something
+    does not exist.  We will look at these record types in more detail
+    in <xref linkend="advanced-discussions-proof-of-nonexistence" />.</simpara>
+   </listitem>
+
+   <listitem>
+    <simpara><emphasis>CDS, CDNSKEY</emphasis>: The CDS and CDNSKEY resource
+    records apply to operational matters and are a way to signal to the parent
+    zone that the DS records it holds for the child zone should be updated.
+    This is covered in more detail in <xref linkend="cds-cdnskey"/>.</simpara>
+   </listitem>
+
+  </itemizedlist></para>
 
 </section>
 
