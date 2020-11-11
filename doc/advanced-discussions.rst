@@ -1034,7 +1034,7 @@ Below are a few challenges and disadvantages that DNSSEC faces.
 
 6. *Not enough people are using it today*: While it's estimated (as of
    mid-2020) that roughly 30% of the global Internet DNS traffic is
-   validating  [2]_ , that doesn't mean that many of the DNS zones are
+   validating  [1]_ , that doesn't mean that many of the DNS zones are
    actually signed. What this means is, even if your company's zone is
    signed today, fewer than 30% of the Internet's servers are taking
    advantage of this extra security. It gets worse: with less than 1.5%
@@ -1055,6 +1055,6 @@ CNAME to ``foo.random-cloud-provider.com``. As long as
 fully validate everything when they visit your web page and could be
 redirected elsewhere by a cache poisoning attack.
 
-.. [2]
+.. [1]
    Based on APNIC statistics at
    `<https://stats.labs.apnic.net/dnssec/XA>`__
