@@ -596,7 +596,7 @@ For more information on changing keys, please see
 .. _hardware_security_modules:
 
 Hardware Security Modules (HSMs)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A Hardware Security Module (HSM) may come in different shapes and sizes,
 but as the name indicates, it is a physical device or devices, usually
