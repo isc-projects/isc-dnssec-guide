@@ -1,9 +1,0 @@
- <section id="signing-using-nsec3">
-  <title>Using NSEC3</title>
-  <para>After reloading the server configuration file, additional DNSSEC
-  resource records are auto-magically generated. By default, BIND will generate
-  NSEC records. If you wish to use NSEC3 instead, please follow the additional steps
-  described in <xref linkend="recipes-nsec-to-nsec3" />.  To learn more about
-  the difference between NSEC and NSEC3, please see <xref
-  linkend="advanced-discussions-proof-of-nonexistence" />.</para>
- </section>
